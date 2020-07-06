@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Index from './router/index';
+import Root from "./router/Root";
 
-const App = () => {
+const App: React.FC = () => {
     return (
-        <Index/>
+       <Root/>
     )
 }
 
