@@ -1,5 +1,5 @@
 {
-  "name": "ShoolVillain",
+  "name": "SchoolVillain",
   "version": "1.0.0",
   "description": "학교 정보 커뮤니티",
   "main": "index.js",
@@ -23,13 +23,14 @@
   "author": "윤주혜",
   "license": "MIT",
   "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "styled-components": "^5.1.1",
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
