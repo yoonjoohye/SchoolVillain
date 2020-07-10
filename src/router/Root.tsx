@@ -18,7 +18,7 @@ const Root: React.FC = () => {
             <Switch>
                 <Route exact path="/" component={Index}/>
                 <Route exact path="/login" component={Login}/>
-                <Route exact path="/join" component={Join}/>
+                <Route exact path="/join/:id" component={Join}/>
                 <Route exact path="/service-rule" component={ServiceRule}/>
                 <Route exact path="/privacy-rule" component={PrivacyRule}/>
                 <Route exact path="/write" component={Write}/>

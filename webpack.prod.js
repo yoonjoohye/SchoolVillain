@@ -1,6 +1,5 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = merge(common, {
@@ -14,14 +13,11 @@ module.exports = merge(common, {
         splitChunks: {
             cacheGroups: {
                 vendor: {
-                    chunks: 'initial',
+                    chunks: 'all',
                     name: 'vendor',
                     enforce: true
-                },
-            },
-        },
-    },
-    plugins:[
-        new CleanWebpackPlugin()
-    ]
+                }
+            }
+        }
+    }
 });

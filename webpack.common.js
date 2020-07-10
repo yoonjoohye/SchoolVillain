@@ -1,4 +1,5 @@
 const path = require('path');
+const {CleanWebpackPlugin}=require('clean-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -9,7 +10,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.jsx', '.js']
     },
     entry: {
-        'vendor': ['react', 'react-dom'],
+        'vendor': ['react', 'react-dom','react-router-dom'],
         'index': path.resolve(__dirname, 'src', 'index.tsx')
     },
     module: {
@@ -42,8 +43,10 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css',
+            chunkFilename:'[name][hash].chunk.css'
         }),
         new HtmlWebpackPlugin({
             favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.png'),
@@ -54,6 +57,7 @@ module.exports = {
         })
     ],
     output: {
+        publicPath: '/',
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'dist')
     }
