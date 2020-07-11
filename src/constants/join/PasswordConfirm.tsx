@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import JoinButton from "../../components/button/JoinButton";
 import styled from "@emotion/styled";
+import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
-import {MarkdownSm, MarkdownMd} from "../../../assets/style/Markdown.style";
-
 
 const JoinTitle = styled.div`
   ${MarkdownMd(Color.purple200, 600)};
@@ -27,24 +26,20 @@ const ErrorMsg=styled.div<ErrorMsgProps>`
 
 interface propsType {
     goJoin: any;
-    changeEmail:any;
-    err:any;
-    enabled:any;
 }
-const Email: React.FC<propsType> = ({goJoin,changeEmail,err,enabled}) => {
-    const [email, setEmail] = useState('');
 
-    const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        changeEmail(e.target.value);
+const PasswordCheck: React.FC<propsType> = ({goJoin}) => {
+    const [password, setPassword] = useState('');
+    const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
     }
     return (
         <>
-            <JoinTitle>E-MAIL</JoinTitle>
-            <JoinInput type="text" value={email} onChange={emailChange} placeholder="이메일을 입력해주세요."/>
-            <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin} enabled={enabled}/>
+            <JoinTitle>PASSWORD CHECK</JoinTitle>
+            <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요."/>
+            <ErrorMsg visible={true}>이상한 패스워드!</ErrorMsg>
+            <JoinButton goJoin={goJoin} value={password}/>
         </>
     )
 }
-export default Email;
+export default PasswordCheck;

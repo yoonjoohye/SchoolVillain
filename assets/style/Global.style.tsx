@@ -1,6 +1,7 @@
 import {Global, css} from '@emotion/core';
 import {Color} from './Color.style';
 import * as React from "react";
+import {media} from './Media.style';
 
 export const GlobalStyle = () => (
     <Global styles={css`
@@ -20,23 +21,25 @@ export const GlobalStyle = () => (
       font-weight: 400;
       line-height: 1.5;
       color: ${Color.black};
+      ${media.sm`font-size: 14px;`}
     }
     
     textarea {
       font-family: 'NanumSquare', sans-serif;
-      font-weight:300;
       font-size: 16px;
+      line-height: 1.5;
+
     }
     
     input {
       font-family: 'NanumSquare', sans-serif;
-      font-weight:300;
       font-size: 16px;
-      &::placeholder{
-         font-weight:300;
-      }
+      line-height: 1.5;
     }
-    
+    button{
+      border:0;
+      cursor:pointer;
+    }
     li {
       margin:0;
       padding: 0;
