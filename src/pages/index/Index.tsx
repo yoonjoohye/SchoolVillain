@@ -6,11 +6,12 @@ import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Box.style";
+import {Link} from "react-router-dom";
 
 const IndexSection = styled.section`
   padding:60px 0;
   min-height:100vh;
-  background-color:#EEeeee;
+  background-color:#eeeeee;
 `
 
 const CardSection = styled.section`
@@ -24,7 +25,7 @@ const CardSection = styled.section`
 
 const CardContainer = styled.div`
   ${FlexBox('space-between', 'center')};
-  ${MarkdownSm(Color.purple200)};
+  ${MarkdownSm(Color.gray200)};
 `
 const CardTitle = styled.div`
   ${MarkdownBase()};
@@ -41,7 +42,7 @@ const CardContents = styled.div`
   height: 60px;
 `
 const CardTag = styled.span`
-  ${MarkdownSm()};
+  ${MarkdownSm(Color.purple200)};
   background-color:${Color.purple100};
   padding:3px 10px;
   border-radius: 5px;
@@ -70,10 +71,24 @@ const Img = styled.img`
 `
 const Icon = styled.img`
   position: relative;
-  vertical-align: middle;
+  vertical-align: text-top;
   width:14px;
   height:14px;
   margin-right:5px;
+`
+
+const BannerImg=styled.img`
+  position: relative;
+  vertical-align: middle;
+  width:100%;
+`
+const BannerTag=styled.div`
+  ${MarkdownSm(Color.white)};
+  background-color:${Color.purple200};
+  text-align: center;
+`
+const BannerSection=styled.section`
+  padding:25px 0;
 `
 const Index: React.FC = ({history}:any) => {
     const [list, setList] = useState([
@@ -109,12 +124,18 @@ const Index: React.FC = ({history}:any) => {
                  keywords="스쿨빌런 메인 페이지"
             />
             <IndexSection>
+                <BannerSection>
+                    <Link to="/banner">
+                        <BannerImg src="../../../assets/img/banner/example.jpg"/>
+                        <BannerTag>나의 최애 배너등록하러가기 →</BannerTag>
+                    </Link>
+                </BannerSection>
                 {list.map((data, index) => {
                     return (
-                        <CardSection onClick={()=>goDetail(index)}>
+                        <CardSection key={index} onClick={()=>goDetail(index)}>
                             {data.tag.map((item, index) => {
                                 return (
-                                    <CardTag>#{item}</CardTag>
+                                    <CardTag key={index}>#{item}</CardTag>
                                 )
                             })}
                             <CardBox>
