@@ -2,20 +2,13 @@ import React, {useState} from "react";
 import JoinButton from "../../components/button/JoinButton";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
-import {MarkdownSm, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownSm, MarkdownMd, MarkdownBase} from "../../../assets/style/Markdown.style";
+import JoinInput from "../../components/input/JoinInput";
 
 
 const JoinTitle = styled.div`
-  ${MarkdownMd(Color.purple200, 600)};
-`
-const JoinInput = styled.input`
-    ${MarkdownMd()};
-    width:100%;
-    border:0;
-    border-bottom:1px solid ${Color.purple200};
-    outline:none;
-    padding:10px 0 10px 0;
-    margin-bottom:10px;
+   ${MarkdownBase(Color.purple200, 600)};
+
 `
 type ErrorMsgProps = {
     visible: boolean;
@@ -27,15 +20,13 @@ const ErrorMsg=styled.div<ErrorMsgProps>`
 
 interface propsType {
     goJoin: any;
+    email:string;
     changeEmail:any;
-    err:any;
+    err:string;
     enabled:any;
 }
-const Email: React.FC<propsType> = ({goJoin,changeEmail,err,enabled}) => {
-    const [email, setEmail] = useState('');
-
+const Email: React.FC<propsType> = ({goJoin,email,changeEmail,err,enabled}) => {
     const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
         changeEmail(e.target.value);
     }
     return (

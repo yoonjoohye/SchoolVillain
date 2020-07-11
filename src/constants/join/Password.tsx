@@ -1,20 +1,12 @@
 import React, {useState} from "react";
 import JoinButton from "../../components/button/JoinButton";
 import styled from "@emotion/styled";
-import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
+import JoinInput from "../../components/input/JoinInput";
 
 const JoinTitle = styled.div`
-  ${MarkdownMd(Color.purple200, 600)};
-`
-const JoinInput = styled.input`
-    ${MarkdownMd()};
-    width:100%;
-    border:0;
-    border-bottom:1px solid ${Color.purple200};
-    outline:none;
-    padding:10px 0 10px 0;
-    margin-bottom:10px;
+    ${MarkdownBase(Color.purple200, 600)};
 `
 type ErrorMsgProps = {
     visible: boolean;
@@ -25,15 +17,14 @@ const ErrorMsg=styled.div<ErrorMsgProps>`
 `
 interface propsType{
     goJoin:any;
+    password:string;
     changePassword:any;
     err:string;
     enabled:boolean;
 }
-const Password:React.FC<propsType>=({goJoin,changePassword,err,enabled})=>{
-    const [password,setPassword]=useState('');
-
+const Password:React.FC<propsType>=({goJoin,password,changePassword,err,enabled})=>{
     const passwordChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        setPassword(e.target.value);
+        changePassword(e.target.value);
     }
     return(
         <>

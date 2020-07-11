@@ -59,23 +59,19 @@ const AgreementContent = styled.div`
 `
 interface propsType {
     goJoin: any;
+    age:boolean;
+    agree:boolean;
     checkedAgreement:any;
     enabled:boolean;
 }
 
-const Agreement: React.FC<propsType> = ({goJoin, checkedAgreement,enabled}) => {
-    const [age, setAge] = useState(false);
-    const [agree, setAgree] = useState(false);
-
-    useEffect(()=>{
-        checkedAgreement(age,agree);
-    },[age,agree]);
+const Agreement: React.FC<propsType> = ({goJoin, age, agree,checkedAgreement,enabled}) => {
 
     const ageChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAge(!age);
+        checkedAgreement(!age,agree);
     }
     const agreeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAgree(!agree);
+        checkedAgreement(age,!agree);
     }
     return (
         <>
