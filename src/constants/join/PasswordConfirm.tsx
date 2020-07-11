@@ -26,9 +26,12 @@ const ErrorMsg=styled.div<ErrorMsgProps>`
 
 interface propsType {
     goJoin: any;
+    changePasswordConfirm:any;
+    err:string;
+    enabled:boolean;
 }
 
-const PasswordCheck: React.FC<propsType> = ({goJoin}) => {
+const PasswordConfirm: React.FC<propsType> = ({goJoin,changePasswordConfirm,err,enabled}) => {
     const [password, setPassword] = useState('');
     const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
@@ -37,9 +40,9 @@ const PasswordCheck: React.FC<propsType> = ({goJoin}) => {
         <>
             <JoinTitle>PASSWORD CHECK</JoinTitle>
             <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요."/>
-            <ErrorMsg visible={true}>이상한 패스워드!</ErrorMsg>
-            <JoinButton goJoin={goJoin} value={password}/>
+            <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
+            <JoinButton goJoin={goJoin}  enabled={enabled}/>
         </>
     )
 }
-export default PasswordCheck;
+export default PasswordConfirm;
