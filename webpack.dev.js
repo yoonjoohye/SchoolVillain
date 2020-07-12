@@ -1,3 +1,4 @@
+const path=require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const webpack=require('webpack');
@@ -11,7 +12,8 @@ module.exports = merge(common, {
     devServer: {
         port:8000,
         historyApiFallback: true,
-        inline: true,
-        hot:true
+        hot:true,
+        open:true,
+        inline:true
     },
 });

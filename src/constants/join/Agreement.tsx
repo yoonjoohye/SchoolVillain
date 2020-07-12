@@ -33,13 +33,13 @@ const FakeCheckBox = styled.div`
   ${MarkdownBase(Color.white)};
   border-radius:50%;
   background-color: ${(props: FakeCheckBoxProps) => (props.checked ? Color.purple200 : Color.purple100)};
-  width:40px;
-  height:40px;
+  width:30px;
+  height:30px;
   text-align: center;
   &::before{
     content: '✔';
     position: relative;
-    top: 10px;
+    top: 5px;
   }
 `
 const AgreementList = styled.div`

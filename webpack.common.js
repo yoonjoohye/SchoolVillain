@@ -29,13 +29,13 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[ext]',
-                            outputPath: 'font/'
+                            publicPath: './dist/',
+                            name: '[name].[ext]?[hash]'
                         }
                     }
                 ]

@@ -17,7 +17,7 @@ const IndexSection = styled.section`
 const CardSection = styled.section`
   cursor:pointer;
   min-height:150px;
-  padding:30px 5% 20px 5%;
+  padding:30px 5%;
   background-color:${Color.white};
   margin-bottom:10px;
   box-shadow: 0 3px 5px #00000021;
@@ -26,6 +26,7 @@ const CardSection = styled.section`
 const CardContainer = styled.div`
   ${FlexBox('space-between', 'center')};
   ${MarkdownSm(Color.gray200)};
+  margin-top:15px;
 `
 const CardTitle = styled.div`
   ${MarkdownBase()};
@@ -35,7 +36,7 @@ const CardContents = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   word-break: keep-all;
   width: 100%;
@@ -54,8 +55,8 @@ const SpaceSpan = styled.span`
 const CardBox = styled.div`
   display:flex;
   border-bottom:1px solid ${Color.purple100};
-  padding:20px 0 20px 0;
-  margin-bottom:20px;
+  padding:0 0 15px 0;
+  margin-bottom:15px;
 `
 const ImgContainer = styled.div`
   width:25%;
@@ -77,20 +78,21 @@ const Icon = styled.img`
   margin-right:5px;
 `
 
-const BannerImg=styled.img`
+const BannerImg = styled.img`
   position: relative;
   vertical-align: middle;
   width:100%;
 `
-const BannerTag=styled.div`
+const BannerTag = styled.div`
   ${MarkdownSm(Color.white)};
   background-color:${Color.purple200};
   text-align: center;
+  box-shadow: 0 3px 5px #00000021;
 `
-const BannerSection=styled.section`
+const BannerSection = styled.section`
   padding:25px 0;
 `
-const Index: React.FC = ({history}:any) => {
+const Index: React.FC = ({history}: any) => {
     const [list, setList] = useState([
         {
             title: '우리학교 이거 말이 된다고 생각함?',
@@ -113,7 +115,7 @@ const Index: React.FC = ({history}:any) => {
             thumbnail: ''
         }]);
 
-    const goDetail=(index:number)=>{
+    const goDetail = (index: number) => {
         history.push(`/detail/${index}`);
     }
 
@@ -132,12 +134,8 @@ const Index: React.FC = ({history}:any) => {
                 </BannerSection>
                 {list.map((data, index) => {
                     return (
-                        <CardSection key={index} onClick={()=>goDetail(index)}>
-                            {data.tag.map((item, index) => {
-                                return (
-                                    <CardTag key={index}>#{item}</CardTag>
-                                )
-                            })}
+                        <CardSection key={index} onClick={() => goDetail(index)}>
+
                             <CardBox>
                                 <ContentContainer>
                                     <CardTitle>{data.title}</CardTitle>
@@ -148,14 +146,20 @@ const Index: React.FC = ({history}:any) => {
                                 </ImgContainer>
                             </CardBox>
 
+                            {data.tag.map((item, index) => {
+                                return (
+                                    <CardTag key={index}>#{item}</CardTag>
+                                )
+                            })}
+
                             <CardContainer>
                                 <div>
-                                    <SpaceSpan><Icon src="../../../assets/img/icon/like.svg"/> {data.like}</SpaceSpan>
-                                    <SpaceSpan><Icon src="../../../assets/img/icon/comment.svg"/> {data.comment}</SpaceSpan>
-                                    <span><Icon src="../../../assets/img/icon/view.svg"/>{data.view}</span>
+                                    <SpaceSpan><Icon src="../../../assets/img/icon/view.svg"/>{data.view}</SpaceSpan>
+                                    <span>{data.date}</span>
                                 </div>
                                 <div>
-                                    <span>{data.date}</span>
+                                    <SpaceSpan><Icon src="../../../assets/img/icon/like.svg"/> {data.like}</SpaceSpan>
+                                    <span><Icon src="../../../assets/img/icon/comment.svg"/> {data.comment}</span>
                                 </div>
                             </CardContainer>
                         </CardSection>
