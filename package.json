@@ -4,7 +4,8 @@
   "description": "학교 정보 커뮤니티",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --open --config webpack.dev.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "serve": "webpack-dev-server --https --host 0.0.0.0 --disableHostCheck --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -11,7 +11,7 @@ import SEO from "../../constants/SEO/SEO";
 const JoinSection = styled.section`
   padding:0 10%;
   min-height:100vh;
-  ${FlexBox()};
+  ${FlexBox('center','center')};
   ${media.sm`padding:0 5%`};
 `
 const JoinContainer = styled.article`
@@ -19,7 +19,7 @@ const JoinContainer = styled.article`
   ${media.sm`width:100%;`}
 `
 
-const Join: React.FC = ({match}: any) => {
+const Join: React.FC = ({match,history}: any) => {
     let joinComponent;
     //동의
     const [age,setAge]=useState(false);
@@ -33,12 +33,12 @@ const Join: React.FC = ({match}: any) => {
 
     //비밀번호
     const [password,setPassword]=useState('');
-    const [passwordCheck,setpPsswordCheck]=useState(false);
+    const [passwordCheck,setPasswordCheck]=useState(false);
     const [passwordErr,setPasswordErr]=useState('');
 
-    //비밀호 확인
+    //비밀번호 확인
     const [passwordConfirm,setPasswordConfirm]=useState('');
-    const [passwordConfirmCheck,setpPsswordConfirmCheck]=useState(false);
+    const [passwordConfirmCheck,setPasswordConfirmCheck]=useState(false);
     const [passwordConfirmErr,setPasswordConfirmErr]=useState('');
 
     const [page,setPage]=useState(match.params.id);
@@ -53,14 +53,12 @@ const Join: React.FC = ({match}: any) => {
         setAgree(agree);
         setAgreementCheck(age&&agree);
     }
-
     const changeEmail=(email:string)=>{
-        let emailTest = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         setEmail(email);
 
-        //정규식
-        if(!(emailTest.test(email))){
-            setEmailErr('이메일을 정확히 입력해주세요.');
+        if(!(emailRegex.test(email))){
+            setEmailErr('이메일 형식에 일치하지 않습니다.');
             setEmailCheck(false);
         } else{
             setEmailErr('');
@@ -68,23 +66,40 @@ const Join: React.FC = ({match}: any) => {
         }
     }
     const changePassword=(password:string)=>{
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+        setPassword(password);
 
+        if(!(PasswordRegex.test(password))){
+            setPasswordErr('숫자와 영문자 및 특수문자를 포함한 8~16자이어야 합니다.');
+            setPasswordCheck(false);
+        } else{
+            setPasswordErr('');
+            setPasswordCheck(true);
+        }
     }
-    const changePasswordConfirm=(passwordCheck:string)=>{
+    const changePasswordConfirm=(passwordConfirm:string)=>{
+        setPasswordConfirm(passwordConfirm);
 
+        if(passwordConfirm!==password){
+            setPasswordConfirmErr('패스워드가 일치하지 않습니다.');
+            setPasswordConfirmCheck(false);
+        }else{
+            setPasswordConfirmErr('');
+            setPasswordConfirmCheck(true);
+        }
     }
 
 
     //api 통신
     const goAgreement=()=>{
-        window.history.pushState('', '', `/join/email`);
+        history.push( '/join/email');
     }
     const goEmail=()=>{
-        window.history.pushState('', '', `/join/password`);
+        history.push('/join/password');
         //api 통신
     }
     const goPassword=()=>{
-        window.history.pushState('', '', `/join/confirm`);
+        history.push('/join/confirm');
         //api 통신
     }
     const goPasswordConfirm=()=>{
@@ -93,15 +108,15 @@ const Join: React.FC = ({match}: any) => {
     }
 
     if (page === 'agreement') {
-        joinComponent = <Agreement goJoin={goAgreement} checkedAgreement={checkedAgreement} enabled={agreementCheck}/>;
+        joinComponent = <Agreement goJoin={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement} enabled={agreementCheck}/>;
     }
     else if (page === 'email') {
-        joinComponent = <Email goJoin={goEmail} changeEmail={changeEmail} err={emailErr} enabled={emailCheck}/>;
+        joinComponent = <Email goJoin={goEmail} email={email} changeEmail={changeEmail} err={emailErr} enabled={emailCheck}/>;
     }
     else if (page === 'password') {
-        joinComponent = <Password goJoin={goPassword} changePassword={changePassword} err={passwordErr} enabled={passwordCheck}/>;
+        joinComponent = <Password goJoin={goPassword} password={password} changePassword={changePassword} err={passwordErr} enabled={passwordCheck}/>;
     } else if(page==='confirm'){
-        joinComponent = <PasswordConfirm goJoin={goPasswordConfirm} changePasswordConfirm={changePasswordConfirm} err={passwordConfirmErr} enabled={passwordConfirmCheck}/>;
+        joinComponent = <PasswordConfirm goJoin={goPasswordConfirm} password={passwordConfirm} changePasswordConfirm={changePasswordConfirm} err={passwordConfirmErr} enabled={passwordConfirmCheck}/>;
     }
 
     return (

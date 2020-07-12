@@ -3,18 +3,17 @@ import styled from "@emotion/styled";
 import {Color} from '../../../assets/style/Color.style';
 import {MarkdownMd} from "../../../assets/style/Markdown.style";
 
-type JoinBtnProps = {
+type buttonProps = {
     enabled: boolean;
 }
-
-const JoinBtn = styled.button`
+const Button = styled.button`
   ${MarkdownMd(Color.white)};
   width:100%;
   height: 45px;
   border-radius: 3px;
   box-shadow: 0 1.5px 2.5px 0 rgba(0, 0, 0, 0.16);
   margin-top:30px;
-  ${(props: JoinBtnProps) => props.enabled ?
+  ${(props: buttonProps) => props.enabled ?
     `pointer-events:initial;
      background-color:${Color.purple200};
     ` :
@@ -34,7 +33,7 @@ interface propsType {
 
 const JoinButton: React.FC<propsType> = ({goJoin, enabled}) => {
     return (
-        <JoinBtn enabled={enabled} onClick={() => goJoin()}>다음</JoinBtn>
+        <Button enabled={enabled} onClick={() => goJoin()}>다음</Button>
     )
 }
 

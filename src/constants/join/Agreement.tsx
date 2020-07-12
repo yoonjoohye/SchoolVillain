@@ -7,7 +7,7 @@ import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdo
 import {Color} from "../../../assets/style/Color.style";
 
 const JoinTitle = styled.div`
-  ${MarkdownMd(Color.purple200, 600)};
+  ${MarkdownBase(Color.purple200, 600)};
 `
 const AgreementSection = styled.section`
   margin-bottom:30px;
@@ -33,13 +33,13 @@ const FakeCheckBox = styled.div`
   ${MarkdownBase(Color.white)};
   border-radius:50%;
   background-color: ${(props: FakeCheckBoxProps) => (props.checked ? Color.purple200 : Color.purple100)};
-  width:40px;
-  height:40px;
+  width:30px;
+  height:30px;
   text-align: center;
   &::before{
     content: '✔';
     position: relative;
-    top: 10px;
+    top: 5px;
   }
 `
 const AgreementList = styled.div`
@@ -57,67 +57,64 @@ const AgreementContent = styled.div`
   ${MarkdownBase(Color.gray200)};
   margin-bottom:10px;
 `
+
 interface propsType {
     goJoin: any;
-    checkedAgreement:any;
-    enabled:boolean;
+    age: boolean;
+    agree: boolean;
+    checkedAgreement: any;
+    enabled: boolean;
 }
 
-const Agreement: React.FC<propsType> = ({goJoin, checkedAgreement,enabled}) => {
-    const [age, setAge] = useState(false);
-    const [agree, setAgree] = useState(false);
-
-    useEffect(()=>{
-        checkedAgreement(age,agree);
-    },[age,agree]);
+const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, enabled}) => {
 
     const ageChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAge(!age);
+        checkedAgreement(!age, agree);
     }
     const agreeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAgree(!agree);
+        checkedAgreement(age, !agree);
     }
     return (
         <>
             <JoinTitle>약관동의</JoinTitle>
-                <AgreementContainer border={1}>
-                    <AgreementLabel htmlFor="a">
-                        <div>
-                            <CheckBox type="checkbox" id="a" checked={age} onChange={ageChecked}/>
-                            <FakeCheckBox checked={age}/>
-                        </div>
-                        <AgreementTitle>저는 만 14세 이상입니다.</AgreementTitle>
-                    </AgreementLabel>
-                </AgreementContainer>
-
-                <AgreementContainer>
-                    <AgreementLabel htmlFor="b">
-                        <div>
-                            <CheckBox type="checkbox" id="b" checked={agree} onChange={agreeChecked}/>
-                            <FakeCheckBox checked={agree}/>
-                        </div>
-                        <AgreementTitle>전체 동의합니다.</AgreementTitle>
-                    </AgreementLabel>
-                </AgreementContainer>
-
-                <AgreementLabel>
-                    <div></div>
-                    <AgreementList>
-                        <Link to="/service-rule">
-                            <AgreementContent>
-                                <div>스쿨빌런 이용 약관</div>
-                                <div> &gt; </div>
-                            </AgreementContent>
-                        </Link>
-
-                        <Link to="/privacy-rule">
-                            <AgreementContent>
-                                <div>스쿨빌런 개인정보 처리 방침</div>
-                                <div> &gt; </div>
-                            </AgreementContent>
-                        </Link>
-                    </AgreementList>
+            <AgreementContainer border={1}>
+                <AgreementLabel htmlFor="a">
+                    <div>
+                        <CheckBox type="checkbox" id="a" checked={age} onChange={ageChecked}/>
+                        <FakeCheckBox checked={age}/>
+                    </div>
+                    <AgreementTitle>저는 만 14세 이상입니다.</AgreementTitle>
                 </AgreementLabel>
+            </AgreementContainer>
+
+            <AgreementContainer>
+                <AgreementLabel htmlFor="b">
+                    <div>
+                        <CheckBox type="checkbox" id="b" checked={agree} onChange={agreeChecked}/>
+                        <FakeCheckBox checked={agree}/>
+                    </div>
+                    <AgreementTitle>전체 동의합니다.</AgreementTitle>
+                </AgreementLabel>
+            </AgreementContainer>
+
+            <AgreementLabel>
+                <div></div>
+                <AgreementList>
+                    <Link to="/service-rule">
+                        <AgreementContent>
+                            <div>스쿨빌런 이용 약관</div>
+                            <div> &gt; </div>
+                        </AgreementContent>
+                    </Link>
+
+                    <Link to="/privacy-rule">
+                        <AgreementContent>
+                            <div>스쿨빌런 개인정보 처리 방침</div>
+                            <div> &gt; </div>
+                        </AgreementContent>
+                    </Link>
+                </AgreementList>
+            </AgreementLabel>
             <JoinButton goJoin={goJoin} enabled={enabled}/>
         </>
     )
