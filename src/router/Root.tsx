@@ -3,8 +3,8 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Index from "../pages/index/Index";
 import Login from "../pages/auth/Login";
 import Join from "../pages/auth/Join";
-import ServiceRule from "../pages/auth/ServiceRule";
-import PrivacyRule from "../pages/auth/PrivacyRule";
+import ServiceRule from "../constants/join/ServiceRule";
+import PrivacyRule from "../constants/join/PrivacyRule";
 import Write from "../pages/write/Write";
 import Mypage from "../pages/mypage/Mypage";
 import Detail from "../pages/detail/Detail";
@@ -19,8 +19,6 @@ const Root: React.FC = () => {
                 <Route exact path="/" component={Index}/>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/join/:id" component={Join}/>
-                <Route exact path="/service-rule" component={ServiceRule}/>
-                <Route exact path="/privacy-rule" component={PrivacyRule}/>
                 <Route exact path="/write" component={Write}/>
                 <Route exact path="/mypage" component={Mypage}/>
                 <Route exact path="/detail/:id" component={Detail}/>

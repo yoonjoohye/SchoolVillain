@@ -5,12 +5,11 @@ import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
-import SEO from "../../constants/SEO/SEO";
+import SEO from "../SEO/SEO";
 
 const PrivacyRuleSection = styled.section`
-  padding:60px 10%;
+  padding:60px 0;
   min-height:100vh;
-  ${media.sm`padding:60px 5%`};
 `
 const PrivacyRuleArticle = styled.article`
   padding:15px 0;
@@ -30,6 +29,8 @@ const PrivacyRuleList = styled.li`
 
 const PrivacyRuleBtn = styled.button`
   position:fixed;
+  right:0;
+  left:0;
   bottom:0;
   width:100%;
   height: 45px;

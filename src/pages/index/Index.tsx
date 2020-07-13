@@ -54,8 +54,6 @@ const SpaceSpan = styled.span`
 `
 const CardBox = styled.div`
   display:flex;
-  border-bottom:1px solid ${Color.purple100};
-  padding:0 0 15px 0;
   margin-bottom:15px;
 `
 const ImgContainer = styled.div`

@@ -100,14 +100,14 @@ const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, e
             <AgreementLabel>
                 <div></div>
                 <AgreementList>
-                    <Link to="/service-rule">
+                    <Link to="/join/service-rule">
                         <AgreementContent>
                             <div>스쿨빌런 이용 약관</div>
                             <div> &gt; </div>
                         </AgreementContent>
                     </Link>
 
-                    <Link to="/privacy-rule">
+                    <Link to="/join/privacy-rule">
                         <AgreementContent>
                             <div>스쿨빌런 개인정보 처리 방침</div>
                             <div> &gt; </div>

@@ -7,17 +7,27 @@ module.exports = merge(common, {
     devtool: 'source-map',
     optimization: {
         minimize: true,
-        minimizer: [new TerserPlugin({
-            include: /\.(js)$/
-        })],
+        minimizer: [
+            new TerserPlugin({
+                include: /\.(js)$/,
+                terserOptions: {
+                    compress: {
+                        drop_console: true, // 콘솔 로그를 제거한다
+                    }
+                }
+            }),
+        ],
         splitChunks: {
             cacheGroups: {
                 vendor: {
-                    chunks: 'all',
+                    test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
-                    enforce: true
+                    chunks: 'all'
                 }
             }
+        },
+        runtimeChunk: {
+            name: 'runtime'
         }
     }
 });
