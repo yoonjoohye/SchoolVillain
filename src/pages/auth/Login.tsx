@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React,{useRef, useState} from 'react';
 import JoinInput from "../../components/input/JoinInput";
-import {useState} from "react";
 import styled from "@emotion/styled";
 import {FlexBox} from "../../../assets/style/Box.style";
 import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
+import axios from "axios";
 
 const LoginSection = styled.section`
   padding:0 10%;
@@ -51,7 +51,7 @@ const Button=styled.button`
   }
 `
 
-const Login = () => {
+const Login = ({history}: any) => {
     const [email, setEmail] = useState('');
     const [emailCheck,setEmailCheck]=useState(false);
     const [emailErr,setEmailErr]=useState('');
@@ -62,15 +62,63 @@ const Login = () => {
 
 
     const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         setEmail(e.target.value);
+
+        if (!(emailRegex.test(e.target.value))) {
+            setEmailErr('이메일 형식에 일치하지 않습니다.');
+            setEmailCheck(false);
+        } else {
+            setEmailErr('');
+            setEmailCheck(true);
+        }
     }
     const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
         setPassword(e.target.value);
+
+        if (!(PasswordRegex.test(e.target.value))) {
+            setPasswordErr('숫자와 영문자 및 특수문자를 포함한 8~16자이어야 합니다.');
+            setPasswordCheck(false);
+        } else {
+            setPasswordErr('');
+            setPasswordCheck(true);
+        }
     }
 
     //API
-    const goLogin=()=>{
-        console.log('login');
+    const goLogin=async()=>{
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: 'http://dev.villain.school/api/user/login',
+                data: {
+                    email: email,
+                    password:password
+                },
+                headers: {
+                    Accept: 'application/json',
+                    ContentType: 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                // console.log(response);
+                let token=response.data.token;
+                localStorage.setItem('token',token.split('|')[1]);
+                window.location.href = '/';
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                setEmailCheck(false);
+                setEmailErr('존재하지 않는 이메일입니다.');
+            } else if(err.response.status === 400){
+                setPasswordCheck(false);
+                setPasswordErr('패스워드가 일치하지 않습니다.');
+            } else{
+                setPasswordCheck(false);
+                setPasswordErr('다시 입력해주세요.');
+            }
+        }
     }
 
     return (
@@ -81,10 +129,10 @@ const Login = () => {
                 <ErrorMsg visible={emailErr.length>0}>{emailErr}</ErrorMsg>
 
                 <LoginTitle>PASSWORD</LoginTitle>
-                <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요."/>
+                <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요." />
                 <ErrorMsg visible={passwordErr.length>0}>{passwordErr}</ErrorMsg>
 
-                <Button enabled={emailCheck && passwordCheck} onClick={()=>goLogin}>로그인</Button>
+                <Button enabled={emailCheck && passwordCheck} onClick={goLogin}>로그인</Button>
             </LoginContainer>
         </LoginSection>
     )

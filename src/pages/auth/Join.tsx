@@ -9,6 +9,7 @@ import PasswordConfirm from "../../constants/join/PasswordConfirm";
 import SEO from "../../constants/SEO/SEO";
 import ServiceRule from "../../constants/join/ServiceRule";
 import PrivacyRule from "../../constants/join/PrivacyRule";
+import axios from 'axios';
 
 const JoinSection = styled.section`
   padding:0 10%;
@@ -96,17 +97,66 @@ const Join: React.FC = ({match, history}: any) => {
     const goAgreement = () => {
         history.push('/join/email');
     }
-    const goEmail = () => {
-        history.push('/join/password');
-        //api 통신
+    const goEmail = async () => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: 'http://dev.villain.school/api/user/email/check',
+                data: {
+                    email: email
+                },
+                headers: {
+                    Accept: 'application/json',
+                    ContentType: 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                //console.log(response);
+                history.push('/join/password');
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                setEmailCheck(false);
+                setEmailErr('이미 존재하는 이메일입니다.');
+            } else {
+                setEmailCheck(false);
+                setEmailErr('다시 입력해주세요.');
+            }
+        }
     }
     const goPassword = () => {
         history.push('/join/confirm');
-        //api 통신
     }
-    const goPasswordConfirm = () => {
-        window.location.href = '/';
-        //api 통신
+    const goPasswordConfirm = async() => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: 'http://dev.villain.school/api/user/register',
+                data: {
+                    email: email,
+                    password:passwordConfirm
+                },
+                headers: {
+                    Accept: 'application/json',
+                    ContentType: 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                // console.log(response);
+                let token=response.data.token;
+                localStorage.setItem('token',token.split('|')[1]);
+                window.location.href = '/';
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                setEmailCheck(false);
+                setEmailErr('이미 존재하는 이메일입니다.');
+                history.push('/join/email');
+            } else {
+                alert('다시 입력해주세요.');
+                history.push('/join/agreement');
+            }
+        }
     }
 
     if (page === 'agreement') {
