@@ -4,12 +4,11 @@ import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
-import SEO from "../../constants/SEO/SEO";
+import SEO from "../SEO/SEO";
 
 const ServiceRuleSection = styled.section`
-  padding:60px 10%;
+  padding:60px 0;
   min-height:100vh;
-  ${media.sm`padding:60px 5%`};
 `
 const ServiceRuleArticle = styled.article`
   padding:15px 0;
@@ -30,6 +29,8 @@ const ServiceRuleList = styled.li`
 const ServiceRuleBtn = styled.button`
   position:fixed;
   bottom:0;
+  right:0;
+  left:0;
   width:100%;
   height: 45px;
   ${MarkdownMd(Color.white)};
