@@ -6,7 +6,7 @@ import Agreement from "../../constants/join/Agreement";
 import Email from "../../constants/join/Email";
 import Password from "../../constants/join/Password";
 import PasswordConfirm from "../../constants/join/PasswordConfirm";
-import SEO from "../../constants/SEO/SEO";
+import SEO from "../SEO/SEO";
 import ServiceRule from "../../constants/join/ServiceRule";
 import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';

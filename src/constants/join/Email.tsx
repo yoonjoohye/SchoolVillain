@@ -10,7 +10,7 @@ const JoinTitle = styled.div`
    ${MarkdownBase(Color.purple200, 600)};
 
 `
-type ErrorMsgProps = {
+interface ErrorMsgProps {
     visible: boolean;
 }
 const ErrorMsg=styled.div<ErrorMsgProps>`

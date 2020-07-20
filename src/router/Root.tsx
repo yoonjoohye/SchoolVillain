@@ -3,11 +3,9 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Index from "../pages/index/Index";
 import Login from "../pages/auth/Login";
 import Join from "../pages/auth/Join";
-import ServiceRule from "../constants/join/ServiceRule";
-import PrivacyRule from "../constants/join/PrivacyRule";
-import Write from "../pages/write/Write";
+import Write from "../pages/board/Write";
+import Detail from "../pages/board/Detail";
 import Mypage from "../pages/mypage/Mypage";
-import Detail from "../pages/detail/Detail";
 import NotFound from "../pages/404/NotFound";
 import Header from "../constants/base/Header";
 
