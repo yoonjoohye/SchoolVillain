@@ -17,10 +17,12 @@ const DetailContainer = styled.div`
   padding:10px 5%;
 `
 
-const DetailBox = styled.div`
-  ${FlexBox()};
-  ${MarkdownSm(Color.gray200)};
-  padding:10px 0;
+interface BoxProps{
+    justifyContent?:string;
+}
+const DetailBox = styled.div<BoxProps>`
+  ${(props:BoxProps)=>FlexBox(props.justifyContent||'flex-start')};
+  margin-bottom:10px;
 `
 const Icon = styled.img`
   position: relative;
@@ -41,18 +43,6 @@ const BoardContent = styled.div`
 
 const Space = styled.span`
   margin-right:10px;
-`
-
-
-const DetailReply = styled.div`
-  padding:10px 0 ;
-  border-top:1px solid #eeeeee;
-  border-bottom:1px solid #eeeeee;
-`
-const between=()=> css`
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
 `
 
 const Detail: React.FC = () => {
@@ -162,27 +152,22 @@ const Detail: React.FC = () => {
                  keywords="스쿨빌런 게시물 상세 페이지"
             />
             <DetailSection>
-
                 <DetailContainer>
-                    <div css={css`
-                    display:flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    `}>
+                    <DetailBox justifyContent="space-between">
                         <BoardTitle>타이틀</BoardTitle>
                         <div>. . .</div>
-                    </div>
-                    <div>
+                    </DetailBox>
+                    <DetailBox>
                         <span>익명 . 16:24 . <Icon src="../../../assets/img/icon/view.svg"/>1,728</span>
-                    </div>
-                    <div>
+                    </DetailBox>
+                    <DetailBox>
                         dksfjslkadfjlksdjfklasjdflaskdjflkasjdf
-                    </div>
-                    <div css={between}>
+                    </DetailBox>
+                    <DetailBox justifyContent="space-between">
                         <img src="../../../assets/img/index/example.jpg"/>
                         <img src="../../../assets/img/index/example.jpg"/>
                         <img src="../../../assets/img/index/example.jpg"/>
-                    </div>
+                    </DetailBox>
                     <div>
                         <Space><Icon src="../../../assets/img/icon/like.svg"/> 120명</Space>
                         <span><Icon src="../../../assets/img/icon/comment.svg"/> 30명</span>
@@ -193,8 +178,6 @@ const Detail: React.FC = () => {
                        reReply={reReply} changeReReply={changeReReply}
                        moreReply={moreReply} moreReReply={moreReReply()}
                 />
-
-
             </DetailSection>
         </>
     )
