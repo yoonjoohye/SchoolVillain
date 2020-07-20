@@ -13,15 +13,19 @@ const Root: React.FC = () => {
     return (
         <BrowserRouter>
             <Header/>
-            <Switch>
+
                 <Route exact path="/" component={Index}/>
                 <Route exact path="/login" component={Login}/>
+            <Switch>
                 <Route exact path="/join/:id" component={Join}/>
+            </Switch>
                 <Route exact path="/write" component={Write}/>
                 <Route exact path="/mypage" component={Mypage}/>
+            <Switch>
                 <Route exact path="/detail/:id" component={Detail}/>
-                <Route path="" component={NotFound}/>
             </Switch>
+
+            <Route path="" component={NotFound}/>
         </BrowserRouter>
     )
 }
