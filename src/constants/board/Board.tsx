@@ -19,7 +19,6 @@ const CardContainer = styled.div`
 `
 const CardBox = styled.div`
   display:flex;
-  padding:0 0 15px 0;
   margin-bottom:15px;
 `
 const CardTitle = styled.div`

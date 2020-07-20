@@ -1,5 +1,5 @@
 const path = require('path');
-const {CleanWebpackPlugin}=require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -10,18 +10,37 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.jsx', '.js']
     },
     entry: {
-        'vendor': ['react', 'react-dom','react-router-dom'],
+        'vendor': ['react', 'react-dom', 'react-router-dom'],
         'index': path.resolve(__dirname, 'src', 'index.tsx')
     },
     module: {
         rules: [
             {
-                test: /\.(ts|tsx)$/,
+                test: /\.(ts|tsx|js|jsx)$/,
                 use: {
-                    loader: 'ts-loader'
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            '@babel/preset-env',
+                            '@babel/preset-react',
+                            '@babel/preset-typescript'
+                        ],
+                        plugins: [
+                            '@babel/proposal-class-properties',
+                            '@babel/proposal-object-rest-spread',
+                            [
+                                'emotion',
+                                {
+                                    sourceMap: true,
+                                    autoLabel: true,
+                                    labelFormat: '[dirname]-[filename]-[local]', //디렉토리명-파일명-변수명
+                                    cssPropOptimization: true
+                                }
+                            ]
+                        ]
+                    }
                 },
                 exclude: /node_modules/
-
             },
             {
                 test: /\.(css)$/,
@@ -29,13 +48,13 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/,
+                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/i,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
                             publicPath: './dist/',
-                            name: '[name].[ext]?[hash]'
+                            name: 'img/[name].[ext]?[hash]'
                         }
                     }
                 ]
@@ -46,7 +65,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css',
-            chunkFilename:'[name][hash].chunk.css'
+            chunkFilename: '[name][hash].chunk.css'
         }),
         new HtmlWebpackPlugin({
             favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.png'),
