@@ -9,19 +9,18 @@ const Input = styled.textarea`
     border:0;
     resize:none;
     outline:none;
-    overflow-y:hidden;
+    overflow:visible;
 `
 
 interface propsType {
-    row: number;
     value: string;
     onChange: any;
     placeholder: string;
 }
 
-const ReplyInput: React.FC<propsType> = ({row, value, onChange, placeholder}) => {
+const ReplyInput: React.FC<propsType> = ({value, onChange, placeholder}) => {
     return (
-        <Input rows={row} value={value} onChange={onChange} placeholder={placeholder}></Input>
+        <Input rows={1} value={value} onChange={onChange} placeholder={placeholder}></Input>
     )
 }
 export default ReplyInput;

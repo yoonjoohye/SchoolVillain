@@ -18,7 +18,7 @@ const BannerTag = styled.div`
   text-align: center;
   box-shadow: 0 3px 5px #00000021;
 `
-const Banner=()=>{
+const MainBanner=()=>{
     return(
         <BannerSection>
             <Link to="/banner">
@@ -28,4 +28,4 @@ const Banner=()=>{
         </BannerSection>
     )
 }
-export default Banner;
+export default MainBanner;

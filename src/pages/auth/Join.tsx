@@ -12,9 +12,9 @@ import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';
 
 const JoinSection = styled.section`
-  padding:0 10%;
+  padding:0 15%;
   min-height:100vh;
-  ${FlexBox('center', 'center')};
+  ${FlexBox()};
   ${media.sm`padding:0 5%`};
 `
 const JoinContainer = styled.article`
@@ -101,7 +101,7 @@ const Join: React.FC = ({match, history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'http://dev.villain.school/api/user/email/check',
+                url: 'https://dev.villain.school/api/user/email/check',
                 data: {
                     email: email
                 },
@@ -131,7 +131,7 @@ const Join: React.FC = ({match, history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'http://dev.villain.school/api/user/register',
+                url: 'https://dev.villain.school/api/user/register',
                 data: {
                     email: email,
                     password:passwordConfirm

@@ -16,14 +16,12 @@ const HeaderSection = styled.header`
 `;
 const HeaderContainer = styled.section`
   ${FlexBox('space-between', 'center')};
-  padding:0 10%;
-  height:60px;
+  padding:0 15%;
+  height:4em;
   ${media.sm`padding:0 5%`}
 `
 const HeaderLogo = styled.div`
   ${MarkdownMd()};
-  width:100%;
-  text-align:center;
 `
 const HeaderMenu = styled.span`
   text-align:right;
