@@ -10,7 +10,7 @@ const CardSection = styled.section`
   min-height:150px;
   padding:30px 5%;
   background-color:${Color.white};
-  margin-bottom:10px;
+  margin-top:1em;
   box-shadow: 0 3px 5px #00000021;
 `
 const CardContainer = styled.div`
@@ -43,17 +43,9 @@ const HashTag = styled.span`
   border-radius: 5px;
   margin-right:3px;
 `
-const ImgContainer = styled.div`
-  //width:25%;
-`
-const ContentContainer = styled.div`
-  //width:75%;
-  margin-right:10px;
-`
 const Img = styled.img`
   position: relative;
   vertical-align: middle;
-  width:100%;
 `
 const Icon = styled.img`
   position: relative;
@@ -62,30 +54,28 @@ const Icon = styled.img`
   height:14px;
   margin-right:5px;
 `
+
 interface propsType {
-    board:any;
-    index:number;
-    goDetail:any;
+    board: any;
+    index: number;
+    goDetail: any;
 }
 
-const PreviewBoard:React.FC<propsType>=({board,index,goDetail})=> {
-    return(
+const PreviewBoard: React.FC<propsType> = ({board, index, goDetail}) => {
+    return (
         <CardSection onClick={() => goDetail(board.id)}>
             <CardBox>
-                <ContentContainer>
+                <div>
                     <CardTitle>{board.title}</CardTitle>
                     <CardContents>{board.contents}</CardContents>
-                </ContentContainer>
+                </div>
                 {
-                    board.thumbnail!==null?
-                    <ImgContainer>
-                        <Img src={board.thumbnail}/>
-                    </ImgContainer>
-                        :null
+                    board.thumbnail !== null ?
+                        <Img src={board.thumbnail}/> : null
                 }
             </CardBox>
 
-            {board.hash_tags.map((tag:any) => {
+            {board.hash_tags.map((tag: any) => {
                 return (
                     <HashTag key={tag.id}>#{tag.tag}</HashTag>
                 )
@@ -93,15 +83,17 @@ const PreviewBoard:React.FC<propsType>=({board,index,goDetail})=> {
 
             <CardContainer>
                 <div>
-                    <span css={css`margin-right:10px;`}><Icon src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+                    <span css={css`margin-right:10px;`}><Icon
+                        src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
                     <span>{board.create_time_ago}</span>
                 </div>
                 <div>
-                    <span css={css`margin-right:10px;`}><Icon src="../../../assets/img/icon/like.svg"/> {board.board_like_count}</span>
+                    <span css={css`margin-right:10px;`}><Icon
+                        src="../../../assets/img/icon/like.svg"/> {board.board_like_count}</span>
                     <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
                 </div>
             </CardContainer>
         </CardSection>
     )
 }
-export default  PreviewBoard;
+export default PreviewBoard;

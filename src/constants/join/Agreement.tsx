@@ -9,9 +9,6 @@ import {Color} from "../../../assets/style/Color.style";
 const JoinTitle = styled.div`
   ${MarkdownBase(Color.purple200, 600)};
 `
-const AgreementSection = styled.section`
-  margin-bottom:30px;
-`
 type AgreementContainerProps = {
     border?: number;
 }

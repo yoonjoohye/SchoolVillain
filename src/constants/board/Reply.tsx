@@ -159,9 +159,9 @@ const Reply: React.FC<propsType> = ({replyList, onLike, onMore, onDelete, onRepo
                                         openMore[replyIndex].reply ?
                                             <SpeechBubble>
                                                 <SpeechBubbleContent css={css`cursor:pointer;`}
-                                                                     onClick={() => onDelete(replyIndex)}>삭제하기</SpeechBubbleContent>
+                                                                     onClick={() => onDelete()}>삭제하기</SpeechBubbleContent>
                                                 <SpeechBubbleContent css={css`cursor:pointer;`}
-                                                                     onClick={() => onReport(replyIndex)}>신고하기</SpeechBubbleContent>
+                                                                     onClick={() => onReport()}>신고하기</SpeechBubbleContent>
                                             </SpeechBubble> : null
                                         : null
                                 }
@@ -186,9 +186,9 @@ const Reply: React.FC<propsType> = ({replyList, onLike, onMore, onDelete, onRepo
                                                                     openMore[replyIndex].reReply[reReplyIndex] ?
                                                                         <SpeechBubble>
                                                                             <SpeechBubbleContent
-                                                                                onClick={() => onDelete(replyIndex, reReplyIndex)}>삭제하기</SpeechBubbleContent>
+                                                                                onClick={() => onDelete()}>삭제하기</SpeechBubbleContent>
                                                                             <SpeechBubbleContent
-                                                                                onClick={() => onReport(replyIndex, reReplyIndex)}>신고하기</SpeechBubbleContent>
+                                                                                onClick={() => onReport()}>신고하기</SpeechBubbleContent>
                                                                         </SpeechBubble> : null
                                                                     : null
                                                             }

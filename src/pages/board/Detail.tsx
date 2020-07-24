@@ -2,10 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import SEO from "../SEO/SEO";
 import {jsx, css} from '@emotion/core';
 import styled from "@emotion/styled";
-import {FlexBox, Section} from "../../../assets/style/Box.style";
-import {media} from "../../../assets/style/Media.style";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
-import {Color} from "../../../assets/style/Color.style";
+import {Section} from "../../../assets/style/Box.style";
 import Reply from "../../constants/board/Reply";
 import produce from 'immer';
 import axios from "axios";
@@ -17,6 +14,7 @@ const DetailSection = styled.section`
 
 const Detail: React.FC = ({match}: any) => {
     const [board, setBoard] = useState([]);
+    const [like, setLike] = useState(false);
     const [replyList, setReplyList] = useState([]);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState('');
@@ -61,23 +59,22 @@ const Detail: React.FC = ({match}: any) => {
                 },
                 params: {
                     board_id: match.params.id,
-                    per_page:10,
-                    page:1,
+                    per_page: 10,
+                    page: 1,
                 }
             });
             if (response.status === 200) {
-                console.log(response.data);
+                // console.log(response.data);
                 setReplyList(response.data.data);
 
                 let data: any = [];
 
-                for (let i = 0; i < response.data.data.length; i++) {
+                response.data.data.map((reply: any, replyIndex: number) => {
                     data.push({reply: false, reReply: []});
-                    for (let j = 0; j < response.data.data[i].children.length; j++) {
-                        data[i].reReply.push(false);
-                    }
-                }
-                console.log(data);
+                    reply.children.map((reReply: any, reReplyIndex: number) => {
+                        data[replyIndex].reReply.push(false);
+                    })
+                })
                 setOpenMore(data);
             }
         } catch (err) {
@@ -88,18 +85,6 @@ const Detail: React.FC = ({match}: any) => {
             }
         }
     }
-    // const more = () => {
-    //     let data: any = [];
-    //
-    //     for (let i = 0; i < replyList.length; i++) {
-    //         data.push({reply: false, reReply: []});
-    //         for (let j = 0; j < replyList[i].children.length; j++) {
-    //             data[i].reReply.push(false);
-    //         }
-    //     }
-    //     console.log(data);
-    //     setOpenMore(data);
-    // }
 
     const changeReply = (reply: string) => {
         setReply(reply);
@@ -107,9 +92,50 @@ const Detail: React.FC = ({match}: any) => {
     const changeReReply = (reReply: string) => {
         setReReply(reReply);
     }
-    const onLike = () => {
-        console.log('like');
-    }
+
+    const onLike = useCallback(async (id: number) => {
+
+        try {
+            if(!like) {
+                let response = await axios({
+                    method: 'POST',
+                    url: 'https://dev.villain.school/api/board/like/create',
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    },
+                    data: {
+                        id: id
+                    }
+                });
+                if (response.status === 204) {
+                    console.log('assdf');
+                    setLike(!like);
+                }
+            } else {
+                let response = await axios({
+                    method: 'POST',
+                    url: 'https://dev.villain.school/api/board/like/delete',
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    },
+                    data: {
+                        id: id
+                    }
+                });
+                if (response.status === 204) {
+                    console.log('asdf');
+                    setLike(!like);
+                }
+            }
+
+
+        } catch (err) {
+            console.log(err);
+        }
+    }, [like]);
+
     const onMore = useCallback((replyIndex: number, reReplyIndex?: number) => {
         let data: any;
         data = produce(openMore, draft => {
@@ -123,12 +149,14 @@ const Detail: React.FC = ({match}: any) => {
         setOpenMore(data);
     }, [openMore]);
 
-    const onDelete = (replyIndex: number, reReplyIndex?: number) => {
+    const onDelete = () => {
         console.log('delete');
     }
-    const onReport = (replyIndex: number, reReplyIndex?: number) => {
+
+    const onReport = () => {
         console.log('report');
     }
+
     const moreReply = () => {
 
     }
@@ -143,7 +171,7 @@ const Detail: React.FC = ({match}: any) => {
                  keywords="스쿨빌런 게시물 상세 페이지"
             />
             <DetailSection>
-                <Board board={board}/>
+                <Board board={board} onLike={onLike} like={like}/>
                 <Reply replyList={replyList}
                        onLike={onLike} onMore={onMore} onDelete={onDelete} onReport={onReport}
                        openMore={openMore}

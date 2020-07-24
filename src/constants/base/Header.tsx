@@ -38,8 +38,18 @@ const Header = () => {
                     </Link>
                 </HeaderLogo>
                 <HeaderMenu>
-                    <Link to="/login">로그인</Link>/<Link to="/join/agreement">가입</Link>
+
+                {
+                    localStorage.getItem('token')?
+                        <>프로필</>
+                        :
+                        <>
+                            <Link to="/login">로그인</Link>/<Link to="/join/agreement">가입</Link>
+                        </>
+                }
                 </HeaderMenu>
+
+
             </HeaderContainer>
         </HeaderSection>
     )

@@ -10,7 +10,6 @@ const DetailContainer = styled.div`
 interface BoxProps {
     justifyContent?: string;
 }
-
 const DetailBox = styled.div<BoxProps>`
   ${(props: BoxProps) => FlexBox(props.justifyContent || 'flex-start')};
   margin-bottom:10px;
@@ -24,18 +23,15 @@ const Icon = styled.img`
 `
 
 const BoardTitle = styled.div`
-  ${MarkdownMd('', 400)};
-`
-
-const BoardContent = styled.div`
-  ${MarkdownBase()};
-  margin-bottom:10px;
+  ${MarkdownMd()};
 `
 
 interface propsType{
     board:any;
+    onLike:any;
+    like:boolean;
 }
-const Board:React.FC<propsType>=({board})=>{
+const Board:React.FC<propsType>=({board,onLike,like})=>{
     return(
         <DetailContainer>
             <DetailBox justifyContent="space-between">
@@ -59,7 +55,11 @@ const Board:React.FC<propsType>=({board})=>{
                 }
             </DetailBox>
             <div>
-                <span css={css`margin-right:10px;`}><Icon src="../../../assets/img/icon/like.svg"/> {board.board_like_count}</span>
+                <span css={css`margin-right:10px;`} onClick={()=>onLike(board.id)}>
+                    <Icon src="../../../assets/img/icon/like.svg"/>
+                    {like ?
+                       <>{board.board_like_count + 1}</> : <>{board.board_like_count}</>
+                    }</span>
                 <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
             </div>
         </DetailContainer>

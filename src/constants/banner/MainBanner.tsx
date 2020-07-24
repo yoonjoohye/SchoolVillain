@@ -5,7 +5,7 @@ import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 
 const BannerSection = styled.section`
-  padding:25px 0;
+  margin-top:1em;
 `
 const BannerImg = styled.img`
   position: relative;
