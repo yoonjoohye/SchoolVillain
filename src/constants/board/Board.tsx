@@ -1,61 +1,18 @@
-import * as React from "react";
+import React from "react";
 import styled from "@emotion/styled";
-import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Box.style";
-import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {css} from "@emotion/core";
 
-const CardSection = styled.section`
-  cursor:pointer;
-  min-height:150px;
-  padding:30px 5%;
-  background-color:${Color.white};
+const DetailContainer = styled.div`
+  padding:10px 5%;
+`
+interface BoxProps {
+    justifyContent?: string;
+}
+const DetailBox = styled.div<BoxProps>`
+  ${(props: BoxProps) => FlexBox(props.justifyContent || 'flex-start')};
   margin-bottom:10px;
-  box-shadow: 0 3px 5px #00000021;
-`
-const CardContainer = styled.div`
-  ${FlexBox('space-between', 'center')};
-  ${MarkdownSm(Color.gray200)};
-  margin-top:15px;
-`
-const CardBox = styled.div`
-  display:flex;
-  margin-bottom:15px;
-`
-const CardTitle = styled.div`
-  ${MarkdownBase()};
-`
-const CardContents = styled.div`
-  ${MarkdownBase('', 300)};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  word-break: keep-all;
-  width: 100%;
-  height: 60px;
-`
-const CardTag = styled.span`
-  ${MarkdownSm(Color.purple200)};
-  background-color:${Color.purple100};
-  padding:3px 10px;
-  border-radius: 5px;
-  margin-right:3px;
-`
-const SpaceSpan = styled.span`
-  margin-right:20px;
-`
-const ImgContainer = styled.div`
-  width:25%;
-`
-const ContentContainer = styled.div`
-  width:75%;
-  margin-right:10px;
-`
-const Img = styled.img`
-  position: relative;
-  vertical-align: middle;
-  width:100%;
 `
 const Icon = styled.img`
   position: relative;
@@ -64,42 +21,48 @@ const Icon = styled.img`
   height:14px;
   margin-right:5px;
 `
-interface propsType {
-    data:any;
-    index:number;
-    goDetail:any;
+
+const BoardTitle = styled.div`
+  ${MarkdownMd()};
+`
+
+interface propsType{
+    board:any;
+    onLike:any;
+    like:boolean;
 }
-
-const Board:React.FC<propsType>=({data,index,goDetail})=> {
+const Board:React.FC<propsType>=({board,onLike,like})=>{
     return(
-        <CardSection onClick={() => goDetail(index)}>
-            <CardBox>
-                <ContentContainer>
-                    <CardTitle>{data.title}</CardTitle>
-                    <CardContents>{data.contents}</CardContents>
-                </ContentContainer>
-                <ImgContainer>
-                    <Img src="../../../assets/img/index/example.jpg"/>
-                </ImgContainer>
-            </CardBox>
-
-            {data.tag.map((item:any, index:number) => {
-                return (
-                    <CardTag key={index}>#{item}</CardTag>
-                )
-            })}
-
-            <CardContainer>
-                <div>
-                    <SpaceSpan><Icon src="../../../assets/img/icon/view.svg"/>{data.view}</SpaceSpan>
-                    <span>{data.date}</span>
-                </div>
-                <div>
-                    <SpaceSpan><Icon src="../../../assets/img/icon/like.svg"/> {data.like}</SpaceSpan>
-                    <span><Icon src="../../../assets/img/icon/comment.svg"/> {data.comment}</span>
-                </div>
-            </CardContainer>
-        </CardSection>
+        <DetailContainer>
+            <DetailBox justifyContent="space-between">
+                <BoardTitle>{board.title}</BoardTitle>
+                <div>. . .</div>
+            </DetailBox>
+            <DetailBox>
+                <span>익명 . {board.create_time_ago} . <Icon src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+            </DetailBox>
+            <DetailBox>
+                {board.contents}
+            </DetailBox>
+            <DetailBox justifyContent="space-between">
+                {
+                    board.board_image ?
+                        board.board_image.map((item: any) => {
+                            return (
+                                <img key={item.id} src={item.path}/>
+                            )
+                        }) : null
+                }
+            </DetailBox>
+            <div>
+                <span css={css`margin-right:10px;`} onClick={()=>onLike(board.id)}>
+                    <Icon src="../../../assets/img/icon/like.svg"/>
+                    {like ?
+                       <>{board.board_like_count + 1}</> : <>{board.board_like_count}</>
+                    }</span>
+                <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
+            </div>
+        </DetailContainer>
     )
 }
-export default  Board;
+export default Board;

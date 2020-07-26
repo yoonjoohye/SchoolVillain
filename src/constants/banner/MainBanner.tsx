@@ -5,7 +5,7 @@ import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 
 const BannerSection = styled.section`
-  padding:25px 0;
+  margin-top:1em;
 `
 const BannerImg = styled.img`
   position: relative;
@@ -18,7 +18,7 @@ const BannerTag = styled.div`
   text-align: center;
   box-shadow: 0 3px 5px #00000021;
 `
-const Banner=()=>{
+const MainBanner=()=>{
     return(
         <BannerSection>
             <Link to="/banner">
@@ -28,4 +28,4 @@ const Banner=()=>{
         </BannerSection>
     )
 }
-export default Banner;
+export default MainBanner;

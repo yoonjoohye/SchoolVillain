@@ -8,7 +8,6 @@ import JoinInput from "../../components/input/JoinInput";
 
 const JoinTitle = styled.div`
    ${MarkdownBase(Color.purple200, 600)};
-
 `
 interface ErrorMsgProps {
     visible: boolean;

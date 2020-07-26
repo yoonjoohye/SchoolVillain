@@ -1,41 +1,90 @@
 import * as React from 'react';
-import SEO from "../SEO/SEO";
-import {useState} from "react";
-import styled from "@emotion/styled";
-import Banner from "../../constants/banner/Banner";
-import Board from "../../constants/board/Board";
+import SEO from '../SEO/SEO';
+import {useEffect, useState} from 'react';
+import styled from '@emotion/styled';
+import MainBanner from '../../constants/banner/MainBanner';
+import PreviewBoard from '../../constants/board/PreviewBoard';
+import PreviewWrite from '../../constants/board/PreviewWrite';
+
+import axios from 'axios';
+import SideBanner from "../../constants/banner/SideBanner";
+import Profile from "../../constants/mypage/Profile";
+import {FlexBox, onlyPc, Section} from "../../../assets/style/Box.style";
+import {css} from "@emotion/core";
+import {media} from "../../../assets/style/Media.style";
 
 const IndexSection = styled.section`
-  padding:60px 0;
-  min-height:100vh;
-  background-color:#eeeeee;
+  padding:0 15%;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-gap: 0 1em;
+  ${media.sm`
+     padding:0 5%;
+      grid-template-columns: 100%;
+  `};
 `
-
+const Nav = styled.nav`
+  position:sticky; 
+  top: 6em; 
+  height: 100vh; 
+  box-sizing: border-box;
+`
 const Index: React.FC = ({history}: any) => {
-    const [list, setList] = useState([
-        {
-            title: '우리학교 이거 말이 된다고 생각함?',
-            contents: '우리학교 이거 말이 된다고 생각함??????? ㄹㅇ 답없음.아니, 내말 한번 들어봐봐. 수학여행가기로 했단말임? 근데 갑자기 코로나 어쩌고 하면서 제주도도 아니고 부산을 처 간다는게 말이나 되냐고;; 진짜 ㅈㄴ 개빡쳐 ㅅㅂ',
-            tag: ['학교', '비리', '화남'],
-            like: 1,
-            comment: 13,
-            date: '어제',
-            view: 3242,
-            thumbnail: ''
-        },
-        {
-            title: '전지현 존나 예쁨',
-            contents: '있자나 그거 그거ㅡ거ㅡ거 어쩌구저쩌구',
-            tag: ['연예인', '최애', '존예'],
-            like: 3,
-            comment: 1,
-            date: '오늘',
-            view: 31,
-            thumbnail: ''
-        }]);
+    const [boardList, setBoardList] = useState([]);
+    const [user, setUser]=useState([]);
+    useEffect(() => {
+        BoardAPI();
+        UserAPI();
+    }, []);
 
-    const goDetail = (index: number) => {
-        history.push(`/detail/${index}`);
+    const BoardAPI = async () => {
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: 'https://dev.villain.school/api/board/list',
+                headers: {
+                    Accept: 'application/json'
+                },
+                params: {
+                    per_page: 10,
+                    page: 1
+                }
+            });
+            if (response.status === 200) {
+                // console.log(response);
+                setBoardList(response.data.data);
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                console.log(err);
+            } else {
+                console.log(err);
+            }
+        }
+    }
+
+    const UserAPI=async()=>{
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: 'https://dev.villain.school/api/user/me',
+                headers: {
+                    Accept: 'application/json',
+                    ContentType:'application/json',
+                    Authorization:`Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            if (response.status === 200) {
+                // console.log(response);
+                setUser(response.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const goDetail = (id: number) => {
+        history.push(`/detail/${id}`);
     }
 
     return (
@@ -45,12 +94,20 @@ const Index: React.FC = ({history}: any) => {
                  keywords="스쿨빌런 메인 페이지"
             />
             <IndexSection>
-                <Banner/>
-                {list.map((data, index) => {
-                    return (
-                        <Board key={index} data={data} index={index} goDetail={goDetail}/>
-                    )
-                })}
+                <Nav css={onlyPc}>
+                    <Profile user={user}/>
+                    <SideBanner/>
+                </Nav>
+
+                <div css={css` width:100%`}>
+                    <PreviewWrite/>
+                    <MainBanner/>
+                    {boardList.map((board, index) => {
+                        return (
+                            <PreviewBoard key={index} board={board} index={index} goDetail={goDetail}/>
+                        )
+                    })}
+                </div>
             </IndexSection>
         </>
     )

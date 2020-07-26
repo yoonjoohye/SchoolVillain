@@ -9,9 +9,9 @@ import axios from "axios";
 import SEO from "../SEO/SEO";
 
 const LoginSection = styled.section`
-  padding:0 10%;
+  padding:0 15%;
   min-height:100vh;
-  ${FlexBox('center', 'center')};
+  ${FlexBox()};
   ${media.sm`padding:0 5%`};
 `
 const LoginContainer = styled.article`
@@ -92,7 +92,7 @@ const Login = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'http://dev.villain.school/api/user/login',
+                url: 'https://dev.villain.school/api/user/login',
                 data: {
                     email: email,
                     password: password
