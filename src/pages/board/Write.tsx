@@ -8,7 +8,6 @@ import {css} from "@emotion/core";
 const WriteSection = styled.section`
   ${Section};
 `
-
 const Tag=styled.div`
     display:inline-block;
     background-color:${Color.yellow100};

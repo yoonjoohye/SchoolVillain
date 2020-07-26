@@ -40,6 +40,7 @@ const Detail: React.FC = ({match}: any) => {
             if (response.status === 200) {
                 console.log(response);
                 setBoard(response.data);
+                setLike(response.data.is_like);
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -129,8 +130,6 @@ const Detail: React.FC = ({match}: any) => {
                     setLike(!like);
                 }
             }
-
-
         } catch (err) {
             console.log(err);
         }

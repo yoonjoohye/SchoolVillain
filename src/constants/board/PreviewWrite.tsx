@@ -3,6 +3,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Box.style";
+import {Link} from "react-router-dom";
 
 const WriteSection = styled.section`
   width:100%;
@@ -19,13 +20,15 @@ const WriteContainer = styled.div`
   }
 `
 
-const PreviewWrite = () => {
+const PreviewWrite = ({history}:any) => {
     return (
         <WriteSection>
-            <WriteContainer>
-                <img css={css`width:2em; height:2em; margin-right:10px;`} src="../../../assets/img/icon/edit.svg"/>
-                빌런아, 오늘 있었던 일 뭐야?
-            </WriteContainer>
+            <Link to={'/write'}>
+                <WriteContainer>
+                    <img css={css`width:2em; height:2em; margin-right:10px;`} src="../../../assets/img/icon/edit.svg"/>
+                    빌런아, 오늘 있었던 일 뭐야?
+                </WriteContainer>
+            </Link>
         </WriteSection>
     )
 }
