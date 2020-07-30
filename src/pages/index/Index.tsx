@@ -8,30 +8,30 @@ import PreviewWrite from '../../constants/board/PreviewWrite';
 
 import axios from 'axios';
 import SideBanner from "../../constants/banner/SideBanner";
-import Profile from "../../constants/mypage/Profile";
-import {FlexBox, onlyPc, Section} from "../../../assets/style/Box.style";
+import Profile from '../../constants/mypage/Profile';
+import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
 
 const IndexSection = styled.section`
-  padding:0 15%;
+  ${Section};
   display: grid;
-  grid-template-columns: 30% 70%;
-  grid-gap: 0 1em;
+  grid-template-columns: 70%;
+  justify-content: flex-end;
   ${media.sm`
-     padding:0 5%;
-      grid-template-columns: 100%;
+     grid-template-columns: 100%;
   `};
 `
+
 const Nav = styled.nav`
-  position:sticky; 
-  top: 6em; 
-  height: 100vh; 
-  box-sizing: border-box;
+  position:fixed;
+  left:15%;
+  width:20%; 
+  top: 6em;
 `
 const Index: React.FC = ({history}: any) => {
-    const [boardList, setBoardList] = useState([]);
-    const [user, setUser]=useState([]);
+    const [boardList, setBoardList] = useState(null);
+    const [user, setUser] = useState(null);
     useEffect(() => {
         BoardAPI();
         UserAPI();
@@ -42,9 +42,9 @@ const Index: React.FC = ({history}: any) => {
             let response = await axios({
                 method: 'GET',
                 url: 'https://dev.villain.school/api/board/list',
-                headers: {
-                    Accept: 'application/json'
-                },
+                // headers: {
+                //     Accept: 'application/json'
+                // },
                 params: {
                     per_page: 10,
                     page: 1
@@ -63,16 +63,16 @@ const Index: React.FC = ({history}: any) => {
         }
     }
 
-    const UserAPI=async()=>{
+    const UserAPI = async () => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'https://dev.villain.school/api/user/me',
-                headers: {
-                    Accept: 'application/json',
-                    ContentType:'application/json',
-                    Authorization:`Bearer ${localStorage.getItem('token')}`
-                }
+                url: 'https://dev.villain.school/api/user/me'
+                // headers: {
+                //     Accept: 'application/json',
+                //     ContentType: 'application/json',
+                //     Authorization: `Bearer ${localStorage.getItem('token')}`
+                // }
             });
             if (response.status === 200) {
                 // console.log(response);
@@ -99,14 +99,10 @@ const Index: React.FC = ({history}: any) => {
                     <SideBanner/>
                 </Nav>
 
-                <div css={css` width:100%`}>
+                <div css={css` width:100%;`}>
                     <PreviewWrite/>
                     <MainBanner/>
-                    {boardList.map((board, index) => {
-                        return (
-                            <PreviewBoard key={index} board={board} index={index} goDetail={goDetail}/>
-                        )
-                    })}
+                    <PreviewBoard boardList={boardList} goDetail={goDetail}/>
                 </div>
             </IndexSection>
         </>

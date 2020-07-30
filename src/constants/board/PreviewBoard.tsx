@@ -1,9 +1,10 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
-import {FlexBox} from "../../../assets/style/Box.style";
+import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {css} from "@emotion/core";
+import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
 
 const CardSection = styled.section`
   cursor:pointer;
@@ -16,14 +17,15 @@ const CardSection = styled.section`
 const CardContainer = styled.div`
   ${FlexBox('space-between', 'center')};
   ${MarkdownSm(Color.gray200)};
-  margin-top:15px;
+  margin-top:1em;
 `
 const CardBox = styled.div`
    ${FlexBox('space-between', 'center')};
-  margin-bottom:15px;
+  margin-bottom:1em;
 `
 const CardTitle = styled.div`
   ${MarkdownBase()};
+  margin-bottom:0.5em;
 `
 const CardContents = styled.div`
   ${MarkdownBase('', 300)};
@@ -52,48 +54,57 @@ const Icon = styled.img`
   vertical-align: text-top;
   width:14px;
   height:14px;
-  margin-right:5px;
+  margin-right:0.5em;
 `
 
 interface propsType {
-    board: any;
-    index: number;
+    boardList: any;
     goDetail: any;
 }
 
-const PreviewBoard: React.FC<propsType> = ({board, index, goDetail}) => {
+const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
     return (
-        <CardSection onClick={() => goDetail(board.id)}>
-            <CardBox>
-                <div>
-                    <CardTitle>{board.title}</CardTitle>
-                    <CardContents>{board.contents}</CardContents>
-                </div>
-                {
-                    board.thumbnail !== null ?
-                        <Img src={board.thumbnail}/> : null
-                }
-            </CardBox>
-
-            {board.hash_tags.map((tag: any) => {
+        boardList ?
+            boardList.map((board:any, index:number) => {
                 return (
-                    <HashTag key={tag.id}>#{tag.tag}</HashTag>
-                )
-            })}
+                    <CardSection key={board.id} onClick={() => goDetail(board.id)}>
+                        <CardBox>
+                            <div>
+                                <CardTitle>{board.title}</CardTitle>
+                                <CardContents>{board.contents}</CardContents>
+                            </div>
+                            {
+                                board.thumbnail !== null ?
+                                    <Img src={board.thumbnail}/> : null
+                            }
+                        </CardBox>
 
-            <CardContainer>
-                <div>
-                    <span css={css`margin-right:10px;`}><Icon
-                        src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
-                    <span>{board.create_time_ago}</span>
-                </div>
-                <div>
-                    <span css={css`margin-right:10px;`}><Icon
-                        src="../../../assets/img/icon/like.svg"/> {board.board_like_count}</span>
-                    <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
-                </div>
-            </CardContainer>
-        </CardSection>
+                        {board.hash_tags.map((tag: any) => {
+                            return (
+                                <HashTag key={tag.id}>#{tag.tag}</HashTag>
+                            )
+                        })}
+
+                        <CardContainer>
+                            <div>
+                            <span css={css`margin-right:10px;`}><Icon
+                                src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+                                <span>{board.create_time_ago}</span>
+                            </div>
+                            <div>
+                            <span css={css`margin-right:10px;`}><Icon
+                                src="../../../assets/img/icon/like.svg"/> {board.board_like_count}</span>
+                                <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
+                            </div>
+                        </CardContainer>
+                    </CardSection>
+                )
+            }) :
+            [1, 2, 3].map((item, index) => {
+                return (
+                    <SkeletonPreviewBoard key={index}/>
+                )
+            })
     )
 }
 export default PreviewBoard;

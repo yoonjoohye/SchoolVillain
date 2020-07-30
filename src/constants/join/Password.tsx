@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import JoinButton from "../../components/button/JoinButton";
 import styled from "@emotion/styled";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import JoinInput from "../../components/input/JoinInput";
 

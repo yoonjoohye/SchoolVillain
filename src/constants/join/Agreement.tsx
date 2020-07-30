@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
-import {FlexBox} from "../../../assets/style/Box.style";
+import {FlexBox} from "../../../assets/style/Layout.style";
 import JoinButton from "../../components/button/JoinButton";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
@@ -36,7 +36,7 @@ const FakeCheckBox = styled.div`
   &::before{
     content: '✔';
     position: relative;
-    top: 5px;
+    top: 3px;
   }
 `
 const AgreementList = styled.div`
@@ -54,16 +54,24 @@ const AgreementContent = styled.div`
   ${MarkdownBase(Color.gray200)};
   margin-bottom:10px;
 `
+interface ErrorMsgProps {
+    visible: boolean;
+}
+const ErrorMsg=styled.div<ErrorMsgProps>`
+    ${MarkdownSm(Color.red)};
+    visibility: ${(props:ErrorMsgProps)=>(props.visible ? 'visible':'hidden')};
+`
 
 interface propsType {
     goJoin: any;
     age: boolean;
     agree: boolean;
     checkedAgreement: any;
+    err:string;
     enabled: boolean;
 }
 
-const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, enabled}) => {
+const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, err, enabled}) => {
 
     const ageChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
         checkedAgreement(!age, agree);
@@ -112,6 +120,7 @@ const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, e
                     </Link>
                 </AgreementList>
             </AgreementLabel>
+            <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
             <JoinButton goJoin={goJoin} enabled={enabled}/>
         </>
     )

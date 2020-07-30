@@ -1,7 +1,5 @@
 import * as React from 'react';
 import styled from "@emotion/styled";
-import {FlexBox} from "../../../assets/style/Box.style";
-import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";

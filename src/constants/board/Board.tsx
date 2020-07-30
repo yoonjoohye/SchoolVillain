@@ -1,50 +1,52 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {FlexBox} from "../../../assets/style/Box.style";
-import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
+import {Color} from "../../../assets/style/Color.style";
+import {IconSm} from "../../../assets/style/Icon.style";
+import {MarkdownSm} from "../../../assets/style/Markdown.style";
 
-const DetailContainer = styled.div`
-  padding:10px 5%;
+const BoardContainer = styled.div`
+  margin-top:6em;
 `
+
 interface BoxProps {
     justifyContent?: string;
 }
-const DetailBox = styled.div<BoxProps>`
+
+const BoardBox = styled.div<BoxProps>`
   ${(props: BoxProps) => FlexBox(props.justifyContent || 'flex-start')};
-  margin-bottom:10px;
 `
-const Icon = styled.img`
-  position: relative;
-  vertical-align: text-top;
-  width:14px;
-  height:14px;
-  margin-right:5px;
-`
-
-const BoardTitle = styled.div`
-  ${MarkdownMd()};
+const Tag = styled.span`
+  ${MarkdownSm(Color.yellow200)};
+  background-color:${Color.yellow100};
+  padding:0.5em 1em;
+  border-radius: 5px;
+  margin-right:0.5em;
 `
 
-interface propsType{
-    board:any;
-    onLike:any;
-    like:boolean;
+interface propsType {
+    board: any;
+    onLike: any;
+    likeId: number;
+    likeCnt: number;
 }
-const Board:React.FC<propsType>=({board,onLike,like})=>{
-    return(
-        <DetailContainer>
-            <DetailBox justifyContent="space-between">
-                <BoardTitle>{board.title}</BoardTitle>
+
+const Board: React.FC<propsType> = ({board, onLike, likeId, likeCnt}) => {
+    return (
+        <BoardContainer>
+            <BoardBox justifyContent="space-between" css={css`margin-bottom:0.5em`}>
+                <div>{board.title}</div>
                 <div>. . .</div>
-            </DetailBox>
-            <DetailBox>
-                <span>익명 . {board.create_time_ago} . <Icon src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
-            </DetailBox>
-            <DetailBox>
+            </BoardBox>
+            <div css={css`margin-bottom:1em`}>
+                <span>익명 . {board.create_time_ago} . <IconSm
+                    src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+            </div>
+            <div css={css`margin-bottom:1em`}>
                 {board.contents}
-            </DetailBox>
-            <DetailBox justifyContent="space-between">
+            </div>
+            <BoardBox justifyContent="space-between" css={css`margin-bottom:1em`}>
                 {
                     board.board_image ?
                         board.board_image.map((item: any) => {
@@ -53,16 +55,27 @@ const Board:React.FC<propsType>=({board,onLike,like})=>{
                             )
                         }) : null
                 }
-            </DetailBox>
-            <div>
-                <span css={css`margin-right:10px;`} onClick={()=>onLike(board.id)}>
-                    <Icon src="../../../assets/img/icon/like.svg"/>
-                    {like ?
-                       <>{board.board_like_count + 1}</> : <>{board.board_like_count}</>
-                    }</span>
-                <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
+            </BoardBox>
+            <BoardBox css={css`margin-bottom:1em`}>
+                {
+                    board.hash_tags ?
+                        board.hash_tags.map((tag: any) => {
+                            return (
+                                <Tag key={tag.id}>#{tag.tag}</Tag>
+                            )
+                        }) : null
+                }
+            </BoardBox>
+            <div css={css`margin-bottom:1em;`}>
+                <span css={css`margin-right:0.5em;`} onClick={() => onLike(board.id)}>
+                    <IconSm src="../../../assets/img/icon/like.svg"/>
+                    <span css={likeId>0 ? css`color:red;` : css`color:${Color.gray200}`}>
+                        {likeCnt}
+                    </span>
+                </span>
+                <span><IconSm src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
             </div>
-        </DetailContainer>
+        </BoardContainer>
     )
 }
 export default Board;

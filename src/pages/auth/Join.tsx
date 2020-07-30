@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from "@emotion/styled";
-import {FlexBox} from "../../../assets/style/Box.style";
+import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import Agreement from "../../constants/join/Agreement";
 import Email from "../../constants/join/Email";
@@ -12,14 +12,12 @@ import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';
 
 const JoinSection = styled.section`
-  padding:0 15%;
-  min-height:100vh;
+  ${Section};
   ${FlexBox()};
-  ${media.sm`padding:0 5%`};
 `
 const JoinContainer = styled.article`
-  width:500px;
-  ${media.sm`width:100%;`}
+  min-width:500px;
+  ${media.sm`min-width:100%;`}
 `
 
 const Join: React.FC = ({match, history}: any) => {
@@ -28,6 +26,7 @@ const Join: React.FC = ({match, history}: any) => {
     const [age, setAge] = useState(false);
     const [agree, setAgree] = useState(false);
     const [agreementCheck, setAgreementCheck] = useState(false);
+    const [agreementErr, setAgreementErr] = useState('');
 
     //이메일
     const [email, setEmail] = useState('');
@@ -51,7 +50,7 @@ const Join: React.FC = ({match, history}: any) => {
     }, [match]);
 
     // 유효성 검사
-    const checkedAgreement = (age: boolean, agree: boolean): void => {
+    const checkedAgreement = (age: boolean, agree: boolean) => {
         setAge(age);
         setAgree(agree);
         setAgreementCheck(age && agree);
@@ -105,10 +104,10 @@ const Join: React.FC = ({match, history}: any) => {
                 data: {
                     email: email
                 },
-                headers: {
-                    Accept: 'application/json',
-                    ContentType: 'application/json'
-                }
+                // headers: {
+                //     Accept: 'application/json',
+                //     ContentType: 'application/json'
+                // }
             });
             if (response.status === 200) {
                 //console.log(response);
@@ -129,38 +128,41 @@ const Join: React.FC = ({match, history}: any) => {
     }
     const goPasswordConfirm = async() => {
         try {
-            let response = await axios({
-                method: 'POST',
-                url: 'https://dev.villain.school/api/user/register',
-                data: {
-                    email: email,
-                    password:passwordConfirm
-                },
-                headers: {
-                    Accept: 'application/json',
-                    ContentType: 'application/json'
-                }
+            let csrf = await axios({
+                method: 'GET',
+                url: 'https://dev.villain.school/sanctum/csrf-cookie'
             });
-            if (response.status === 200) {
-                // console.log(response);
-                let token=response.data.token;
-                localStorage.setItem('token',token.split('|')[1]);
-                window.location.href = '/';
+            if(csrf.status===204) {
+                let response = await axios({
+                    method: 'POST',
+                    url: 'https://dev.villain.school/api/user/register',
+                    data: {
+                        email: email,
+                        password: passwordConfirm
+                    }
+                });
+                if (response.status === 200) {
+                    let token = response.data.token;
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    localStorage.setItem('token', token.split('|')[1]);
+                    window.location.href = '/';
+                }
             }
         } catch (err) {
             if (err.response.status === 422) {
                 setEmailCheck(false);
-                setEmailErr('이미 존재하는 이메일입니다.');
+                setEmailErr('이메일을 다시 입력해주세요.');
                 history.push('/join/email');
             } else {
-                alert('다시 입력해주세요.');
+                setAgreementCheck(false);
+                setAgreementErr('다시 입력해주세요.');
                 history.push('/join/agreement');
             }
         }
     }
 
     if (page === 'agreement') {
-        joinComponent = <Agreement goJoin={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement}
+        joinComponent = <Agreement goJoin={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement} err={agreementErr}
                                    enabled={agreementCheck}/>;
     } else if (page === 'service-rule') {
         joinComponent = <ServiceRule/>;
