@@ -100,17 +100,13 @@ const Login = ({history}: any) => {
                         email: email,
                         password: password
                     }
-                    // headers: {
-                    //     Accept: 'application/json',
-                    //     ContentType: 'application/json'
-                    // }
                 });
                 if (response.status === 200) {
-                    console.log(response);
-                    let token = response.data.token;
+                    // console.log(response);
+                    // let token = response.data.token;
                     // localStorage.setItem('token', token.split('|')[1]);
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${token.split('|')[1]}`;
-
+                    // axios.defaults.headers.common['Authorization'] = `Bearer ${token.split('|')[1]}`;
+                    sessionStorage.setItem('logged', true);
                     window.location.href = '/';
                 }
             }
@@ -128,7 +124,6 @@ const Login = ({history}: any) => {
             }
         }
     }
-
 
     return (
         <>

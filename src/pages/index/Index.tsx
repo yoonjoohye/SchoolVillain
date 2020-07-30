@@ -42,9 +42,6 @@ const Index: React.FC = ({history}: any) => {
             let response = await axios({
                 method: 'GET',
                 url: 'https://dev.villain.school/api/board/list',
-                // headers: {
-                //     Accept: 'application/json'
-                // },
                 params: {
                     per_page: 10,
                     page: 1
@@ -68,14 +65,9 @@ const Index: React.FC = ({history}: any) => {
             let response = await axios({
                 method: 'POST',
                 url: 'https://dev.villain.school/api/user/me'
-                // headers: {
-                //     Accept: 'application/json',
-                //     ContentType: 'application/json',
-                //     Authorization: `Bearer ${localStorage.getItem('token')}`
-                // }
             });
             if (response.status === 200) {
-                // console.log(response);
+                console.log(response);
                 setUser(response.data);
             }
         } catch (err) {

@@ -30,10 +30,6 @@ const Detail: React.FC = ({match}: any) => {
             let response = await axios({
                 method: 'GET',
                 url: 'https://dev.villain.school/api/board/read',
-                // headers: {
-                //     Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : null,
-                //     Accept: 'application/json'
-                // },
                 params: {
                     id: match.params.id
                 }
@@ -56,9 +52,6 @@ const Detail: React.FC = ({match}: any) => {
             let response = await axios({
                 method: 'GET',
                 url: 'https://dev.villain.school/api/comment/list',
-                // headers: {
-                //     Accept: 'application/json'
-                // },
                 params: {
                     board_id: match.params.id,
                     per_page: 10,

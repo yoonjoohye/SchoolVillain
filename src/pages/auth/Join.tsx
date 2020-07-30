@@ -126,13 +126,13 @@ const Join: React.FC = ({match, history}: any) => {
     const goPassword = () => {
         history.push('/join/confirm');
     }
-    const goPasswordConfirm = async() => {
+    const goPasswordConfirm = async () => {
         try {
             let csrf = await axios({
                 method: 'GET',
                 url: 'https://dev.villain.school/sanctum/csrf-cookie'
             });
-            if(csrf.status===204) {
+            if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
                     url: 'https://dev.villain.school/api/user/register',
@@ -142,9 +142,10 @@ const Join: React.FC = ({match, history}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    let token = response.data.token;
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                    localStorage.setItem('token', token.split('|')[1]);
+                    // let token = response.data.token;
+                    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    // localStorage.setItem('token', token.split('|')[1]);
+                    sessionStorage.setItem('logged', true);
                     window.location.href = '/';
                 }
             }
@@ -162,7 +163,8 @@ const Join: React.FC = ({match, history}: any) => {
     }
 
     if (page === 'agreement') {
-        joinComponent = <Agreement goJoin={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement} err={agreementErr}
+        joinComponent = <Agreement goJoin={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement}
+                                   err={agreementErr}
                                    enabled={agreementCheck}/>;
     } else if (page === 'service-rule') {
         joinComponent = <ServiceRule/>;

@@ -30,7 +30,7 @@ const Profile = ({user}:any) => {
     return (
         <>
         {
-            localStorage.getItem('token') ?
+            sessionStorage.getItem('logged') ?
                 user ?
                     <ProfileSection>
                         <img css={css`width:40%; margin-right:0.5em;`} src="../../../assets/img/icon/like.svg"></img>

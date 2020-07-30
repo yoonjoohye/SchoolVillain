@@ -1,10 +1,16 @@
 import React, {useRef, useState} from 'react';
+import SEO from "../SEO/SEO";
 import styled from "@emotion/styled";
-import produce from "immer";
-import {Color} from "../../../assets/style/Color.style";
+import {Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
+import {Color} from "../../../assets/style/Color.style";
+import produce from "immer";
 import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 
+const CreateSection = styled.section`
+  ${Section};
+  margin-top:6em;
+`
 const Tag = styled.div`
     display:inline-block;
     background-color:${Color.yellow100};
@@ -42,6 +48,7 @@ const Input = styled.input`
   ${MarkdownMd()};
   outline:none;
 `
+
 const Write = () => {
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
@@ -108,47 +115,52 @@ const Write = () => {
             reader.readAsDataURL(file);
         });
     }
-
     return (
-        <section>
-            <div css={css`overflow: auto; height: 365px;`}>
-                <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
-                    <Input value={title} onChange={titleChange} placeholder="오늘 무슨일 있었냐?"/>
+        <>
+            <SEO title="작성페이지 | 스쿨빌런"
+                 description="스쿨빌런 게시물 작성 페이지입니다."
+                 keywords="스쿨빌런 게시물 작성 페이지"/>
+            <CreateSection>
+                <div>
+                    <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                        <Input value={title} onChange={titleChange} placeholder="오늘 무슨일 있었냐?"/>
+                    </div>
+                    <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                        <TextArea rows={7} value={contents} onChange={contentsChange} placeholder="내용을 입력해주세요."></TextArea>
+                    </div>
+                    <div css={css`padding:1em 0;`}>
+                        <Input type="file" ref={inputImg} onChange={loadImg} multiple/>
+                        {
+                            previewUrl.map((url, index) => {
+                                return (
+                                    <img css={css`width:30%;`} key={index} src={url}/>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
-                <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
-                    <TextArea rows={7} value={contents} onChange={contentsChange} placeholder="내용을 입력해주세요."></TextArea>
+                <div css={css``}>
+                    <div css={css`padding:1em 0; border:1px solid #eeeeee;`}>
+                        <Input type="text" value={tag} onChange={tagChange} placeholder="#해시태그를 입력해주세요."
+                               onKeyPress={onEnter}/>
+                    </div>
+                    <div css={css`height:3em;`}>
+                        {
+                            tagList.map((item, index) => {
+                                return (
+                                    <Tag key={index}>
+                                        <span css={css`margin-right:0.5em;`}># {item}</span>
+                                        <span onClick={() => onTagDelete(index)}>X</span>
+                                    </Tag>
+                                )
+                            })
+                        }
+                    </div>
+                    <Button>등록</Button>
                 </div>
-                <div css={css`padding:1em 0;`}>
-                    <Input type="file" ref={inputImg} onChange={loadImg} multiple/>
-                    {
-                        previewUrl.map((url, index) => {
-                            return (
-                                <img css={css`width:30%;`} key={index} src={url}/>
-                            )
-                        })
-                    }
-                </div>
-            </div>
-            <div css={css``}>
-                <div css={css`padding:1em 0; border:1px solid #eeeeee;`}>
-                    <Input type="text" value={tag} onChange={tagChange} placeholder="#해시태그를 입력해주세요."
-                           onKeyPress={onEnter}/>
-                </div>
-                <div css={css`height:3em;`}>
-                    {
-                        tagList.map((item, index) => {
-                            return (
-                                <Tag key={index}>
-                                    <span css={css`margin-right:0.5em;`}># {item}</span>
-                                    <span onClick={() => onTagDelete(index)}>X</span>
-                                </Tag>
-                            )
-                        })
-                    }
-                </div>
-                <Button>등록</Button>
-            </div>
-        </section>
+            </CreateSection>
+        </>
+
     )
 }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
-import {MarkdownMd, MarkdownXl} from "../../../assets/style/Markdown.style";
+import {MarkdownMd} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
@@ -48,7 +48,7 @@ const Header = () => {
                 <HeaderMenu>
 
                 {
-                    localStorage.getItem('token')?
+                    sessionStorage.getItem('logged')?
                         <>
                             <div onClick={onNav}>프로필</div>
                             <Nav isNav={isNav}></Nav>

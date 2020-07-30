@@ -29,6 +29,9 @@ const PreviewWrite = ({history}:any) => {
             location.href='/write';
         }
     }
+    const isOpen=(open:boolean)=>{
+        setOpenModal(open);
+    }
     return (
         <>
             <WriteSection>
@@ -41,7 +44,7 @@ const PreviewWrite = ({history}:any) => {
             </WriteSection>
             {
                 openModal?
-                <Modal/>:null
+                <Modal isOpen={isOpen}/>:null
             }
         </>
     )
