@@ -2,12 +2,15 @@ import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
 import {MarkdownMd, MarkdownXl} from "../../../assets/style/Markdown.style";
-import {FlexBox} from "../../../assets/style/Box.style";
+import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
+import Nav from "./Nav";
+import {useCallback, useState} from "react";
 
 const HeaderSection = styled.header`
   position: fixed;
+  top:0;
   width:100%;
   background-color:${Color.white};
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.16);
@@ -29,6 +32,11 @@ const HeaderMenu = styled.span`
 `
 
 const Header = () => {
+    let [isNav,setIsNav]=useState(false);
+
+    const onNav=useCallback(()=>{
+        setIsNav(isNav);
+    },[isNav]);
     return (
         <HeaderSection>
             <HeaderContainer>
@@ -41,7 +49,10 @@ const Header = () => {
 
                 {
                     localStorage.getItem('token')?
-                        <>프로필</>
+                        <>
+                            <div onClick={onNav}>프로필</div>
+                            <Nav isNav={isNav}></Nav>
+                        </>
                         :
                         <>
                             <Link to="/login">로그인</Link>/<Link to="/join/agreement">가입</Link>

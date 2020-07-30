@@ -1,5 +1,4 @@
 import {css} from "@emotion/core";
-import styled from "@emotion/styled";
 import {media} from "./Media.style";
 
 export const FlexBox = (justifyContent: string = 'center', alignItems: string = 'center') => css`
@@ -9,9 +8,9 @@ export const FlexBox = (justifyContent: string = 'center', alignItems: string = 
 `;
 
 export const Section=()=>css` 
-  padding:4em 15%;
+  padding:0 15%;
   min-height:100vh;
-  ${media.sm`padding:4em 5%`}
+  ${media.sm`padding:0 5%`}
 `
 
 export const onlyPc=()=>css`

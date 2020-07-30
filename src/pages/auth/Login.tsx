@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import JoinInput from "../../components/input/JoinInput";
 import styled from "@emotion/styled";
-import {FlexBox} from "../../../assets/style/Box.style";
+import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
@@ -9,10 +9,8 @@ import axios from "axios";
 import SEO from "../SEO/SEO";
 
 const LoginSection = styled.section`
-  padding:0 15%;
-  min-height:100vh;
+  ${Section};
   ${FlexBox()};
-  ${media.sm`padding:0 5%`};
 `
 const LoginContainer = styled.article`
   width:500px;
@@ -90,23 +88,31 @@ const Login = ({history}: any) => {
     //API
     const goLogin = async () => {
         try {
-            let response = await axios({
-                method: 'POST',
-                url: 'https://dev.villain.school/api/user/login',
-                data: {
-                    email: email,
-                    password: password
-                },
-                headers: {
-                    Accept: 'application/json',
-                    ContentType: 'application/json'
-                }
+            let csrf = await axios({
+                method: 'GET',
+                url: 'https://dev.villain.school/sanctum/csrf-cookie'
             });
-            if (response.status === 200) {
-                // console.log(response);
-                let token = response.data.token;
-                localStorage.setItem('token', token.split('|')[1]);
-                window.location.href = '/';
+            if (csrf.status === 204) {
+                let response = await axios({
+                    method: 'POST',
+                    url: 'https://dev.villain.school/api/user/login',
+                    data: {
+                        email: email,
+                        password: password
+                    }
+                    // headers: {
+                    //     Accept: 'application/json',
+                    //     ContentType: 'application/json'
+                    // }
+                });
+                if (response.status === 200) {
+                    console.log(response);
+                    let token = response.data.token;
+                    // localStorage.setItem('token', token.split('|')[1]);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token.split('|')[1]}`;
+
+                    window.location.href = '/';
+                }
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -118,9 +124,11 @@ const Login = ({history}: any) => {
             } else {
                 setPasswordCheck(false);
                 setPasswordErr('다시 입력해주세요.');
+                console.log(err);
             }
         }
     }
+
 
     return (
         <>

@@ -1,9 +1,9 @@
 import {css} from "@emotion/core";
-import React from "react";
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
-import {FlexBox} from "../../../assets/style/Box.style";
-import {Link} from "react-router-dom";
+import {FlexBox} from "../../../assets/style/Layout.style";
+import Modal from "../modal/Modal";
 
 const WriteSection = styled.section`
   width:100%;
@@ -21,15 +21,29 @@ const WriteContainer = styled.div`
 `
 
 const PreviewWrite = ({history}:any) => {
+    const [openModal,setOpenModal]=useState(false);
+    const goWrite=()=>{
+        if(screen.width>480){
+            setOpenModal(true);
+        }else{
+            location.href='/write';
+        }
+    }
     return (
-        <WriteSection>
-            <Link to={'/write'}>
-                <WriteContainer>
-                    <img css={css`width:2em; height:2em; margin-right:10px;`} src="../../../assets/img/icon/edit.svg"/>
-                    빌런아, 오늘 있었던 일 뭐야?
-                </WriteContainer>
-            </Link>
-        </WriteSection>
+        <>
+            <WriteSection>
+                <div onClick={goWrite}>
+                    <WriteContainer>
+                        <img css={css`width:2em; height:2em; margin-right:10px;`} src="../../../assets/img/icon/edit.svg"/>
+                        빌런아, 오늘 있었던 일 뭐야?
+                    </WriteContainer>
+                </div>
+            </WriteSection>
+            {
+                openModal?
+                <Modal/>:null
+            }
+        </>
     )
 }
 

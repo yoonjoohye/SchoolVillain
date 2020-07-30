@@ -1,8 +1,22 @@
 import * as React from 'react';
 
-const Nav=()=>{
-    return(
-        <div>Nav</div>
+interface propsType {
+    isNav: boolean;
+}
+
+const Nav: React.FC<propsType> = ({isNav}) => {
+    return (
+        <></>
+        // <>
+        //     {
+        //         isNav ?
+        //             <div>
+        //                 <div>프로필</div>
+        //                 <div>hihi</div>
+        //             </div> :
+        //             null
+        //     }
+        // </>
     )
 }
 
