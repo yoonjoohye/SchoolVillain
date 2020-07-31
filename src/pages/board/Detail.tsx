@@ -13,8 +13,8 @@ const DetailSection = styled.section`
 `
 const Detail: React.FC = ({match}: any) => {
     const [board, setBoard] = useState([]);
-    const [likeId, setLikeId] = useState(0);
-    const [likeCnt, setLikeCnt] = useState(0);
+    const [boardLikeId, setBoardLikeId] = useState(0);
+    const [boardLikeCnt, setBoardLikeCnt] = useState(0);
     const [replyList, setReplyList] = useState([]);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState('');
@@ -29,7 +29,7 @@ const Detail: React.FC = ({match}: any) => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: 'https://dev.villain.school/api/board/read',
+                url: '/api/board/read',
                 params: {
                     id: match.params.id
                 }
@@ -37,9 +37,9 @@ const Detail: React.FC = ({match}: any) => {
             if (response.status === 200) {
                 console.log(response);
                 setBoard(response.data);
-                setLikeCnt(response.data.board_like_count);
+                setBoardLikeCnt(response.data.board_like_count);
                 if (response.data.my_like_id) {
-                    setLikeId(response.data.my_like_id.id);
+                    setBaordLikeId(response.data.my_like_id.id);
                 }
             }
         } catch (err) {
@@ -51,7 +51,7 @@ const Detail: React.FC = ({match}: any) => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: 'https://dev.villain.school/api/comment/list',
+                url: '/api/comment/list',
                 params: {
                     board_id: match.params.id,
                     per_page: 10,
@@ -59,7 +59,7 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
             if (response.status === 200) {
-                // console.log(response.data);
+                console.log(response.data);
                 setReplyList(response.data.data);
 
                 // let data: any = [];
@@ -80,21 +80,13 @@ const Detail: React.FC = ({match}: any) => {
             }
         }
     }
-
-    const changeReply = (reply: string) => {
-        setReply(reply);
-    }
-    const changeReReply = (reReply: string) => {
-        setReReply(reReply);
-    }
-
-    const onLike = useCallback(async (id: number) => {
-        console.log(likeId);
+    const likeBoard = useCallback(async (id: number) => {
+        console.log(boardLikeId);
         try {
-            if (likeId === 0) {
+            if (boardLikeId === 0) {
                 let response = await axios({
                     method: 'POST',
-                    url: 'https://dev.villain.school/api/board/like/create',
+                    url: '/api/board/like/create',
                     // headers: {
                     //     Accept: 'application/json',
                     //     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -105,8 +97,8 @@ const Detail: React.FC = ({match}: any) => {
                 });
                 if (response.status === 200) {
                     console.log(response.data);
-                    setLikeCnt(response.data.count);
-                    setLikeId(response.data.id
+                    setBoardLikeCnt(response.data.count);
+                    setBoardLikeId(response.data.id
                     );
                 }
             } else {
@@ -118,20 +110,66 @@ const Detail: React.FC = ({match}: any) => {
                     //     Authorization: `Bearer ${localStorage.getItem('token')}`
                     // },
                     data: {
-                        id: likeId
+                        id: boardLikeId
                     }
                 });
                 if (response.status === 200) {
                     console.log('좋아요 취소');
-                    setLikeCnt(response.data.count);
-                    setLikeId(0);
+                    setBoardLikeCnt(response.data.count);
+                    setBoardLikeId(0);
                 }
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, [boardLikeId]);
+    const moreBoard=()=>{
+
+    }
+    const deleteBoard=()=>{
+
+    }
+    const editBoard=()=>{
+
+    }
+
+    const changeReply = (reply: string) => {
+        setReply(reply);
+    }
+    const changeReReply = (reReply: string) => {
+        setReReply(reReply);
+    }
+
+    const likeReply=()=>{
+
+    }
+    const deleteReply=()=>{
+
+    }
+    const saveReply = async(parentId:number, contents:string) => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/comment/create',
+                data: {
+                    board_id: match.params.id,
+                    parent_id: parentId,
+                    contents: contents,
+                }
+            });
+            console.log(response);
+            if (response.status === 200) {
             }
         } catch (err) {
             console.log(err);
         }
-    }, [likeId]);
+    }
+    const moreReply = () => {
 
+    }
+    const moreReReply = () => {
+
+    }
     // const onMore = useCallback((replyIndex: number, reReplyIndex?: number) => {
     //     let data: any;
     //     data = produce(openMore, draft => {
@@ -145,36 +183,7 @@ const Detail: React.FC = ({match}: any) => {
     //     setOpenMore(data);
     // }, [openMore]);
 
-    const onDelete = () => {
-        console.log('delete');
-    }
 
-    const onSaveReply = () => {
-        // try {
-        //     let response = await axios({
-        //         method: 'POST',
-        //         url: 'https://dev.villain.school/api/comment/create',
-        //         headers: {
-        //             Accept: 'application/json'
-        //         },
-        //         data: {
-        //             board_id: match.params.id,
-        //             parent_id: 10,
-        //             contents: 1,
-        //         }
-        //     });
-        //     if (response.status === 200) {
-        //     }
-        // } catch (err) {
-        //     console.log(err);
-        // }
-    }
-    const moreReply = () => {
-
-    }
-    const moreReReply = () => {
-
-    }
 
     return (
         <>
@@ -183,13 +192,15 @@ const Detail: React.FC = ({match}: any) => {
                  keywords="스쿨빌런 게시물 상세 페이지"
             />
             <DetailSection>
-                <Board board={board} onLike={onLike} likeId={likeId} likeCnt={likeCnt}/>
-                <Reply replyList={replyList}
-                       onLike={onLike} onDelete={onDelete}
+                <Board board={board}
+                       likeBoard={likeBoard} boardLikeId={boardLikeId} boardLikeCnt={boardLikeCnt}
+                       deleteBoard={deleteBoard} editBoard={editBoard} moreBoard={moreBoard}/>
 
-                       reply={reply} changeReply={changeReply} onSaveReply={onSaveReply}
+                <Reply replyList={replyList}
+                       likeReply={likeReply} deleteReply={deleteReply}
+                       reply={reply} changeReply={changeReply} saveReply={saveReply}
                        reReply={reReply} changeReReply={changeReReply}
-                       moreReply={moreReply} moreReReply={moreReReply()}
+                       moreReply={moreReply} moreReReply={moreReReply}
                 />
             </DetailSection>
         </>

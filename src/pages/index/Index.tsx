@@ -41,7 +41,7 @@ const Index: React.FC = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: 'https://dev.villain.school/api/board/list',
+                url: '/api/board/list',
                 params: {
                     per_page: 10,
                     page: 1
@@ -64,14 +64,14 @@ const Index: React.FC = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'https://dev.villain.school/api/user/me'
+                url: '/api/user/me'
             });
             if (response.status === 200) {
                 console.log(response);
                 setUser(response.data);
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 

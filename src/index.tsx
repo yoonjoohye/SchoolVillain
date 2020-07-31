@@ -16,9 +16,5 @@ console.log(
     'color:#9067ff; font-size:15px;'
 )
 
-axios.defaults.withCredentials=true;
-axios.defaults.headers.common['Accept'] = 'application/json';
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
 ReactDOM.render(<App/>, document.getElementById('app'));
 

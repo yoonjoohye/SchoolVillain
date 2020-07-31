@@ -93,12 +93,12 @@ const MoreReply = styled.div`
 
 interface propsType {
     replyList: any;
-    onLike: any;
-    onDelete: any;
+    likeReply: any;
+    deleteReply: any;
 
     reply: string;
     changeReply: any;
-    onSaveReply:any;
+    saveReply:any;
 
     reReply: string;
     changeReReply: any;
@@ -107,7 +107,7 @@ interface propsType {
     moreReReply: any;
 }
 
-const Reply: React.FC<propsType> = ({replyList, onLike, onDelete, reply, changeReply,onSaveReply, reReply, changeReReply, moreReply, moreReReply}) => {
+const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, reply, changeReply,saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
 
     const replyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.target.style.height = 'auto';
@@ -129,7 +129,7 @@ const Reply: React.FC<propsType> = ({replyList, onLike, onDelete, reply, changeR
                 <ReplyForm>
                     <ReplyInput value={reply} onChange={replyChange}
                                 placeholder="댓글을 입력해주세요."/>
-                    <ReplyBtn onClick={()=>onSaveReply}>등록</ReplyBtn>
+                    <ReplyBtn onClick={()=> saveReply(null, reply)}>등록</ReplyBtn>
                 </ReplyForm>
             </ReplyFormBox>
 
@@ -140,8 +140,8 @@ const Reply: React.FC<propsType> = ({replyList, onLike, onDelete, reply, changeR
                             <ReplyName>{reply.user.name || '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.created_at}</span></ReplyName>
                             <ReplyContent>{reply.contents}</ReplyContent>
                             <ReplyBox>
-                                <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => onLike}>좋아요</span>
-                                <span css={css`cursor:pointer;`} onClick={() => onDelete()}>삭제하기</span>
+                                <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => likeReply}>좋아요</span>
+                                <span css={css`cursor:pointer;`} onClick={() => deleteReply()}>삭제하기</span>
                                 {/*<span css={css`cursor:pointer;`} onClick={() => onMore(replyIndex)}>더보기</span>*/}
                                 {/*{*/}
                                 {/*    openMore.length > 0 ?*/}
@@ -164,8 +164,8 @@ const Reply: React.FC<propsType> = ({replyList, onLike, onDelete, reply, changeR
                                                         <ReplyName>{reReply.user.name || '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reReply.created_at}</span></ReplyName>
                                                         <ReplyContent>{reReply.contents}</ReplyContent>
                                                         <ReplyBox>
-                                                            <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => onLike}>좋아요</span>
-                                                            <span css={css`cursor:pointer;`} onClick={() => onDelete}>삭제하기</span>
+                                                            <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => likeReply}>좋아요</span>
+                                                            <span css={css`cursor:pointer;`} onClick={() => deleteReply}>삭제하기</span>
 
                                                             {/*<span css={css`cursor:pointer;`}*/}
                                                             {/*      onClick={() => onMore(replyIndex, reReplyIndex)}>더보기</span>*/}
@@ -192,7 +192,7 @@ const Reply: React.FC<propsType> = ({replyList, onLike, onDelete, reply, changeR
                                             <ReplyForm>
                                                 <ReplyInput value={reReply} onChange={reReplyChange}
                                                             placeholder="댓글을 입력해주세요."/>
-                                                <ReplyBtn>등록</ReplyBtn>
+                                                <ReplyBtn onClick={()=>saveReply(reReply.parent_id,reReply)}>등록</ReplyBtn>
                                             </ReplyForm>
                                         </ReReplyBox>
                                     </ReReplyContainer>

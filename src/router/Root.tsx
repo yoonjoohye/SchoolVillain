@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Index from "../pages/index/Index";
 import Login from "../pages/auth/Login";
 import Join from "../pages/auth/Join";
@@ -15,10 +15,17 @@ const Root: React.FC = () => {
             <Header/>
             <Switch>
                 <Route exact path="/" component={Index}/>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/join/:id" component={Join}/>
+                <Route exact path="/login" render={props => (
+                    sessionStorage.getItem('logged')? <Redirect to="/"/>:<Login {...props} />
+                )}/>
+                <Route exact path="/join/:id"  render={props => (
+                    sessionStorage.getItem('logged')? <Redirect to="/"/>:<Join {...props} />
+                )}/>
+                <Route exact path="/mypage" render={props => (
+                    sessionStorage.getItem('logged')? <Mypage {...props} />:<Redirect to="/login"/>
+                )}/>
                 <Route exact path="/write" component={Write}/>
-                <Route exact path="/mypage" component={Mypage}/>
+
                 <Route exact path="/detail/:id" component={Detail}/>
                 <Route path="" component={NotFound}/>
             </Switch>

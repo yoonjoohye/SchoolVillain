@@ -27,17 +27,29 @@ const Tag = styled.span`
 
 interface propsType {
     board: any;
-    onLike: any;
-    likeId: number;
-    likeCnt: number;
+    likeBoard: any;
+    boardLikeId: number;
+    boardLikeCnt: number;
+    editBoard:any;
+    deleteBoard:any;
+    moreBoard:any;
 }
 
-const Board: React.FC<propsType> = ({board, onLike, likeId, likeCnt}) => {
+const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, boardLikeCnt,moreBoard, editBoard, deleteBoard}) => {
     return (
         <BoardContainer>
             <BoardBox justifyContent="space-between" css={css`margin-bottom:0.5em`}>
                 <div>{board.title}</div>
-                <div>. . .</div>
+                <div onClick={moreBoard}>. . .</div>
+                <div css={css`border-radius:50%; border-top-right-radius: 0;     
+                        padding: 1em;
+                        background-color: antiquewhite;
+                        position: absolute;
+                        top: 8em;
+                        right: 15%;`}>
+                    <div onClick={deleteBoard}>삭제하기</div>
+                    <div onClick={editBoard}>수정하기</div>
+                </div>
             </BoardBox>
             <div css={css`margin-bottom:1em`}>
                 <span>익명 . {board.create_time_ago} . <IconSm
@@ -67,10 +79,10 @@ const Board: React.FC<propsType> = ({board, onLike, likeId, likeCnt}) => {
                 }
             </BoardBox>
             <div css={css`margin-bottom:1em;`}>
-                <span css={css`margin-right:0.5em;`} onClick={() => onLike(board.id)}>
+                <span css={css`margin-right:0.5em;`} onClick={() => likeBoard(board.id)}>
                     <IconSm src="../../../assets/img/icon/like.svg"/>
-                    <span css={likeId>0 ? css`color:red;` : css`color:${Color.gray200}`}>
-                        {likeCnt}
+                    <span css={boardLikeId>0 ? css`color:red;` : css`color:${Color.gray200}`}>
+                        {boardLikeCnt}
                     </span>
                 </span>
                 <span><IconSm src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>

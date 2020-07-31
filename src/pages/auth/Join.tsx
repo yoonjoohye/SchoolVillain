@@ -130,21 +130,18 @@ const Join: React.FC = ({match, history}: any) => {
         try {
             let csrf = await axios({
                 method: 'GET',
-                url: 'https://dev.villain.school/sanctum/csrf-cookie'
+                url: '/sanctum/csrf-cookie'
             });
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: 'https://dev.villain.school/api/user/register',
+                    url: '/api/user/register',
                     data: {
                         email: email,
                         password: passwordConfirm
                     }
                 });
                 if (response.status === 200) {
-                    // let token = response.data.token;
-                    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                    // localStorage.setItem('token', token.split('|')[1]);
                     sessionStorage.setItem('logged', true);
                     window.location.href = '/';
                 }
