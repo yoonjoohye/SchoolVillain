@@ -95,7 +95,7 @@ const Login = ({history}: any) => {
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: '/api/user/login',
+                    url: '/login',
                     data: {
                         email: email,
                         password: password

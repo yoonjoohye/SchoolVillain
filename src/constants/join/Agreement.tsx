@@ -18,7 +18,7 @@ const AgreementContainer = styled.section`
 `
 const AgreementLabel = styled.label`
   cursor: pointer;
-  ${FlexBox('space-between', 'center')};
+  ${FlexBox('','space-between', 'center')};
 `
 const CheckBox = styled.input`
   display: none;
@@ -50,7 +50,7 @@ const AgreementTitle = styled.div`
 
 `
 const AgreementContent = styled.div`
-  ${FlexBox('space-between')};
+  ${FlexBox('','space-between')};
   ${MarkdownBase(Color.gray200)};
   margin-bottom:10px;
 `

@@ -2,9 +2,10 @@ import styled from "@emotion/styled";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import produce from "immer";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import axios from "axios";
 
 const ModalSection = styled.section`
   position: fixed;
@@ -93,16 +94,34 @@ const FakeFileInput = styled.label`
   ${MarkdownBase(Color.purple200)};
   cursor:pointer;
 `
-const PreviewImg=styled.img`
-  clip: rect( 20px, 220px, 220px, 20px );
+const PreviewImg = styled.div`
+  width:100%;
+  height:150px;
+  display:flex;
+  position:relative;
+  top:0;
 `
-const Modal = ({isOpen}: any) => {
+const PreviewButton = styled.button`
+  
+`
+const Preview = styled.div`
+  display:grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  grid-gap:0.3em; 
+  text-align:right;
+  
+`
+const ModalWrite = ({isOpen}: any) => {
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
-    const inputImg = useRef(null);
-    const [previewUrl, setPreviewUrl] = useState([]);
     const [tagList, setTagList] = useState([]);
+    const [imgList, setImgList] = useState([]);
+    const [previewList, setPreviewList] = useState([]);
+
+    useEffect(() => {
+        console.log(imgList);
+    }, [imgList]);
 
     const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -132,35 +151,75 @@ const Modal = ({isOpen}: any) => {
             }
         }
     }
-    const onTagDelete = (idx: number) => {
+    const onTagDelete = (index: number) => {
         setTagList(produce(draft => {
-            draft.splice(idx, 1);
+            draft.splice(index, 1);
         }));
     }
 
+
     const loadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.files);
+        const {files}=e.target;
 
-        console.log(inputImg.current.files);
+        setImgList(produce(draft => {
+            Array.from(files).map((file: File, index: number) => {
+                draft.push(file);//5
+            });
+        }))
 
-        Array.from(e.target.files).map(file => {
-            let reader = new FileReader();
+        if (imgList.length <= 6) {
+            Array.from(files).map((file: File, index: number) => {
+                let reader = new FileReader();
+                reader.onloadend = () => {
+                    setPreviewList(produce(draft => {
+                        draft.push(reader.result);
+                    }));
+                }
+                reader.readAsDataURL(file);
+            });
+        } else {
+            alert('최대 6개까지 첨부할 수 있습니다.');
+        }
+    }
+    const deleteImg = (index: number) => {
+        setImgList(produce(draft => {
+            draft.splice(index, 1);
+        }));
+        setPreviewList(produce(draft => {
+            draft.splice(index, 1);
+        }));
+    }
 
-            reader.onloadend = () => {
-                console.log(reader);
+    const goWrite = async () => {
+        try {
+            let formData = new FormData();
 
-                setPreviewUrl(produce(draft => {
-                    draft.push(reader.result);
-                }));
+            formData.append('title', title);
+            formData.append('contents', contents);
+            imgList.map((img:File,index:number)=>{
+                formData.append('images[]', imgList[index]);
+            });
+            tagList.map((tag:string,index:number)=> {
+                formData.append('hashTags[]', tagList[index]);
+            });
+
+            let response = await axios({
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                url: '/api/board/create',
+                data: formData
+            });
+            if (response.status === 204) {
+                console.log(response);
+                window.location.href = '/';
             }
-
-            console.log(file);
-            reader.readAsDataURL(file);
-        });
+        } catch (err) {
+            console.error(err.response);
+        }
     }
-    const goWrite = () => {
 
-    }
 
     return (
         <ModalSection>
@@ -180,17 +239,26 @@ const Modal = ({isOpen}: any) => {
                     </div>
                     <div css={css`padding:1em;`}>
                         <div>
-                            <FileInput type="file" id="img" ref={inputImg} onChange={loadImg} multiple/>
+                            <FileInput type="file" id="img" onChange={loadImg} accept='image/*' multiple/>
                             <FakeFileInput htmlFor="img">이미지 업로드</FakeFileInput>
                         </div>
+                        <Preview>
+                            {
+                                previewList.map((preview: any, index: number) => {
+                                    return (
+                                        <figure key={index}>
+                                            <PreviewButton onClick={() => deleteImg(index)}>X</PreviewButton>
+                                            <PreviewImg>
+                                                <img
+                                                    css={css`width:100%; position: absolute; clip: rect(0px 152px 152px 0px);`}
+                                                    src={preview}/>
+                                            </PreviewImg>
+                                        </figure>
 
-                        {
-                            previewUrl.map((preview, index) => {
-                                return (
-                                    <PreviewImg key={index} src={preview}/>
-                                )
-                            })
-                        }
+                                    )
+                                })
+                            }
+                        </Preview>
                     </div>
                 </ModalBody>
                 <ModalFooter>
@@ -216,4 +284,4 @@ const Modal = ({isOpen}: any) => {
         </ModalSection>
     )
 }
-export default Modal;
+export default ModalWrite;

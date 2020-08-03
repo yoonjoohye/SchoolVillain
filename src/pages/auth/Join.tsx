@@ -135,7 +135,7 @@ const Join: React.FC = ({match, history}: any) => {
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: '/api/user/register',
+                    url: '/register',
                     data: {
                         email: email,
                         password: passwordConfirm

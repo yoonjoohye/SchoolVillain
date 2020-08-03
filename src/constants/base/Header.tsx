@@ -5,7 +5,6 @@ import {MarkdownMd} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
-import Nav from "./Nav";
 import {useCallback, useState} from "react";
 
 const HeaderSection = styled.header`
@@ -18,7 +17,7 @@ const HeaderSection = styled.header`
 
 `;
 const HeaderContainer = styled.section`
-  ${FlexBox('space-between', 'center')};
+  ${FlexBox('','space-between', 'center')};
   padding:0 15%;
   height:4em;
   ${media.sm`padding:0 5%`}
@@ -35,8 +34,9 @@ const Header = () => {
     let [isNav,setIsNav]=useState(false);
 
     const onNav=useCallback(()=>{
-        setIsNav(isNav);
+        setIsNav(!isNav);
     },[isNav]);
+
     return (
         <HeaderSection>
             <HeaderContainer>
@@ -50,8 +50,7 @@ const Header = () => {
                 {
                     sessionStorage.getItem('logged')?
                         <>
-                            <div onClick={onNav}>프로필</div>
-                            <Nav isNav={isNav}></Nav>
+                            <Link to="/mypage">마이페이지</Link>
                         </>
                         :
                         <>

@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {memo, useState} from "react";
 import styled from "@emotion/styled";
-import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
@@ -16,7 +16,7 @@ const ReplyName = styled.div`
     margin-bottom:0.5em;
 `
 const ReplyContainer = styled.div`
-  padding:1em 0;
+  margin-top:1em;
 `
 const ReplyContent = styled.p`
   display:inline-block;
@@ -24,26 +24,25 @@ const ReplyContent = styled.p`
   background-color:#eeeeee;
   padding: 0.8em 1em;
   border-radius:15px;
-  margin-bottom:1em;
+  margin-bottom:0.5em;
 `
 const ReplyBox = styled.div`
   ${MarkdownSm(Color.gray200)};
 `
 const ReReplyContainer = styled.div`
   padding-left:10%;
-  margin-top:10px;
 `
 const ReReplyBox = styled.div`
-  margin-top:10px;
+  margin-top:0.8em;
 `
 const ReplyForm = styled.div`
-  ${FlexBox('space-between', 'center')};
+  ${FlexBox('', 'space-between', 'center')};
     background-color:#eeeeee;
     border-radius: 15px;
     padding: 0.8em 1em;
 `
 const ReplyBtn = styled.button`
-  ${MarkdownSm(Color.purple200)};
+  ${MarkdownBase(Color.purple200)};
   min-width: fit-content;
 `
 const MoreReply = styled.div`
@@ -96,9 +95,13 @@ interface propsType {
     likeReply: any;
     deleteReply: any;
 
+    openReReply: any;
+    openReply: number[];
+
+    user_id: number;
     reply: string;
     changeReply: any;
-    saveReply:any;
+    saveReply: any;
 
     reReply: string;
     changeReReply: any;
@@ -107,7 +110,7 @@ interface propsType {
     moreReReply: any;
 }
 
-const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, reply, changeReply,saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
+const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, openReReply, openReply, reply, changeReply, saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
 
     const replyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.target.style.height = 'auto';
@@ -129,78 +132,85 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, reply, c
                 <ReplyForm>
                     <ReplyInput value={reply} onChange={replyChange}
                                 placeholder="댓글을 입력해주세요."/>
-                    <ReplyBtn onClick={()=> saveReply(null, reply)}>등록</ReplyBtn>
+                    <ReplyBtn onClick={() => saveReply(null, reply)}>등록</ReplyBtn>
                 </ReplyForm>
             </ReplyFormBox>
 
             {
-                replyList.map((reply: any, replyIndex: number) => {
-                    return (
-                        <ReplyContainer key={replyIndex}>
-                            <ReplyName>{reply.user.name || '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.created_at}</span></ReplyName>
-                            <ReplyContent>{reply.contents}</ReplyContent>
-                            <ReplyBox>
-                                <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => likeReply}>좋아요</span>
-                                <span css={css`cursor:pointer;`} onClick={() => deleteReply()}>삭제하기</span>
-                                {/*<span css={css`cursor:pointer;`} onClick={() => onMore(replyIndex)}>더보기</span>*/}
-                                {/*{*/}
-                                {/*    openMore.length > 0 ?*/}
-                                {/*        openMore[replyIndex].reply ?*/}
-                                {/*            <SpeechBubble>*/}
-                                {/*                <SpeechBubbleContent css={css`cursor:pointer;`}*/}
-                                {/*                                     onClick={() => onDelete()}>삭제하기</SpeechBubbleContent>*/}
-                                {/*            </SpeechBubble> : null*/}
-                                {/*        : null*/}
-                                {/*}*/}
-                            </ReplyBox>
+                replyList.length>0 ?
+                    replyList.map((reply: any, replyIndex: number) => {
+                        return (
+                            <ReplyContainer key={replyIndex}>
+                                <ReplyName>{reply.user.name || '익명'} <span
+                                    css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span></ReplyName>
+                                <ReplyContent>{reply.contents}</ReplyContent>
+                                <ReplyBox>
+                                <span css={css`cursor:pointer; margin-right:0.5em;`}
+                                      onClick={() => likeReply}>좋아요</span>
+                                    <span css={css`cursor:pointer; margin-right:0.5em;`}
+                                          onClick={() => openReReply(replyIndex)}>답글달기</span>
+                                    {
+                                        reply.is_mine ?
+                                            <span css={css`cursor:pointer;`}
+                                                  onClick={() => deleteReply(reply.id)}>삭제하기</span> : null
+                                    }
+                                </ReplyBox>
 
-                            {
-                                reply.children.length > 0 ?
-                                    <ReReplyContainer>
-                                        {
-                                            reply.children.map((reReply: any, reReplyIndex: number) => {
-                                                return (
-                                                    <ReReplyBox key={reReplyIndex}>
-                                                        <ReplyName>{reReply.user.name || '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reReply.created_at}</span></ReplyName>
-                                                        <ReplyContent>{reReply.contents}</ReplyContent>
-                                                        <ReplyBox>
-                                                            <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => likeReply}>좋아요</span>
-                                                            <span css={css`cursor:pointer;`} onClick={() => deleteReply}>삭제하기</span>
+                                {
+                                    reply.children.length > 0 ?
+                                        <ReReplyContainer>
+                                            {
+                                                reply.children.map((reReply: any, reReplyIndex: number) => {
+                                                    return (
+                                                        <ReReplyBox key={reReplyIndex}>
+                                                            <ReplyName>{reReply.user.name || '익명'} <span
+                                                                css={css`${MarkdownSm(Color.gray200)}`}>{reReply.created_at}</span></ReplyName>
+                                                            <ReplyContent>{reReply.contents}</ReplyContent>
+                                                            <ReplyBox>
+                                                            <span css={css`cursor:pointer; margin-right:0.5em;`}
+                                                                  onClick={() => likeReply}>좋아요</span>
+                                                                <span css={css`cursor:pointer; margin-right:0.5em;`}
+                                                                      onClick={() => openReReply(replyIndex)}>답글달기</span>
+                                                                {
+                                                                    reReply.is_mine ?
+                                                                        <span css={css`cursor:pointer;`}
+                                                                              onClick={() => deleteReply}>삭제하기</span> : null
+                                                                }
+                                                            </ReplyBox>
+                                                        </ReReplyBox>
+                                                    )
+                                                })
+                                            }
+                                            {
+                                                reply.children.length > 5 ?
+                                                    <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply}>댓글
+                                                        더보기...</MoreReply> : null
+                                            }
+                                        </ReReplyContainer>
+                                        : null
+                                }
+                                {
+                                    openReply.includes(replyIndex) ?
+                                        <ReReplyContainer>
+                                            <ReReplyBox>
+                                                <ReplyForm>
+                                                    <ReplyInput value={reReply} onChange={reReplyChange}
+                                                                placeholder="댓글을 입력해주세요."/>
+                                                    <ReplyBtn
+                                                        onClick={() => saveReply(reply.parent_id, reReply)}>등록</ReplyBtn>
+                                                </ReplyForm>
+                                            </ReReplyBox>
+                                        </ReReplyContainer> : null
 
-                                                            {/*<span css={css`cursor:pointer;`}*/}
-                                                            {/*      onClick={() => onMore(replyIndex, reReplyIndex)}>더보기</span>*/}
-                                                            {/*{*/}
-                                                            {/*    openMore.length > 0 ?*/}
-                                                            {/*        openMore[replyIndex].reReply[reReplyIndex] ?*/}
-                                                            {/*            <SpeechBubble>*/}
-                                                            {/*                <SpeechBubbleContent*/}
-                                                            {/*                    onClick={() => onDelete()}>삭제하기</SpeechBubbleContent>*/}
-                                                            {/*            </SpeechBubble> : null*/}
-                                                            {/*        : null*/}
-                                                            {/*}*/}
-                                                        </ReplyBox>
-                                                    </ReReplyBox>
-                                                )
-                                            })
-                                        }
-                                        {
-                                            reply.children.length > 5 ?
-                                                <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply}>댓글
-                                                    더보기...</MoreReply> : null
-                                        }
-                                        <ReReplyBox>
-                                            <ReplyForm>
-                                                <ReplyInput value={reReply} onChange={reReplyChange}
-                                                            placeholder="댓글을 입력해주세요."/>
-                                                <ReplyBtn onClick={()=>saveReply(reReply.parent_id,reReply)}>등록</ReplyBtn>
-                                            </ReplyForm>
-                                        </ReReplyBox>
-                                    </ReReplyContainer>
-                                    : null
-                            }
-                        </ReplyContainer>
-                    )
-                })
+                                }
+                            </ReplyContainer>
+                        )
+                    })
+                    :
+                    <div css={css` ${FlexBox('column','center','center')}; width:100%; height:500px;`}>
+                        <p>존재하는 댓글이 없어요.</p>
+                        <p>댓글을 남겨 첫번째 빌런이 되세요.</p>
+                    </div>
             }
             {
                 replyList.length > 5 ?
@@ -212,4 +222,4 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, reply, c
     )
 }
 
-export default Reply;
+export default memo(Reply);

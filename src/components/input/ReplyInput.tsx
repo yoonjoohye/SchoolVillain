@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import styled from "@emotion/styled";
-import {MarkdownSm} from "../../../assets/style/Markdown.style";
 
 const Input = styled.textarea`
-    ${MarkdownSm()};
     width:100%;
     background-color:transparent;
     border:0;

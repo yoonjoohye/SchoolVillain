@@ -1,59 +1,102 @@
-//액션 타입
-const LIKE_REQUEST = 'board/LIKE_REQUEST' as const;
-const LIKE_SUCCESS = 'board/LIKE_SUCCESS' as const;
-const LIKE_FAILURE = 'board/LIKE_FAILURE' as const;
+//액션 타입글
+//게시판
+const BOARD_LIKE_REQUEST = 'board/BOARD_LIKE_REQUEST' as const;
+const BOARD_LIKE_SUCCESS = 'board/BOARD_LIKE_SUCCESS' as const;
+const BOARD_LIKE_FAILURE = 'board/BOARD_LIKE_FAILURE' as const;
 
-const SAVE_REQUEST = 'board/SAVE_REQUEST' as const;
-const SAVE_SUCCESS = 'board/SAVE_SUCCESS' as const;
-const SAVE_FAILURE = 'board/SAVE_FAILURE' as const;
+const BOARD_SAVE_REQUEST = 'board/BOARD_SAVE_REQUEST' as const;
+const BOARD_SAVE_SUCCESS = 'board/BOARD_SAVE_SUCCESS' as const;
+const BOARD_SAVE_FAILURE = 'board/BOARD_SAVE_FAILURE' as const;
 
-const EDIT_REQUEST = 'board/EDIT_REQUEST' as const;
-const EDIT_SUCCESS = 'board/EDIT_SUCCESS' as const;
-const EDIT_FAILURE = 'board/EDIT_FAILURE' as const;
+const BOARD_EDIT_REQUEST = 'board/BOARD_EDIT_REQUEST' as const;
+const BOARD_EDIT_SUCCESS = 'board/BOARD_EDIT_SUCCESS' as const;
+const BOARD_EDIT_FAILURE = 'board/BOARD_EDIT_FAILURE' as const;
 
-const DELETE_REQUEST = 'board/DELETE_REQUEST' as const;
-const DELETE_SUCCESS = 'board/DELETE_SUCCESS' as const;
-const DELETE_FAILURE = 'board/DELETE_FAILURE' as const;
+const BOARD_DELETE_REQUEST = 'board/BOARD_DELETE_REQUEST' as const;
+const BOARD_DELETE_SUCCESS = 'board/BOARD_DELETE_SUCCESS' as const;
+const BOARD_DELETE_FAILURE = 'board/BOARD_DELETE_FAILURE' as const;
+
+//댓
+const REPLY_LIKE_REQUEST='board/REPLY_LIKE_REQUEST' as const;
+const REPLY_LIKE_FAILURE='board/REPLY_LIKE_FAILURE' as const;
+const REPLY_LIKE_SUCCESS='board/REPLY_LIKE_SUCCESS' as const;
+
+const REPLY_SAVE_REQUEST='board/REPLY_SAVE_REQUEST' as const;
+const REPLY_SAVE_FAILURE='board/REPLY_SAVE_FAILURE' as const;
+const REPLY_SAVE_SUCCESS='board/REPLY_SAVE_SUCCESS' as const;
+
+const REPLY_DELETE_REQUEST='board/REPLY_DELETE_REQUEST' as const;
+const REPLY_DELETE_FAILURE='board/REPLY_DELETE_FAILURE' as const;
+const REPLY_DELETE_SUCCESS='board/REPLY_DELETE_SUCCESS' as const;
 
 //액션 생성 함수
-export const likeRequest = () => ({
-    type: LIKE_REQUEST
+export const boardLikeRequest = () => ({
+    type: BOARD_LIKE_REQUEST
 });
-export const likeSuccess = () => ({
-    type: LIKE_SUCCESS
+export const boardLikeSuccess = () => ({
+    type: BOARD_LIKE_SUCCESS
 });
-export const likeFailure = () => ({
-    type: LIKE_FAILURE
-});
-
-export const saveRequest = () => ({
-    type: SAVE_REQUEST
-});
-export const saveSuccess = () => ({
-    type: SAVE_SUCCESS
-});
-export const saveFailure = () => ({
-    type: SAVE_FAILURE
+export const boardLikeFailure = () => ({
+    type: BOARD_LIKE_FAILURE
 });
 
-export const editRequest = () => ({
-    type: EDIT_REQUEST
+export const boardSaveRequest = () => ({
+    type: BOARD_SAVE_REQUEST
 });
-export const editSuccess = () => ({
-    type: EDIT_SUCCESS
+export const boardSaveSuccess = () => ({
+    type: BOARD_SAVE_SUCCESS
 });
-export const editFailure = () => ({
-    type: EDIT_FAILURE
+export const boardSaveFailure = () => ({
+    type: BOARD_SAVE_FAILURE
 });
 
-export const deleteRequest = () => ({
-    type: DELETE_REQUEST
+export const boardEditRequest = () => ({
+    type: BOARD_EDIT_REQUEST
 });
-export const deleteSuccess = () => ({
-    type: DELETE_SUCCESS
+export const boardEditSuccess = () => ({
+    type: BOARD_EDIT_SUCCESS
 });
-export const deleteFailure = () => ({
-    type: DELETE_FAILURE
+export const boardEditFailure = () => ({
+    type: BOARD_EDIT_FAILURE
+});
+
+export const boardDeleteRequest = () => ({
+    type: BOARD_DELETE_REQUEST
+});
+export const boardDeleteSuccess = () => ({
+    type: BOARD_DELETE_SUCCESS
+});
+export const boardDeleteFailure = () => ({
+    type: BOARD_DELETE_FAILURE
+});
+
+
+export const replyLikeRequest=()=>({
+    type:REPLY_LIKE_REQUEST
+});
+export const replyLikeFailure=()=>({
+    type:REPLY_LIKE_FAILURE
+});
+export const replyLikeSuccess=()=>({
+    type:REPLY_LIKE_SUCCESS
+});
+export const replySaveRequest=()=>({
+    type:REPLY_SAVE_REQUEST
+});
+export const replySaveFailure=()=>({
+    type:REPLY_SAVE_FAILURE
+});
+export const replySaveSuccess=()=>({
+    type:REPLY_SAVE_SUCCESS
+});
+export const replyDeleteRequest=()=>({
+    type:REPLY_DELETE_REQUEST
+});
+export const replyDeleteFailure=()=>({
+    type:REPLY_DELETE_FAILURE
+});
+export const replyDeleteSuccess=()=>({
+    type:REPLY_DELETE_SUCCESS
 });
 
 interface stateType{
@@ -63,7 +106,9 @@ interface stateType{
         edit:boolean,
         delete:boolean
     },
-    board:any
+    board:any,
+    reply:any;
+    likeId:number
 }
 
 const initialState:stateType = {
@@ -73,13 +118,15 @@ const initialState:stateType = {
         edit: false,
         delete: false
     },
-    board: []
+    board: [],
+    reply:[],
+    likeId:0
 }
 
 
 const handleBoard=(state=initialState, action:any)=>{
     switch(action.type){
-        case LIKE_REQUEST:
+        case BOARD_LIKE_REQUEST:
             return {
                 ...state,
                 loading: {
@@ -88,42 +135,185 @@ const handleBoard=(state=initialState, action:any)=>{
                 }
             }
 
-        case LIKE_SUCCESS:
+        case BOARD_LIKE_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    like: false
+                }
+            }
+
+        case BOARD_LIKE_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    like: false
+                }
+            }
 
 
-        case LIKE_FAILURE:
+        case BOARD_SAVE_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    save: true
+                }
+            }
+
+        case BOARD_SAVE_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    save: false
+                }
+            }
+
+        case BOARD_SAVE_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    save: false
+                }
+            }
 
 
+        case BOARD_EDIT_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    edit: true
+                }
+            }
 
-        case SAVE_REQUEST:
+        case BOARD_EDIT_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    edit: false
+                }
+            }
 
+        case BOARD_EDIT_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    edit: false
+                }
+            }
 
-        case SAVE_SUCCESS:
+        case BOARD_DELETE_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: true
+                }
+            }
 
+        case BOARD_DELETE_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
 
-        case SAVE_FAILURE:
+        case BOARD_DELETE_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
 
+        case REPLY_LIKE_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: true
+                }
+            }
 
+        case REPLY_LIKE_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
 
-        case EDIT_REQUEST:
+        case REPLY_LIKE_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
+        case REPLY_SAVE_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: true
+                }
+            }
 
+        case REPLY_SAVE_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
 
-        case EDIT_SUCCESS:
+        case REPLY_SAVE_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
+        case REPLY_DELETE_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: true
+                }
+            }
 
+        case REPLY_DELETE_SUCCESS:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
 
-        case EDIT_FAILURE:
-
-
-
-        case DELETE_REQUEST:
-
-
-        case DELETE_SUCCESS:
-
-
-        case DELETE_FAILURE:
-
-
+        case REPLY_DELETE_FAILURE:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    delete: false
+                }
+            }
     }
 }
 

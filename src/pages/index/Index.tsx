@@ -32,6 +32,7 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState(null);
     const [user, setUser] = useState(null);
+
     useEffect(() => {
         BoardAPI();
         UserAPI();
@@ -67,7 +68,7 @@ const Index: React.FC = ({history}: any) => {
                 url: '/api/user/me'
             });
             if (response.status === 200) {
-                console.log(response);
+                // console.log(response);
                 setUser(response.data);
             }
         } catch (err) {

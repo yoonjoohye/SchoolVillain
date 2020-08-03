@@ -4,7 +4,6 @@ import {jsx, css} from '@emotion/core';
 import styled from "@emotion/styled";
 import {Section} from "../../../assets/style/Layout.style";
 import Reply from "../../constants/board/Reply";
-import produce from 'immer';
 import axios from "axios";
 import Board from "../../constants/board/Board";
 
@@ -18,7 +17,7 @@ const Detail: React.FC = ({match}: any) => {
     const [replyList, setReplyList] = useState([]);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState('');
-    // const [openMore, setOpenMore] = useState([]);
+    const [openReply, setOpenReply]=useState([] as any);
 
     useEffect(() => {
         BoardAPI();
@@ -35,11 +34,11 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
             if (response.status === 200) {
-                console.log(response);
+                // console.log(response);
                 setBoard(response.data);
                 setBoardLikeCnt(response.data.board_like_count);
                 if (response.data.my_like_id) {
-                    setBaordLikeId(response.data.my_like_id.id);
+                    setBoardLikeId(response.data.my_like_id.id);
                 }
             }
         } catch (err) {
@@ -59,18 +58,8 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
             if (response.status === 200) {
-                console.log(response.data);
+                // console.log(response.data);
                 setReplyList(response.data.data);
-
-                // let data: any = [];
-                //
-                // response.data.data.map((reply: any, replyIndex: number) => {
-                //     data.push({reply: false, reReply: []});
-                //     reply.children.map((reReply: any, reReplyIndex: number) => {
-                //         data[replyIndex].reReply.push(false);
-                //     })
-                // })
-                // setOpenMore(data);
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -81,34 +70,24 @@ const Detail: React.FC = ({match}: any) => {
         }
     }
     const likeBoard = useCallback(async (id: number) => {
-        console.log(boardLikeId);
         try {
             if (boardLikeId === 0) {
                 let response = await axios({
                     method: 'POST',
                     url: '/api/board/like/create',
-                    // headers: {
-                    //     Accept: 'application/json',
-                    //     Authorization: `Bearer ${localStorage.getItem('token')}`
-                    // },
                     data: {
                         id: id
                     }
                 });
                 if (response.status === 200) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     setBoardLikeCnt(response.data.count);
-                    setBoardLikeId(response.data.id
-                    );
+                    setBoardLikeId(response.data.id);
                 }
             } else {
                 let response = await axios({
                     method: 'POST',
                     url: 'https://dev.villain.school/api/board/like/delete',
-                    // headers: {
-                    //     Accept: 'application/json',
-                    //     Authorization: `Bearer ${localStorage.getItem('token')}`
-                    // },
                     data: {
                         id: boardLikeId
                     }
@@ -120,14 +99,32 @@ const Detail: React.FC = ({match}: any) => {
                 }
             }
         } catch (err) {
-            console.error(err);
+            if(err.response.status===401){
+                alert('로그인이 필요합니다.');
+            }else {
+                console.error(err);
+            }
         }
     }, [boardLikeId]);
     const moreBoard=()=>{
 
     }
-    const deleteBoard=()=>{
-
+    const deleteBoard=async(id:number)=>{
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/board/delete',
+                params: {
+                    id: id
+                }
+            });
+            if (response.status === 204) {
+                // console.log(response);
+                window.location.href='/';
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
     const editBoard=()=>{
 
@@ -143,8 +140,30 @@ const Detail: React.FC = ({match}: any) => {
     const likeReply=()=>{
 
     }
-    const deleteReply=()=>{
 
+    const openReReply=useCallback((idx:number)=>{
+        if(openReply.includes(idx)) {
+            openReply.splice(openReply.indexOf(idx),1);
+            setOpenReply([...openReply]);
+        }else {
+            setOpenReply([idx, ...openReply]);
+        }
+    },[openReply]);
+    const deleteReply=async(id:number)=>{
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/comment/delete',
+                params: {
+                    id: id
+                }
+            });
+            if (response.status === 204) {
+                console.log(response);
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
     const saveReply = async(parentId:number, contents:string) => {
         try {
@@ -170,20 +189,6 @@ const Detail: React.FC = ({match}: any) => {
     const moreReReply = () => {
 
     }
-    // const onMore = useCallback((replyIndex: number, reReplyIndex?: number) => {
-    //     let data: any;
-    //     data = produce(openMore, draft => {
-    //         if (reReplyIndex === undefined) {
-    //             draft[replyIndex].reply = !draft[replyIndex].reply;
-    //         }
-    //         if (reReplyIndex !== undefined) {
-    //             draft[replyIndex].reReply[reReplyIndex] = !draft[replyIndex].reReply[reReplyIndex];
-    //         }
-    //     });
-    //     setOpenMore(data);
-    // }, [openMore]);
-
-
 
     return (
         <>
@@ -197,7 +202,8 @@ const Detail: React.FC = ({match}: any) => {
                        deleteBoard={deleteBoard} editBoard={editBoard} moreBoard={moreBoard}/>
 
                 <Reply replyList={replyList}
-                       likeReply={likeReply} deleteReply={deleteReply}
+                       likeReply={likeReply} openReReply={openReReply} deleteReply={deleteReply}
+                       openReply={openReply}
                        reply={reply} changeReply={changeReply} saveReply={saveReply}
                        reReply={reReply} changeReReply={changeReReply}
                        moreReply={moreReply} moreReReply={moreReReply}
