@@ -90,27 +90,19 @@ const Login = ({history}: any) => {
         try {
             let csrf = await axios({
                 method: 'GET',
-                url: 'https://dev.villain.school/sanctum/csrf-cookie'
+                url: '/sanctum/csrf-cookie'
             });
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: 'https://dev.villain.school/api/user/login',
+                    url: '/login',
                     data: {
                         email: email,
                         password: password
                     }
-                    // headers: {
-                    //     Accept: 'application/json',
-                    //     ContentType: 'application/json'
-                    // }
                 });
                 if (response.status === 200) {
-                    console.log(response);
-                    let token = response.data.token;
-                    // localStorage.setItem('token', token.split('|')[1]);
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${token.split('|')[1]}`;
-
+                    sessionStorage.setItem('logged', true);
                     window.location.href = '/';
                 }
             }
@@ -128,7 +120,6 @@ const Login = ({history}: any) => {
             }
         }
     }
-
 
     return (
         <>

@@ -1,28 +1,15 @@
+import React, {useRef, useState} from 'react';
+import SEO from "../SEO/SEO";
 import styled from "@emotion/styled";
-import {FlexBox} from "../../../assets/style/Layout.style";
+import {Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
-import React, {useRef, useState} from "react";
 import produce from "immer";
 import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 
-const ModalSection = styled.section`
-  position: fixed;
-  z-index:3;
-  background-color:rgba(255,255,255,0.13);
-  backdrop-filter: blur(4px);
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  ${FlexBox()};
-`
-const ModalBox = styled.div`
-  padding: 2em;
-  width: 50%;
-  height: 60%;
-  background-color:white;
-  box-shadow:0 10px 10px rgba(0,0,0,0.18);
+const CreateSection = styled.section`
+  ${Section};
+  margin-top:6em;
 `
 const Tag = styled.div`
     display:inline-block;
@@ -62,7 +49,7 @@ const Input = styled.input`
   outline:none;
 `
 
-const Modal = () => {
+const Write = () => {
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
@@ -129,49 +116,52 @@ const Modal = () => {
         });
     }
     return (
-        <ModalSection>
-            <ModalBox>
-                <section>
-                    <div css={css`overflow: auto; height: 365px;`}>
-                        <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
-                            <Input value={title} onChange={titleChange} placeholder="오늘 무슨일 있었냐?"/>
-                        </div>
-                        <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
-                            <TextArea rows={7} value={contents} onChange={contentsChange} placeholder="내용을 입력해주세요."></TextArea>
-                        </div>
-                        <div css={css`padding:1em 0;`}>
-                            <Input type="file" ref={inputImg} onChange={loadImg} multiple/>
-                            {
-                                previewUrl.map((url, index) => {
-                                    return (
-                                        <img css={css`width:30%;`} key={index} src={url}/>
-                                    )
-                                })
-                            }
-                        </div>
+        <>
+            <SEO title="작성페이지 | 스쿨빌런"
+                 description="스쿨빌런 게시물 작성 페이지입니다."
+                 keywords="스쿨빌런 게시물 작성 페이지"/>
+            <CreateSection>
+                <div>
+                    <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                        <Input value={title} onChange={titleChange} placeholder="오늘 무슨일 있었냐?"/>
                     </div>
-                    <div css={css``}>
-                        <div css={css`padding:1em 0; border:1px solid #eeeeee;`}>
-                            <Input type="text" value={tag} onChange={tagChange} placeholder="#해시태그를 입력해주세요."
-                                   onKeyPress={onEnter}/>
-                        </div>
-                        <div css={css`height:3em;`}>
-                            {
-                                tagList.map((item, index) => {
-                                    return (
-                                        <Tag key={index}>
-                                            <span css={css`margin-right:0.5em;`}># {item}</span>
-                                            <span onClick={() => onTagDelete(index)}>X</span>
-                                        </Tag>
-                                    )
-                                })
-                            }
-                        </div>
-                        <Button>등록</Button>
+                    <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                        <TextArea rows={7} value={contents} onChange={contentsChange} placeholder="내용을 입력해주세요."></TextArea>
                     </div>
-                </section>
-            </ModalBox>
-        </ModalSection>
+                    <div css={css`padding:1em 0;`}>
+                        <Input type="file" ref={inputImg} onChange={loadImg} multiple/>
+                        {
+                            previewUrl.map((url, index) => {
+                                return (
+                                    <img css={css`width:30%;`} key={index} src={url}/>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+                <div css={css``}>
+                    <div css={css`padding:1em 0; border:1px solid #eeeeee;`}>
+                        <Input type="text" value={tag} onChange={tagChange} placeholder="#해시태그를 입력해주세요."
+                               onKeyPress={onEnter}/>
+                    </div>
+                    <div css={css`height:3em;`}>
+                        {
+                            tagList.map((item, index) => {
+                                return (
+                                    <Tag key={index}>
+                                        <span css={css`margin-right:0.5em;`}># {item}</span>
+                                        <span onClick={() => onTagDelete(index)}>X</span>
+                                    </Tag>
+                                )
+                            })
+                        }
+                    </div>
+                    <Button>등록</Button>
+                </div>
+            </CreateSection>
+        </>
+
     )
 }
-export default Modal;
+
+export default Write;

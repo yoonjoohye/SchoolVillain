@@ -3,14 +3,14 @@ import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
-import Modal from "../modal/Modal";
+import ModalWrite from "./ModalWrite";
 
 const WriteSection = styled.section`
   width:100%;
   margin-top:6em;
 `
 const WriteContainer = styled.div`
-  ${FlexBox('flex-start','center')};
+  ${FlexBox('','flex-start','center')};
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.15);
   color:${Color.purple200};
   padding:2em;
@@ -29,6 +29,9 @@ const PreviewWrite = ({history}:any) => {
             location.href='/write';
         }
     }
+    const isOpen=(open:boolean)=>{
+        setOpenModal(open);
+    }
     return (
         <>
             <WriteSection>
@@ -41,7 +44,7 @@ const PreviewWrite = ({history}:any) => {
             </WriteSection>
             {
                 openModal?
-                <Modal/>:null
+                <ModalWrite isOpen={isOpen}/>:null
             }
         </>
     )

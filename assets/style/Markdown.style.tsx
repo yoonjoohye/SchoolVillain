@@ -7,29 +7,34 @@ export const MarkdownXl = (color: string = Color.black, weight: number = 400) =>
       font-size: 50px;
       font-weight: ${weight};
       color: ${color};
+      line-height:1.5;
       ${media.sm`font-size: 28px;`}
 `;
 export const MarkdownLg = (color: string = Color.black, weight: number = 400) => css`
-      font-size: 30px;
+      font-size: 24px;
       font-weight: ${weight};
       color: ${color};
-      ${media.sm`font-size: 24px;`}
+      line-height:1.5;
+      ${media.sm`font-size: 20px;`}
 `;
 export const MarkdownMd = (color: string = Color.black, weight: number = 400) => css`
       font-size: 20px;
       font-weight: ${weight};
       color: ${color};
+      line-height:1.5;
       ${media.sm`font-size: 18px;`}
 `;
 export const MarkdownBase = (color: string = Color.black, weight: number = 400) => css`
-      font-size: 18px;
+      font-size: 16px;
       font-weight: ${weight};
       color: ${color};
-      ${media.sm`font-size: 14px;`}
+      line-height:1.5;
+      ${media.sm`font-size: 15px;`}
 `;
 export const MarkdownSm = (color: string = Color.black, weight: number = 400) => css`
       font-size: 13px;
       font-weight: ${weight};
       color: ${color};
+      line-height:1.5;
       ${media.sm`font-size: 12px;`}
 `;

@@ -13,6 +13,8 @@ module.exports = merge(common, {
         historyApiFallback: true,
         hot:true,
         open:true,
-        inline:true
+        inline:true,
+        https: true,
+        host: 'localhost.villain.school'
     },
 });

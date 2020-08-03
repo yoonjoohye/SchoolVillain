@@ -10,12 +10,12 @@ const SkeletonPreviewBoard = () => {
                       margin-top:1em;
                       box-shadow: 0 3px 5px #00000021;`}>
             <div css={css`display:flex; justify-content: space-between; margin-bottom:1em;`}>
-                <div css={css`width:80%; margin-right:1em;`}>
+                <div css={css`width:75%; margin-right:1em;`}>
                     <div
                         css={css`width:100%; height:1em; background: #eee; margin-bottom:0.5em;`}></div>
                     <div css={css`width:100%; height:4em; background: #eee;`}></div>
                 </div>
-                <div css={css`width:20%; height:5.5em; background: #eee;`}></div>
+                <div css={css`width:25%; height:5.5em; background: #eee;`}></div>
             </div>
 
             <div css={css`margin-bottom:1em;`}>

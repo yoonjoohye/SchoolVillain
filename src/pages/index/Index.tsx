@@ -32,6 +32,7 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState(null);
     const [user, setUser] = useState(null);
+
     useEffect(() => {
         BoardAPI();
         UserAPI();
@@ -41,10 +42,7 @@ const Index: React.FC = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: 'https://dev.villain.school/api/board/list',
-                // headers: {
-                //     Accept: 'application/json'
-                // },
+                url: '/api/board/list',
                 params: {
                     per_page: 10,
                     page: 1
@@ -67,19 +65,14 @@ const Index: React.FC = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'https://dev.villain.school/api/user/me'
-                // headers: {
-                //     Accept: 'application/json',
-                //     ContentType: 'application/json',
-                //     Authorization: `Bearer ${localStorage.getItem('token')}`
-                // }
+                url: '/api/user/me'
             });
             if (response.status === 200) {
                 // console.log(response);
                 setUser(response.data);
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 

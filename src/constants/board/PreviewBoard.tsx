@@ -2,61 +2,54 @@ import * as React from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
-import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {css} from "@emotion/core";
 import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
+import {IconSm} from "../../../assets/style/Icon.style";
 
-const CardSection = styled.section`
+const BoardSection = styled.section`
   cursor:pointer;
-  min-height:150px;
   padding:30px 5%;
   background-color:${Color.white};
   margin-top:1em;
   box-shadow: 0 3px 5px #00000021;
 `
-const CardContainer = styled.div`
-  ${FlexBox('space-between', 'center')};
+const BoardBox = styled.div`
+  ${FlexBox('','space-between', 'center')};
   ${MarkdownSm(Color.gray200)};
-  margin-top:1em;
 `
-const CardBox = styled.div`
-   ${FlexBox('space-between', 'center')};
-  margin-bottom:1em;
-`
-const CardTitle = styled.div`
-  ${MarkdownBase()};
+const BoardTitle = styled.div`
+  ${MarkdownMd(Color.black,600)};
   margin-bottom:0.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
 `
-const CardContents = styled.div`
-  ${MarkdownBase('', 300)};
+const BoardContents = styled.div`
+  ${MarkdownBase(Color.black, 400)};
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  word-break: keep-all;
-  width: 100%;
-  height: 60px;
+  word-break: break-word;
+  height:54px;
 `
 const HashTag = styled.span`
   ${MarkdownSm(Color.yellow200)};
   background-color:${Color.yellow100};
-  padding:3px 10px;
+  padding:0.2em 0.8em;
   border-radius: 5px;
-  margin-right:3px;
+  margin-right:0.5em;
 `
 const Img = styled.img`
   position: relative;
   vertical-align: middle;
+  width: 25%;
 `
-const Icon = styled.img`
-  position: relative;
-  vertical-align: text-top;
-  width:14px;
-  height:14px;
-  margin-right:0.5em;
-`
-
 interface propsType {
     boardList: any;
     goDetail: any;
@@ -65,39 +58,51 @@ interface propsType {
 const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
     return (
         boardList ?
-            boardList.map((board:any, index:number) => {
+            boardList.map((board: any, index: number) => {
                 return (
-                    <CardSection key={board.id} onClick={() => goDetail(board.id)}>
-                        <CardBox>
-                            <div>
-                                <CardTitle>{board.title}</CardTitle>
-                                <CardContents>{board.contents}</CardContents>
+                    <BoardSection key={board.id} onClick={() => goDetail(board.id)}>
+                        <BoardBox css={css`margin-bottom:1em;`}>
+                            <div css={css`margin-right:0.5em;`}>
+                                <BoardTitle>{board.title}</BoardTitle>
+                                <BoardContents>{board.contents}</BoardContents>
                             </div>
                             {
                                 board.thumbnail !== null ?
                                     <Img src={board.thumbnail}/> : null
                             }
-                        </CardBox>
+                        </BoardBox>
 
-                        {board.hash_tags.map((tag: any) => {
-                            return (
-                                <HashTag key={tag.id}>#{tag.tag}</HashTag>
-                            )
-                        })}
+                        {
+                            board.hash_tags?
+                            board.hash_tags.map((tag: any, tagIndex: number) => {
+                                return (
+                                    <React.Fragment key={tag.id}>
+                                        {
+                                            tagIndex < 3 ?
+                                                <HashTag>#{tag.tag}</HashTag>
+                                                :
+                                                null
+                                        }
+                                    </React.Fragment>
+                                )
+                            }):null
+                        }
 
-                        <CardContainer>
+                        <BoardBox css={css`margin-top:1em;`}>
                             <div>
-                            <span css={css`margin-right:10px;`}><Icon
-                                src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+                                <span css={css`margin-right:10px;`}>
+                                    <IconSm src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}
+                                </span>
                                 <span>{board.create_time_ago}</span>
                             </div>
                             <div>
-                            <span css={css`margin-right:10px;`}><Icon
-                                src="../../../assets/img/icon/like.svg"/> {board.board_like_count}</span>
-                                <span><Icon src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
+                                <span css={css`margin-right:10px;`}>
+                                    <IconSm src="../../../assets/img/icon/like.svg"/> {board.board_like_count}
+                                </span>
+                                <span><IconSm src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
                             </div>
-                        </CardContainer>
-                    </CardSection>
+                        </BoardBox>
+                    </BoardSection>
                 )
             }) :
             [1, 2, 3].map((item, index) => {
