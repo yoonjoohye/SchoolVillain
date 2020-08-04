@@ -6,6 +6,7 @@ import React, {useEffect, useRef, useState} from "react";
 import produce from "immer";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import axios from "axios";
+import {Tag} from "../../../assets/style/Util";
 
 const ModalSection = styled.section`
   position: fixed;
@@ -38,14 +39,14 @@ const ModalBody = styled.div`
   min-height: 350px; 
   max-height:600px;
 `
-const Tag = styled.div`
-    display:inline-block;
-    background-color:${Color.yellow100};
-    ${MarkdownSm(Color.yellow200)};
-    padding:0.1em 0.5em;
-    margin-right:0.5em;
-    margin-bottom:0.5em;
-`
+// const Tag = styled.div`
+//     display:inline-block;
+//     background-color:${Color.yellow100};
+//     ${MarkdownSm(Color.yellow200)};
+//     padding:0.1em 0.5em;
+//     margin-right:0.5em;
+//     margin-bottom:0.5em;
+// `
 
 type buttonProps = {
     enabled: boolean;
@@ -228,7 +229,7 @@ const ModalWrite = ({isOpen}: any) => {
             <ModalBox>
                 <ModalHeader>
                     <p>게시물 작성</p>
-                    <span css={css`position:absolute; margin-left:22em; cursor:pointer;`}
+                    <span css={css`position:absolute; margin-left:24em; cursor:pointer;`}
                           onClick={() => isOpen(false)}>X</span>
                 </ModalHeader>
                 <ModalBody>

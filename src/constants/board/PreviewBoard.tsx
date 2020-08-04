@@ -2,11 +2,12 @@ import * as React from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {css} from "@emotion/core";
 import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
 import {IconSm} from "../../../assets/style/Icon.style";
 import {media} from "../../../assets/style/Media.style";
+import {Tag} from "../../../assets/style/Util";
 
 const BoardSection = styled.section`
   cursor:pointer;
@@ -17,10 +18,10 @@ const BoardSection = styled.section`
 `
 const BoardBox = styled.div`
   ${FlexBox('','space-between', 'center')};
-  ${MarkdownSm(Color.gray200)};
+  ${MarkdownBase(Color.gray200)};
 `
 const BoardTitle = styled.div`
-  ${MarkdownMd(Color.black,600)};
+  ${MarkdownMd(Color.black,700)};
   margin-bottom:0.5em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -38,13 +39,6 @@ const BoardContents = styled.div`
   -webkit-box-orient: vertical;
   word-break: break-word;
   height:auto;
-`
-const HashTag = styled.span`
-  ${MarkdownSm(Color.yellow200)};
-  background-color:${Color.yellow100};
-  padding:0.2em 0.8em;
-  border-radius: 5px;
-  margin-right:0.5em;
 `
 const Img = styled.img`
   position: relative;
@@ -80,7 +74,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                                     <React.Fragment key={tag.id}>
                                         {
                                             tagIndex < 3 ?
-                                                <HashTag>#{tag.tag}</HashTag>
+                                                <Tag># {tag.tag}</Tag>
                                                 :
                                                 null
                                         }
@@ -89,7 +83,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                             }):null
                         }
 
-                        <BoardBox css={css`margin-top:1em;`}>
+                        <BoardBox css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
                             <div>
                                 <span css={css`margin-right:10px;`}>
                                     <IconSm src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}

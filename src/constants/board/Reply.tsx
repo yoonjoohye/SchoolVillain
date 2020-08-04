@@ -15,12 +15,9 @@ const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
   margin-bottom:0.5em;
 `
-const ReplyContainer = styled.div`
-  margin-top:1em;
-`
 const ReplyContent = styled.p`
   display:inline-block;
-  ${MarkdownSm()};
+  ${MarkdownBase()};
   background-color:#eeeeee;
   padding: 0.8em 1em;
   border-radius:15px;
@@ -28,12 +25,6 @@ const ReplyContent = styled.p`
 `
 const ReplyBox = styled.div`
   ${MarkdownSm(Color.gray200)};
-`
-const ReReplyContainer = styled.div`
-  padding-left:10%;
-`
-const ReReplyBox = styled.div`
-  margin-top:0.8em;
 `
 const ReplyForm = styled.div`
   ${FlexBox('', 'space-between', 'center')};
@@ -63,7 +54,7 @@ interface propsType {
     changeReply: any;
     saveReply: any;
 
-    reReply: string;
+    reReply: any;
     changeReReply: any;
 
     moreReply: any;
@@ -75,23 +66,21 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
     const replyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.target.style.height = 'auto';
         e.target.style.height = e.target.scrollHeight + 'px';
-
         changeReply(e.target.value);
     }
 
-    const reReplyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const reReplyChange = (e: React.ChangeEvent<HTMLTextAreaElement>, replyIndex: number) => {
         e.target.style.height = 'auto';
         e.target.style.height = e.target.scrollHeight + 'px';
 
-        changeReReply(e.target.value);
+        changeReReply(e.target.value, replyIndex);
     }
 
     return (
         <div css={css`margin-bottom:6em;`}>
             <ReplyFormBox>
                 <ReplyForm>
-                    <ReplyInput value={reply} onChange={replyChange}
-                                placeholder="댓글을 입력해주세요."/>
+                    <ReplyInput value={reply} onChange={replyChange} placeholder="댓글을 입력해주세요."/>
                     <ReplyBtn onClick={() => saveReply(null, reply)}>등록</ReplyBtn>
                 </ReplyForm>
             </ReplyFormBox>
@@ -99,10 +88,11 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
                 replyList.length > 0 ?
                     replyList.map((reply: any, replyIndex: number) => {
                         return (
-                            <ReplyContainer key={replyIndex}>
-                                <ReplyName>{'익명'} <span
-                                    css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span></ReplyName>
-                                <ReplyContent dangerouslySetInnerHTML={{__html:reply.contents}}></ReplyContent>
+                            <div css={css`margin-top:1em;`} key={replyIndex}>
+                                <ReplyName>
+                                    {'익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                </ReplyName>
+                                <ReplyContent dangerouslySetInnerHTML={{__html: reply.contents}}/>
                                 <ReplyBox>
                                 <span css={css`cursor:pointer; margin-right:0.5em;`}
                                       onClick={() => likeReply(reply.id)}>좋아요</span>
@@ -111,20 +101,22 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
                                     {
                                         reply.is_mine ?
                                             <span css={css`cursor:pointer;`}
-                                                  onClick={() => deleteReply(reply.id)}>삭제하기</span> : null
+                                                  onClick={() => deleteReply(reply.id,null,null)}>삭제하기</span> : null
                                     }
                                 </ReplyBox>
 
                                 {
-                                    reply.children && reply.children.length>0 ?
-                                        <ReReplyContainer>
+                                    reply.children && reply.children.length > 0 ?
+                                        <div css={css`padding-left:5%;`}>
                                             {
                                                 reply.children.map((reReply: any, reReplyIndex: number) => {
                                                     return (
-                                                        <ReReplyBox key={reReplyIndex}>
-                                                            <ReplyName>{'익명'} <span
-                                                                css={css`${MarkdownSm(Color.gray200)}`}>{reReply.created_at}</span></ReplyName>
-                                                            <ReplyContent dangerouslySetInnerHTML={{__html:reReply.contents}}></ReplyContent>
+                                                        <div css={css`margin-top:0.8em;`} key={reReplyIndex}>
+                                                            <ReplyName>
+                                                                {'익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
+                                                            </ReplyName>
+                                                            <ReplyContent
+                                                                dangerouslySetInnerHTML={{__html: reReply.contents}}/>
                                                             <ReplyBox>
                                                             <span css={css`cursor:pointer; margin-right:0.5em;`}
                                                                   onClick={() => likeReply(reReply.id)}>좋아요</span>
@@ -133,10 +125,10 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
                                                                 {
                                                                     reReply.is_mine ?
                                                                         <span css={css`cursor:pointer;`}
-                                                                              onClick={() => deleteReply(reReply.id)}>삭제하기</span> : null
+                                                                              onClick={() => deleteReply(reReply.id, replyIndex, reReplyIndex)}>삭제하기</span> : null
                                                                 }
                                                             </ReplyBox>
-                                                        </ReReplyBox>
+                                                        </div>
                                                     )
                                                 })
                                             }
@@ -145,37 +137,36 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
                                                     <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply}>댓글
                                                         더보기...</MoreReply> : null
                                             }
-                                        </ReReplyContainer>
+                                        </div>
                                         : null
                                 }
                                 {
                                     openReply.includes(replyIndex) ?
-                                        <ReReplyContainer>
-                                            <ReReplyBox>
-                                                <ReplyForm>
-                                                    <ReplyInput value={reReply} onChange={reReplyChange}
-                                                                placeholder="댓글을 입력해주세요."/>
-                                                    <ReplyBtn
-                                                        onClick={() => saveReply(reply.parent_id, reReply)}>등록</ReplyBtn>
-                                                </ReplyForm>
-                                            </ReReplyBox>
-                                        </ReReplyContainer> : null
+                                        <div css={css`padding-left:5%;`}>
+                                            <ReplyForm css={css`margin-top:0.8em;`}>
+                                                <ReplyInput value={reReply[replyIndex]}
+                                                            onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => reReplyChange(e,replyIndex)}
+                                                            placeholder="댓글을 입력해주세요."/>
+                                                <ReplyBtn
+                                                    onClick={() => saveReply(reply.id, reReply[replyIndex],replyIndex)}>등록</ReplyBtn>
+                                            </ReplyForm>
+                                        </div> : null
 
                                 }
-                            </ReplyContainer>
+                            </div>
                         )
                     })
                     :
-                    <div css={css` ${FlexBox('column','center','center')}; width:100%; height:300px;`}>
+                    <div css={css` ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
                         <p>존재하는 댓글이 없어요.</p>
                         <p>댓글을 남겨 첫번째 빌런이 되세요.</p>
                     </div>
             }
             {
                 replyList.length > 5 ?
-                    <ReplyContainer>
+                    <div css={css`margin-top:1em;`}>
                         <MoreReply css={css`cursor:pointer;`} onClick={() => moreReply}>댓글 더보기...</MoreReply>
-                    </ReplyContainer> : null
+                    </div> : null
             }
         </div>
     )

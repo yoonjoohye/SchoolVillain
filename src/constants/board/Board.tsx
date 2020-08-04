@@ -7,13 +7,14 @@ import {IconSm} from "../../../assets/style/Icon.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
+import {Tag} from "../../../assets/style/Util";
 
 const BoardTitle = styled.div`
-  ${MarkdownLg(Color.black, 600)};
+  ${MarkdownLg(Color.black, 700)};
   word-break:break-word;
 `
 const BoardContents = styled.div`
-  ${MarkdownBase(Color.black, 400)};
+  ${MarkdownMd(Color.black, 400)};
   word-break:break-word;
   margin-bottom:1em;
   line-height:1.7em;
@@ -66,14 +67,6 @@ interface BoxProps {
 
 const BoardBox = styled.div<BoxProps>`
   ${(props: BoxProps) => FlexBox('', props.justifyContent || 'flex-start', '')};
-`
-const Tag = styled.span`
-  ${MarkdownSm(Color.yellow200)};
-  background-color:${Color.yellow100};
-  padding:0.2em 0.8em;
-  border-radius: 5px;
-  margin-right:0.5em;
-  margin-bottom:0.5em;
 `
 
 interface propsType {
@@ -138,7 +131,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, e
                         board.hash_tags ?
                             board.hash_tags.map((tag: any) => {
                                 return (
-                                    <Tag key={tag.id}>#{tag.tag}</Tag>
+                                    <Tag key={tag.id}># {tag.tag}</Tag>
                                 )
                             }) : null
                     }

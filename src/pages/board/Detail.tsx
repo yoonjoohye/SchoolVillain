@@ -13,14 +13,13 @@ const DetailSection = styled.section`
   margin-top:6em;
 `
 const Detail: React.FC = ({match}: any) => {
-    const [board, setBoard] = useState(null);
+    const [board, setBoard]:any = useState(null);
     const [boardLikeId, setBoardLikeId] = useState(0);
 
     const [replyList, setReplyList] = useState([]);
     const [replyLikeId, setReplyLikeId] = useState(0);
     const [reply, setReply] = useState('');
-    const [reReply, setReReply] = useState('');
-
+    const [reReply, setReReply] = useState([]);
     const [openReply, setOpenReply] = useState([] as any);
 
     useEffect(() => {
@@ -64,6 +63,12 @@ const Detail: React.FC = ({match}: any) => {
             if (response.status === 200) {
                 console.log(response.data);
                 setReplyList(response.data.data);
+
+                setReReply(produce(draft=>{
+                    response.data.data.map((item:any)=> {
+                        draft.push();
+                    });
+                }));
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -138,8 +143,11 @@ const Detail: React.FC = ({match}: any) => {
     const changeReply = (reply: string) => {
         setReply(reply);
     }
-    const changeReReply = (reReply: string) => {
-        setReReply(reReply);
+
+    const changeReReply = (reReply: any, replyIndex: number) => {
+        setReReply(produce(draft => {
+            draft[replyIndex] = reReply;
+        }));
     }
     const likeReply = async (id: number) => {
         try {
@@ -179,7 +187,7 @@ const Detail: React.FC = ({match}: any) => {
             }
         }
     }
-    const deleteReply = async (id: number) => {
+    const deleteReply = async (id: number, replyIndex:number|any, reReplyIndex: number|any) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -191,17 +199,22 @@ const Detail: React.FC = ({match}: any) => {
             if (response.status === 204) {
                 // console.log(response);
                 setBoard({...board, comment_count: board.comment_count -= 1});
-                setReplyList(
-                    replyList.filter(reply => reply.id !== id)
-                );
+
+                if (replyIndex) {
+                    setReplyList(produce(draft => {
+                        draft[replyIndex].children.splice(reReplyIndex, 1)
+                    }));
+                } else {
+                    setReplyList(
+                        replyList.filter(reply => reply.id !== id)
+                    );
+                }
             }
         } catch (err) {
-
-            console.log(err);
-
+            console.log(err.response.data);
         }
     }
-    const saveReply = async (parentId: number, contents: string) => {
+    const saveReply = async (parentId: number, contents: string, replyIndex?: number|any) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -212,20 +225,31 @@ const Detail: React.FC = ({match}: any) => {
                     contents: contents,
                 }
             });
+            console.log(response);
             if (response.status === 200) {
-                // console.log(response);
-                setReply('');
-
                 setBoard({...board, comment_count: board.comment_count += 1});
-                setReplyList(produce(draft => {
-                    draft.push(response.data);
-                }));
+
+                if (parentId) {
+                    setReReply(produce(draft => {
+                        draft[replyIndex] = '';
+                    }))
+                    setReplyList(produce(draft => {
+                        draft[replyIndex].children.push(response.data);
+                    }));
+                } else {
+                    setReply('');
+                    setReplyList(produce(draft => {
+                        draft.push(response.data);
+                    }));
+                }
             }
         } catch (err) {
             if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
+            } else if (err.response.status === 422) {
+                alert('댓글을 입력해주세요.');
             } else {
-                console.log(err);
+                console.error(err);
             }
         }
     }
