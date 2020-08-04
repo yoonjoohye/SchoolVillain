@@ -159,7 +159,7 @@ const ModalWrite = ({isOpen}: any) => {
 
 
     const loadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {files}=e.target;
+        const {files} = e.target;
 
         setImgList(produce(draft => {
             Array.from(files).map((file: File, index: number) => {
@@ -196,10 +196,10 @@ const ModalWrite = ({isOpen}: any) => {
 
             formData.append('title', title);
             formData.append('contents', contents);
-            imgList.map((img:File,index:number)=>{
+            imgList.map((img: File, index: number) => {
                 formData.append('images[]', imgList[index]);
             });
-            tagList.map((tag:string,index:number)=> {
+            tagList.map((tag: string, index: number) => {
                 formData.append('hashTags[]', tagList[index]);
             });
 
@@ -216,11 +216,13 @@ const ModalWrite = ({isOpen}: any) => {
                 window.location.href = '/';
             }
         } catch (err) {
-            console.error(err.response);
+            if (err.response.status === 401) {
+                alert('로그인이 필요합니다.');
+            } else {
+                console.error(err.response);
+            }
         }
     }
-
-
     return (
         <ModalSection>
             <ModalBox>

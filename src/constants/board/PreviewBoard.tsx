@@ -6,6 +6,7 @@ import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdo
 import {css} from "@emotion/core";
 import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
 import {IconSm} from "../../../assets/style/Icon.style";
+import {media} from "../../../assets/style/Media.style";
 
 const BoardSection = styled.section`
   cursor:pointer;
@@ -36,7 +37,7 @@ const BoardContents = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
-  height:54px;
+  height:auto;
 `
 const HashTag = styled.span`
   ${MarkdownSm(Color.yellow200)};

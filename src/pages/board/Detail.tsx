@@ -6,18 +6,22 @@ import {Section} from "../../../assets/style/Layout.style";
 import Reply from "../../constants/board/Reply";
 import axios from "axios";
 import Board from "../../constants/board/Board";
+import produce from "immer";
 
 const DetailSection = styled.section`
   ${Section()};
+  margin-top:6em;
 `
 const Detail: React.FC = ({match}: any) => {
-    const [board, setBoard] = useState([]);
+    const [board, setBoard] = useState(null);
     const [boardLikeId, setBoardLikeId] = useState(0);
-    const [boardLikeCnt, setBoardLikeCnt] = useState(0);
+
     const [replyList, setReplyList] = useState([]);
+    const [replyLikeId, setReplyLikeId] = useState(0);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState('');
-    const [openReply, setOpenReply]=useState([] as any);
+
+    const [openReply, setOpenReply] = useState([] as any);
 
     useEffect(() => {
         BoardAPI();
@@ -34,18 +38,18 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
             if (response.status === 200) {
-                // console.log(response);
+                console.log(response);
                 setBoard(response.data);
-                setBoardLikeCnt(response.data.board_like_count);
                 if (response.data.my_like_id) {
                     setBoardLikeId(response.data.my_like_id.id);
                 }
             }
         } catch (err) {
-           console.log(err);
+            console.log(err);
 
         }
-    }, [])
+    }, []);
+
     const ReplyAPI = async () => {
         try {
             let response = await axios({
@@ -58,7 +62,7 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
             if (response.status === 200) {
-                // console.log(response.data);
+                console.log(response.data);
                 setReplyList(response.data.data);
             }
         } catch (err) {
@@ -81,35 +85,32 @@ const Detail: React.FC = ({match}: any) => {
                 });
                 if (response.status === 200) {
                     // console.log(response.data);
-                    setBoardLikeCnt(response.data.count);
+                    setBoard({...board, board_like_count: response.data.count});
                     setBoardLikeId(response.data.id);
                 }
             } else {
                 let response = await axios({
                     method: 'POST',
-                    url: 'https://dev.villain.school/api/board/like/delete',
+                    url: '/api/board/like/delete',
                     data: {
                         id: boardLikeId
                     }
                 });
                 if (response.status === 200) {
                     console.log('좋아요 취소');
-                    setBoardLikeCnt(response.data.count);
+                    setBoard({...board, board_like_count: response.data.count});
                     setBoardLikeId(0);
                 }
             }
         } catch (err) {
-            if(err.response.status===401){
+            if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
-            }else {
+            } else {
                 console.error(err);
             }
         }
     }, [boardLikeId]);
-    const moreBoard=()=>{
-
-    }
-    const deleteBoard=async(id:number)=>{
+    const deleteBoard = async (id: number) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -120,15 +121,19 @@ const Detail: React.FC = ({match}: any) => {
             });
             if (response.status === 204) {
                 // console.log(response);
-                window.location.href='/';
+                window.location.href = '/';
             }
         } catch (err) {
             console.log(err);
         }
     }
-    const editBoard=()=>{
+    const editBoard = () => {
 
     }
+    const moreBoard = () => {
+
+    }
+
 
     const changeReply = (reply: string) => {
         setReply(reply);
@@ -136,20 +141,45 @@ const Detail: React.FC = ({match}: any) => {
     const changeReReply = (reReply: string) => {
         setReReply(reReply);
     }
+    const likeReply = async (id: number) => {
+        try {
+            if (replyLikeId === 0) {
+                let response = await axios({
+                    method: 'POST',
+                    url: '/api/comment/like/create',
+                    data: {
+                        id: id
+                    }
+                });
+                if (response.status === 200) {
+                    console.log(response.data);
 
-    const likeReply=()=>{
-
-    }
-
-    const openReReply=useCallback((idx:number)=>{
-        if(openReply.includes(idx)) {
-            openReply.splice(openReply.indexOf(idx),1);
-            setOpenReply([...openReply]);
-        }else {
-            setOpenReply([idx, ...openReply]);
+                    // setReply(response.data.count);
+                    // setReplyLikeId(response.data.id);
+                }
+            } else {
+                let response = await axios({
+                    method: 'POST',
+                    url: '/api/comment/like/delete',
+                    data: {
+                        id: replyLikeId
+                    }
+                });
+                if (response.status === 200) {
+                    console.log('좋아요 취소');
+                    // setReply(response.data.count);
+                    // setReplyLikeId(0);
+                }
+            }
+        } catch (err) {
+            if (err.response.status === 401) {
+                alert('로그인이 필요합니다.');
+            } else {
+                console.error(err);
+            }
         }
-    },[openReply]);
-    const deleteReply=async(id:number)=>{
+    }
+    const deleteReply = async (id: number) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -159,13 +189,19 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
             if (response.status === 204) {
-                console.log(response);
+                // console.log(response);
+                setBoard({...board, comment_count: board.comment_count -= 1});
+                setReplyList(
+                    replyList.filter(reply => reply.id !== id)
+                );
             }
         } catch (err) {
+
             console.log(err);
+
         }
     }
-    const saveReply = async(parentId:number, contents:string) => {
+    const saveReply = async (parentId: number, contents: string) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -176,20 +212,37 @@ const Detail: React.FC = ({match}: any) => {
                     contents: contents,
                 }
             });
-            console.log(response);
             if (response.status === 200) {
+                // console.log(response);
+                setReply('');
+
+                setBoard({...board, comment_count: board.comment_count += 1});
+                setReplyList(produce(draft => {
+                    draft.push(response.data);
+                }));
             }
         } catch (err) {
-            console.log(err);
+            if (err.response.status === 401) {
+                alert('로그인이 필요합니다.');
+            } else {
+                console.log(err);
+            }
         }
     }
+    const goReReply = useCallback((idx: number) => {
+        if (openReply.includes(idx)) {
+            setOpenReply(openReply.filter((item: number) => item !== idx))
+        } else {
+            setOpenReply([idx, ...openReply]);
+        }
+    }, [openReply]);
+
     const moreReply = () => {
 
     }
     const moreReReply = () => {
 
     }
-
     return (
         <>
             <SEO title="상세페이지 | 스쿨빌런"
@@ -198,11 +251,11 @@ const Detail: React.FC = ({match}: any) => {
             />
             <DetailSection>
                 <Board board={board}
-                       likeBoard={likeBoard} boardLikeId={boardLikeId} boardLikeCnt={boardLikeCnt}
+                       likeBoard={likeBoard} boardLikeId={boardLikeId}
                        deleteBoard={deleteBoard} editBoard={editBoard} moreBoard={moreBoard}/>
 
                 <Reply replyList={replyList}
-                       likeReply={likeReply} openReReply={openReReply} deleteReply={deleteReply}
+                       likeReply={likeReply} goReReply={goReReply} deleteReply={deleteReply}
                        openReply={openReply}
                        reply={reply} changeReply={changeReply} saveReply={saveReply}
                        reReply={reReply} changeReReply={changeReReply}
