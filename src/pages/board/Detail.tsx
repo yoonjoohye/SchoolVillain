@@ -13,11 +13,11 @@ const DetailSection = styled.section`
   margin-top:6em;
 `
 const Detail: React.FC = ({match}: any) => {
-    const [board, setBoard]:any = useState(null);
+    const [board, setBoard]: any = useState(null);
     const [boardLikeId, setBoardLikeId] = useState(0);
 
     const [replyList, setReplyList] = useState([]);
-    const [replyLikeId, setReplyLikeId] = useState(0);
+    const [replyLikeId, setReplyLikeId] = useState([]);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState([]);
     const [openReply, setOpenReply] = useState([] as any);
@@ -64,11 +64,17 @@ const Detail: React.FC = ({match}: any) => {
                 console.log(response.data);
                 setReplyList(response.data.data);
 
-                setReReply(produce(draft=>{
-                    response.data.data.map((item:any)=> {
-                        draft.push();
-                    });
-                }));
+                let likeId: any = [];
+
+                response.data.data.map((reply: any, replyIndex: number) => {
+                    likeId.push({reply: response.data.data[replyIndex].my_like_id, reReply: []});
+                    reply.children.map((reReply: any, reReplyIndex: number) => {
+                        likeId[replyIndex].reReply.push(response.data.data[replyIndex].children[reReplyIndex].my_like_id);
+                    })
+                })
+                console.log(likeId);
+
+                setReplyLikeId(likeId);
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -139,44 +145,106 @@ const Detail: React.FC = ({match}: any) => {
 
     }
 
-
     const changeReply = (reply: string) => {
         setReply(reply);
     }
-
     const changeReReply = (reReply: any, replyIndex: number) => {
         setReReply(produce(draft => {
             draft[replyIndex] = reReply;
         }));
     }
-    const likeReply = async (id: number) => {
+    const likeReply = async (id: number, replyIndex: number, reReplyIndex: number | any) => {
+        console.log(replyLikeId);
         try {
-            if (replyLikeId === 0) {
-                let response = await axios({
-                    method: 'POST',
-                    url: '/api/comment/like/create',
-                    data: {
-                        id: id
-                    }
-                });
-                if (response.status === 200) {
-                    console.log(response.data);
+            if (reReplyIndex !== null) {
+                //대댓글
+                if (replyLikeId[replyIndex].reReply[reReplyIndex]) {
+                    //좋아요 취소
+                    let response = await axios({
+                        method: 'POST',
+                        url: '/api/comment/like/delete',
+                        data: {
+                            id: replyLikeId[replyIndex].reReply[reReplyIndex].id
+                        }
+                    });
+                    if (response.status === 200) {
+                        console.log('대댓글 좋아요 취소');
 
-                    // setReply(response.data.count);
-                    // setReplyLikeId(response.data.id);
+                        setReplyList(produce(draft => {
+                            draft[replyIndex].children[reReplyIndex].comment_like_count = response.data.count
+                            draft[replyIndex].children[reReplyIndex].comment_like = null
+                        }));
+                        setReplyLikeId(produce(draft => {
+                            draft[replyIndex].reReply[reReplyIndex] = null
+                        }));
+                    }
+                } else {
+                    //좋아요 등록
+                    let response = await axios({
+                        method: 'POST',
+                        url: '/api/comment/like/create',
+                        data: {
+                            id: id
+                        }
+                    });
+                    if (response.status === 200) {
+                        console.log(response.data);
+
+                        setReplyList(produce(draft => {
+                            draft[replyIndex].children[reReplyIndex].comment_like_count = response.data.count
+                            draft[replyIndex].children[reReplyIndex].comment_like = response.data.like
+                        }));
+
+                        setReplyLikeId(produce(draft => {
+                            draft[replyIndex].reReply[reReplyIndex] = response.data.like
+                        }));
+                    }
                 }
             } else {
-                let response = await axios({
-                    method: 'POST',
-                    url: '/api/comment/like/delete',
-                    data: {
-                        id: replyLikeId
+                //댓글
+                if (replyLikeId[replyIndex].reply) {
+                    //좋아요 취소
+                    let response = await axios({
+                        method: 'POST',
+                        url: '/api/comment/like/delete',
+                        data: {
+                            id: replyLikeId[replyIndex].reply.id
+                        }
+                    });
+                    if (response.status === 200) {
+                        console.log('댓글 좋아요 취소');
+
+                        setReplyList(produce(draft => {
+                            draft[replyIndex].comment_like_count = response.data.count
+                            draft[replyIndex].comment_like = null
+
+                        }));
+                        setReplyLikeId(produce(draft => {
+                            draft[replyIndex].reply = null
+                        }));
                     }
-                });
-                if (response.status === 200) {
-                    console.log('좋아요 취소');
-                    // setReply(response.data.count);
-                    // setReplyLikeId(0);
+                } else {
+                    //좋아요 등록
+                    let response = await axios({
+                        method: 'POST',
+                        url: '/api/comment/like/create',
+                        data: {
+                            id: id
+                        }
+                    });
+                    if (response.status === 200) {
+                        console.log(response.data);
+
+                        setReplyList(produce(draft => {
+                            draft[replyIndex].comment_like_count = response.data.count
+                            draft[replyIndex].comment_like = response.data.like
+
+                        }));
+                        setReplyLikeId(produce(draft => {
+                            draft[replyIndex].reply = response.data.like
+                        }));
+
+                    }
                 }
             }
         } catch (err) {
@@ -187,34 +255,42 @@ const Detail: React.FC = ({match}: any) => {
             }
         }
     }
-    const deleteReply = async (id: number, replyIndex:number|any, reReplyIndex: number|any) => {
+    const deleteReply = async (id: number, replyIndex: number, reReplyIndex?: number | any) => {
+        console.log(replyIndex+','+reReplyIndex);
         try {
             let response = await axios({
                 method: 'POST',
                 url: '/api/comment/delete',
-                params: {
+                data: {
                     id: id
                 }
             });
+
             if (response.status === 204) {
                 // console.log(response);
                 setBoard({...board, comment_count: board.comment_count -= 1});
 
-                if (replyIndex) {
+                if (reReplyIndex!==null) {
                     setReplyList(produce(draft => {
                         draft[replyIndex].children.splice(reReplyIndex, 1)
                     }));
+                    setReplyLikeId(produce(draft => {
+                        draft[replyIndex].reReply.splice(reReplyIndex,1)
+                    }));
                 } else {
                     setReplyList(
-                        replyList.filter(reply => reply.id !== id)
+                        replyList.filter((reply:any) => reply.id !== id)
                     );
+                    setReplyLikeId(produce(draft => {
+                        draft.splice(replyIndex,1)
+                    }));
                 }
             }
         } catch (err) {
             console.log(err.response.data);
         }
     }
-    const saveReply = async (parentId: number, contents: string, replyIndex?: number|any) => {
+    const saveReply = async (parentId: number, contents: string, replyIndex?: number | any) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -234,12 +310,21 @@ const Detail: React.FC = ({match}: any) => {
                         draft[replyIndex] = '';
                     }))
                     setReplyList(produce(draft => {
+                        if (!draft[replyIndex].children) draft[replyIndex].children = [];
                         draft[replyIndex].children.push(response.data);
                     }));
+
+                    setReplyLikeId(produce(draft => {
+                        draft[replyIndex].reReply.push(null)
+                    }));
+
                 } else {
                     setReply('');
                     setReplyList(produce(draft => {
                         draft.push(response.data);
+                    }));
+                    setReplyLikeId(produce(draft => {
+                        draft.push({reply: response.data.my_like_id, reReply: []})
                     }));
                 }
             }
@@ -280,7 +365,7 @@ const Detail: React.FC = ({match}: any) => {
 
                 <Reply replyList={replyList}
                        likeReply={likeReply} goReReply={goReReply} deleteReply={deleteReply}
-                       openReply={openReply}
+                       openReply={openReply} replyLikeId={replyLikeId}
                        reply={reply} changeReply={changeReply} saveReply={saveReply}
                        reReply={reReply} changeReReply={changeReReply}
                        moreReply={moreReply} moreReReply={moreReReply}

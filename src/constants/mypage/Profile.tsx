@@ -4,9 +4,11 @@ import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
 import {css} from "@emotion/core";
 import SkeletonProfile from "../loading/SkeletonProfile";
+import {FlexBox} from "../../../assets/style/Layout.style";
+import {MarkdownSm} from "../../../assets/style/Markdown.style";
 
 const ProfileSection = styled.section`
-  display:flex;
+  ${FlexBox('','','flex-start')};
   padding:1em;
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
   margin-bottom:1em;
@@ -33,8 +35,8 @@ const Profile = ({user}:any) => {
             sessionStorage.getItem('logged') ?
                 user ?
                     <ProfileSection>
-                        <img css={css`width:40%; margin-right:0.5em;`} src="../../../assets/img/icon/like.svg"></img>
-                        <div css={css`width:60%;`}>
+                        <img css={css`width:30%; margin-right:0.5em;`} src="../../../assets/img/index/badge.png"></img>
+                        <div css={css`width:70%;`}>
                             <div css={css`margin-bottom:0.5em;`}>{user.name || '익명'}</div>
                             <div css={css`margin-bottom:0.5em;`}>미림여자정보과학고등학교</div>
                             <div>{user.email}</div>

@@ -38,7 +38,6 @@ const BoardContents = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
-  height:auto;
 `
 const Img = styled.img`
   position: relative;
@@ -63,7 +62,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                             </div>
                             {
                                 board.thumbnail !== null ?
-                                    <Img src={board.thumbnail}/> : null
+                                    <Img src={`${board.thumbnail}?s=120x85&t=crop&q=90`}/> : null
                             }
                         </BoardBox>
 

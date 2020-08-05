@@ -16,7 +16,7 @@ import {media} from "../../../assets/style/Media.style";
 const IndexSection = styled.section`
   ${Section};
   display: grid;
-  grid-template-columns: 70%;
+  grid-template-columns: 68%;
   justify-content: flex-end;
   ${media.sm`
      grid-template-columns: 100%;
@@ -26,7 +26,7 @@ const IndexSection = styled.section`
 const Nav = styled.nav`
   position:fixed;
   left:15%;
-  width:20%; 
+  width:21.5%; 
   top: 6em;
 `
 const Index: React.FC = ({history}: any) => {

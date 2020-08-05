@@ -6,11 +6,7 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
 import {css} from "@emotion/core";
 
-const ReplyFormBox = styled.div`
-  padding:1em 0;
-  border-top:1px solid #eeeeee;
-  border-bottom:1px solid #eeeeee;
-`
+
 const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
   margin-bottom:0.5em;
@@ -18,19 +14,22 @@ const ReplyName = styled.div`
 const ReplyContent = styled.p`
   display:inline-block;
   ${MarkdownBase()};
-  background-color:#eeeeee;
+  background-color:${Color.gray100};
   padding: 0.8em 1em;
-  border-radius:15px;
+  border-radius:10px;
   margin-bottom:0.5em;
 `
 const ReplyBox = styled.div`
   ${MarkdownSm(Color.gray200)};
 `
+const ReplyFormBox = styled.div`
+  padding:1em 0;
+  border-top:1px solid ${Color.gray100};
+`
 const ReplyForm = styled.div`
   ${FlexBox('', 'space-between', 'center')};
-    background-color:#eeeeee;
-    border-radius: 15px;
-    padding: 0.8em 1em;
+    border:1px solid ${Color.gray100};
+    padding: 1.5em;
 `
 const ReplyBtn = styled.button`
   ${MarkdownBase(Color.purple200)};
@@ -44,12 +43,12 @@ const MoreReply = styled.div`
 interface propsType {
     replyList: any;
     likeReply: any;
+    replyLikeId:number;
     deleteReply: any;
 
     goReReply: any;
     openReply: number[];
 
-    user_id: number;
     reply: string;
     changeReply: any;
     saveReply: any;
@@ -61,7 +60,7 @@ interface propsType {
     moreReReply: any;
 }
 
-const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReReply, openReply, reply, changeReply, saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
+const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteReply, goReReply, openReply, reply, changeReply, saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
 
     const replyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.target.style.height = 'auto';
@@ -94,14 +93,14 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
                                 </ReplyName>
                                 <ReplyContent dangerouslySetInnerHTML={{__html: reply.contents}}/>
                                 <ReplyBox>
-                                <span css={css`cursor:pointer; margin-right:0.5em;`}
-                                      onClick={() => likeReply(reply.id)}>좋아요</span>
+                                <span css={ css`cursor:pointer; margin-right:0.5em;`}
+                                      onClick={() => likeReply(reply.id,replyIndex,null)}>{reply.comment_like_count}</span>
                                     <span css={css`cursor:pointer; margin-right:0.5em;`}
                                           onClick={() => goReReply(replyIndex)}>답글달기</span>
                                     {
                                         reply.is_mine ?
                                             <span css={css`cursor:pointer;`}
-                                                  onClick={() => deleteReply(reply.id,null,null)}>삭제하기</span> : null
+                                                  onClick={() => deleteReply(reply.id,replyIndex,null)}>삭제하기</span> : null
                                     }
                                 </ReplyBox>
 
@@ -118,8 +117,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, deleteReply, goReRepl
                                                             <ReplyContent
                                                                 dangerouslySetInnerHTML={{__html: reReply.contents}}/>
                                                             <ReplyBox>
-                                                            <span css={css`cursor:pointer; margin-right:0.5em;`}
-                                                                  onClick={() => likeReply(reReply.id)}>좋아요</span>
+                                                            <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => likeReply(reReply.id,replyIndex,reReplyIndex)}>{reReply.comment_like_count}</span>
                                                                 <span css={css`cursor:pointer; margin-right:0.5em;`}
                                                                       onClick={() => goReReply(replyIndex)}>답글달기</span>
                                                                 {
