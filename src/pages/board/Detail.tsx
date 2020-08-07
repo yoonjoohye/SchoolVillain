@@ -7,6 +7,7 @@ import Reply from "../../constants/board/Reply";
 import axios from "axios";
 import Board from "../../constants/board/Board";
 import produce from "immer";
+import Edit from "./Edit";
 
 const DetailSection = styled.section`
   ${Section()};
@@ -15,12 +16,13 @@ const DetailSection = styled.section`
 const Detail: React.FC = ({match}: any) => {
     const [board, setBoard]: any = useState(null);
     const [boardLikeId, setBoardLikeId] = useState(0);
-
     const [replyList, setReplyList] = useState([]);
     const [replyLikeId, setReplyLikeId] = useState([]);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState([]);
     const [openReply, setOpenReply] = useState([] as any);
+    const [openModal,setOpenModal]=useState(false);
+
 
     useEffect(() => {
         BoardAPI();
@@ -36,8 +38,8 @@ const Detail: React.FC = ({match}: any) => {
                     id: match.params.id
                 }
             });
+            console.log(response);
             if (response.status === 200) {
-                console.log(response);
                 setBoard(response.data);
                 if (response.data.my_like_id) {
                     setBoardLikeId(response.data.my_like_id.id);
@@ -60,20 +62,17 @@ const Detail: React.FC = ({match}: any) => {
                     page: 1,
                 }
             });
+            // console.log(response.data);
             if (response.status === 200) {
-                console.log(response.data);
                 setReplyList(response.data.data);
 
                 let likeId: any = [];
-
                 response.data.data.map((reply: any, replyIndex: number) => {
                     likeId.push({reply: response.data.data[replyIndex].my_like_id, reReply: []});
                     reply.children.map((reReply: any, reReplyIndex: number) => {
                         likeId[replyIndex].reReply.push(response.data.data[replyIndex].children[reReplyIndex].my_like_id);
                     })
                 })
-                console.log(likeId);
-
                 setReplyLikeId(likeId);
             }
         } catch (err) {
@@ -108,7 +107,7 @@ const Detail: React.FC = ({match}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    console.log('좋아요 취소');
+                    // console.log('좋아요 취소');
                     setBoard({...board, board_like_count: response.data.count});
                     setBoardLikeId(0);
                 }
@@ -139,7 +138,11 @@ const Detail: React.FC = ({match}: any) => {
         }
     }
     const editBoard = () => {
-
+        if(screen.width>480){
+            setOpenModal(true);
+        }else{
+            location.href='/edit';
+        }
     }
     const moreBoard = () => {
 
@@ -168,8 +171,7 @@ const Detail: React.FC = ({match}: any) => {
                         }
                     });
                     if (response.status === 200) {
-                        console.log('대댓글 좋아요 취소');
-
+                        // console.log('대댓글 좋아요 취소');
                         setReplyList(produce(draft => {
                             draft[replyIndex].children[reReplyIndex].comment_like_count = response.data.count
                             draft[replyIndex].children[reReplyIndex].comment_like = null
@@ -188,8 +190,7 @@ const Detail: React.FC = ({match}: any) => {
                         }
                     });
                     if (response.status === 200) {
-                        console.log(response.data);
-
+                        // console.log(response.data);
                         setReplyList(produce(draft => {
                             draft[replyIndex].children[reReplyIndex].comment_like_count = response.data.count
                             draft[replyIndex].children[reReplyIndex].comment_like = response.data.like
@@ -212,8 +213,7 @@ const Detail: React.FC = ({match}: any) => {
                         }
                     });
                     if (response.status === 200) {
-                        console.log('댓글 좋아요 취소');
-
+                        // console.log('댓글 좋아요 취소');
                         setReplyList(produce(draft => {
                             draft[replyIndex].comment_like_count = response.data.count
                             draft[replyIndex].comment_like = null
@@ -233,12 +233,10 @@ const Detail: React.FC = ({match}: any) => {
                         }
                     });
                     if (response.status === 200) {
-                        console.log(response.data);
-
+                        // console.log(response.data);
                         setReplyList(produce(draft => {
                             draft[replyIndex].comment_like_count = response.data.count
                             draft[replyIndex].comment_like = response.data.like
-
                         }));
                         setReplyLikeId(produce(draft => {
                             draft[replyIndex].reply = response.data.like
@@ -256,7 +254,6 @@ const Detail: React.FC = ({match}: any) => {
         }
     }
     const deleteReply = async (id: number, replyIndex: number, reReplyIndex?: number | any) => {
-        console.log(replyIndex+','+reReplyIndex);
         try {
             let response = await axios({
                 method: 'POST',
@@ -266,8 +263,8 @@ const Detail: React.FC = ({match}: any) => {
                 }
             });
 
+            // console.log(response);
             if (response.status === 204) {
-                // console.log(response);
                 setBoard({...board, comment_count: board.comment_count -= 1});
 
                 if (reReplyIndex!==null) {
@@ -287,7 +284,7 @@ const Detail: React.FC = ({match}: any) => {
                 }
             }
         } catch (err) {
-            console.log(err.response.data);
+            console.error(err);
         }
     }
     const saveReply = async (parentId: number, contents: string, replyIndex?: number | any) => {
@@ -301,7 +298,7 @@ const Detail: React.FC = ({match}: any) => {
                     contents: contents,
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setBoard({...board, comment_count: board.comment_count += 1});
 
@@ -352,6 +349,10 @@ const Detail: React.FC = ({match}: any) => {
     const moreReReply = () => {
 
     }
+
+    const isOpen=(open:boolean)=>{
+        setOpenModal(open);
+    }
     return (
         <>
             <SEO title="상세페이지 | 스쿨빌런"
@@ -370,6 +371,11 @@ const Detail: React.FC = ({match}: any) => {
                        reReply={reReply} changeReReply={changeReReply}
                        moreReply={moreReply} moreReReply={moreReReply}
                 />
+
+                {
+                    openModal?
+                    <Edit isOpen={isOpen} boardId={match.params.id} />:null
+                }
             </DetailSection>
         </>
     )

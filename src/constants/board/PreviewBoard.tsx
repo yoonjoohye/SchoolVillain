@@ -62,7 +62,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                             </div>
                             {
                                 board.thumbnail !== null ?
-                                    <Img src={`${board.thumbnail}?s=120x85&t=crop&q=90`}/> : null
+                                    <Img src={`${board.thumbnail}?s=120x85&t=crop&q=60`}/> : null
                             }
                         </BoardBox>
 

@@ -131,10 +131,10 @@ interface propsType {
     deleteImg: any;
     previewList: string[];
 
-    goWrite: any;
+    goEdit: any;
 }
 
-const ModalWrite: React.FC<propsType> = ({
+const ModalEdit: React.FC<propsType> = ({
                                              isOpen,
                                              title,
                                              changeTitle,
@@ -148,14 +148,14 @@ const ModalWrite: React.FC<propsType> = ({
                                              loadImg,
                                              deleteImg,
                                              previewList,
-                                             goWrite
+                                            goEdit
                                          }) => {
 
     return (
         <ModalSection>
             <ModalBox>
                 <ModalHeader>
-                    <p>게시물 작성</p>
+                    <p>게시물 수정</p>
                     <span css={css`position:absolute; margin-left:24em; cursor:pointer;`}
                           onClick={() => isOpen(false)}>X</span>
                 </ModalHeader>
@@ -187,7 +187,7 @@ const ModalWrite: React.FC<propsType> = ({
                                             <DelButton onClick={() => deleteImg(index)}>X</DelButton>
                                             <PreviewImg>
                                                 <img
-                                                    css={css`width:100%; position: absolute; clip: rect(0px 152px 130px 0px);`}
+                                                    css={css`width: 100%; height: 100%;`}
                                                     src={preview}/>
                                             </PreviewImg>
                                         </figure>
@@ -207,20 +207,21 @@ const ModalWrite: React.FC<propsType> = ({
                     </div>
                     <div css={css`margin-bottom:1em;`}>
                         {
+                            tagList?
                             tagList.map((item, index) => {
                                 return (
                                     <Tag key={index}>
-                                        <span css={css`margin-right:0.5em;`}># {item}</span>
+                                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
                                         <span onClick={() => deleteTag(index)}>X</span>
                                     </Tag>
                                 )
-                            })
+                            }):null
                         }
                     </div>
-                    <Button enabled={title.length > 0 && contents.length > 0} onClick={goWrite}>등록</Button>
+                    <Button enabled={title.length > 0 && contents.length > 0} onClick={goEdit}>수정</Button>
                 </ModalFooter>
             </ModalBox>
         </ModalSection>
     )
 }
-export default ModalWrite;
+export default ModalEdit;

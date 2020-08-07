@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import {MarkdownBase} from "./Markdown.style";
+import {MarkdownBase, MarkdownSm} from "./Markdown.style";
 import {Color} from "./Color.style";
 
 export const Tag = styled.div`
   display:inline-block;
-  ${MarkdownBase(Color.yellow200)};
+  ${MarkdownSm(Color.yellow200)};
   background-color:${Color.yellow100};
   padding:0.2em 0.5em;
   border-radius: 5px;

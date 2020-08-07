@@ -43,7 +43,7 @@ const MoreReply = styled.div`
 interface propsType {
     replyList: any;
     likeReply: any;
-    replyLikeId:number;
+    replyLikeId:any;
     deleteReply: any;
 
     goReReply: any;

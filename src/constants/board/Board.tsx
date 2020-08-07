@@ -107,7 +107,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, e
                             background-color: ${Color.yellow100};
                             position: absolute;`}>
                                         <div css={css`cursor:pointer;`} onClick={() => deleteBoard(board.id)}>삭제하기</div>
-                                        <div onClick={editBoard}>수정하기</div>
+                                        <div onClick={()=>editBoard()}>수정하기</div>
                                     </div>
                                 </div> : null
                         }
@@ -120,7 +120,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, e
                             board.board_image.map((item: any) => {
                                 return (
                                     <figure key={item.id}>
-                                        <img css={css`max-width: 85%;`} src={item.path}/>
+                                        <img css={css`max-width: 60%;`} src={`${item.path}?q=60`}/>
                                     </figure>
                                 )
                             }) : null
