@@ -4,6 +4,7 @@ import Index from "../pages/index/Index";
 import Login from "../pages/auth/Login";
 import Join from "../pages/auth/Join";
 import Write from "../pages/board/Write";
+import Edit from "../pages/board/Edit";
 import Detail from "../pages/board/Detail";
 import Mypage from "../pages/mypage/Mypage";
 import NotFound from "../pages/404/NotFound";
@@ -27,6 +28,8 @@ const Root: React.FC = () => {
                 <Route exact path="/write" component={Write}/>
 
                 <Route exact path="/detail/:id" component={Detail}/>
+                <Route exact path="/edit" component={Edit}/>
+
                 <Route path="" component={NotFound}/>
             </Switch>
         </BrowserRouter>

@@ -18,11 +18,11 @@ export const MarkdownLg = (color: string = Color.black, weight: number = 400) =>
       ${media.sm`font-size: 20px;`}
 `;
 export const MarkdownMd = (color: string = Color.black, weight: number = 400) => css`
-      font-size: 20px;
+      font-size: 18px;
       font-weight: ${weight};
       color: ${color};
       line-height:1.5;
-      ${media.sm`font-size: 18px;`}
+      ${media.sm`font-size: 16px;`}
 `;
 export const MarkdownBase = (color: string = Color.black, weight: number = 400) => css`
       font-size: 16px;

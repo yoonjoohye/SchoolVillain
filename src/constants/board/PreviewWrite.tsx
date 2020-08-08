@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
-import ModalWrite from "./ModalWrite";
+import Write from "../../pages/board/Write";
 
 const WriteSection = styled.section`
   width:100%;
@@ -20,8 +20,9 @@ const WriteContainer = styled.div`
   }
 `
 
-const PreviewWrite = ({history}:any) => {
+const PreviewWrite = () => {
     const [openModal,setOpenModal]=useState(false);
+
     const goWrite=()=>{
         if(screen.width>480){
             setOpenModal(true);
@@ -32,6 +33,7 @@ const PreviewWrite = ({history}:any) => {
     const isOpen=(open:boolean)=>{
         setOpenModal(open);
     }
+
     return (
         <>
             <WriteSection>
@@ -43,8 +45,8 @@ const PreviewWrite = ({history}:any) => {
                 </div>
             </WriteSection>
             {
-                openModal?
-                <ModalWrite isOpen={isOpen}/>:null
+                openModal ?
+                <Write isOpen={isOpen}/>:null
             }
         </>
     )

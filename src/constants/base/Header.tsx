@@ -1,11 +1,13 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
-import {MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
 import {useCallback, useState} from "react";
+import {IconSm} from "../../../assets/style/Icon.style";
+import {css} from "@emotion/core";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -17,13 +19,13 @@ const HeaderSection = styled.header`
 
 `;
 const HeaderContainer = styled.section`
-  ${FlexBox('','space-between', 'center')};
+  ${FlexBox('', 'space-between', 'center')};
   padding:0 15%;
   height:4em;
   ${media.sm`padding:0 5%`}
 `
 const HeaderLogo = styled.div`
-  ${MarkdownMd()};
+  ${MarkdownLg(Color.purple200, 700)};
 `
 const HeaderMenu = styled.span`
   text-align:right;
@@ -31,32 +33,34 @@ const HeaderMenu = styled.span`
 `
 
 const Header = () => {
-    let [isNav,setIsNav]=useState(false);
+    let [isNav, setIsNav] = useState(false);
 
-    const onNav=useCallback(()=>{
+    const onNav = useCallback(() => {
         setIsNav(!isNav);
-    },[isNav]);
+    }, [isNav]);
 
     return (
         <HeaderSection>
             <HeaderContainer>
-                <HeaderLogo>
-                    <Link to="/">
+                <Link to="/">
+                    <HeaderLogo>
                         스쿨빌런
-                    </Link>
-                </HeaderLogo>
+                    </HeaderLogo>
+                </Link>
+
                 <HeaderMenu>
 
-                {
-                    sessionStorage.getItem('logged')?
-                        <>
-                            <Link to="/mypage">마이페이지</Link>
-                        </>
-                        :
-                        <>
-                            <Link to="/login">로그인</Link>/<Link to="/join/agreement">가입</Link>
-                        </>
-                }
+                    {
+                        sessionStorage.getItem('logged') ?
+                            <>
+                                <Link to="/mypage"><img css={css`width:2em;`}
+                                                        src="../../../assets/img/icon/profile.svg"/></Link>
+                            </>
+                            :
+                            <>
+                                <Link to="/login">로그인</Link>/<Link to="/join/agreement">가입</Link>
+                            </>
+                    }
                 </HeaderMenu>
 
 

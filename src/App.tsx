@@ -25,15 +25,19 @@ const App: React.FC = () => {
     const UserAPI=async ()=> {
         try {
             let response = await axios({
-                method: 'POST',
-                url: '/api/user/me'
+                method: 'GET',
+                url: 'api/user/auth/check'
             });
+            // console.log(response);
+
             if (response.status === 200) {
-                sessionStorage.setItem('logged', true);
-                // console.log(response);
+                if(response.data.is_user){
+                    sessionStorage.setItem('logged', response.data.is_user);
+                }else{
+                    sessionStorage.removeItem('logged');
+                }
             }
         } catch (err) {
-            sessionStorage.removeItem('logged');
             console.error(err);
         }
     }

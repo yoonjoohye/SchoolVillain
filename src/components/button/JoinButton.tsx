@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import {Color} from '../../../assets/style/Color.style';
 import {MarkdownMd} from "../../../assets/style/Markdown.style";
 
-type buttonProps = {
+interface buttonProps {
     enabled: boolean;
 }
 const Button = styled.button`

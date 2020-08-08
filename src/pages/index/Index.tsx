@@ -8,15 +8,15 @@ import PreviewWrite from '../../constants/board/PreviewWrite';
 
 import axios from 'axios';
 import SideBanner from "../../constants/banner/SideBanner";
-import Profile from '../../constants/mypage/Profile';
 import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
+import Identification from "../../constants/mypage/Identification";
 
 const IndexSection = styled.section`
   ${Section};
   display: grid;
-  grid-template-columns: 70%;
+  grid-template-columns: 68%;
   justify-content: flex-end;
   ${media.sm`
      grid-template-columns: 100%;
@@ -26,7 +26,7 @@ const IndexSection = styled.section`
 const Nav = styled.nav`
   position:fixed;
   left:15%;
-  width:20%; 
+  width:21.5%; 
   top: 6em;
 `
 const Index: React.FC = ({history}: any) => {
@@ -88,7 +88,7 @@ const Index: React.FC = ({history}: any) => {
             />
             <IndexSection>
                 <Nav css={onlyPc}>
-                    <Profile user={user}/>
+                    <Identification user={user}/>
                     <SideBanner/>
                 </Nav>
 

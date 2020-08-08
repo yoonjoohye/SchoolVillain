@@ -26,16 +26,16 @@ const SkeletonPreviewBoard = () => {
                 })}
             </div>
 
-            <div css={css`display:flex; justify-content: space-between;`}>
+            <div css={css`display:flex; justify-content: space-between; margin-top:1em;`}>
                 <div>
                     <div
-                        css={css`display:inline-block; width:3em; height:1em; background-color:#eee; margin-right:0.5em;`}></div>
-                    <div css={css`display:inline-block; width:3em; height:1em; background-color:#eee;`}></div>
+                        css={css`display:inline-block; width:4em; height:1.2em; background-color:#eee; margin-right:0.5em;`}></div>
+                    <div css={css`display:inline-block; width:4em; height:1.2em; background-color:#eee;`}></div>
                 </div>
                 <div>
                     <div
-                        css={css`display:inline-block; width:3em; height:1em; background-color:#eee; margin-right:0.5em;`}></div>
-                    <div css={css`display:inline-block; width:3em; height:1em; background-color:#eee;`}></div>
+                        css={css`display:inline-block; width:4em; height:1.2em; background-color:#eee; margin-right:0.5em;`}></div>
+                    <div css={css`display:inline-block; width:4em; height:1.2em; background-color:#eee;`}></div>
                 </div>
             </div>
 
