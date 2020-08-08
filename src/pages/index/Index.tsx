@@ -30,7 +30,7 @@ const Nav = styled.nav`
   top: 6em;
 `
 const Index: React.FC = ({history}: any) => {
-    const [boardList, setBoardList] = useState(null);
+    const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
 
     useEffect(() => {

@@ -218,7 +218,7 @@ const ModalEdit: React.FC<propsType> = ({
                             }):null
                         }
                     </div>
-                    <Button enabled={title.length > 0 && contents.length > 0} onClick={goEdit}>수정</Button>
+                    <Button enabled={title.length > 0 && contents.length > 0} onClick={goEdit}>등록</Button>
                 </ModalFooter>
             </ModalBox>
         </ModalSection>

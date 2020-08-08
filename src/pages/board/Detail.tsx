@@ -38,7 +38,7 @@ const Detail: React.FC = ({match}: any) => {
                     id: match.params.id
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setBoard(response.data);
                 if (response.data.my_like_id) {
@@ -146,7 +146,7 @@ const Detail: React.FC = ({match}: any) => {
         if(screen.width>480){
             setOpenModal(true);
         }else{
-            location.href='/edit';
+            location.href=`/edit/${match.params.id}`;
         }
     }
     const moreBoard = () => {

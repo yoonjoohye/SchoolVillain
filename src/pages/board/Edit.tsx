@@ -7,11 +7,12 @@ import axios from "axios";
 
 interface propsType {
     isOpen: any;
-    boardId: number
+    match?:any;
+    boardId?:any;
 }
 
-const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
-    // const [board, setBoard] = useState(null);
+const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
+    const [id, setId]=useState(boardId||match.params.id);
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
@@ -24,7 +25,7 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
     const [previewList, setPreviewList] = useState([]);
 
     useEffect(() => {
-        BoardAPI();
+            BoardAPI();
     }, []);
 
     const BoardAPI = useCallback(async () => {
@@ -33,25 +34,15 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
                 method: 'GET',
                 url: '/api/board/read',
                 params: {
-                    id: boardId
+                    id: id
                 }
             });
             // console.log(response);
             if (response.status === 200) {
-                // setBoard(response.data);
+                setId(response.data.id);
                 setTitle(response.data.title);
                 setContents(brToNL(response.data.contents));
-                setImgList(response.data.board_image);
-
-                // setImgList(produce(draft => {
-                //     response.data.board_image.map((item: any) => {
-                //         let a = new File([item.name], item.name, {
-                //             type: `image/${item.extension}`
-                //         });
-                //         draft.push(a);
-                //         console.log(a);
-                //     });
-                // }));
+                setImgList(response.data.board_image)
 
                 setPreviewList(produce(draft => {
                     response.data.board_image.map((item: any) => {
@@ -60,11 +51,6 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
                 }));
 
                 setTagList(response.data.hash_tags);
-                // setTagList(produce(draft => {
-                //     response.data.hash_tags.map((item: any) => {
-                //         draft.push(item.tag);
-                //     })
-                // }));
             }
         } catch (err) {
             console.log(err);
@@ -90,7 +76,7 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
     const loadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {files} = e.target;
 
-        console.log(files);
+        // console.log(files);
 
         Array.from(files).map((file: File, index: number) => {
             //사이즈 유효성
@@ -162,7 +148,7 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
         try {
             let formData = new FormData();
 
-            formData.append('id', boardId);
+            formData.append('id', id);
             formData.append('title', title);
             formData.append('contents', contents);
             imgList.map((img: File, index: number) => {
@@ -193,7 +179,7 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
             });
             console.log(response);
             if (response.status === 204) {
-                // window.location.reload();
+                window.location.href=`/detail/${match.params.id}`;
             }
         } catch (err) {
             if (err.response.status === 401) {

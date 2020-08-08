@@ -175,7 +175,7 @@ const PageEdit: React.FC<propsType> = ({
                             tagList.map((item, index) => {
                                 return (
                                     <Tag key={index}>
-                                        <span css={css`margin-right:0.5em;`}># {item}</span>
+                                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
                                         <span onClick={() => deleteTag(index)}>X</span>
                                     </Tag>
                                 )

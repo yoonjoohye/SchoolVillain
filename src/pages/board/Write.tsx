@@ -37,9 +37,9 @@ const Write: React.FC<propsType> = ({isOpen}) => {
             //사이즈 유효성
             if (file.size > 2 * 1024 * 1024) {
                 alert('이미지 사이즈가 2mb를 넘습니다.');
-            } else{
+            } else {
                 //선택한 이미지 개수 + 이미 고른 이미지 개수 = 6 크.. 난 천재!
-                if(index<(6-imgList.length) && imgList.length<(6-index)) {
+                if (index < (6 - imgList.length) && imgList.length < (6 - index)) {
                     // 이미지 file 정보 담기
                     setImgList(produce(draft => {
                         draft.push(file);
@@ -53,7 +53,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                         }));
                     }
                     reader.readAsDataURL(file);
-                }else{
+                } else {
                     alert('최대 6개까지 첨부할 수 있습니다.');
                 }
             }
