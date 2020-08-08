@@ -83,9 +83,25 @@ const Detail: React.FC = ({match}: any) => {
             }
         }
     }
-    const likeBoard = useCallback(async (id: number) => {
+    const likeBoard =async (id: number) => {
         try {
-            if (boardLikeId === 0) {
+            if (boardLikeId>0) {
+                let response = await axios({
+                    method: 'POST',
+                    url: '/api/board/like/delete',
+                    data: {
+                        id: boardLikeId
+                    }
+                });
+                console.log(response);
+                if (response.status === 200) {
+                    // console.log('좋아요 취소');
+                    setBoard(produce(draft=>{
+                        draft.board_like_count=response.data.count
+                    }));
+                    setBoardLikeId(0);
+                }
+            } else {
                 let response = await axios({
                     method: 'POST',
                     url: '/api/board/like/create',
@@ -94,22 +110,11 @@ const Detail: React.FC = ({match}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    // console.log(response.data);
-                    setBoard({...board, board_like_count: response.data.count});
+                    console.log(response.data);
+                    setBoard(produce(draft=>{
+                        draft.board_like_count=response.data.count
+                    }));
                     setBoardLikeId(response.data.id);
-                }
-            } else {
-                let response = await axios({
-                    method: 'POST',
-                    url: '/api/board/like/delete',
-                    data: {
-                        id: boardLikeId
-                    }
-                });
-                if (response.status === 200) {
-                    // console.log('좋아요 취소');
-                    setBoard({...board, board_like_count: response.data.count});
-                    setBoardLikeId(0);
                 }
             }
         } catch (err) {
@@ -119,7 +124,7 @@ const Detail: React.FC = ({match}: any) => {
                 console.error(err);
             }
         }
-    }, [boardLikeId]);
+    }
     const deleteBoard = async (id: number) => {
         try {
             let response = await axios({
@@ -157,7 +162,7 @@ const Detail: React.FC = ({match}: any) => {
         }));
     }
     const likeReply = async (id: number, replyIndex: number, reReplyIndex: number | any) => {
-        console.log(replyLikeId);
+        // console.log(replyLikeId);
         try {
             if (reReplyIndex !== null) {
                 //대댓글

@@ -17,11 +17,11 @@ const BoardSection = styled.section`
   box-shadow: 0 3px 5px #00000021;
 `
 const BoardBox = styled.div`
-  ${FlexBox('','space-between', 'center')};
+  ${FlexBox('', 'space-between', 'center')};
   ${MarkdownBase(Color.gray200)};
 `
 const BoardTitle = styled.div`
-  ${MarkdownMd(Color.black,700)};
+  ${MarkdownMd(Color.black, 700)};
   margin-bottom:0.5em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -44,12 +44,26 @@ const Img = styled.img`
   vertical-align: middle;
   width: 25%;
 `
+const ReplyName = styled.div`
+  ${MarkdownSm('', 500)};
+  margin-bottom:0.5em;
+`
+const ReplyContent = styled.p`
+  display:inline-block;
+  ${MarkdownBase()};
+  background-color:${Color.gray100};
+  padding: 0.8em 1em;
+  border-radius:10px;
+  margin-bottom:0.5em;
+`
+
 interface propsType {
     boardList: any;
     goDetail: any;
+    mypage?: boolean;
 }
 
-const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
+const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
     return (
         boardList ?
             boardList.map((board: any, index: number) => {
@@ -58,7 +72,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                         <BoardBox css={css`margin-bottom:1em;`}>
                             <div css={css`margin-right:0.5em;`}>
                                 <BoardTitle>{board.title}</BoardTitle>
-                                <BoardContents>{board.contents}</BoardContents>
+                                <BoardContents dangerouslySetInnerHTML={{__html: board.contents}}></BoardContents>
                             </div>
                             {
                                 board.thumbnail !== null ?
@@ -67,19 +81,19 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                         </BoardBox>
 
                         {
-                            board.hash_tags?
-                            board.hash_tags.map((tag: any, tagIndex: number) => {
-                                return (
-                                    <React.Fragment key={tag.id}>
-                                        {
-                                            tagIndex < 3 ?
-                                                <Tag># {tag.tag}</Tag>
-                                                :
-                                                null
-                                        }
-                                    </React.Fragment>
-                                )
-                            }):null
+                            board.hash_tags ?
+                                board.hash_tags.map((tag: any, tagIndex: number) => {
+                                    return (
+                                        <React.Fragment key={tag.id}>
+                                            {
+                                                tagIndex < 3 ?
+                                                    <Tag># {tag.tag}</Tag>
+                                                    :
+                                                    null
+                                            }
+                                        </React.Fragment>
+                                    )
+                                }) : null
                         }
 
                         <BoardBox css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
@@ -96,6 +110,27 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail}) => {
                                 <span><IconSm src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
                             </div>
                         </BoardBox>
+                        {
+                            mypage &&
+                            <div
+                                css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
+
+                                {
+                                    board.comment.map((reply: any, index: number) => {
+                                        return (
+                                            <div key={index} css={css`margin-top:0.5em;`}>
+                                                <ReplyName>
+                                                    {'익명'} <span
+                                                    css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                                </ReplyName>
+                                                <ReplyContent dangerouslySetInnerHTML={{__html: reply.contents}}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+
                     </BoardSection>
                 )
             }) :

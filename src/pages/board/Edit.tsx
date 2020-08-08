@@ -36,11 +36,11 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
                     id: boardId
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 // setBoard(response.data);
                 setTitle(response.data.title);
-                setContents(response.data.contents);
+                setContents(brToNL(response.data.contents));
                 setImgList(response.data.board_image);
 
                 // setImgList(produce(draft => {
@@ -71,6 +71,10 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
 
         }
     }, []);
+
+    const brToNL=(str:string)=> {
+        return str.replace(/<br ?\/?>/g, '');
+    }
 
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -164,14 +168,19 @@ const Edit: React.FC<propsType> = ({isOpen, boardId}) => {
             imgList.map((img: File, index: number) => {
                 formData.append('images[]', imgList[index]);
             });
-            imgList.map((img: File, index: number) => {
-                formData.append('deleteImages[]', delImgList[index]);
+            delImgList.map((img: File, index: number) => {
+                formData.append('deleteImages[]', img);
             });
             tagList.map((tag: string, index: number) => {
-                formData.append('hashTags[]', tagList[index]);
+                if(typeof tagList[index] === 'object') {
+                    formData.append('hashTags[]', tag.tag);
+                }else{
+                    formData.append('hashTags[]', tag);
+                }
+
             });
-            tagList.map((tag: string, index: number) => {
-                formData.append('deleteHashTags[]', delTagList[index]);
+            delTagList.map((tag: string, index: number) => {
+                formData.append('deleteHashTags[]', tag);
             });
 
             let response = await axios({

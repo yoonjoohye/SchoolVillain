@@ -8,10 +8,10 @@ import PreviewWrite from '../../constants/board/PreviewWrite';
 
 import axios from 'axios';
 import SideBanner from "../../constants/banner/SideBanner";
-import Profile from '../../constants/mypage/Profile';
 import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
+import Identification from "../../constants/mypage/Identification";
 
 const IndexSection = styled.section`
   ${Section};
@@ -88,7 +88,7 @@ const Index: React.FC = ({history}: any) => {
             />
             <IndexSection>
                 <Nav css={onlyPc}>
-                    <Profile user={user}/>
+                    <Identification user={user}/>
                     <SideBanner/>
                 </Nav>
 
