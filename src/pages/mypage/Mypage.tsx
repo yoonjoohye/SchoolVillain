@@ -7,12 +7,6 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import Profile from "../../constants/mypage/Profile";
 import axios from "axios";
-import Agreement from "../../constants/join/Agreement";
-import ServiceRule from "../../constants/join/ServiceRule";
-import PrivacyRule from "../../constants/join/PrivacyRule";
-import Email from "../../constants/join/Email";
-import Password from "../../constants/join/Password";
-import PasswordConfirm from "../../constants/join/PasswordConfirm";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -40,7 +34,6 @@ const Mypage: React.FC = ({history, match}: any) => {
 
     const tab = ['좋아요', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
     const [menu, setMenu] = useState(0);
-    let mypageComponent;
 
     useEffect(() => {
         if (match.params.name === 'like') {
@@ -151,20 +144,6 @@ const Mypage: React.FC = ({history, match}: any) => {
     const goDetail = (id: number) => {
         history.push(`/detail/${id}`);
     }
-
-    if(menu===0){
-        mypageComponent = <PreviewBoard boardList={likeList} goDetail={goDetail}/>;
-    }
-    if(menu===1){
-        mypageComponent = <PreviewBoard boardList={boardList} goDetail={goDetail}/>;
-    }
-    if(menu===2){
-        mypageComponent = <PreviewBoard boardList={replyList} goDetail={goDetail}/>;
-    }
-    if(menu===3){
-        mypageComponent = <Profile/>;
-    }
-
     return (
         <MypageSection>
             <MypageTab>
@@ -179,7 +158,22 @@ const Mypage: React.FC = ({history, match}: any) => {
                 }
             </MypageTab>
             <MypageContents>
-                {mypageComponent}
+                {
+                    menu === 0 &&
+                    <PreviewBoard boardList={likeList} goDetail={goDetail}/>
+                }
+                {
+                    menu === 1 &&
+                    <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                }
+                {
+                    menu === 2 &&
+                    <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
+                }
+                {
+                    menu === 3 &&
+                    <Profile/>
+                }
             </MypageContents>
         </MypageSection>
     )

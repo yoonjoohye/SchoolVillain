@@ -47,9 +47,9 @@ const Write: React.FC<propsType> = ({isOpen}) => {
 
                     //이미지 url 정보 담기
                     let reader = new FileReader();
-                    reader.onloadend = () => {
+                    reader.onloadend = (e:ProgressEvent<FileReader>) => {
                         setPreviewList(produce(draft => {
-                            draft.push(reader.result);
+                            draft.push(e.target.result);
                         }));
                     }
                     reader.readAsDataURL(file);
@@ -132,6 +132,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
             {
                 window.screen.width > 480 ?
                     <ModalWrite isOpen={isOpen}
+                               name="작성"
                                 title={title}
                                 changeTitle={changeTitle}
 
@@ -148,7 +149,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                 deleteImg={deleteImg}
                                 previewList={previewList}
 
-                                goWrite={goWrite}/>
+                               upload={goWrite}/>
                     :
                     <PageWrite title={title}
                                changeTitle={changeTitle}
@@ -166,7 +167,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                deleteImg={deleteImg}
                                previewList={previewList}
 
-                               goWrite={goWrite}/>
+                               upload={goWrite}/>
             }
         </>
 

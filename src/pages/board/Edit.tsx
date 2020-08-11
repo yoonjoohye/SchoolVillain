@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import SEO from "../SEO/SEO";
 import produce from "immer";
-import ModalEdit from "../../constants/board/ModalEdit";
-import PageEdit from "../../constants/board/PageEdit";
 import axios from "axios";
+import PageWrite from "../../constants/board/PageWrite";
+import ModalWrite from "../../constants/board/ModalWrite";
 
 interface propsType {
     isOpen: any;
@@ -179,7 +179,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
             });
             console.log(response);
             if (response.status === 204) {
-                window.location.href=`/detail/${match.params.id}`;
+                window.location.href=`/detail/${id}`;
             }
         } catch (err) {
             if (err.response.status === 401) {
@@ -196,7 +196,8 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                  keywords="스쿨빌런 게시물 작성 페이지"/>
             {
                 window.screen.width > 480 ?
-                    <ModalEdit isOpen={isOpen}
+                    <ModalWrite isOpen={isOpen}
+                               name="수정"
                                title={title}
                                changeTitle={changeTitle}
 
@@ -213,9 +214,9 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                                deleteImg={deleteImg}
                                previewList={previewList}
 
-                               goEdit={goEdit}/>
+                               upload={goEdit}/>
                     :
-                    <PageEdit title={title}
+                    <PageWrite title={title}
                               changeTitle={changeTitle}
 
                               contents={contents}
@@ -231,7 +232,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                               deleteImg={deleteImg}
                               previewList={previewList}
 
-                              goEdit={goEdit}/>
+                              upload={goEdit}/>
             }
         </>
 

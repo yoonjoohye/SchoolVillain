@@ -124,7 +124,7 @@ const initialState:stateType = {
 }
 
 
-const handleBoard=(state=initialState, action:any)=>{
+const handleBoard=(state:stateType=initialState, action:any)=>{
     switch(action.type){
         case BOARD_LIKE_REQUEST:
             return {
@@ -314,6 +314,8 @@ const handleBoard=(state=initialState, action:any)=>{
                     delete: false
                 }
             }
+        default: // need this for default case
+            return state
     }
 }
 
