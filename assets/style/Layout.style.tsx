@@ -11,7 +11,8 @@ export const FlexBox = (flexDirection:string='row', justifyContent: string = 'ce
 export const Section=()=>css` 
   padding:0 15%;
   min-height:100vh;
-  ${media.sm`padding:0 5%`}
+  ${media.md`padding:0 8%;`};
+  ${media.sm`padding:0 5%`};
 `
 
 export const onlyPc=()=>css`

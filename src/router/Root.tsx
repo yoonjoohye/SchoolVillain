@@ -10,10 +10,12 @@ import Mypage from "../pages/mypage/Mypage";
 import NotFound from "../pages/error/NotFound";
 import Header from "../constants/base/Header";
 import Apply from "../pages/banner/Apply";
+import ScrollToTop from "./ScrollToTop";
 
 const Root: React.FC = () => {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Header/>
             <Switch>
                 <Route exact path="/" component={Index}/>

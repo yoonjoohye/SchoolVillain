@@ -12,3 +12,10 @@ export const Tag = styled.div`
   margin-bottom:0.5em;
 `
 
+interface ErrorMsgProps {
+  visible: boolean;
+}
+export const ErrorMsg=styled.div<ErrorMsgProps>`
+    ${MarkdownSm(Color.red)};
+    visibility: ${(props:ErrorMsgProps)=>(props.visible ? 'visible':'hidden')};
+`
