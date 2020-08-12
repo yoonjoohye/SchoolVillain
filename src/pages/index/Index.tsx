@@ -16,21 +16,25 @@ import Identification from "../../constants/mypage/Identification";
 const IndexSection = styled.section`
   ${Section};
   display: grid;
-  grid-template-columns: 68%;
-  justify-content: flex-end;
+  grid-template-columns: 35% 65%;
+  //grid-template-columns: 68%;
+  //justify-content: flex-end;
   ${media.sm`
      grid-template-columns: 100%;
   `};
 `
 
 const Nav = styled.nav`
-  position:fixed;
-  left:15%;
-  width:21.5%; 
-  top: 6em;
+  position: -webkit-sticky; /* 사파리 브라우저 지원 */
+  position: sticky;
+  position:sticky; 
+  margin-right:1rem;
+  top: 6em; 
+  height: 100vh; 
+  box-sizing: border-box;
 `
 const Index: React.FC = ({history}: any) => {
-    const [boardList, setBoardList] = useState(null);
+    const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
 
     useEffect(() => {

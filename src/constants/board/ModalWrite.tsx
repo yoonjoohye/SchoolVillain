@@ -114,7 +114,7 @@ const DelButton=styled.button`
 
 interface propsType {
     isOpen: any;
-
+    name:string;
     title: string;
     changeTitle: any;
 
@@ -122,7 +122,7 @@ interface propsType {
     changeContents: any;
 
     tag: string;
-    tagList: string[];
+    tagList: any;
     changeTag: any;
     onEnter: any;
     deleteTag: any;
@@ -131,11 +131,12 @@ interface propsType {
     deleteImg: any;
     previewList: string[];
 
-    goWrite: any;
+    upload: any;
 }
 
 const ModalWrite: React.FC<propsType> = ({
                                              isOpen,
+                                             name,
                                              title,
                                              changeTitle,
                                              contents,
@@ -148,14 +149,14 @@ const ModalWrite: React.FC<propsType> = ({
                                              loadImg,
                                              deleteImg,
                                              previewList,
-                                             goWrite
+                                            upload
                                          }) => {
 
     return (
         <ModalSection>
             <ModalBox>
                 <ModalHeader>
-                    <p>게시물 작성</p>
+                    <p>게시물 {name}</p>
                     <span css={css`position:absolute; margin-left:24em; cursor:pointer;`}
                           onClick={() => isOpen(false)}>X</span>
                 </ModalHeader>
@@ -187,7 +188,7 @@ const ModalWrite: React.FC<propsType> = ({
                                             <DelButton onClick={() => deleteImg(index)}>X</DelButton>
                                             <PreviewImg>
                                                 <img
-                                                    css={css`width:100%; position: absolute; clip: rect(0px 152px 130px 0px);`}
+                                                    css={css`width: 100%; height: 100%;`}
                                                     src={preview}/>
                                             </PreviewImg>
                                         </figure>
@@ -207,17 +208,18 @@ const ModalWrite: React.FC<propsType> = ({
                     </div>
                     <div css={css`margin-bottom:1em;`}>
                         {
-                            tagList.map((item, index) => {
+                            tagList?
+                            tagList.map((item:any, index:number) => {
                                 return (
                                     <Tag key={index}>
-                                        <span css={css`margin-right:0.5em;`}># {item}</span>
+                                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
                                         <span onClick={() => deleteTag(index)}>X</span>
                                     </Tag>
                                 )
-                            })
+                            }):null
                         }
                     </div>
-                    <Button enabled={title.length > 0 && contents.length > 0} onClick={goWrite}>등록</Button>
+                    <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>등록</Button>
                 </ModalFooter>
             </ModalBox>
         </ModalSection>

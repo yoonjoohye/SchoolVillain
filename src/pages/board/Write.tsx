@@ -37,9 +37,9 @@ const Write: React.FC<propsType> = ({isOpen}) => {
             //사이즈 유효성
             if (file.size > 2 * 1024 * 1024) {
                 alert('이미지 사이즈가 2mb를 넘습니다.');
-            } else{
+            } else {
                 //선택한 이미지 개수 + 이미 고른 이미지 개수 = 6 크.. 난 천재!
-                if(index<(6-imgList.length) && imgList.length<(6-index)) {
+                if (index < (6 - imgList.length) && imgList.length < (6 - index)) {
                     // 이미지 file 정보 담기
                     setImgList(produce(draft => {
                         draft.push(file);
@@ -47,13 +47,13 @@ const Write: React.FC<propsType> = ({isOpen}) => {
 
                     //이미지 url 정보 담기
                     let reader = new FileReader();
-                    reader.onloadend = () => {
+                    reader.onloadend = (e:ProgressEvent<FileReader>) => {
                         setPreviewList(produce(draft => {
-                            draft.push(reader.result);
+                            draft.push(e.target.result);
                         }));
                     }
                     reader.readAsDataURL(file);
-                }else{
+                } else {
                     alert('최대 6개까지 첨부할 수 있습니다.');
                 }
             }
@@ -132,6 +132,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
             {
                 window.screen.width > 480 ?
                     <ModalWrite isOpen={isOpen}
+                               name="작성"
                                 title={title}
                                 changeTitle={changeTitle}
 
@@ -148,7 +149,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                 deleteImg={deleteImg}
                                 previewList={previewList}
 
-                                goWrite={goWrite}/>
+                               upload={goWrite}/>
                     :
                     <PageWrite title={title}
                                changeTitle={changeTitle}
@@ -166,7 +167,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                deleteImg={deleteImg}
                                previewList={previewList}
 
-                               goWrite={goWrite}/>
+                               upload={goWrite}/>
             }
         </>
 

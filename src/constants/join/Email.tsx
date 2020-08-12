@@ -4,17 +4,11 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {MarkdownSm, MarkdownBase} from "../../../assets/style/Markdown.style";
 import JoinInput from "../../components/input/JoinInput";
+import {ErrorMsg} from "../../../assets/style/Util";
 
 
 const JoinTitle = styled.div`
    ${MarkdownBase(Color.purple200, 600)};
-`
-interface ErrorMsgProps {
-    visible: boolean;
-}
-const ErrorMsg=styled.div<ErrorMsgProps>`
-    ${MarkdownSm(Color.red)};
-    visibility: ${(props:ErrorMsgProps)=>(props.visible ? 'visible':'hidden')};
 `
 
 interface propsType {

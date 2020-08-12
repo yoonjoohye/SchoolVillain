@@ -96,7 +96,7 @@ interface propsType {
     changeContents: any;
 
     tag: string;
-    tagList: string[];
+    tagList: any;
     changeTag: any;
     onEnter: any;
     deleteTag: any;
@@ -105,7 +105,7 @@ interface propsType {
     deleteImg: any;
     previewList: string[];
 
-    goWrite: any;
+    upload: any;
 }
 
 const PageWrite: React.FC<propsType> = ({
@@ -121,7 +121,7 @@ const PageWrite: React.FC<propsType> = ({
                                             loadImg,
                                             deleteImg,
                                             previewList,
-                                            goWrite
+                                           upload
                                         }) => {
 
     return (
@@ -172,10 +172,10 @@ const PageWrite: React.FC<propsType> = ({
                     </div>
                     <div>
                         {
-                            tagList.map((item, index) => {
+                            tagList.map((item:any, index:number) => {
                                 return (
                                     <Tag key={index}>
-                                        <span css={css`margin-right:0.5em;`}># {item}</span>
+                                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
                                         <span onClick={() => deleteTag(index)}>X</span>
                                     </Tag>
                                 )
@@ -183,7 +183,7 @@ const PageWrite: React.FC<propsType> = ({
                         }
                     </div>
                 </div>
-                <Button enabled={title.length > 0 && contents.length > 0} onClick={goWrite}>등록</Button>
+                <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>등록</Button>
             </WriteContainer>
         </WriteSection>
     )

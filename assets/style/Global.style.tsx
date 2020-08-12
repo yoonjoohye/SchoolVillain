@@ -19,7 +19,6 @@ export const GlobalStyle = () => (
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
       font-weight: 400;
-      line-height: 1.5;
       color: ${Color.black};
       ${media.sm`font-size: 14px;`}
     }
@@ -27,17 +26,16 @@ export const GlobalStyle = () => (
     textarea {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
-      line-height: 1.5;
 
     }
     
     input {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
-      line-height: 1.5;
     }
     button{
       border:0;
+      background-color:transparent;
       cursor:pointer;
     }
     li {

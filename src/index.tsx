@@ -14,7 +14,9 @@ console.log(
 console.log(
     '%c다 함께 깨끗한 인터넷 문화를 만들어요.',
     'color:#9067ff; font-size:15px;'
-)
+);
+
+
 
 ReactDOM.render(<App/>, document.getElementById('app'));
 

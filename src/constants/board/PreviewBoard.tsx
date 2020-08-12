@@ -65,7 +65,7 @@ interface propsType {
 
 const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
     return (
-        boardList ?
+        boardList.length>0 && boardList ?
             boardList.map((board: any, index: number) => {
                 return (
                     <BoardSection key={board.id} onClick={() => goDetail(board.id)}>

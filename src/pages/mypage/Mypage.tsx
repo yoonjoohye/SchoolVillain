@@ -17,10 +17,9 @@ const MypageTab = styled.nav`
   margin-bottom:1em;
   border-bottom:1px solid ${Color.gray100};
 `
-const Tab=styled.li`
+const Tab = styled.li`
   width:25%;
   cursor:pointer;
-  margin:0 1em;
   padding:1em 0;
 
   text-align:center;
@@ -28,28 +27,34 @@ const Tab=styled.li`
 const MypageContents = styled.div`
   padding:1em 0;
 `
-const Mypage: React.FC = ({history}:any) => {
-    const [likeList,setLikeList]=useState([]);
-    const [boardList,setBoardList]=useState([]);
-    const [replyList,setReplyList]=useState([]);
+const Mypage: React.FC = ({history, match}: any) => {
+    const [likeList, setLikeList] = useState([]);
+    const [boardList, setBoardList] = useState([]);
+    const [replyList, setReplyList] = useState([]);
 
     const tab = ['좋아요', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
     const [menu, setMenu] = useState(0);
 
-    useEffect(()=>{
-        if(menu===0){
+    useEffect(() => {
+        if (match.params.name === 'like') {
+            setMenu(0);
             MyLikeAPI();
         }
-        if(menu===1){
+        if (match.params.name === 'board') {
+            setMenu(1);
             MyBoardAPI();
-        }
-        if(menu===2){
-            MyReplyAPI();
-        }
-        if(menu===3){
 
         }
-    },[menu]);
+        if (match.params.name === 'reply') {
+            setMenu(2);
+            MyReplyAPI();
+
+        }
+        if (match.params.name === 'profile') {
+            setMenu(3);
+            MyProfileAPI();
+        }
+    }, [match.params]);
 
     const MyLikeAPI = async () => {
         try {
@@ -117,14 +122,27 @@ const Mypage: React.FC = ({history}:any) => {
             }
         }
     }
+    const MyProfileAPI=async()=>{
 
-
-    const selectMenu = (idx: number) => {
-        setMenu(idx);
     }
 
-    const goDetail=(id:number)=>{
-        history.push(`detail/${id}`);
+    const selectMenu = (idx: number) => {
+        if (idx === 0) {
+            history.push('/mypage/like');
+        }
+        if (idx === 1) {
+            history.push('/mypage/board');
+        }
+        if (idx === 2) {
+            history.push('/mypage/reply');
+        }
+        if (idx === 3) {
+            history.push('/mypage/profile');
+        }
+    }
+
+    const goDetail = (id: number) => {
+        history.push(`/detail/${id}`);
     }
     return (
         <MypageSection>
@@ -132,7 +150,9 @@ const Mypage: React.FC = ({history}:any) => {
                 {
                     tab.map((item: string, index: number) => {
                         return (
-                            <Tab key={index} css={css`${menu===index ? css`border-bottom:3px solid ${Color.purple200}`: css`border-bottom:0;`}`} onClick={() => selectMenu(index)}>{item}</Tab>
+                            <Tab key={index}
+                                 css={css`${menu === index ? css`border-bottom:3px solid ${Color.purple200}` : css`border-bottom:0;`}`}
+                                 onClick={() => selectMenu(index)}>{item}</Tab>
                         )
                     })
                 }
@@ -140,30 +160,18 @@ const Mypage: React.FC = ({history}:any) => {
             <MypageContents>
                 {
                     menu === 0 &&
-                    (
-                        likeList.length>0?
-                    <PreviewBoard boardList={likeList} goDetail={goDetail}/>:
-                        <div>좋아요를 누른 게시물이 없어요.</div>
-                    )
+                    <PreviewBoard boardList={likeList} goDetail={goDetail}/>
                 }
                 {
                     menu === 1 &&
-                    (
-                    boardList.length>0?
-                    <PreviewBoard boardList={boardList} goDetail={goDetail}/>:
-                        <div>작성한 게시물이 없어요.</div>
-                    )
+                    <PreviewBoard boardList={boardList} goDetail={goDetail}/>
                 }
                 {
                     menu === 2 &&
-                    (
-                    replyList.length>0?
-                    <PreviewBoard mypage={true} boardList={replyList} goDetail={goDetail}/>:
-                        <div>댓글을 단 게시물이 없어요.</div>
-                    )
+                    <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
                 }
                 {
-                    menu===3 &&
+                    menu === 3 &&
                     <Profile/>
                 }
             </MypageContents>

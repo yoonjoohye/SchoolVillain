@@ -8,14 +8,13 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './store/index';
+const sagaMiddleware = createSagaMiddleware();
+const store=createStore(rootReducer,composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.baseURL = 'https://dev.villain.school';
-
-const sagaMiddleware = createSagaMiddleware();
-const store=createStore(rootReducer,composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 const App: React.FC = () => {
     useEffect(()=>{
