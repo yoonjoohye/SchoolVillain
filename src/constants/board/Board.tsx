@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
@@ -8,6 +8,7 @@ import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
 import {Tag} from "../../../assets/style/Util";
+import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
   ${MarkdownLg(Color.black, 700)};
@@ -21,46 +22,44 @@ const BoardContents = styled.div`
   min-height: 5em;
 }
 `
-// const SpeechBubble = styled.span`
-//   position: absolute;
-//   margin-top: 25px;
-//   margin-left: -60px;
-//   background: ${Color.white};
-//   border: 1px solid ${Color.gray100};
-//   border-radius: 0.3rem;
-//   ${MarkdownSm(Color.gray200)}
-//   &:after,
-//   &:before {
-//     bottom: 100%;
-//     border: solid ${Color.gray100};
-//     content: ' ';
-//     height: 0;
-//     width: 0;
-//     position: absolute;
-//   }
-//   &:before {
-//     left: 38%;
-//     border-color: transparent;
-//     border-bottom-color: ${Color.gray100};
-//     border-width: 9px;
-//     margin-left: 0;
-//   }
-//   &:after {
-//     left: 41%;
-//     border-color: transparent;
-//     border-bottom-color: ${Color.white};
-//     border-width: 7px;
-//     margin-left: 0;
-//   }
-// `;
-// const SpeechBubbleContent = styled.div`
-//   text-align: center;
-//   word-break: keep-all;
-//   padding: 0.5rem 1.5rem;
-//   &:nth-of-type(1){
-//     border-bottom: 1px solid ${Color.gray100};
-//   }
-// `;
+const SpeechBubble = styled.div`
+  position: absolute;
+  margin-top: 150px;
+  width:10%;
+  background: ${Color.white};
+  box-shadow: 0 0 10px rgba(0,0,0,0.12);
+  border-radius: 0.3rem;
+  ${MarkdownSm(Color.gray200)}
+  ${media.sm`
+    right:5%;
+    width:25%;
+  `}
+  // &:after {
+  //   bottom: 100%;
+  //   border: solid ${Color.gray100};
+  //   content: ' ';
+  //   height: 0;
+  //   width: 0;
+  //   position: absolute;
+  //   left: 45%;
+  //   border-color: transparent;
+  //   border-bottom-color: ${Color.white};
+  //   border-width: 8px;
+  //   margin-left: 0;
+  // }
+`;
+const SpeechBubbleContent = styled.div`
+  text-align: center;
+  word-break: keep-all;
+  padding: 1rem 1.5rem;
+  cursor:pointer;
+  &:nth-of-type(1){
+    border-bottom: 1px solid ${Color.gray100};
+  }
+  &:hover{
+    background-color:#fcfcfc;
+  }
+`;
 interface BoxProps {
     justifyContent?: string;
 }
@@ -75,10 +74,10 @@ interface propsType {
     boardLikeId: number;
     editBoard: any;
     deleteBoard: any;
-    moreBoard: any;
 }
 
-const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, editBoard, deleteBoard}) => {
+const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, deleteBoard}) => {
+    const [openModifyBox,setOpenModifyBox]=useState(false);
     return (
         board ?
             <>
@@ -100,15 +99,15 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, e
                     <>
                         {
                             board.is_mine ?
-                                <div css={css`width:100%; max-width: fit-content;`}>
-                                    <div onClick={moreBoard}>. . .</div>
-                                    <div css={css`border-radius:50%; border-top-left-radius: 0;     
-                            padding: 1em;
-                            background-color: ${Color.yellow100};
-                            position: absolute;`}>
-                                        <div css={css`cursor:pointer;`} onClick={() => deleteBoard(board.id)}>삭제하기</div>
-                                        <div onClick={()=>editBoard()}>수정하기</div>
-                                    </div>
+                                <div css={css`${FlexBox('column','center','center')};`}>
+                                    <div onClick={()=>{setOpenModifyBox(!openModifyBox)}}>. . .</div>
+                                    {openModifyBox &&
+                                        <SpeechBubble>
+                                            <SpeechBubbleContent
+                                                onClick={() => deleteBoard(board.id)}>삭제하기</SpeechBubbleContent>
+                                            <SpeechBubbleContent onClick={() => editBoard()}>수정하기</SpeechBubbleContent>
+                                        </SpeechBubble>
+                                    }
                                 </div> : null
                         }
                     </>

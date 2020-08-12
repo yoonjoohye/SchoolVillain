@@ -149,9 +149,6 @@ const Detail: React.FC = ({match}: any) => {
             location.href=`/edit/${match.params.id}`;
         }
     }
-    const moreBoard = () => {
-
-    }
 
     const changeReply = (reply: string) => {
         setReply(reply);
@@ -367,7 +364,7 @@ const Detail: React.FC = ({match}: any) => {
             <DetailSection>
                 <Board board={board}
                        likeBoard={likeBoard} boardLikeId={boardLikeId}
-                       deleteBoard={deleteBoard} editBoard={editBoard} moreBoard={moreBoard}/>
+                       deleteBoard={deleteBoard} editBoard={editBoard}/>
 
                 <Reply replyList={replyList}
                        likeReply={likeReply} goReReply={goReReply} deleteReply={deleteReply}

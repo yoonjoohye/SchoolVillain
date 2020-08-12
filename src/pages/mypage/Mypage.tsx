@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import Profile from "../../constants/mypage/Profile";
 import axios from "axios";
+import SEO from "../SEO/SEO";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -122,7 +123,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
         }
     }
-    const MyProfileAPI=async()=>{
+    const MyProfileAPI = async () => {
 
     }
 
@@ -145,37 +146,43 @@ const Mypage: React.FC = ({history, match}: any) => {
         history.push(`/detail/${id}`);
     }
     return (
-        <MypageSection>
-            <MypageTab>
-                {
-                    tab.map((item: string, index: number) => {
-                        return (
-                            <Tab key={index}
-                                 css={css`${menu === index ? css`border-bottom:3px solid ${Color.purple200}` : css`border-bottom:0;`}`}
-                                 onClick={() => selectMenu(index)}>{item}</Tab>
-                        )
-                    })
-                }
-            </MypageTab>
-            <MypageContents>
-                {
-                    menu === 0 &&
-                    <PreviewBoard boardList={likeList} goDetail={goDetail}/>
-                }
-                {
-                    menu === 1 &&
-                    <PreviewBoard boardList={boardList} goDetail={goDetail}/>
-                }
-                {
-                    menu === 2 &&
-                    <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
-                }
-                {
-                    menu === 3 &&
-                    <Profile/>
-                }
-            </MypageContents>
-        </MypageSection>
+        <>
+            <SEO title="마이페이지 | 스쿨빌런"
+                 description="스쿨빌런 마이페이지입니다."
+                 keywords="스쿨빌런 마이페이지"/>
+
+            <MypageSection>
+                <MypageTab>
+                    {
+                        tab.map((item: string, index: number) => {
+                            return (
+                                <Tab key={index}
+                                     css={css`${menu === index ? css`border-bottom:3px solid ${Color.purple200}` : css`border-bottom:0;`}`}
+                                     onClick={() => selectMenu(index)}>{item}</Tab>
+                            )
+                        })
+                    }
+                </MypageTab>
+                <MypageContents>
+                    {
+                        menu === 0 &&
+                        <PreviewBoard boardList={likeList} goDetail={goDetail}/>
+                    }
+                    {
+                        menu === 1 &&
+                        <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                    }
+                    {
+                        menu === 2 &&
+                        <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
+                    }
+                    {
+                        menu === 3 &&
+                        <Profile/>
+                    }
+                </MypageContents>
+            </MypageSection>
+        </>
     )
 }
 
