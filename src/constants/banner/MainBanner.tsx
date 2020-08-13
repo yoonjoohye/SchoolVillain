@@ -22,7 +22,7 @@ const MainBanner=()=>{
     return(
         <BannerSection>
             <Link to="/banner/apply">
-                <BannerImg src="../../../assets/img/banner/example.jpg"/>
+                <BannerImg src={require('../../../assets/img/banner/example.jpg')}/>
                 <BannerTag>나의 최애 배너등록하러가기 →</BannerTag>
             </Link>
         </BannerSection>
