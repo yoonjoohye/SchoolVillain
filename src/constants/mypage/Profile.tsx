@@ -168,43 +168,7 @@ const Profile: React.FC<propsType> = ({
                                           goLogout,
                                           goWithdrawal
                                       }) => {
-    // const [nickname, setNickname] = useState('');
-    // const [nicknameErr, setNicknameErr] = useState('');
-    // const [nicknameCheck, setNicknameCheck] = useState(false);
-    // const [email, setEmail] = useState('');
-    // const [currentPassword, setCurrentPassword] = useState('');
-    // const [currentPasswordErr, setCurrentPasswordErr] = useState('');
-    // const [currentPasswordCheck, setCurrentPasswordCheck] = useState(false);
-    // const [newPassword, setNewPassword] = useState('');
-    // const [newPasswordErr, setNewPasswordErr] = useState('');
-    // const [newPasswordCheck, setNewPasswordCheck] = useState(false);
-    // const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
-    // const [newPasswordConfirmErr, setNewPasswordConfirmErr] = useState('');
-    // const [newPasswordConfirmCheck, setNewPasswordConfirmCheck] = useState(false);
 
-
-    // const [img, setImg] = useState('');
-    // const [preview, setPreview] = useState('');
-    //
-    // const loadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const {files} = e.target;
-    //
-    //     if (files[0].size > 2 * 1024 * 1024) {
-    //         alert('이미지 사이즈가 2mb를 넘습니다.');
-    //     } else {
-    //         setImg(files[0]);
-    //
-    //         let reader = new FileReader();
-    //         reader.onloadend = () => {
-    //             setPreview(reader.result);
-    //         }
-    //         reader.readAsDataURL(files[0]);
-    //     }
-    // }
-    // const deleteImg=()=>{
-    //     setPreview('');
-    //     setImg('');
-    // }
 
     return (
         <section>

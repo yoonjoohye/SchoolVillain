@@ -39,7 +39,7 @@ const PreviewWrite = () => {
             <WriteSection>
                 <div onClick={goWrite}>
                     <WriteContainer>
-                        <img css={css`width:2em; height:2em; margin-right:10px;`} src="../../../assets/img/icon/edit.svg"/>
+                        <img css={css`width:2em; height:2em; margin-right:10px;`} src={require('../../../assets/img/icon/edit.svg')}/>
                         빌런아, 오늘 있었던 일 뭐야?
                     </WriteContainer>
                 </div>
