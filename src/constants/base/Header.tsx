@@ -54,7 +54,7 @@ const Header = () => {
                         sessionStorage.getItem('logged') ?
                             <>
                                 <Link to="/mypage/profile"><img css={css`width:2em;`}
-                                                        src={require('../../../assets/img/icon/profile.svg')}/></Link>
+                                                        src="../../../assets/img/icon/profile.svg"/></Link>
                             </>
                             :
                             <>
