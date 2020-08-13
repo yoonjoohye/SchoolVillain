@@ -5,29 +5,26 @@ import styled from '@emotion/styled';
 import MainBanner from '../../constants/banner/MainBanner';
 import PreviewBoard from '../../constants/board/PreviewBoard';
 import PreviewWrite from '../../constants/board/PreviewWrite';
-
 import axios from 'axios';
 import SideBanner from "../../constants/banner/SideBanner";
 import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
 import Identification from "../../constants/mypage/Identification";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const IndexSection = styled.section`
   ${Section};
   display: grid;
   grid-template-columns: 35% 65%;
-  //grid-template-columns: 68%;
-  //justify-content: flex-end;
   ${media.sm`
      grid-template-columns: 100%;
   `};
 `
 
 const Nav = styled.nav`
-  position: -webkit-sticky; /* 사파리 브라우저 지원 */
+  position: -webkit-sticky;
   position: sticky;
-  position:sticky; 
   margin-right:1rem;
   top: 6em; 
   height: 100vh; 
@@ -36,6 +33,8 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
+
+    const [loading,setLoading]=useState(false);
 
     useEffect(() => {
         BoardAPI();
@@ -84,6 +83,15 @@ const Index: React.FC = ({history}: any) => {
         history.push(`/detail/${id}`);
     }
 
+    // const props: InfiniteScroll.InfiniteScrollProps = {
+    //     dataLength: 5,
+    //     hasMore: true,
+    //     endMessage: 'The end.',
+    //     loader: <h3>Loading...</h3>,
+    //     next: () => null,
+    //     className: '',
+    // };
+
     return (
         <>
             <SEO title="스쿨빌런"
@@ -99,7 +107,9 @@ const Index: React.FC = ({history}: any) => {
                 <div css={css` width:100%;`}>
                     <PreviewWrite/>
                     <MainBanner/>
-                    <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                    {/*<InfiniteScroll {...props}>*/}
+                        <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                    {/*</InfiniteScroll>*/}
                 </div>
             </IndexSection>
         </>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
@@ -7,7 +7,8 @@ import {IconSm} from "../../../assets/style/Icon.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
-import {Tag} from "../../../assets/style/Util";
+import {Tag, url} from "../../../assets/style/Util";
+import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
   ${MarkdownLg(Color.black, 700)};
@@ -21,52 +22,39 @@ const BoardContents = styled.div`
   min-height: 5em;
 }
 `
-// const SpeechBubble = styled.span`
-//   position: absolute;
-//   margin-top: 25px;
-//   margin-left: -60px;
-//   background: ${Color.white};
-//   border: 1px solid ${Color.gray100};
-//   border-radius: 0.3rem;
-//   ${MarkdownSm(Color.gray200)}
-//   &:after,
-//   &:before {
-//     bottom: 100%;
-//     border: solid ${Color.gray100};
-//     content: ' ';
-//     height: 0;
-//     width: 0;
-//     position: absolute;
-//   }
-//   &:before {
-//     left: 38%;
-//     border-color: transparent;
-//     border-bottom-color: ${Color.gray100};
-//     border-width: 9px;
-//     margin-left: 0;
-//   }
-//   &:after {
-//     left: 41%;
-//     border-color: transparent;
-//     border-bottom-color: ${Color.white};
-//     border-width: 7px;
-//     margin-left: 0;
-//   }
-// `;
-// const SpeechBubbleContent = styled.div`
-//   text-align: center;
-//   word-break: keep-all;
-//   padding: 0.5rem 1.5rem;
-//   &:nth-of-type(1){
-//     border-bottom: 1px solid ${Color.gray100};
-//   }
-// `;
+const SpeechBubble = styled.div`
+  position: absolute;
+  margin-top: 120px;
+  width:10%;
+  background: ${Color.white};
+  box-shadow: 0 0 10px rgba(0,0,0,0.12);
+  border-radius: 0.3rem;
+  ${MarkdownSm(Color.gray200)}
+  ${media.sm`
+    right:5%;
+    width:25%;
+  `}
+`;
+const SpeechBubbleContent = styled.div`
+  text-align: center;
+  word-break: keep-all;
+  padding: 1rem 1.5rem;
+  cursor:pointer;
+  &:nth-of-type(1){
+    border-bottom: 1px solid ${Color.gray100};
+  }
+  &:hover{
+    background-color:#fcfcfc;
+  }
+`;
+
 interface BoxProps {
     justifyContent?: string;
+    alignItems?: string;
 }
 
 const BoardBox = styled.div<BoxProps>`
-  ${(props: BoxProps) => FlexBox('', props.justifyContent || 'flex-start', '')};
+  ${(props: BoxProps) => FlexBox('', props.justifyContent || 'flex-start', props.alignItems || 'center')};
 `
 
 interface propsType {
@@ -75,21 +63,31 @@ interface propsType {
     boardLikeId: number;
     editBoard: any;
     deleteBoard: any;
-    moreBoard: any;
 }
 
-const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, editBoard, deleteBoard}) => {
+const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, deleteBoard}) => {
+    const [openModifyBox, setOpenModifyBox] = useState(false);
+
+    const textToTag = (str: string) => {
+        let newLineRegex=/\n/g;
+        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\s+|"|$)/g;
+        str=str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
+
+        return str;
+    }
+
+
     return (
         board ?
             <>
                 <div css={css`margin-bottom:1em;`}>
                     <BoardTitle>{board.title}</BoardTitle>
                 </div>
-                <BoardBox justifyContent="space-between"
-                          css={css`margin-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
+                <BoardBox justifyContent="space-between" alignItems="flex-end"
+                          css={css`margin-bottom:1em; padding-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
                     <div>
                         <div>익명</div>
-                        <div css={css`margin-bottom:1em;`}>
+                        <div>
                             <span>{board.create_time_ago}</span>
                             <span css={css`padding:0 0.5em;`}>|</span>
                             <span>
@@ -100,20 +98,23 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, e
                     <>
                         {
                             board.is_mine ?
-                                <div css={css`width:100%; max-width: fit-content;`}>
-                                    <div onClick={moreBoard}>. . .</div>
-                                    <div css={css`border-radius:50%; border-top-left-radius: 0;     
-                            padding: 1em;
-                            background-color: ${Color.yellow100};
-                            position: absolute;`}>
-                                        <div css={css`cursor:pointer;`} onClick={() => deleteBoard(board.id)}>삭제하기</div>
-                                        <div onClick={()=>editBoard()}>수정하기</div>
-                                    </div>
+                                <div css={css`${FlexBox('column', 'center', 'center')};`}>
+                                    <div><IconSm css={css`margin:0; cursor: pointer;`}
+                                                 src="../../../assets/img/icon/more.svg" onClick={() => {
+                                        setOpenModifyBox(!openModifyBox)
+                                    }}/></div>
+                                    {openModifyBox &&
+                                    <SpeechBubble>
+                                        <SpeechBubbleContent
+                                            onClick={() => deleteBoard(board.id)}>삭제하기</SpeechBubbleContent>
+                                        <SpeechBubbleContent onClick={() => editBoard()}>수정하기</SpeechBubbleContent>
+                                    </SpeechBubble>
+                                    }
                                 </div> : null
                         }
                     </>
                 </BoardBox>
-                <BoardContents dangerouslySetInnerHTML={{__html: board.contents}}></BoardContents>
+                <BoardContents dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}></BoardContents>
                 <div css={css`margin-bottom:1em; text-align:center;`}>
                     {
                         board.board_image ?
@@ -137,7 +138,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, moreBoard, e
                     }
                 </BoardBox>
                 <div css={css`margin-bottom:1em;`}>
-                <span css={css`margin-right:0.5em;`} onClick={() => likeBoard(board.id)}>
+                <span css={css`margin-right:1em;`} onClick={() => likeBoard(board.id)}>
                     <IconSm src="../../../assets/img/icon/like.svg"/>
                     <span css={boardLikeId > 0 ? css`color:red;` : css`color:${Color.gray200}`}>
                         {board.board_like_count}

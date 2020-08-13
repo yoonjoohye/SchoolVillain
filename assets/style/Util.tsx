@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import {MarkdownBase, MarkdownSm} from "./Markdown.style";
 import {Color} from "./Color.style";
+import {css} from "@emotion/core";
 
 export const Tag = styled.div`
   display:inline-block;

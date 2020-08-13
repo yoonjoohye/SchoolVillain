@@ -8,6 +8,8 @@ export const Color:ColorType={
     white:'#fff',
     red:'#f70000',
 
+    blue200:'#4365ea',
+
     yellow100:'#fdf6ca',
     yellow200:'#ffa000',
 

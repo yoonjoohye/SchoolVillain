@@ -5,6 +5,7 @@ import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
 import {css} from "@emotion/core";
+import {url} from "../../../assets/style/Util";
 
 
 const ReplyName = styled.div`
@@ -74,6 +75,13 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
 
         changeReReply(e.target.value, replyIndex);
     }
+    const textToTag = (str: string) => {
+        let newLineRegex=/\n/g;
+        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\s+|"|$)/g;
+        str=str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
+
+        return str;
+    }
 
     return (
         <div css={css`margin-bottom:6em;`}>
@@ -91,7 +99,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                                 <ReplyName>
                                     {'익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                 </ReplyName>
-                                <ReplyContent dangerouslySetInnerHTML={{__html: reply.contents}}/>
+                                <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
                                 <ReplyBox>
                                 <span css={ css`cursor:pointer; margin-right:0.5em;`}
                                       onClick={() => likeReply(reply.id,replyIndex,null)}>{reply.comment_like_count}</span>
@@ -115,7 +123,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                                                                 {'익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
                                                             </ReplyName>
                                                             <ReplyContent
-                                                                dangerouslySetInnerHTML={{__html: reReply.contents}}/>
+                                                                dangerouslySetInnerHTML={{__html: textToTag(reReply.contents)}}/>
                                                             <ReplyBox>
                                                             <span css={css`cursor:pointer; margin-right:0.5em;`} onClick={() => likeReply(reReply.id,replyIndex,reReplyIndex)}>{reReply.comment_like_count}</span>
                                                                 <span css={css`cursor:pointer; margin-right:0.5em;`}
@@ -131,7 +139,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                                                 })
                                             }
                                             {
-                                                reply.children.length > 5 ?
+                                                reply.children.length % 10===0 ?
                                                     <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply}>댓글
                                                         더보기...</MoreReply> : null
                                             }
@@ -161,9 +169,9 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                     </div>
             }
             {
-                replyList.length > 5 ?
+                replyList.length%10===0 ?
                     <div css={css`margin-top:1em;`}>
-                        <MoreReply css={css`cursor:pointer;`} onClick={() => moreReply}>댓글 더보기...</MoreReply>
+                        <MoreReply css={css`cursor:pointer;`} onClick={moreReply}>댓글 더보기...</MoreReply>
                     </div> : null
             }
         </div>

@@ -47,7 +47,6 @@ const AgreementList = styled.div`
 const AgreementTitle = styled.div`
   ${MarkdownMd()};
   width:85%;
-
 `
 const AgreementContent = styled.div`
   ${FlexBox('','space-between')};

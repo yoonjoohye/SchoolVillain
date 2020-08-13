@@ -22,12 +22,12 @@ const Detail: React.FC = ({match}: any) => {
     const [reReply, setReReply] = useState([]);
     const [openReply, setOpenReply] = useState([] as any);
     const [openModal,setOpenModal]=useState(false);
-
+    const [page,setPage]=useState(1);
 
     useEffect(() => {
         BoardAPI();
-        ReplyAPI();
-    }, []);
+        ReplyAPI(page);
+    }, [page]);
 
     const BoardAPI = useCallback(async () => {
         try {
@@ -51,14 +51,14 @@ const Detail: React.FC = ({match}: any) => {
         }
     }, []);
 
-    const ReplyAPI = async () => {
+    const ReplyAPI = async (page) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/comment/list',
                 params: {
                     board_id: match.params.id,
-                    per_page: 10,
+                    per_page: 10*page,
                     page: 1,
                 }
             });
@@ -148,9 +148,6 @@ const Detail: React.FC = ({match}: any) => {
         }else{
             location.href=`/edit/${match.params.id}`;
         }
-    }
-    const moreBoard = () => {
-
     }
 
     const changeReply = (reply: string) => {
@@ -349,7 +346,7 @@ const Detail: React.FC = ({match}: any) => {
     }, [openReply]);
 
     const moreReply = () => {
-
+        setPage(page+1);
     }
     const moreReReply = () => {
 
@@ -367,7 +364,7 @@ const Detail: React.FC = ({match}: any) => {
             <DetailSection>
                 <Board board={board}
                        likeBoard={likeBoard} boardLikeId={boardLikeId}
-                       deleteBoard={deleteBoard} editBoard={editBoard} moreBoard={moreBoard}/>
+                       deleteBoard={deleteBoard} editBoard={editBoard}/>
 
                 <Reply replyList={replyList}
                        likeReply={likeReply} goReReply={goReReply} deleteReply={deleteReply}

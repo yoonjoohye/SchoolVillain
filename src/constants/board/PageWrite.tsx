@@ -22,8 +22,7 @@ const Button = styled.button`
   ${MarkdownMd(Color.white)};
   width:100%;
   height: 45px;
-  border-radius: 3px;
-  box-shadow: 0 1.5px 2.5px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 0.3em;
   margin-top:30px;
   ${(props: buttonProps) => props.enabled ?
     `pointer-events:initial;
@@ -143,7 +142,7 @@ const PageWrite: React.FC<propsType> = ({
                                    accept="image/jpg, image/png, image/jpeg, image/gif"
                                    multiple/>
                         <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
-                        <span css={css`${MarkdownSm(Color.gray200)}`}>* 10MB 이하 이미지만 업로드 하실 수 있습니다.</span>
+                        <span css={css`${MarkdownSm(Color.gray200)}`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</span>
                     </div>
                     <Preview>
                         {
@@ -172,6 +171,7 @@ const PageWrite: React.FC<propsType> = ({
                     </div>
                     <div>
                         {
+                            tagList &&
                             tagList.map((item:any, index:number) => {
                                 return (
                                     <Tag key={index}>
