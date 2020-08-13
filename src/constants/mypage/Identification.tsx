@@ -24,7 +24,7 @@ const ProfileSection = styled.div`
   width:100%;
   height:250px;
   cursor:pointer;
-  border-radius:1em;
+  border-radius:0.3em;
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -128,14 +128,14 @@ const Identification = ({user}: any) => {
                                       box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
                                       margin-bottom:1em;
                                       text-align:center;`}>
-                        <div>아직 스쿨빌런에 가입을 하지 않으셨나요?</div>
+                        <div css={css`margin-bottom:1em;`}>아직 스쿨빌런에 가입을 하지 않으셨나요?</div>
                         <Link to="/login">
                             <AuthBtn css={css`margin-bottom:1em;`} color={Color.purple200}
                                      bgColor={Color.purple100}>
                                 로그인
                             </AuthBtn>
                         </Link>
-                        <Link to="/login">
+                        <Link to="/join/agreement">
                             <AuthBtn color={Color.yellow200} bgColor={Color.yellow100}>
                                 회원가입
                             </AuthBtn>

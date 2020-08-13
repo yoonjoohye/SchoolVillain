@@ -131,7 +131,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                                                 })
                                             }
                                             {
-                                                reply.children.length > 5 ?
+                                                reply.children.length % 10===0 ?
                                                     <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply}>댓글
                                                         더보기...</MoreReply> : null
                                             }
@@ -161,9 +161,9 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                     </div>
             }
             {
-                replyList.length > 5 ?
+                replyList.length%10===0 ?
                     <div css={css`margin-top:1em;`}>
-                        <MoreReply css={css`cursor:pointer;`} onClick={() => moreReply}>댓글 더보기...</MoreReply>
+                        <MoreReply css={css`cursor:pointer;`} onClick={moreReply}>댓글 더보기...</MoreReply>
                     </div> : null
             }
         </div>

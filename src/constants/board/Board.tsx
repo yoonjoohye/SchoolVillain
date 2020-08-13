@@ -24,7 +24,7 @@ const BoardContents = styled.div`
 `
 const SpeechBubble = styled.div`
   position: absolute;
-  margin-top: 150px;
+  margin-top: 120px;
   width:10%;
   background: ${Color.white};
   box-shadow: 0 0 10px rgba(0,0,0,0.12);
@@ -34,19 +34,6 @@ const SpeechBubble = styled.div`
     right:5%;
     width:25%;
   `}
-  // &:after {
-  //   bottom: 100%;
-  //   border: solid ${Color.gray100};
-  //   content: ' ';
-  //   height: 0;
-  //   width: 0;
-  //   position: absolute;
-  //   left: 45%;
-  //   border-color: transparent;
-  //   border-bottom-color: ${Color.white};
-  //   border-width: 8px;
-  //   margin-left: 0;
-  // }
 `;
 const SpeechBubbleContent = styled.div`
   text-align: center;
@@ -62,10 +49,11 @@ const SpeechBubbleContent = styled.div`
 `;
 interface BoxProps {
     justifyContent?: string;
+    alignItems?:string;
 }
 
 const BoardBox = styled.div<BoxProps>`
-  ${(props: BoxProps) => FlexBox('', props.justifyContent || 'flex-start', '')};
+  ${(props: BoxProps) => FlexBox('', props.justifyContent || 'flex-start', props.alignItems || 'center')};
 `
 
 interface propsType {
@@ -84,11 +72,10 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                 <div css={css`margin-bottom:1em;`}>
                     <BoardTitle>{board.title}</BoardTitle>
                 </div>
-                <BoardBox justifyContent="space-between"
-                          css={css`margin-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
+                <BoardBox justifyContent="space-between" alignItems="flex-end" css={css`margin-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
                     <div>
                         <div>익명</div>
-                        <div css={css`margin-bottom:1em;`}>
+                        <div>
                             <span>{board.create_time_ago}</span>
                             <span css={css`padding:0 0.5em;`}>|</span>
                             <span>
@@ -100,7 +87,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                         {
                             board.is_mine ?
                                 <div css={css`${FlexBox('column','center','center')};`}>
-                                    <div onClick={()=>{setOpenModifyBox(!openModifyBox)}}>. . .</div>
+                                    <div><IconSm css={css`margin:0; cursor: pointer;`} src="../../../assets/img/icon/more.svg" onClick={()=>{setOpenModifyBox(!openModifyBox)}}/></div>
                                     {openModifyBox &&
                                         <SpeechBubble>
                                             <SpeechBubbleContent
@@ -136,7 +123,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     }
                 </BoardBox>
                 <div css={css`margin-bottom:1em;`}>
-                <span css={css`margin-right:0.5em;`} onClick={() => likeBoard(board.id)}>
+                <span css={css`margin-right:1em;`} onClick={() => likeBoard(board.id)}>
                     <IconSm src="../../../assets/img/icon/like.svg"/>
                     <span css={boardLikeId > 0 ? css`color:red;` : css`color:${Color.gray200}`}>
                         {board.board_like_count}
