@@ -171,6 +171,7 @@ const PageWrite: React.FC<propsType> = ({
                     </div>
                     <div>
                         {
+                            tagList &&
                             tagList.map((item:any, index:number) => {
                                 return (
                                     <Tag key={index}>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PreviewBoard from "../../constants/board/PreviewBoard";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {css} from "@emotion/core";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import styled from "@emotion/styled";
@@ -32,6 +32,20 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [likeList, setLikeList] = useState([]);
     const [boardList, setBoardList] = useState([]);
     const [replyList, setReplyList] = useState([]);
+
+    const [nickname, setNickname] = useState('');
+    const [nicknameErr, setNicknameErr] = useState('');
+    const [nicknameCheck, setNicknameCheck] = useState(false);
+    const [email, setEmail] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [currentPasswordErr, setCurrentPasswordErr] = useState('');
+    const [currentPasswordCheck, setCurrentPasswordCheck] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordErr, setNewPasswordErr] = useState('');
+    const [newPasswordCheck, setNewPasswordCheck] = useState(false);
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+    const [newPasswordConfirmErr, setNewPasswordConfirmErr] = useState('');
+    const [newPasswordConfirmCheck, setNewPasswordConfirmCheck] = useState(false);
 
     const tab = ['좋아요', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
     const [menu, setMenu] = useState(0);
@@ -124,7 +138,142 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }
     const MyProfileAPI = async () => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/me'
+            });
+            // console.log(response);
+            if (response.status === 200) {
+                setNickname(response.data.name || '익명');
+                setNicknameCheck(true);
+                setEmail(response.data.email);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
+    const changeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target;
+        setNickname(value);
+
+        if (value.length > 0) {
+            setNicknameErr('');
+            setNicknameCheck(true);
+        } else {
+            setNicknameErr('닉네임을 입력해주세요.');
+            setNicknameCheck(false);
+        }
+    }
+    const changeCurrentPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target;
+        setCurrentPassword(value);
+
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+
+        if (!(PasswordRegex.test(value))) {
+            setCurrentPasswordErr('숫자와 영문자 및 특수문자를 포함한 8~16자이어야 합니다.');
+            setCurrentPasswordCheck(false);
+        } else {
+            setCurrentPasswordErr('');
+            setCurrentPasswordCheck(true);
+        }
+    }
+    const changeNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target;
+        setNewPassword(value);
+
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+
+        if (!(PasswordRegex.test(value))) {
+            setNewPasswordErr('숫자와 영문자 및 특수문자를 포함한 8~16자이어야 합니다.');
+            setNewPasswordCheck(false);
+        } else {
+            setNewPasswordErr('');
+            setNewPasswordCheck(true);
+        }
+    }
+    const changeNewPasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target;
+        setNewPasswordConfirm(value);
+
+        if (value !== newPassword) {
+            setNewPasswordConfirmErr('패스워드가 일치하지 않습니다.');
+            setNewPasswordConfirmCheck(false);
+        } else {
+            setNewPasswordConfirmErr('');
+            setNewPasswordConfirmCheck(true);
+        }
+    }
+
+    const editNickname = async () => {
+        console.log(nickname);
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/nickname',
+                data: {
+                    nickname: nickname
+                }
+            });
+            // console.log(response);
+            if (response.status === 201) {
+                location.reload();
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                setNicknameErr('이미 존재하는 닉네임입니다.');
+                setNicknameCheck(false);
+                console.error(err.response);
+            } else {
+                console.error(err);
+            }
+        }
+    }
+
+    const editPassword =async () => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/change/pw',
+                data: {
+                    new_password: newPassword,
+                    current_password: currentPassword
+                }
+            });
+            // console.log(response);
+            if (response.status === 201) {
+                location.reload();
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                setCurrentPasswordErr('비밀번호가 일치하지 않습니다.');
+                setCurrentPasswordCheck(false);
+                console.error(err);
+            } else {
+                console.error(err);
+            }
+        }
+    }
+
+    const goLogout = async () => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/logout'
+            });
+            console.log(response);
+            if (response.status === 204) {
+                location.href = '/';
+                sessionStorage.removeItem('logged');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const goWithdrawal = async () => {
+        location.href='/withdrawal';
     }
 
     const selectMenu = (idx: number) => {
@@ -178,7 +327,17 @@ const Mypage: React.FC = ({history, match}: any) => {
                     }
                     {
                         menu === 3 &&
-                        <Profile/>
+                        <Profile nickname={nickname} nicknameErr={nicknameErr} nicknameCheck={nicknameCheck} changeNickname={changeNickname}
+                                 email={email}
+                                 currentPassword={currentPassword} currentPasswordErr={currentPasswordErr} currentPasswordCheck={currentPasswordCheck} changeCurrentPassword={changeCurrentPassword}
+                                 newPassword={newPassword} newPasswordErr={newPasswordErr} newPasswordCheck={newPasswordCheck} changeNewPassword={changeNewPassword}
+                                 newPasswordConfirm={newPasswordConfirm} newPasswordConfirmErr={newPasswordConfirmErr} newPasswordConfirmCheck={newPasswordConfirmCheck} changeNewPasswordConfirm={changeNewPasswordConfirm}
+
+                                 editNickname={editNickname}
+                                 editPassword={editPassword}
+                                 goLogout={goLogout}
+                                 goWithdrawal={goWithdrawal}
+                        />
                     }
                 </MypageContents>
             </MypageSection>

@@ -41,7 +41,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
             if (response.status === 200) {
                 setId(response.data.id);
                 setTitle(response.data.title);
-                setContents(brToNL(response.data.contents));
+                setContents(response.data.contents);
                 setImgList(response.data.board_image)
 
                 setPreviewList(produce(draft => {
@@ -50,7 +50,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                     })
                 }));
 
-                setTagList(response.data.hash_tags);
+                setTagList(response.data.hash_tags || []);
             }
         } catch (err) {
             console.log(err);
@@ -58,9 +58,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
         }
     }, []);
 
-    const brToNL=(str:string)=> {
-        return str.replace(/<br ?\/?>/g, '');
-    }
+
 
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -120,6 +118,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
     const changeTag = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTag(e.target.value);
     }
+
     const onEnter = (e: React.KeyboardEvent) => {
         if (tagList.length >= 10) {
             //모달 필요
@@ -157,6 +156,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
             delImgList.map((img: File, index: number) => {
                 formData.append('deleteImages[]', img);
             });
+
             tagList.map((tag: string, index: number) => {
                 if(typeof tagList[index] === 'object') {
                     formData.append('hashTags[]', tag.tag);
@@ -165,6 +165,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                 }
 
             });
+
             delTagList.map((tag: string, index: number) => {
                 formData.append('deleteHashTags[]', tag);
             });

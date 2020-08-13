@@ -7,7 +7,7 @@ import {IconSm} from "../../../assets/style/Icon.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
-import {Tag} from "../../../assets/style/Util";
+import {Tag, url} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
@@ -47,9 +47,10 @@ const SpeechBubbleContent = styled.div`
     background-color:#fcfcfc;
   }
 `;
+
 interface BoxProps {
     justifyContent?: string;
-    alignItems?:string;
+    alignItems?: string;
 }
 
 const BoardBox = styled.div<BoxProps>`
@@ -65,14 +66,25 @@ interface propsType {
 }
 
 const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, deleteBoard}) => {
-    const [openModifyBox,setOpenModifyBox]=useState(false);
+    const [openModifyBox, setOpenModifyBox] = useState(false);
+
+    const textToTag = (str: string) => {
+        let newLineRegex=/\n/g;
+        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\s+|"|$)/g;
+        str=str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
+
+        return str;
+    }
+
+
     return (
         board ?
             <>
                 <div css={css`margin-bottom:1em;`}>
                     <BoardTitle>{board.title}</BoardTitle>
                 </div>
-                <BoardBox justifyContent="space-between" alignItems="flex-end" css={css`margin-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
+                <BoardBox justifyContent="space-between" alignItems="flex-end"
+                          css={css`margin-bottom:1em; padding-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
                     <div>
                         <div>익명</div>
                         <div>
@@ -86,20 +98,23 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     <>
                         {
                             board.is_mine ?
-                                <div css={css`${FlexBox('column','center','center')};`}>
-                                    <div><IconSm css={css`margin:0; cursor: pointer;`} src="../../../assets/img/icon/more.svg" onClick={()=>{setOpenModifyBox(!openModifyBox)}}/></div>
+                                <div css={css`${FlexBox('column', 'center', 'center')};`}>
+                                    <div><IconSm css={css`margin:0; cursor: pointer;`}
+                                                 src="../../../assets/img/icon/more.svg" onClick={() => {
+                                        setOpenModifyBox(!openModifyBox)
+                                    }}/></div>
                                     {openModifyBox &&
-                                        <SpeechBubble>
-                                            <SpeechBubbleContent
-                                                onClick={() => deleteBoard(board.id)}>삭제하기</SpeechBubbleContent>
-                                            <SpeechBubbleContent onClick={() => editBoard()}>수정하기</SpeechBubbleContent>
-                                        </SpeechBubble>
+                                    <SpeechBubble>
+                                        <SpeechBubbleContent
+                                            onClick={() => deleteBoard(board.id)}>삭제하기</SpeechBubbleContent>
+                                        <SpeechBubbleContent onClick={() => editBoard()}>수정하기</SpeechBubbleContent>
+                                    </SpeechBubble>
                                     }
                                 </div> : null
                         }
                     </>
                 </BoardBox>
-                <BoardContents dangerouslySetInnerHTML={{__html: board.contents}}></BoardContents>
+                <BoardContents dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}></BoardContents>
                 <div css={css`margin-bottom:1em; text-align:center;`}>
                     {
                         board.board_image ?

@@ -1,19 +1,15 @@
 import styled from "@emotion/styled";
-import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import React, {useState} from "react";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
+import {css} from "@emotion/core";
 
 const AgreementSection = styled.section`
   ${Section()};
-  margin-top:6em;
 `
 const AgreementContainer = styled.div`
-  padding:3em 0;
-  border-bottom:1px solid ${Color.gray100};
-  &:nth-last-of-type(1){
-    border-bottom:0;
-  }
+  padding:2em 0;
 `
 const AgreementLabel = styled.label`
   cursor: pointer;
@@ -21,7 +17,7 @@ const AgreementLabel = styled.label`
 `
 const AgreementTitle = styled.div`
   ${MarkdownMd()};
-  width:85%;
+  margin-left:1em;
 `
 const CheckBox = styled.input`
   display: none;
@@ -54,8 +50,28 @@ const FakeCheckBox = styled.div`
   }
 `
 
-const Button = styled.div`
-  
+interface buttonProps {
+    enabled: boolean;
+}
+
+const Button = styled.button`
+  padding:0.5em 2em;
+  border-radius:0.3em;
+  ${MarkdownMd(Color.white)};
+  margin-top:30px;
+  ${(props: buttonProps) => props.enabled ?
+    css`pointer-events:initial;
+     background-color:${Color.purple200};
+
+    ` :
+    css`pointer-events:none;
+     background-color:${Color.purple100};
+
+    `
+}
+  &:hover{
+     background-color:${Color.purple300};
+  }
 `
 const Withdrawal = () => {
     const [agree, setAgree] = useState(false);
@@ -64,9 +80,11 @@ const Withdrawal = () => {
     }
     return (
         <AgreementSection>
-            <AgreementContainer>회원탈퇴</AgreementContainer>
-
             <AgreementContainer>
+                <div css={css`margin-top:6em; ${MarkdownLg(Color.purple200,700)}`}>회원탈퇴</div>
+            </AgreementContainer>
+
+            <AgreementContainer css={css`border-top:1px solid ${Color.gray100}; border-bottom:1px solid ${Color.gray100};`}>
                 <AgreementList>해당 계정은 탈퇴할 경우 복구가 불가능합니다.</AgreementList>
                 <AgreementList>회원정보는 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.</AgreementList>
                 <AgreementList>작성한 게시글 및 댓글은 자동으로 삭제되지 않으니, 반드시 탈퇴 전 비공개 또는 삭제하시기 바랍니다.</AgreementList>
@@ -83,8 +101,8 @@ const Withdrawal = () => {
                 </AgreementLabel>
             </AgreementContainer>
 
-            <AgreementContainer>
-                <Button>탈퇴하기</Button>
+            <AgreementContainer css={css`text-align:center;`}>
+                <Button enabled={agree}>탈퇴하기</Button>
             </AgreementContainer>
         </AgreementSection>
     )

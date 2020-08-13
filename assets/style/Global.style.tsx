@@ -26,17 +26,21 @@ export const GlobalStyle = () => (
     textarea {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
+      outline:none;
 
     }
     
     input {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
+      outline:none;
+
     }
     button{
       border:0;
       background-color:transparent;
       cursor:pointer;
+      outline:none;
     }
     li {
       margin:0;

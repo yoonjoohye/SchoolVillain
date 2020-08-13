@@ -29,7 +29,7 @@ export const MarkdownBase = (color: string = Color.black, weight: number = 400) 
       font-weight: ${weight};
       color: ${color};
       line-height:1.5;
-      ${media.sm`font-size: 15px;`}
+      ${media.sm`font-size: 13px;`}
 `;
 export const MarkdownSm = (color: string = Color.black, weight: number = 400) => css`
       font-size: 13px;
