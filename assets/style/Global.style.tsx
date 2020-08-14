@@ -48,6 +48,9 @@ export const GlobalStyle = () => (
         letter-spacing: 0;
        }
     }
+    select{
+      outline:none;
+    }
     button{
       border:0;
       background-color:transparent;

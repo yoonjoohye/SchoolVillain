@@ -97,7 +97,7 @@ const Login = ({history}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    sessionStorage.setItem('logged', true);
+                    sessionStorage.setItem('logged', 'true');
                     window.location.href = '/';
                 }
             }
