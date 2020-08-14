@@ -8,13 +8,15 @@ import {Color} from "../../../assets/style/Color.style";
 import Profile from "../../constants/mypage/Profile";
 import axios from "axios";
 import SEO from "../SEO/SEO";
+import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const MypageSection = styled.section`
   ${Section()}; 
-  margin-top:6em;
 `
 const MypageTab = styled.nav`
   ${FlexBox('row', 'space-between', 'center')};
+  margin-top:6em;
   margin-bottom:1em;
   border-bottom:1px solid ${Color.gray100};
 `
@@ -32,6 +34,13 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [likeList, setLikeList] = useState([]);
     const [boardList, setBoardList] = useState([]);
     const [replyList, setReplyList] = useState([]);
+
+    const [likeCount,setLikeCount]=useState(0);
+    const [boardCount,setBoardCount]=useState(0);
+    const [replyCount,setReplyCount]=useState(0);
+    const [likeHasMore,setLikeHasMore]=useState(true);
+    const [boardHasMore,setBoardHasMore]=useState(true);
+    const [replyHasMore,setReplyHasMore]=useState(true);
 
     const [nickname, setNickname] = useState('');
     const [nicknameErr, setNicknameErr] = useState('');
@@ -53,16 +62,16 @@ const Mypage: React.FC = ({history, match}: any) => {
     useEffect(() => {
         if (match.params.name === 'like') {
             setMenu(0);
-            MyLikeAPI();
+            MyLikeAPI(10);
         }
         if (match.params.name === 'board') {
             setMenu(1);
-            MyBoardAPI();
+            MyBoardAPI(10);
 
         }
         if (match.params.name === 'reply') {
             setMenu(2);
-            MyReplyAPI();
+            MyReplyAPI(10);
 
         }
         if (match.params.name === 'profile') {
@@ -71,19 +80,24 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }, [match.params]);
 
-    const MyLikeAPI = async () => {
+    const MyLikeAPI = async (perPage:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/mypage/like',
                 params: {
-                    per_page: 10,
+                    per_page: perPage,
                     page: 1
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setLikeList(response.data.data);
+                if(response.data.total<=likeCount+10){
+                    setLikeHasMore(false);
+                }
+                setLikeCount(response.data.data.length);
+
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -93,19 +107,24 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
         }
     }
-    const MyBoardAPI = async () => {
+    const MyBoardAPI = async (perPage:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/mypage/board',
                 params: {
-                    per_page: 10,
+                    per_page: perPage,
                     page: 1
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setBoardList(response.data.data);
+                if(response.data.total<=boardCount+10){
+                    setBoardHasMore(false);
+                }
+                setBoardCount(response.data.data.length);
+
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -115,19 +134,24 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
         }
     }
-    const MyReplyAPI = async () => {
+    const MyReplyAPI = async (perPage:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/mypage/comment',
                 params: {
-                    per_page: 10,
+                    per_page: perPage,
                     page: 1
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setReplyList(response.data.data);
+                if(response.data.total<=replyCount+10){
+                    setReplyHasMore(false);
+                }
+                setReplyCount(response.data.data.length);
+
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -263,7 +287,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                 method: 'POST',
                 url: '/api/user/logout'
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 204) {
                 location.href = '/';
                 sessionStorage.removeItem('logged');
@@ -315,15 +339,51 @@ const Mypage: React.FC = ({history, match}: any) => {
                 <MypageContents>
                     {
                         menu === 0 &&
-                        <PreviewBoard boardList={likeList} goDetail={goDetail}/>
+                        <InfiniteScroll
+                            css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                            dataLength={likeCount}
+                            next={()=>MyLikeAPI(likeCount+10)}
+                            hasMore={likeHasMore}
+                            loader={
+                                <div css={css`text-align: center; padding:5em;`}>
+                                    <img css={css`width:3em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                </div>
+                            }
+                            endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                            <PreviewBoard boardList={likeList} goDetail={goDetail}/>
+                        </InfiniteScroll>
                     }
                     {
                         menu === 1 &&
-                        <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                        <InfiniteScroll
+                            css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                            dataLength={boardCount}
+                            next={()=>MyBoardAPI(boardCount+10)}
+                            hasMore={boardHasMore}
+                            loader={
+                                <div css={css`text-align: center; padding:5em;`}>
+                                    <img css={css`width:3em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                </div>
+                            }
+                            endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                            <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                        </InfiniteScroll>
                     }
                     {
                         menu === 2 &&
-                        <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
+                        <InfiniteScroll
+                            css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                            dataLength={replyCount}
+                            next={()=>MyReplyAPI(replyCount+10)}
+                            hasMore={replyHasMore}
+                            loader={
+                                <div css={css`text-align: center; padding:5em;`}>
+                                    <img css={css`width:3em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                </div>
+                            }
+                            endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                            <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
+                        </InfiniteScroll>
                     }
                     {
                         menu === 3 &&

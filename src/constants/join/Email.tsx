@@ -19,15 +19,12 @@ interface propsType {
     enabled:any;
 }
 const Email: React.FC<propsType> = ({goJoin,email,changeEmail,err,enabled}) => {
-    const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        changeEmail(e.target.value);
-    }
     return (
         <>
             <JoinTitle>E-MAIL</JoinTitle>
-            <JoinInput type="text" value={email} onChange={emailChange} placeholder="이메일을 입력해주세요."/>
+            <JoinInput type="text" value={email} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>changeEmail(e)} placeholder="이메일을 입력해주세요."/>
             <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin} enabled={enabled}/>
+            <JoinButton goJoin={goJoin} enabled={enabled} name="다음"/>
         </>
     )
 }

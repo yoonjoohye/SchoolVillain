@@ -8,13 +8,14 @@ import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
 import {IconSm} from "../../../assets/style/Icon.style";
 import {media} from "../../../assets/style/Media.style";
 import {Tag} from "../../../assets/style/Util";
+import {useCallback} from "react";
 
 const BoardSection = styled.section`
   cursor:pointer;
-  padding:1.5em 5%;
+  padding:1.8em 5%;
   background-color:${Color.white};
   margin-top:1.5em;
-  box-shadow: 0 3px 5px #00000021;
+  box-shadow: 0 1.5px 3px rgba(0,0,0,0.15);
 `
 
 interface boxProps {
@@ -22,9 +23,7 @@ interface boxProps {
 }
 
 const BoardBox = styled.div<boxProps>`
-    ${
-        (props: boxProps) => FlexBox('', 'space-between', props.alignItems || 'center')
-    }
+    ${(props: boxProps) => FlexBox('', 'space-between', props.alignItems || 'center')}
   ${MarkdownBase(Color.gray200)};
 `
 const BoardTitle = styled.div`
@@ -49,7 +48,7 @@ const BoardContents = styled.div`
 const Img = styled.img`
   position: relative;
   vertical-align: middle;
-  width: 20%;
+  //width: 20%;
   ${media.sm`width:25%;`}
 `
 const ReplyName = styled.div`
@@ -73,6 +72,7 @@ interface propsType {
 }
 
 const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
+
     return (
         boardList.length > 0 && boardList ?
             boardList.map((board: any, index: number) => {
@@ -85,7 +85,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
                             </div>
                             {
                                 board.thumbnail !== null ?
-                                    <Img src={`${board.thumbnail}?s=120x85&t=crop&q=60`}/> : null
+                                    <Img src={`${board.thumbnail}?s=120x75&t=crop&q=60`}/> : null
                             }
                         </BoardBox>
 
@@ -105,7 +105,8 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
                                 }) : null
                         }
 
-                        <BoardBox css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
+                        <BoardBox
+                            css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
                             <div>
                                 <span css={css`margin-right:1em;`}>
                                     <IconSm src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}
@@ -132,7 +133,8 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
                                                     {'익명'} <span
                                                     css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                                 </ReplyName>
-                                                <ReplyContent dangerouslySetInnerHTML={{__html: reply.contents}}/>
+                                                <ReplyContent
+                                                    dangerouslySetInnerHTML={{__html: reply.contents}}/>
                                             </div>
                                         )
                                     })
@@ -142,7 +144,8 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
 
                     </BoardSection>
                 )
-            }) :
+            })
+            :
             [1, 2, 3].map((item, index) => {
                 return (
                     <SkeletonPreviewBoard key={index}/>

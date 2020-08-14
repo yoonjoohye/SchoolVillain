@@ -25,15 +25,12 @@ interface propsType {
 }
 
 const PasswordConfirm: React.FC<propsType> = ({goJoin,password,changePasswordConfirm,err,enabled}) => {
-    const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        changePasswordConfirm(e.target.value);
-    }
     return (
         <>
             <JoinTitle>PASSWORD CHECK</JoinTitle>
-            <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요."/>
+            <JoinInput type="password" value={password} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>changePasswordConfirm(e)} placeholder="패스워드를 입력해주세요."/>
             <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin}  enabled={enabled}/>
+            <JoinButton goJoin={goJoin}  enabled={enabled} name="가입하기"/>
         </>
     )
 }
