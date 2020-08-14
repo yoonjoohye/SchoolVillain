@@ -4,6 +4,7 @@ import {Color} from "../../../assets/style/Color.style";
 import React, {useState} from "react";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
+import axios from "axios";
 
 const AgreementSection = styled.section`
   ${Section()};
@@ -46,7 +47,7 @@ const FakeCheckBox = styled.div`
   &::before{
     content: '✔';
     position: relative;
-    top: 3px;
+    top: 5px;
   }
 `
 
@@ -78,13 +79,31 @@ const Withdrawal = () => {
     const CheckedAgree = () => {
         setAgree(!agree);
     }
+    const onWithdrawal = async () => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/delete'
+            });
+            // console.log(response);
+            if (response.status === 200) {
+                location.href = '/';
+                sessionStorage.removeItem('logged');
+            }
+        } catch (err) {
+            console.log(err);
+            console.log(err.response);
+        }
+    }
+
     return (
         <AgreementSection>
             <AgreementContainer>
-                <div css={css`margin-top:6em; ${MarkdownLg(Color.purple200,700)}`}>회원탈퇴</div>
+                <div css={css`margin-top:6em; ${MarkdownLg(Color.purple200, 700)}`}>회원탈퇴</div>
             </AgreementContainer>
 
-            <AgreementContainer css={css`border-top:1px solid ${Color.gray100}; border-bottom:1px solid ${Color.gray100};`}>
+            <AgreementContainer
+                css={css`border-top:1px solid ${Color.gray100}; border-bottom:1px solid ${Color.gray100};`}>
                 <AgreementList>해당 계정은 탈퇴할 경우 복구가 불가능합니다.</AgreementList>
                 <AgreementList>회원정보는 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.</AgreementList>
                 <AgreementList>작성한 게시글 및 댓글은 자동으로 삭제되지 않으니, 반드시 탈퇴 전 비공개 또는 삭제하시기 바랍니다.</AgreementList>
@@ -102,7 +121,7 @@ const Withdrawal = () => {
             </AgreementContainer>
 
             <AgreementContainer css={css`text-align:center;`}>
-                <Button enabled={agree}>탈퇴하기</Button>
+                <Button enabled={agree} onClick={onWithdrawal}>탈퇴하기</Button>
             </AgreementContainer>
         </AgreementSection>
     )

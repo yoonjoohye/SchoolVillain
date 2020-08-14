@@ -6,7 +6,7 @@ import {media} from "../../../assets/style/Media.style";
 const SkeletonPreviewBoard = () => {
     return (
         <article css={css`min-height:150px;
-                      padding:1.5em 5%;
+                      padding:1.8em 5%;
                       background-color:${Color.white};
                       margin-top:1.5em;
                       box-shadow: 0 3px 5px #00000021;`}>
@@ -16,7 +16,7 @@ const SkeletonPreviewBoard = () => {
                         css={css`width:90%; height:2em; background: #eee; margin-bottom:0.5em;`}></div>
                     <div css={css`width:100%; height:1em; background: #eee;`}></div>
                 </div>
-                <div css={css`width:25%; height:5em; background: #eee; ${media.sm`height:4em;`}`}></div>
+                <div css={css`width:20%; height:5em; background: #eee; ${media.sm`width:25%; height:4em;`}`}></div>
             </div>
 
             <div css={css`margin-bottom:1em;`}>

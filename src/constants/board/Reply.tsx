@@ -5,7 +5,6 @@ import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
 import {css} from "@emotion/core";
-import {url} from "../../../assets/style/Util";
 
 
 const ReplyName = styled.div`
@@ -24,7 +23,7 @@ const ReplyBox = styled.div`
   ${MarkdownSm(Color.gray200)};
 `
 const ReplyFormBox = styled.div`
-  padding:1em 0;
+  padding:2em 0;
   border-top:1px solid ${Color.gray100};
 `
 const ReplyForm = styled.div`
@@ -88,14 +87,14 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
             <ReplyFormBox>
                 <ReplyForm>
                     <ReplyInput value={reply} onChange={replyChange} placeholder="댓글을 입력해주세요."/>
-                    <ReplyBtn onClick={() => saveReply(null, reply)}>등록</ReplyBtn>
+                    <ReplyBtn onClick={() => saveReply(null, reply, null)}>등록</ReplyBtn>
                 </ReplyForm>
             </ReplyFormBox>
             {
                 replyList.length > 0 ?
                     replyList.map((reply: any, replyIndex: number) => {
                         return (
-                            <div css={css`margin-top:1em;`} key={replyIndex}>
+                            <div css={css`margin-bottom:1em;`} key={replyIndex}>
                                 <ReplyName>
                                     {'익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                 </ReplyName>
@@ -169,7 +168,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                     </div>
             }
             {
-                replyList.length%10===0 ?
+                replyList.length>10 ?
                     <div css={css`margin-top:1em;`}>
                         <MoreReply css={css`cursor:pointer;`} onClick={moreReply}>댓글 더보기...</MoreReply>
                     </div> : null

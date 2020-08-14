@@ -29,11 +29,12 @@ const Button = styled.button`
 interface propsType {
     goJoin: any;
     enabled: boolean;
+    name:string;
 }
 
-const JoinButton: React.FC<propsType> = ({goJoin, enabled}) => {
+const JoinButton: React.FC<propsType> = ({goJoin, enabled,name}) => {
     return (
-        <Button enabled={enabled} onClick={() => goJoin()}>다음</Button>
+        <Button enabled={enabled} onClick={() => goJoin()}>{name}</Button>
     )
 }
 

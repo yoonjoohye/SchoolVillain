@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import Agreement from "../../constants/join/Agreement";
+import School from "../../constants/join/School";
 import Email from "../../constants/join/Email";
 import Password from "../../constants/join/Password";
 import PasswordConfirm from "../../constants/join/PasswordConfirm";
@@ -10,6 +11,7 @@ import SEO from "../SEO/SEO";
 import ServiceRule from "../../constants/join/ServiceRule";
 import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';
+import {Color} from "../../../assets/style/Color.style";
 
 const JoinSection = styled.section`
   ${Section};
@@ -27,6 +29,12 @@ const Join: React.FC = ({match, history}: any) => {
     const [agree, setAgree] = useState(false);
     const [agreementCheck, setAgreementCheck] = useState(false);
     const [agreementErr, setAgreementErr] = useState('');
+
+    //학교
+    const [school, setSchool] = useState('');
+    const [grade, setGrade] = useState('');
+    const [schoolCheck, setSchoolCheck] = useState(false);
+    const [schoolErr, setSchoolErr] = useState('');
 
     //이메일
     const [email, setEmail] = useState('');
@@ -55,11 +63,41 @@ const Join: React.FC = ({match, history}: any) => {
         setAgree(agree);
         setAgreementCheck(age && agree);
     }
-    const changeEmail = (email: string) => {
-        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        setEmail(email);
+    const selectSchool = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        let {value}=e.target;
 
-        if (!(emailRegex.test(email))) {
+        setSchool(value);
+
+        if(value!=='' && grade!==''){
+            setSchoolCheck(true);
+            setSchoolErr('');
+
+        } else{
+            setSchoolCheck(false);
+            setSchoolErr('학교와 학년을 선택해주세요.');
+        }
+    }
+    const selectGrade = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        let {value}=e.target;
+
+        setGrade(value);
+
+        if(value!=='' && school!==''){
+            setSchoolCheck(true);
+            setSchoolErr('');
+
+        } else{
+            setSchoolCheck(false);
+            setSchoolErr('학교와 학년을 선택해주세요.');
+        }
+    }
+
+    const changeEmail = (e:React.ChangeEvent<HTMLInputElement>) => {
+        let {value}=e.target
+        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        setEmail(value);
+
+        if (!(emailRegex.test(value))) {
             setEmailErr('이메일 형식에 일치하지 않습니다.');
             setEmailCheck(false);
         } else {
@@ -67,11 +105,13 @@ const Join: React.FC = ({match, history}: any) => {
             setEmailCheck(true);
         }
     }
-    const changePassword = (password: string) => {
-        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
-        setPassword(password);
+    const changePassword = (e:React.ChangeEvent<HTMLInputElement>) => {
+        let {value}=e.target
 
-        if (!(PasswordRegex.test(password))) {
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+        setPassword(value);
+
+        if (!(PasswordRegex.test(value))) {
             setPasswordErr('숫자와 영문자 및 특수문자를 포함한 8~16자이어야 합니다.');
             setPasswordCheck(false);
         } else {
@@ -79,10 +119,12 @@ const Join: React.FC = ({match, history}: any) => {
             setPasswordCheck(true);
         }
     }
-    const changePasswordConfirm = (passwordConfirm: string) => {
-        setPasswordConfirm(passwordConfirm);
+    const changePasswordConfirm = (e:React.ChangeEvent<HTMLInputElement>) => {
+        let {value}=e.target
 
-        if (passwordConfirm !== password) {
+        setPasswordConfirm(value);
+
+        if (value !== password) {
             setPasswordConfirmErr('패스워드가 일치하지 않습니다.');
             setPasswordConfirmCheck(false);
         } else {
@@ -92,8 +134,12 @@ const Join: React.FC = ({match, history}: any) => {
     }
 
 
+
     //api 통신
     const goAgreement = () => {
+        history.push('/join/school');
+    }
+    const goSchool=()=>{
         history.push('/join/email');
     }
     const goEmail = async () => {
@@ -138,19 +184,30 @@ const Join: React.FC = ({match, history}: any) => {
                     url: '/register',
                     data: {
                         email: email,
-                        password: passwordConfirm
+                        password: passwordConfirm,
+                        school_type:school,
+                        grade:grade
                     }
                 });
+                console.log(response);
                 if (response.status === 200) {
                     sessionStorage.setItem('logged', true);
                     window.location.href = '/';
                 }
             }
         } catch (err) {
+            console.log(err.response);
             if (err.response.status === 422) {
-                setEmailCheck(false);
-                setEmailErr('이메일을 다시 입력해주세요.');
-                history.push('/join/email');
+                if(err.response.data.errors.grade || err.response.data.errors.school_type){
+                    setSchoolCheck(false);
+                    setSchoolErr('학교와 학년을 다시 선택해주세요.');
+                    history.push('/join/school');
+                }
+                if(err.response.data.erros.email){
+                    setEmailCheck(false);
+                    setEmailErr('이메일을 다시 입력해주세요.');
+                    history.push('/join/email');
+                }
             } else {
                 setAgreementCheck(false);
                 setAgreementErr('다시 입력해주세요.');
@@ -167,7 +224,11 @@ const Join: React.FC = ({match, history}: any) => {
         joinComponent = <ServiceRule/>;
     } else if (page === 'privacy-rule') {
         joinComponent = <PrivacyRule/>;
-    } else if (page === 'email') {
+    } else if(page==='school'){
+        joinComponent = <School goJoin={goSchool} school={school} grade={grade} selectSchool={selectSchool} selectGrade={selectGrade}
+            err={schoolErr} enabled={schoolCheck}/>;
+    }
+    else if (page === 'email') {
         joinComponent =
             <Email goJoin={goEmail} email={email} changeEmail={changeEmail} err={emailErr} enabled={emailCheck}/>;
     } else if (page === 'password') {

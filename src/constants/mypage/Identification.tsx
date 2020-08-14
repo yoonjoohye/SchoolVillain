@@ -38,6 +38,7 @@ const ProfileSection = styled.div`
   }
   &.back{
     transform: rotateY(180deg);
+    background-color:${Color.white};
   }
   
 `
@@ -48,7 +49,7 @@ const ProfileTitle = styled.div`
 `
 const ProfileBody = styled.div`
   padding:0 1em;
-  ${media.md`${MarkdownSm()}`}
+  ${MarkdownSm()}
 `
 
 const ProfileFooter=styled.div`
@@ -81,7 +82,7 @@ const Identification = ({user}: any) => {
                             <ProfileSection className="front">
                                 <ProfileTitle>
                                     <span css={css`${MarkdownLg(Color.white, 700)};`}>{user.name || '익명'}</span>
-                                    <img css={css`width:4.5em;`} src="../../../assets/img/index/badge.png"></img>
+                                    <img css={css`width:4.5em;`} src="../../../assets/img/index/badge.png"/>
                                 </ProfileTitle>
                                 <ProfileBody>
                                     <div css={css`${MarkdownLg('', 700)}; margin-bottom:0.5em;`}>스쿨빌런학교</div>
@@ -95,7 +96,7 @@ const Identification = ({user}: any) => {
                             </ProfileSection>
                             <ProfileSection className="back">
                                 <div
-                                    css={css`text-align:center; padding: 0.5em 1em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
+                                    css={css`text-align:center; padding: 0.5em 1em; margin-bottom:0.5em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
                                     유의사항
                                 </div>
                                 <ProfileBody>

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
-import {MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownLg} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
-import {useCallback, useState} from "react";
-import {IconSm} from "../../../assets/style/Icon.style";
 import {css} from "@emotion/core";
+import {useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -22,7 +23,8 @@ const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
   padding:0 15%;
   height:4em;
-  ${media.sm`padding:0 5%`}
+  ${media.md`padding:0 8%`};
+  ${media.sm`padding:0 5%`};
 `
 const HeaderLogo = styled.div`
   ${MarkdownLg(Color.purple200, 700)};
@@ -33,11 +35,28 @@ const HeaderMenu = styled.span`
 `
 
 const Header = () => {
-    let [isNav, setIsNav] = useState(false);
+    const value = useSelector(state => state.auth.logged);
 
-    const onNav = useCallback(() => {
-        setIsNav(!isNav);
-    }, [isNav]);
+    const [user,setUser]=useState(null);
+
+    useEffect(()=>{
+        UserAPI();
+    },[])
+
+    const UserAPI = async () => {
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/me'
+            });
+            if (response.status === 200) {
+                // console.log(response);
+                setUser(response.data);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     return (
         <HeaderSection>
@@ -51,7 +70,7 @@ const Header = () => {
                 <HeaderMenu>
 
                     {
-                        sessionStorage.getItem('logged') ?
+                        user ?
                             <>
                                 <Link to="/mypage/profile"><img css={css`width:2em;`}
                                                         src="../../../assets/img/icon/profile.svg"/></Link>

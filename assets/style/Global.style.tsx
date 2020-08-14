@@ -23,18 +23,26 @@ export const GlobalStyle = () => (
       ${media.sm`font-size: 14px;`}
     }
     
+    select{
+      font-family: 'NanumSquare', sans-serif;
+      font-size: 16px;
+      outline:none;
+    }
+    
     textarea {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
       outline:none;
 
     }
-    
+   
     input {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
       outline:none;
-
+    }
+    input[type="password"]{
+       font-family: Arial, sans-serif;
     }
     button{
       border:0;

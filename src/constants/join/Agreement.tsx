@@ -36,7 +36,7 @@ const FakeCheckBox = styled.div`
   &::before{
     content: '✔';
     position: relative;
-    top: 3px;
+    top: 5px;
   }
 `
 const AgreementList = styled.div`
@@ -120,7 +120,7 @@ const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, e
                 </AgreementList>
             </AgreementLabel>
             <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin} enabled={enabled}/>
+            <JoinButton goJoin={goJoin} enabled={enabled} name="다음"/>
         </>
     )
 }
