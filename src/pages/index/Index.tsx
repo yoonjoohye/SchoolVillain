@@ -1,6 +1,6 @@
 import * as React from 'react';
 import SEO from '../SEO/SEO';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import MainBanner from '../../constants/banner/MainBanner';
 import PreviewBoard from '../../constants/board/PreviewBoard';
@@ -12,6 +12,8 @@ import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
 import Identification from "../../constants/mypage/Identification";
 import InfiniteScroll from "react-infinite-scroll-component";
+import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import {Color} from "../../../assets/style/Color.style";
 
 const IndexSection = styled.section`
   ${Section};
@@ -30,67 +32,63 @@ const Nav = styled.nav`
   height: 100vh; 
   box-sizing: border-box;
 `
+
+
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
-
-    const [loading,setLoading]=useState(false);
+    const [boardCount, setBoardCount]=useState(0);
+    const [hasMore, setHasMore]=useState(true);
 
     useEffect(() => {
-        BoardAPI();
+        BoardAPI(10);
         UserAPI();
     }, []);
 
-    const BoardAPI = async () => {
+    const BoardAPI = useCallback(async (perPage:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/board/list',
                 params: {
-                    per_page: 10,
+                    per_page: perPage,
                     page: 1
                 }
             });
             if (response.status === 200) {
                 // console.log(response);
                 setBoardList(response.data.data);
+                if(response.data.total<=perPage){
+                    setHasMore(false);
+                }
+                setBoardCount(response.data.data.length);
             }
         } catch (err) {
             if (err.response.status === 422) {
                 console.log(err);
             } else {
-                console.log(err);
+                throw err;
             }
         }
-    }
-
-    const UserAPI = async () => {
+    },[]);
+    const UserAPI = useCallback(async () => {
         try {
             let response = await axios({
                 method: 'POST',
                 url: '/api/user/me'
             });
+            // console.log(response);
             if (response.status === 200) {
-                // console.log(response);
                 setUser(response.data);
             }
         } catch (err) {
-            console.error(err);
+            throw err;
         }
-    }
+    },[]);
 
-    const goDetail = (id: number) => {
+    const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
-    }
-
-    // const props: InfiniteScroll.InfiniteScrollProps = {
-    //     dataLength: 5,
-    //     hasMore: true,
-    //     endMessage: 'The end.',
-    //     loader: <h3>Loading...</h3>,
-    //     next: () => null,
-    //     className: '',
-    // };
+    },[]);
 
     return (
         <>
@@ -107,9 +105,19 @@ const Index: React.FC = ({history}: any) => {
                 <div css={css` width:100%;`}>
                     <PreviewWrite/>
                     <MainBanner/>
-                    {/*<InfiniteScroll {...props}>*/}
+                    <InfiniteScroll
+                        css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                        dataLength={boardCount}
+                        next={()=>BoardAPI(boardCount+10)}
+                        hasMore={hasMore}
+                        loader={
+                            <div css={css`text-align: center; padding:3em;`}>
+                                <img css={css`width:5em;`} src="../../../assets/img/icon/spinner.gif"/>
+                            </div>
+                        }
+                        endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                         <PreviewBoard boardList={boardList} goDetail={goDetail}/>
-                    {/*</InfiniteScroll>*/}
+                    </InfiniteScroll>
                 </div>
             </IndexSection>
         </>

@@ -46,12 +46,11 @@ const Detail: React.FC = ({match}: any) => {
                 }
             }
         } catch (err) {
-            console.log(err);
-
+            throw err;
         }
     }, []);
 
-    const ReplyAPI = async (page) => {
+    const ReplyAPI = useCallback(async (page) => {
         try {
             let response = await axios({
                 method: 'GET',
@@ -79,10 +78,10 @@ const Detail: React.FC = ({match}: any) => {
             if (err.response.status === 422) {
                 console.log(err);
             } else {
-                console.log(err);
+                throw err;
             }
         }
-    }
+    },[]);
     const likeBoard =async (id: number) => {
         try {
             if (boardLikeId>0) {
@@ -93,7 +92,7 @@ const Detail: React.FC = ({match}: any) => {
                         id: boardLikeId
                     }
                 });
-                console.log(response);
+                // console.log(response);
                 if (response.status === 200) {
                     // console.log('좋아요 취소');
                     setBoard(produce(draft=>{
@@ -110,7 +109,7 @@ const Detail: React.FC = ({match}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     setBoard(produce(draft=>{
                         draft.board_like_count=response.data.count
                     }));
@@ -121,7 +120,7 @@ const Detail: React.FC = ({match}: any) => {
             if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
             } else {
-                console.error(err);
+                throw err;
             }
         }
     }
@@ -139,7 +138,7 @@ const Detail: React.FC = ({match}: any) => {
                 window.location.href = '/';
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     }
     const editBoard = () => {
@@ -159,7 +158,6 @@ const Detail: React.FC = ({match}: any) => {
         }));
     }
     const likeReply = async (id: number, replyIndex: number, reReplyIndex: number | any) => {
-        // console.log(replyLikeId);
         try {
             if (reReplyIndex !== null) {
                 //대댓글
@@ -251,7 +249,7 @@ const Detail: React.FC = ({match}: any) => {
             if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
             } else {
-                console.error(err);
+                throw err;
             }
         }
     }
@@ -267,7 +265,9 @@ const Detail: React.FC = ({match}: any) => {
 
             // console.log(response);
             if (response.status === 204) {
-                setBoard({...board, comment_count: board.comment_count -= 1});
+                setBoard(produce(draft=>{
+                    draft.comment_count-=1;
+                }));
 
                 if (reReplyIndex!==null) {
                     setReplyList(produce(draft => {
@@ -286,10 +286,10 @@ const Detail: React.FC = ({match}: any) => {
                 }
             }
         } catch (err) {
-            console.error(err);
+            throw err;
         }
     }
-    const saveReply = async (parentId: number, contents: string, replyIndex?: number | any) => {
+    const saveReply = async (parentId: any, contents: string, replyIndex: any) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -302,12 +302,10 @@ const Detail: React.FC = ({match}: any) => {
             });
             // console.log(response);
             if (response.status === 200) {
-                setBoard({...board, comment_count: board.comment_count += 1});
-
-                if (parentId) {
-                    setReReply(produce(draft => {
-                        draft[replyIndex] = '';
-                    }))
+                setBoard(produce(draft=>{
+                    draft.comment_count+=1;
+                }));
+                if (replyIndex!==null) {
                     setReplyList(produce(draft => {
                         if (!draft[replyIndex].children) draft[replyIndex].children = [];
                         draft[replyIndex].children.push(response.data);
@@ -316,15 +314,17 @@ const Detail: React.FC = ({match}: any) => {
                     setReplyLikeId(produce(draft => {
                         draft[replyIndex].reReply.push(null)
                     }));
-
+                    setReReply(produce(draft => {
+                        draft[replyIndex] = '';
+                    }));
                 } else {
-                    setReply('');
                     setReplyList(produce(draft => {
                         draft.push(response.data);
                     }));
                     setReplyLikeId(produce(draft => {
                         draft.push({reply: response.data.my_like_id, reReply: []})
                     }));
+                    setReply('');
                 }
             }
         } catch (err) {
@@ -333,7 +333,7 @@ const Detail: React.FC = ({match}: any) => {
             } else if (err.response.status === 422) {
                 alert('댓글을 입력해주세요.');
             } else {
-                console.error(err);
+                throw err;
             }
         }
     }
@@ -375,8 +375,8 @@ const Detail: React.FC = ({match}: any) => {
                 />
 
                 {
-                    openModal?
-                    <Edit isOpen={isOpen} boardId={match.params.id} />:null
+                    openModal&&
+                    <Edit isOpen={isOpen} boardId={match.params.id} />
                 }
             </DetailSection>
         </>

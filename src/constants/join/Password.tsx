@@ -23,15 +23,12 @@ interface propsType{
     enabled:boolean;
 }
 const Password:React.FC<propsType>=({goJoin,password,changePassword,err,enabled})=>{
-    const passwordChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        changePassword(e.target.value);
-    }
     return(
         <>
             <JoinTitle>PASSWORD</JoinTitle>
-            <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요."/>
+            <JoinInput type="password" value={password} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>changePassword(e)} placeholder="패스워드를 입력해주세요."/>
             <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin} enabled={enabled}/>
+            <JoinButton goJoin={goJoin} enabled={enabled} name="다음"/>
         </>
     )
 }

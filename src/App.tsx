@@ -25,19 +25,15 @@ const App: React.FC = () => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: 'api/user/auth/check'
+                url: '/api/user/auth/check'
             });
             // console.log(response);
-
             if (response.status === 200) {
-                if(response.data.is_user){
-                    sessionStorage.setItem('logged', response.data.is_user);
-                }else{
-                    sessionStorage.removeItem('logged');
-                }
+                sessionStorage.setItem('logged', response.data.is_user);
             }
         } catch (err) {
-            console.error(err);
+            sessionStorage.removeItem('logged');
+            throw err;
         }
     }
 
