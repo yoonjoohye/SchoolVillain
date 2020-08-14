@@ -43,6 +43,10 @@ export const GlobalStyle = () => (
     }
     input[type="password"]{
        font-family: Arial, sans-serif;
+       letter-spacing: 2px;
+       &::placeholder{
+        letter-spacing: 0;
+       }
     }
     button{
       border:0;

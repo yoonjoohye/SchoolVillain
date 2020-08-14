@@ -65,6 +65,7 @@ interface btnProps {
 const AuthBtn = styled.button`
   width:100%;
   padding:1em;
+  border-radius: 0.3em;
    ${(props: btnProps) => `
     background-color:${props.bgColor};
     color:${props.color}!important;

@@ -54,7 +54,7 @@ const Header = () => {
                 setUser(response.data);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
         }
     }
 

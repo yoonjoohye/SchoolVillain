@@ -33,7 +33,7 @@ const App: React.FC = () => {
             }
         } catch (err) {
             sessionStorage.removeItem('logged');
-            throw err;
+            // throw err;
         }
     }
 

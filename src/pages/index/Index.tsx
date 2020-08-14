@@ -64,14 +64,10 @@ const Index: React.FC = ({history}: any) => {
                 setBoardCount(response.data.data.length);
             }
         } catch (err) {
-            if (err.response.status === 422) {
-                console.log(err);
-            } else {
-                throw err;
-            }
+            // throw err;
         }
     },[]);
-    const UserAPI = useCallback(async () => {
+    const UserAPI = async () => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -82,9 +78,9 @@ const Index: React.FC = ({history}: any) => {
                 setUser(response.data);
             }
         } catch (err) {
-            throw err;
+            // throw err;
         }
-    },[]);
+    }
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
