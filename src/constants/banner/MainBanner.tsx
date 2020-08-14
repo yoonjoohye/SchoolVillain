@@ -5,7 +5,10 @@ import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 
 const BannerSection = styled.section`
-  margin-top:1em;
+  margin-top:2em;
+  background-image: linear-gradient(to left, #cb61f8, #7c2bdc 50%, #8e6dff);
+  padding:1.5em;
+  border-radius: 0.3em;
 `
 const BannerImg = styled.img`
   position: relative;
@@ -13,8 +16,10 @@ const BannerImg = styled.img`
   width:100%;
 `
 const BannerTag = styled.div`
-  ${MarkdownSm(Color.white)};
-  background-color:${Color.purple200};
+  //margin-top:1em;
+  padding:0.5em;
+  ${MarkdownSm(Color.white,500)};
+  background-color:rgba(0,0,0,0.18);
   text-align: center;
   box-shadow: 0 3px 5px #00000021;
 `
@@ -23,7 +28,7 @@ const MainBanner=()=>{
         <BannerSection>
             <Link to="/banner/apply">
                 <BannerImg src="../../../assets/img/banner/example.jpg"/>
-                <BannerTag>나의 최애 배너등록하러가기 →</BannerTag>
+                <BannerTag>나의 배너 등록하러가기</BannerTag>
             </Link>
         </BannerSection>
     )

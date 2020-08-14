@@ -17,6 +17,7 @@ import {Color} from "../../../assets/style/Color.style";
 
 const IndexSection = styled.section`
   ${Section};
+  margin-top:6em;
   display: grid;
   grid-template-columns: 35% 65%;
   ${media.sm`
@@ -29,7 +30,7 @@ const Nav = styled.nav`
   position: sticky;
   margin-right:1rem;
   top: 6em; 
-  height: 100vh; 
+  height: 90vh; 
   box-sizing: border-box;
 `
 

@@ -7,7 +7,6 @@ import Write from "../../pages/board/Write";
 
 const WriteSection = styled.section`
   width:100%;
-  margin-top:6em;
 `
 const WriteContainer = styled.div`
   ${FlexBox('','flex-start','center')};
