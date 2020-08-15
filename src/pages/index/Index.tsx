@@ -39,12 +39,15 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
+    const [banner, setBanner]=useState([]);
+
     const [boardPage, setBoardPage]=useState(1);
     const [hasMore, setHasMore]=useState(true);
 
     useEffect(() => {
         BoardAPI(boardPage);
         UserAPI();
+        BannerAPI();
     }, []);
 
     const BoardAPI = useCallback(async (page:number) => {
@@ -58,7 +61,7 @@ const Index: React.FC = ({history}: any) => {
                 }
             });
             if (response.status === 200) {
-                // console.log(response);
+                // console.log(response.data);
                 setBoardList(produce(draft=>{
                     response.data.data.map((board:any)=>{
                         draft.push(board);
@@ -87,6 +90,20 @@ const Index: React.FC = ({history}: any) => {
             console.log(err);
         }
     }
+    const BannerAPI=async()=>{
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/banner'
+            });
+            console.log(response);
+            if (response.status === 200) {
+                setBanner(response.data.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
@@ -101,12 +118,12 @@ const Index: React.FC = ({history}: any) => {
             <IndexSection>
                 <Nav css={onlyPc}>
                     <Identification user={user}/>
-                    <SideBanner/>
+                    <SideBanner banner={banner}/>
                 </Nav>
 
                 <div css={css` width:100%;`}>
                     <PreviewWrite/>
-                    <MainBanner/>
+                    <MainBanner banner={banner}/>
                     <InfiniteScroll
                         css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                         dataLength={boardList.length}

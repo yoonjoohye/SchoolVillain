@@ -70,9 +70,8 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
 
     const textToTag = (str: string) => {
         let newLineRegex=/\n/g;
-        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\s+|"|$)/g;
+        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\n|\s+|"|$)/g;
         str=str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
-
         return str;
     }
 
@@ -138,9 +137,14 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     }
                 </BoardBox>
                 <div css={css`margin-bottom:1em;`}>
-                <span css={css`margin-right:1em;`} onClick={() => likeBoard(board.id)}>
-                    <IconSm src="../../../assets/img/icon/like.svg"/>
-                    <span css={boardLikeId > 0 ? css`color:red;` : css`color:${Color.gray200}`}>
+                <span css={css`margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
+                    {boardLikeId>0?
+                        <IconSm src="../../../assets/img/icon/like_purple.svg"/>
+                        :
+                        <IconSm src="../../../assets/img/icon/like.svg"/>
+
+                    }
+                    <span css={css`color:${Color.gray200}`}>
                         {board.board_like_count}
                     </span>
                 </span>

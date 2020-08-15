@@ -23,13 +23,19 @@ const BannerTag = styled.div`
   text-align: center;
   box-shadow: 0 3px 5px #00000021;
 `
-const MainBanner=()=>{
+interface propsType {
+    banner:any;
+}
+const MainBanner:React.FC<propsType>=({banner})=>{
     return(
         <BannerSection>
-            <Link to="/banner/apply">
-                <BannerImg src="../../../assets/img/banner/example.jpg"/>
-                <BannerTag>나의 배너 등록하러가기</BannerTag>
-            </Link>
+            {
+
+                <Link to="/banner/apply">
+                    <BannerImg src="../../../assets/img/banner/example.jpg"/>
+                    <BannerTag>나의 배너 등록하러가기</BannerTag>
+                </Link>
+            }
         </BannerSection>
     )
 }

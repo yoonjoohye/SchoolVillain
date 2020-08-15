@@ -3,22 +3,42 @@ import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
+import {MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 
 const ApplySection = styled.section`
-  margin-top:4em;
-  ${FlexBox()};
+  //margin:4em 0 4em 0;
+  //${FlexBox()};
+  ${Section};
 `
 const ApplyImg = styled.img`
   display:block;
-  ${media.sm`width:100%;`}
+  width:100%;
+  // ${media.sm`width:100%;`}
+`
+const ApplyFloating=styled.div`
+  position:fixed; 
+  bottom:0; 
+  left:0;
+  padding:0.5em 0; 
+  ${FlexBox()};
+  width:100%;
+  border:4px solid #000000;
+  background-color:white;
+  ${MarkdownLg('', 700)};
+  &:hover{
+    background-color:#eeeeee;
+  }
 `
 const Apply = () => {
     return (
         <ApplySection>
-            <ApplyImg src="../../../assets/img/banner/apply.png"/>
-            <div css={css`position:fixed; bottom:0; padding:1em 0; ${FlexBox()}; `}>
-                <a href="https://pf.kakao.com/_QxakAK" target="_blank">https://pf.kakao.com/_QxakAK</a>
-            </div>
+            {
+                window.screen.width>480?
+                <ApplyImg src="../../../assets/img/banner/pc_apply.png"/>:
+                <ApplyImg src="../../../assets/img/banner/m_apply.png"/>
+            }
+
+            <ApplyFloating><a css={css`width:100%; text-align: center;`} href="https://pf.kakao.com/_QxakAK" target="_blank">지금 바로 배너등록 신청하기</a></ApplyFloating>
         </ApplySection>
     )
 }

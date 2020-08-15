@@ -8,7 +8,7 @@ import {Color} from "../../../assets/style/Color.style";
 import Profile from "../../constants/mypage/Profile";
 import axios from "axios";
 import SEO from "../SEO/SEO";
-import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import InfiniteScroll from "react-infinite-scroll-component";
 import produce from "immer";
 
@@ -20,12 +20,12 @@ const MypageTab = styled.nav`
   margin-top:6em;
   margin-bottom:1em;
   border-bottom:1px solid ${Color.gray100};
+  ${MarkdownBase('',500)};
 `
 const Tab = styled.li`
   width:25%;
   cursor:pointer;
   padding:1em 0;
-
   text-align:center;
 `
 const MypageContents = styled.div`
@@ -91,7 +91,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                     page: page
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setLikeList(produce(draft=>{
                     response.data.data.map((like:any)=>{
@@ -343,7 +343,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                         tab.map((item: string, index: number) => {
                             return (
                                 <Tab key={index}
-                                     css={css`${menu === index ? css`border-bottom:3px solid ${Color.purple200}` : css`border-bottom:0;`}`}
+                                     css={css`${menu === index ? css`border-bottom:3px solid ${Color.purple200};` : css`border-bottom:0;`}`}
                                      onClick={() => selectMenu(index)}>{item}</Tab>
                             )
                         })
