@@ -39,10 +39,10 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
-    const [banner, setBanner]=useState([]);
-
-    const [boardPage, setBoardPage]=useState(1);
-    const [hasMore, setHasMore]=useState(true);
+    const [mainBanner, setMainBanner] = useState([]);
+    const [sideBanner, setSideBanner] = useState([]);
+    const [boardPage, setBoardPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
         BoardAPI(boardPage);
@@ -50,7 +50,7 @@ const Index: React.FC = ({history}: any) => {
         BannerAPI();
     }, []);
 
-    const BoardAPI = useCallback(async (page:number) => {
+    const BoardAPI = useCallback(async (page: number) => {
         try {
             let response = await axios({
                 method: 'GET',
@@ -62,12 +62,12 @@ const Index: React.FC = ({history}: any) => {
             });
             if (response.status === 200) {
                 // console.log(response.data);
-                setBoardList(produce(draft=>{
-                    response.data.data.map((board:any)=>{
+                setBoardList(produce(draft => {
+                    response.data.data.map((board: any) => {
                         draft.push(board);
                     });
                 }));
-                if(response.data.total<=page*10){
+                if (response.data.total <= page * 10) {
                     setHasMore(false);
                 }
                 setBoardPage(page);
@@ -75,8 +75,8 @@ const Index: React.FC = ({history}: any) => {
         } catch (err) {
             console.log(err);
         }
-    },[]);
-    const UserAPI = async () => {
+    }, []);
+    const UserAPI = useCallback(async () => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -89,25 +89,35 @@ const Index: React.FC = ({history}: any) => {
         } catch (err) {
             console.log(err);
         }
-    }
-    const BannerAPI=async()=>{
+    },[]);
+    const BannerAPI = useCallback(async () => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/banner'
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
-                setBanner(response.data.data);
+                setMainBanner(
+                    response.data.data.filter((data: any) =>
+                        data.location === 'main'
+                    )[0]
+                );
+                setSideBanner(
+                    response.data.data.filter((data: any) =>
+                        data.location.includes('side')
+                    )
+                );
+
             }
         } catch (err) {
             console.log(err);
         }
-    }
+    },[]);
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
-    },[]);
+    }, []);
 
     return (
         <>
@@ -118,23 +128,24 @@ const Index: React.FC = ({history}: any) => {
             <IndexSection>
                 <Nav css={onlyPc}>
                     <Identification user={user}/>
-                    <SideBanner banner={banner}/>
+                    <SideBanner banner={sideBanner}/>
                 </Nav>
 
                 <div css={css` width:100%;`}>
                     <PreviewWrite/>
-                    <MainBanner banner={banner}/>
+                    <MainBanner banner={mainBanner}/>
                     <InfiniteScroll
                         css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                         dataLength={boardList.length}
-                        next={()=>BoardAPI(boardPage+1)}
+                        next={() => BoardAPI(boardPage + 1)}
                         hasMore={hasMore}
                         loader={
                             <div css={css`text-align: center; padding:3em;`}>
                                 <img css={css`width:5em;`} src="../../../assets/img/icon/spinner.gif"/>
                             </div>
                         }
-                        endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                        endMessage={<div
+                            css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                         <PreviewBoard boardList={boardList} goDetail={goDetail}/>
                     </InfiniteScroll>
                 </div>

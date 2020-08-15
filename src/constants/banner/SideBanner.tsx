@@ -4,6 +4,7 @@ import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase} from "../../../assets/style/Markdown.style";
+import {memo} from "react";
 
 interface propsType {
     banner: any;
@@ -12,12 +13,37 @@ interface propsType {
 const SideBanner: React.FC<propsType> = ({banner}) => {
     return (
         <section>
-            <Link to="/banner/apply">
-                <img css={css`width:100%; margin-bottom:0.5em;`} src="../../../assets/img/banner/chanyeol.jpg"/>
-            </Link>
-            <Link to="/banner/apply">
-                <img css={css`width:100%; margin-bottom:0.5em;`} src="../../../assets/img/banner/twice.jpg"/>
-            </Link>
+            {
+                banner &&
+                banner.map((item: any, index: number) => {
+                    return (
+                        item.banner_count > 0 ?
+                            <a href={item.banner[0].link} key={index}>
+                                <img css={css`width:100%; margin-bottom:0.5em;`} src={item.banner[0].path}/>
+                            </a> :
+                            <div key={index}>
+                                {index === 0 &&
+                                <Link to="/banner/apply">
+                                    <img css={css`width:100%; margin-bottom:0.5em;`}
+                                         src="../../../assets/img/banner/chanyeol.jpg"/>
+                                </Link>}
+                                {
+                                    index === 1 &&
+                                    <Link to="/banner/apply">
+                                        <img css={css`width:100%; margin-bottom:0.5em;`}
+                                             src="../../../assets/img/banner/twice.jpg"/>
+                                    </Link>
+                                }
+                            </div>
+                    )
+                })
+            }
+            {/*<Link to="/banner/apply">*/}
+            {/*    <img css={css`width:100%; margin-bottom:0.5em;`} src="../../../assets/img/banner/chanyeol.jpg"/>*/}
+            {/*</Link>*/}
+            {/*<Link to="/banner/apply">*/}
+            {/*    <img css={css`width:100%; margin-bottom:0.5em;`} src="../../../assets/img/banner/twice.jpg"/>*/}
+            {/*</Link>*/}
 
             <a href="https://pf.kakao.com/_QxakAK" target="_blank">
                 <div
@@ -30,4 +56,4 @@ const SideBanner: React.FC<propsType> = ({banner}) => {
     )
 }
 
-export default SideBanner;
+export default memo(SideBanner);

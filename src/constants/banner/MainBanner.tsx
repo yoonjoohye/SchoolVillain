@@ -3,6 +3,7 @@ import * as React from "react";
 import styled from "@emotion/styled";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
+import {memo} from "react";
 
 const BannerSection = styled.section`
   margin-top:2em;
@@ -18,25 +19,34 @@ const BannerImg = styled.img`
 const BannerTag = styled.div`
   //margin-top:1em;
   padding:0.5em;
-  ${MarkdownSm(Color.white,500)};
+  ${MarkdownSm(Color.white, 500)};
   background-color:rgba(0,0,0,0.18);
   text-align: center;
   box-shadow: 0 3px 5px #00000021;
 `
+
 interface propsType {
-    banner:any;
+    banner: any;
 }
-const MainBanner:React.FC<propsType>=({banner})=>{
-    return(
+
+const MainBanner: React.FC<propsType> = ({banner}) => {
+    return (
         <BannerSection>
             {
+                banner.banner_count>0 ?
+                    <a href={banner.banner[0].link} target="_blank">
+                        <BannerImg src={banner.banner[0].path}/>
+                        <BannerTag>나의 배너 등록하러가기</BannerTag>
+                    </a>
 
-                <Link to="/banner/apply">
-                    <BannerImg src="../../../assets/img/banner/example.jpg"/>
-                    <BannerTag>나의 배너 등록하러가기</BannerTag>
-                </Link>
+                    :
+                    <Link to="/banner/apply">
+                        <BannerImg src="../../../assets/img/banner/example.jpg"/>
+                        <BannerTag>나의 배너 등록하러가기</BannerTag>
+                    </Link>
+
             }
         </BannerSection>
     )
 }
-export default MainBanner;
+export default memo(MainBanner);
