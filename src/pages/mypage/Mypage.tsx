@@ -10,6 +10,7 @@ import axios from "axios";
 import SEO from "../SEO/SEO";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import InfiniteScroll from "react-infinite-scroll-component";
+import produce from "immer";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -35,9 +36,9 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [replyList, setReplyList] = useState([]);
 
-    const [likeCount,setLikeCount]=useState(0);
-    const [boardCount,setBoardCount]=useState(0);
-    const [replyCount,setReplyCount]=useState(0);
+    const [likePage,setLikePage]=useState(1);
+    const [boardPage,setBoardPage]=useState(1);
+    const [replyPage,setReplyPage]=useState(1);
     const [likeHasMore,setLikeHasMore]=useState(true);
     const [boardHasMore,setBoardHasMore]=useState(true);
     const [replyHasMore,setReplyHasMore]=useState(true);
@@ -62,16 +63,16 @@ const Mypage: React.FC = ({history, match}: any) => {
     useEffect(() => {
         if (match.params.name === 'like') {
             setMenu(0);
-            MyLikeAPI(10);
+            MyLikeAPI(likePage);
         }
         if (match.params.name === 'board') {
             setMenu(1);
-            MyBoardAPI(10);
+            MyBoardAPI(boardPage);
 
         }
         if (match.params.name === 'reply') {
             setMenu(2);
-            MyReplyAPI(10);
+            MyReplyAPI(replyPage);
 
         }
         if (match.params.name === 'profile') {
@@ -80,23 +81,27 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }, [match.params]);
 
-    const MyLikeAPI = async (perPage:number) => {
+    const MyLikeAPI = async (page:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/mypage/like',
                 params: {
-                    per_page: perPage,
-                    page: 1
+                    per_page: 10,
+                    page: page
                 }
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
-                setLikeList(response.data.data);
-                if(response.data.total<=likeCount+10){
+                setLikeList(produce(draft=>{
+                    response.data.data.map((like:any)=>{
+                        draft.push(like);
+                    });
+                }));
+                if(response.data.total<=page*10){
                     setLikeHasMore(false);
                 }
-                setLikeCount(response.data.data.length);
+                setLikePage(page);
 
             }
         } catch (err) {
@@ -107,23 +112,27 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
         }
     }
-    const MyBoardAPI = async (perPage:number) => {
+    const MyBoardAPI = async (page:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/mypage/board',
                 params: {
-                    per_page: perPage,
-                    page: 1
+                    per_page: 10,
+                    page: page
                 }
             });
             // console.log(response);
             if (response.status === 200) {
-                setBoardList(response.data.data);
-                if(response.data.total<=boardCount+10){
+                setBoardList(produce(draft=>{
+                    response.data.data.map((board:any)=>{
+                        draft.push(board);
+                    });
+                }));
+                if(response.data.total<=page*10){
                     setBoardHasMore(false);
                 }
-                setBoardCount(response.data.data.length);
+                setBoardPage(page);
 
             }
         } catch (err) {
@@ -134,23 +143,27 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
         }
     }
-    const MyReplyAPI = async (perPage:number) => {
+    const MyReplyAPI = async (page:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/mypage/comment',
                 params: {
-                    per_page: perPage,
-                    page: 1
+                    per_page: 5,
+                    page: page
                 }
             });
             // console.log(response);
             if (response.status === 200) {
-                setReplyList(response.data.data);
-                if(response.data.total<=replyCount+10){
+                setReplyList(produce(draft=>{
+                    response.data.data.map((reply:any)=>{
+                        draft.push(reply);
+                    });
+                }));
+                if(response.data.total<=page*5){
                     setReplyHasMore(false);
                 }
-                setReplyCount(response.data.data.length);
+                setReplyPage(page);
 
             }
         } catch (err) {
@@ -341,8 +354,8 @@ const Mypage: React.FC = ({history, match}: any) => {
                         menu === 0 &&
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                            dataLength={likeCount}
-                            next={()=>MyLikeAPI(likeCount+10)}
+                            dataLength={likeList.length}
+                            next={()=>MyLikeAPI(likePage+1)}
                             hasMore={likeHasMore}
                             loader={
                                 <div css={css`text-align: center; padding:5em;`}>
@@ -357,8 +370,8 @@ const Mypage: React.FC = ({history, match}: any) => {
                         menu === 1 &&
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                            dataLength={boardCount}
-                            next={()=>MyBoardAPI(boardCount+10)}
+                            dataLength={boardList.length}
+                            next={()=>MyBoardAPI(boardPage+1)}
                             hasMore={boardHasMore}
                             loader={
                                 <div css={css`text-align: center; padding:5em;`}>
@@ -373,8 +386,8 @@ const Mypage: React.FC = ({history, match}: any) => {
                         menu === 2 &&
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                            dataLength={replyCount}
-                            next={()=>MyReplyAPI(replyCount+10)}
+                            dataLength={replyList.length}
+                            next={()=>MyReplyAPI(replyPage+1)}
                             hasMore={replyHasMore}
                             loader={
                                 <div css={css`text-align: center; padding:5em;`}>

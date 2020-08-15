@@ -1,5 +1,5 @@
 import JoinInput from "../../components/input/JoinInput";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import JoinButton from "../../components/button/JoinButton";
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
@@ -9,6 +9,8 @@ import {Color} from "../../../assets/style/Color.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {css} from "@emotion/core";
 import axios from "axios";
+import SEO from "../SEO/SEO";
+import Modal from "../../components/modal/Modal";
 
 const LoginSection = styled.section`
   ${Section};
@@ -45,8 +47,19 @@ const Button = styled.button`
     background-color: ${Color.purple300};
   }
 `
+const Input = styled.input`
+    ${MarkdownMd()};
+    width:100%;
+    border:0;
+    border-bottom:1px solid ${Color.purple200};
+    outline:none;
+    padding:10px 0 10px 0;
+    margin-bottom:10px;
+`
 
 const ResetPassword = () => {
+
+    const [code, setCode] = useState('');
     //비밀번호
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState(false);
@@ -57,9 +70,15 @@ const ResetPassword = () => {
     const [passwordConfirmCheck, setPasswordConfirmCheck] = useState(false);
     const [passwordConfirmErr, setPasswordConfirmErr] = useState('');
 
+    //모달
+    const [openModal,setOpenModal]=useState(false);
 
-    const changePassword = (e:React.ChangeEvent<HTMLInputElement>) => {
-        let {value}=e.target
+    useEffect(() => {
+        setCode(location.search.substring(6, location.search.length));
+    }, []);
+
+    const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target
 
         let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
         setPassword(value);
@@ -72,8 +91,8 @@ const ResetPassword = () => {
             setPasswordCheck(true);
         }
     }
-    const changePasswordConfirm = (e:React.ChangeEvent<HTMLInputElement>) => {
-        let {value}=e.target
+    const changePasswordConfirm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target
 
         setPasswordConfirm(value);
 
@@ -86,40 +105,66 @@ const ResetPassword = () => {
         }
     }
 
-    const resetPassword=async()=>{
+    const onEnter = (e: React.KeyboardEvent) => {
+        if(passwordCheck && passwordConfirmCheck){
+            if (e.key === 'Enter') {
+                resetPassword();
+            }
+        }
+    }
+    const resetPassword = async () => {
         try {
             let response = await axios({
                 method: 'POST',
                 url: '/api/user/reset/pw',
                 data: {
-                    new_password:passwordConfirm
+                    code: code,
+                    new_password: passwordConfirm
                 }
             });
             console.log(response);
             if (response.status === 201) {
+                setOpenModal(true);
             }
         } catch (err) {
-            setPasswordConfirmErr('패스워드를 다시 일력해주세요.');
+            setPasswordConfirmErr('패스워드를 다시 입력해주세요.');
             setPasswordConfirmCheck(false);
-            // console.log(err);
+            console.log(err.response);
         }
     }
+
+    const confirmModal=()=>{
+        location.href='/login';
+
+    }
     return (
-        <LoginSection>
-            <LoginContainer>
-                <LoginTitle>PASSWORD</LoginTitle>
-                <JoinInput type="password" value={password} onChange={changePassword} placeholder="패스워드를 입력해주세요."/>
-                <ErrorMsg css={css`margin-bottom:1em;`} visible={passwordErr.length > 0}>{passwordErr}</ErrorMsg>
+        <>
+            <SEO title="패스워드 재설정 | 스쿨빌런"
+                 description="스쿨빌런 패스워드 재설정 페이지입니다."
+                 keywords="스쿨빌런 패스워드 재설정 페이지"
+            />
+            <LoginSection>
+                <LoginContainer>
+                    <LoginTitle>PASSWORD</LoginTitle>
+                    <JoinInput type="password" value={password} onChange={changePassword} placeholder="패스워드를 입력해주세요."/>
+                    <ErrorMsg css={css`margin-bottom:1em;`} visible={passwordErr.length > 0}>{passwordErr}</ErrorMsg>
 
 
-                <LoginTitle>PASSWORD CHECK</LoginTitle>
-                <JoinInput type="password" value={passwordConfirm} onChange={changePasswordConfirm}
-                           placeholder="패스워드를 입력해주세요."/>
-                <ErrorMsg visible={passwordConfirmErr.length > 0}>{passwordConfirmErr}</ErrorMsg>
+                    <LoginTitle>PASSWORD CHECK</LoginTitle>
+                    <Input type="password" value={passwordConfirm} onChange={changePasswordConfirm}
+                               placeholder="패스워드를 입력해주세요." onKeyPress={(e: React.KeyboardEvent) => onEnter(e)}/>
+                    <ErrorMsg visible={passwordConfirmErr.length > 0}>{passwordConfirmErr}</ErrorMsg>
 
-                <Button css={css`margin-bottom:1em;`} enabled={passwordCheck && passwordConfirmCheck} onClick={resetPassword}>재설정하기</Button>
-            </LoginContainer>
-        </LoginSection>
+                    <Button css={css`margin-bottom:1em;`} enabled={passwordCheck && passwordConfirmCheck}
+                            onClick={resetPassword}>재설정하기</Button>
+                </LoginContainer>
+            </LoginSection>
+
+            <Modal openModal={openModal} confirmModal={confirmModal}
+                   title="패스워드 변경완료"
+                   contents="입력하신 패스워드로 변경되었습니다."
+                   buttonName="로그인 하러가기"/>
+        </>
     )
 }
 export default ResetPassword;

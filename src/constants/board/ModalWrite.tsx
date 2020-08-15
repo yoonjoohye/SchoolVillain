@@ -200,8 +200,7 @@ const ModalWrite: React.FC<propsType> = ({
                                         <figure css={css`position:relative;`} key={index}>
                                             <DelButton onClick={() => deleteImg(index)}>X</DelButton>
                                             <PreviewImg>
-                                                <img
-                                                    css={css`width: 100%; height: 100%;`}
+                                                <img css={css`width: 100%; height: 100%;`}
                                                     src={preview}/>
                                             </PreviewImg>
                                         </figure>

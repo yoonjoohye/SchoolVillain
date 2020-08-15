@@ -75,7 +75,7 @@ module.exports = {
             chunkFilename: '[name][hash].chunk.css'
         }),
         new HtmlWebpackPlugin({
-            favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.png'),
+            favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.ico'),
             template: path.resolve(__dirname, 'public', 'index.html')
         }),
         new WebpackManifestPlugin({

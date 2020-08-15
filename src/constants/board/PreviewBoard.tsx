@@ -8,7 +8,6 @@ import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
 import {IconSm} from "../../../assets/style/Icon.style";
 import {media} from "../../../assets/style/Media.style";
 import {Tag} from "../../../assets/style/Util";
-import {useCallback} from "react";
 
 const BoardSection = styled.section`
   cursor:pointer;
@@ -77,7 +76,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
         boardList.length > 0 && boardList ?
             boardList.map((board: any, index: number) => {
                 return (
-                    <BoardSection key={board.id} onClick={() => goDetail(board.id)}>
+                    <BoardSection key={index} onClick={() => goDetail(board.id)}>
                         <BoardBox alignItems="flex-start" css={css`margin-bottom:1em;`}>
                             <div css={css`margin-right:0.5em;`}>
                                 <BoardTitle>{board.title}</BoardTitle>

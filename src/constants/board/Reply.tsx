@@ -6,12 +6,12 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
 import {css} from "@emotion/core";
 
-
 const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
   margin-bottom:0.5em;
 `
 const ReplyContent = styled.p`
+  word-break:break-all;
   display:inline-block;
   ${MarkdownBase()};
   background-color:${Color.gray100};
@@ -42,6 +42,8 @@ const MoreReply = styled.div`
 
 interface propsType {
     replyList: any;
+    replyTotal:number;
+
     likeReply: any;
     replyLikeId:any;
     deleteReply: any;
@@ -60,7 +62,7 @@ interface propsType {
     moreReReply: any;
 }
 
-const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteReply, goReReply, openReply, reply, changeReply, saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
+const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLikeId, deleteReply, goReReply, openReply, reply, changeReply, saveReply, reReply, changeReReply, moreReply, moreReReply}) => {
 
     const replyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.target.style.height = 'auto';
@@ -96,7 +98,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                         return (
                             <div css={css`margin-bottom:1em;`} key={replyIndex}>
                                 <ReplyName>
-                                    {'익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                    {reply.user ? reply.user.name : '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                 </ReplyName>
                                 <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
                                 <ReplyBox>
@@ -112,7 +114,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                                 </ReplyBox>
 
                                 {
-                                    reply.children && reply.children.length > 0 ?
+                                    reply.children && reply.children.length > 0 &&
                                         <div css={css`padding-left:5%;`}>
                                             {
                                                 reply.children.map((reReply: any, reReplyIndex: number) => {
@@ -138,12 +140,12 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                                                 })
                                             }
                                             {
-                                                reply.children.length % 10===0 ?
-                                                    <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply}>댓글
-                                                        더보기...</MoreReply> : null
+
+                                                reply.children_count>reply.children.length &&
+                                                    <MoreReply css={css`cursor:pointer;`} onClick={() => moreReReply(reply.id,replyIndex)}>댓글
+                                                        더보기...</MoreReply>
                                             }
                                         </div>
-                                        : null
                                 }
                                 {
                                     openReply.includes(replyIndex) ?
@@ -168,7 +170,7 @@ const Reply: React.FC<propsType> = ({replyList, likeReply, replyLikeId, deleteRe
                     </div>
             }
             {
-                replyList.length>10 ?
+                replyTotal>replyList.length ?
                     <div css={css`margin-top:1em;`}>
                         <MoreReply css={css`cursor:pointer;`} onClick={moreReply}>댓글 더보기...</MoreReply>
                     </div> : null

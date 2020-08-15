@@ -14,13 +14,14 @@ import Identification from "../../constants/mypage/Identification";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
+import produce from "immer";
 
 const IndexSection = styled.section`
   ${Section};
   margin-top:6em;
   display: grid;
   grid-template-columns: 35% 65%;
-  ${media.sm`
+  ${media.md`
      grid-template-columns: 100%;
   `};
 `
@@ -38,34 +39,38 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
-    const [boardCount, setBoardCount]=useState(0);
+    const [boardPage, setBoardPage]=useState(1);
     const [hasMore, setHasMore]=useState(true);
 
     useEffect(() => {
-        BoardAPI(10);
+        BoardAPI(boardPage);
         UserAPI();
     }, []);
 
-    const BoardAPI = useCallback(async (perPage:number) => {
+    const BoardAPI = useCallback(async (page:number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/board/list',
                 params: {
-                    per_page: perPage,
-                    page: 1
+                    per_page: 10,
+                    page: page
                 }
             });
             if (response.status === 200) {
                 // console.log(response);
-                setBoardList(response.data.data);
-                if(response.data.total<=perPage){
+                setBoardList(produce(draft=>{
+                    response.data.data.map((board:any)=>{
+                        draft.push(board);
+                    });
+                }));
+                if(response.data.total<=page*10){
                     setHasMore(false);
                 }
-                setBoardCount(response.data.data.length);
+                setBoardPage(page);
             }
         } catch (err) {
-            // throw err;
+            console.log(err);
         }
     },[]);
     const UserAPI = async () => {
@@ -79,7 +84,7 @@ const Index: React.FC = ({history}: any) => {
                 setUser(response.data);
             }
         } catch (err) {
-            // throw err;
+            console.log(err);
         }
     }
 
@@ -104,8 +109,8 @@ const Index: React.FC = ({history}: any) => {
                     <MainBanner/>
                     <InfiniteScroll
                         css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                        dataLength={boardCount}
-                        next={()=>BoardAPI(boardCount+10)}
+                        dataLength={boardList.length}
+                        next={()=>BoardAPI(boardPage+1)}
                         hasMore={hasMore}
                         loader={
                             <div css={css`text-align: center; padding:3em;`}>

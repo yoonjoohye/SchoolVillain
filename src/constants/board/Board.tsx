@@ -7,7 +7,7 @@ import {IconSm} from "../../../assets/style/Icon.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
-import {Tag, url} from "../../../assets/style/Util";
+import {Tag} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
