@@ -4,10 +4,10 @@
   "description": "학교 정보 커뮤니티",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.dev.js",
-    "serve": "cross-env NODE_ENV=development webpack-dev-server --https --host 0.0.0.0 --disableHostCheck --config webpack.dev.js",
-    "build:development": "cross-env NODE_ENV=development webpack --config webpack.prod.js",
-    "build:production": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
+    "start": "cross-env BUILD_ENV=development webpack-dev-server --config webpack.dev.js",
+    "serve": "cross-env BUILD_ENV=development webpack-dev-server --https --host 0.0.0.0 --disableHostCheck --config webpack.dev.js",
+    "build:development": "cross-env BUILD_ENV=development webpack --config webpack.prod.js",
+    "build:production": "cross-env BUILD_ENV=production webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

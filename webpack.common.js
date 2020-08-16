@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
@@ -81,7 +82,12 @@ module.exports = {
         }),
         new WebpackManifestPlugin({
             fileName: 'manifest.json'
-        })
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'BUILD_ENV': JSON.stringify(process.env.BUILD_ENV),
+            }
+        }),
     ],
     output: {
         publicPath: '/',
