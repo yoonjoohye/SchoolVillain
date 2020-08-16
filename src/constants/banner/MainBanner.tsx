@@ -35,12 +35,10 @@ const MainBanner: React.FC<propsType> = ({banner}) => {
                 banner.banner_count>0 ?
                     <a href={banner.banner[0].link} target="_blank">
                         <BannerImg src={banner.banner[0].path}/>
-                        {/*<BannerTag>나의 배너 등록하러가기</BannerTag>*/}
                     </a>
-
                     :
                     <Link to="/banner/apply">
-                        <BannerImg src="../../../assets/img/banner/example.jpg"/>
+                        <BannerImg src={require('../../../assets/img/banner/example.jpg')}/>
                         <BannerTag>나의 배너 등록하러가기</BannerTag>
                     </Link>
 

@@ -114,9 +114,9 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
                             </div>
                             <div>
                                 <span css={css`margin-right:1em;`}>
-                                    <IconSm src="../../../assets/img/icon/like.svg"/> {board.board_like_count}
+                                    <IconSm src={require('../../../assets/img/icon/like.svg')}/> {board.board_like_count}
                                 </span>
-                                <span><IconSm src="../../../assets/img/icon/comment.svg"/> {board.comment_count}</span>
+                                <span><IconSm src={require('../../../assets/img/icon/comment.svg')}/> {board.comment_count}</span>
                             </div>
                         </BoardBox>
                         {

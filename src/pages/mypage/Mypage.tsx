@@ -359,7 +359,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                             hasMore={likeHasMore}
                             loader={
                                 <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
                                 </div>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
@@ -375,7 +375,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                             hasMore={boardHasMore}
                             loader={
                                 <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
                                 </div>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
@@ -391,7 +391,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                             hasMore={replyHasMore}
                             loader={
                                 <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
                                 </div>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>

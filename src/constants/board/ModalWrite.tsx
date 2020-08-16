@@ -171,7 +171,7 @@ const ModalWrite: React.FC<propsType> = ({
             <ModalBox>
                 <ModalHeader>
                     <p>게시물 {name}</p>
-                    <CloseButton onClick={() => isOpen(false)}><img css={css`width:100%;`} src='../../../assets/img/icon/close.svg'/></CloseButton>
+                    <CloseButton onClick={() => isOpen(false)}><img css={css`width:100%;`} src={require('../../../assets/img/icon/close.svg')}/></CloseButton>
                 </ModalHeader>
                 <ModalBody>
                     <div css={css`padding:1em; border-bottom:1px solid ${Color.gray100};`}>

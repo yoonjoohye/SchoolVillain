@@ -83,7 +83,7 @@ const Identification = ({user}: any) => {
                             <ProfileSection className="front">
                                 <ProfileTitle>
                                     <span css={css`${MarkdownLg(Color.white, 700)};`}>{user.name || '익명'}</span>
-                                    <img css={css`width:4.5em;`} src="../../../assets/img/index/badge.png"/>
+                                    <img css={css`width:4.5em;`} src={require('../../../assets/img/index/badge.png')}/>
                                 </ProfileTitle>
                                 <ProfileBody>
                                     <div css={css`${MarkdownLg('', 700)}; margin-bottom:0.5em;`}>스쿨빌런학교</div>

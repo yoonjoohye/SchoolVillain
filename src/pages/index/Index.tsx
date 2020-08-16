@@ -141,7 +141,7 @@ const Index: React.FC = ({history}: any) => {
                         hasMore={hasMore}
                         loader={
                             <div css={css`text-align: center; padding:3em;`}>
-                                <img css={css`width:5em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                <img css={css`width:5em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
                             </div>
                         }
                         endMessage={<div

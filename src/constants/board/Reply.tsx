@@ -133,7 +133,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                 {
                                     reply.comment_like_count > 0 &&
                                     <LikeBadge>
-                                        <LikeIcon css={css``} src='../../../assets/img/icon/like_purple.svg'/>
+                                        <LikeIcon css={css``} src={require('../../../assets/img/icon/like_purple.svg')}/>
                                         {reply.comment_like_count}
                                     </LikeBadge>
                                 }
@@ -163,7 +163,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                                         {
                                                             reReply.comment_like_count > 0 &&
                                                             <LikeBadge>
-                                                                <LikeIcon css={css``} src='../../../assets/img/icon/like_purple.svg'/>
+                                                                <LikeIcon css={css``} src={require('../../../assets/img/icon/like_purple.svg')}/>
                                                                 {reReply.comment_like_count}
                                                             </LikeBadge>
                                                         }

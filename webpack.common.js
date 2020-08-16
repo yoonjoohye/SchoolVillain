@@ -55,13 +55,14 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/i,
+                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            publicPath: './dist/',
-                            name: '[name].[ext]?[hash]'
+                            publicPath: '/',
+                            name: '[name].[ext]?[hash]',
+                            esModule:false
                         }
                     }
                 ]

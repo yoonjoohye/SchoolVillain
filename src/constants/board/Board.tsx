@@ -91,7 +91,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             <span css={css`padding:0 0.5em;`}>|</span>
                             <span>
                                 <IconSm
-                                    src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+                                    src={require('../../../assets/img/icon/view.svg')}/>{board.board_view_log_count}</span>
                         </div>
                     </div>
                     <>
@@ -99,7 +99,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.is_mine ?
                                 <div css={css`${FlexBox('column', 'center', 'center')};`}>
                                     <div><IconSm css={css`margin:0; cursor: pointer;`}
-                                                 src="../../../assets/img/icon/more.svg" onClick={() => {
+                                                 src={require('../../../assets/img/icon/more.svg')} onClick={() => {
                                         setOpenModifyBox(!openModifyBox)
                                     }}/></div>
                                     {openModifyBox &&
@@ -139,9 +139,9 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                 <div css={css`margin-bottom:1em;`}>
                 <span css={css`margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
                     {boardLikeId>0?
-                        <IconSm src="../../../assets/img/icon/like_purple.svg"/>
+                        <IconSm src={require('../../../assets/img/icon/like_purple.svg')}/>
                         :
-                        <IconSm src="../../../assets/img/icon/like.svg"/>
+                        <IconSm src={require('../../../assets/img/icon/like.svg')}/>
 
                     }
                     <span css={css`color:${Color.gray200}`}>
@@ -149,7 +149,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     </span>
                 </span>
                     <span>
-                    <IconSm src="../../../assets/img/icon/comment.svg"/>
+                    <IconSm src={require('../../../assets/img/icon/comment.svg')}/>
                     <span css={css`color:${Color.gray200}`}>{board.comment_count}</span>
                 </span>
                 </div>
