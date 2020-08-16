@@ -20,7 +20,7 @@ const IndexSection = styled.section`
   ${Section};
   margin-top:6em;
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 33% 67%;
   ${media.md`
      grid-template-columns: 100%;
   `};
@@ -45,6 +45,8 @@ const Index: React.FC = ({history}: any) => {
     const [boardPage, setBoardPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
+    const [loading,setLoading]=useState(false);
+
     useEffect(() => {
         BoardAPI(boardPage);
         UserAPI();
@@ -52,6 +54,7 @@ const Index: React.FC = ({history}: any) => {
     }, []);
 
     const BoardAPI = useCallback(async (page: number) => {
+        setLoading(true);
         try {
             let response = await axios({
                 method: 'GET',
@@ -72,9 +75,11 @@ const Index: React.FC = ({history}: any) => {
                     setHasMore(false);
                 }
                 setBoardPage(page);
+                setLoading(false);
+
             }
         } catch (err) {
-            // console.log(err);
+            setLoading(false);
         }
     }, []);
 
@@ -149,7 +154,7 @@ const Index: React.FC = ({history}: any) => {
                         }
                         endMessage={<div
                             css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                        <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                        <PreviewBoard loading={loading} boardList={boardList} goDetail={goDetail}/>
                     </InfiniteScroll>
                 </div>
             </IndexSection>

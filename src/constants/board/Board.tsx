@@ -24,21 +24,19 @@ const BoardContents = styled.div`
 `
 const SpeechBubble = styled.div`
   position: absolute;
-  margin-top: 120px;
-  width:10%;
+  right:5%;
   background: ${Color.white};
   box-shadow: 0 0 10px rgba(0,0,0,0.12);
   border-radius: 0.3rem;
   ${MarkdownSm(Color.gray200)}
   ${media.sm`
     right:5%;
-    width:25%;
   `}
 `;
 const SpeechBubbleContent = styled.div`
   text-align: center;
   word-break: keep-all;
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 2.5rem;
   cursor:pointer;
   &:nth-of-type(1){
     border-bottom: 1px solid ${Color.gray100};
@@ -97,7 +95,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     <>
                         {
                             board.is_mine ?
-                                <div css={css`${FlexBox('column', 'center', 'center')};`}>
+                                <div css={css`position:relative;`}>
                                     <div><IconSm css={css`margin:0; cursor: pointer;`}
                                                  src={require('../../../assets/img/icon/more.svg')} onClick={() => {
                                         setOpenModifyBox(!openModifyBox)
