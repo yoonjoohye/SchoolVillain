@@ -141,8 +141,10 @@ const PageWrite: React.FC<propsType> = ({
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => loadImg(e)}
                                    accept="image/jpg, image/png, image/jpeg, image/gif"
                                    multiple/>
-                        <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
-                        <span css={css`${MarkdownSm(Color.gray200)}`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</span>
+                            {/*<div css={css`${FlexBox('','space-between','center')}`}>*/}
+                                <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
+                                {/*<div css={css`${MarkdownSm(Color.gray200)}`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</div>*/}
+                            {/*</div>*/}
                     </div>
                     <Preview>
                         {

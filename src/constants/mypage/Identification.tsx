@@ -3,10 +3,11 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
 import {css} from "@emotion/core";
-import SkeletonProfile from "../loading/SkeletonProfile";
+import SkeletonProfile from "../loading/SkeletonIdentification";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {media} from "../../../assets/style/Media.style";
+import SkeletonIdentification from "../loading/SkeletonIdentification";
 
 const ProfileContainer = styled.div`
   position:relative;
@@ -58,19 +59,35 @@ const ProfileFooter=styled.div`
 `
 
 interface btnProps {
-    bgColor: string;
-    color: string;
+    isFull:boolean;
 }
 
-const AuthBtn = styled.button`
+
+const AuthBtn = styled.button<btnProps>`
   width:100%;
   padding:1em;
   border-radius: 0.3em;
-   ${(props: btnProps) => `
-    background-color:${props.bgColor};
-    color:${props.color}!important;
-    `};
   text-align:center;
+  border:1px solid ${Color.purpl200};
+
+   ${(props: btnProps) => props.isFull?
+    css`
+    background-color:${Color.purple200};
+    color:${Color.white};
+    &:hover{
+      background-color:${Color.purple300};
+    }
+    margin-bottom:1em;
+    `:
+    css`
+    background-color:${Color.white};
+    color:${Color.purple200};
+     &:hover{
+      background-color:${Color.purple100};
+    }
+    `
+};
+  
 `
 
 const Identification = ({user}: any) => {
@@ -124,21 +141,21 @@ const Identification = ({user}: any) => {
                             </ProfileSection>
                         </ProfileContainer>
                         :
-                        <SkeletonProfile/>
+                        <SkeletonIdentification/>
                     :
                     <section css={css`padding:2em 1em;
                                       box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
-                                      margin-bottom:1em;
-                                      text-align:center;`}>
-                        <div css={css`margin-bottom:1em;`}>아직 스쿨빌런에 가입을 하지 않으셨나요?</div>
+                                      margin-bottom:2em;
+                                      text-align:center;
+                                      ${MarkdownMd('')}`}>
+                        <div css={css`margin-bottom:1em;`}>아직도 <span css={css`font-weight:700;`}>스쿨빌런 가입</span> 안했나요?</div>
                         <Link to="/login">
-                            <AuthBtn css={css`margin-bottom:1em;`} color={Color.purple200}
-                                     bgColor={Color.purple100}>
+                            <AuthBtn isFull={true}>
                                 로그인
                             </AuthBtn>
                         </Link>
                         <Link to="/join/agreement">
-                            <AuthBtn color={Color.yellow200} bgColor={Color.yellow100}>
+                            <AuthBtn isFull={false}>
                                 회원가입
                             </AuthBtn>
                         </Link>
