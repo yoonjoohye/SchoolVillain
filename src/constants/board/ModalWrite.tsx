@@ -36,8 +36,8 @@ const ModalFooter = styled.div`
 `
 const ModalBody = styled.div`
   overflow: auto;
-  min-height: 350px; 
-  max-height:500px;
+  min-height: 35vh; 
+  max-height: 60vh;
 `
 
 interface buttonProps {
