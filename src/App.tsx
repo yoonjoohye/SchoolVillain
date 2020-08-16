@@ -15,15 +15,13 @@ axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-alert(process.env.NODE_ENV);
-
 let url='https://api.villain.school';
 
-if(process.env.NODE_ENV=='production'){
+if(process.env.BUILD_ENV=='production'){
     url = 'https://api.villain.school';
 }
 
-if(process.env.NODE_ENV=='development'){
+if(process.env.BUILD_ENV=='development'){
     url = 'https://dev.villain.school';
 }
 
