@@ -20,29 +20,38 @@ export const GlobalStyle = () => (
       font-size: 16px;
       font-weight: 400;
       color: ${Color.black};
-      ${media.sm`font-size: 14px;`}
+      ${media.sm`font-size: 13px;`};
     }
     
     select{
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
       outline:none;
+      ${media.sm`font-size: 13px;`};
     }
     
     textarea {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
       outline:none;
-
+      ${media.sm`font-size: 13px;`};
     }
    
     input {
       font-family: 'NanumSquare', sans-serif;
       font-size: 16px;
       outline:none;
+       ${media.sm`font-size: 13px;`};
     }
     input[type="password"]{
        font-family: Arial, sans-serif;
+       letter-spacing: 2px;
+       &::placeholder{
+        letter-spacing: 0;
+       }
+    }
+    select{
+      outline:none;
     }
     button{
       border:0;

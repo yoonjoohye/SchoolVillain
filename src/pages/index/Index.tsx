@@ -14,12 +14,14 @@ import Identification from "../../constants/mypage/Identification";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
+import produce from "immer";
 
 const IndexSection = styled.section`
   ${Section};
+  margin-top:6em;
   display: grid;
   grid-template-columns: 35% 65%;
-  ${media.sm`
+  ${media.md`
      grid-template-columns: 100%;
   `};
 `
@@ -29,7 +31,7 @@ const Nav = styled.nav`
   position: sticky;
   margin-right:1rem;
   top: 6em; 
-  height: 100vh; 
+  height: 90vh; 
   box-sizing: border-box;
 `
 
@@ -37,40 +39,44 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
-    const [boardCount, setBoardCount]=useState(0);
-    const [hasMore, setHasMore]=useState(true);
+    const [mainBanner, setMainBanner] = useState([]);
+    const [sideBanner, setSideBanner] = useState([]);
+    const [boardPage, setBoardPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
-        BoardAPI(10);
+        BoardAPI(boardPage);
         UserAPI();
+        BannerAPI();
     }, []);
 
-    const BoardAPI = useCallback(async (perPage:number) => {
+    const BoardAPI = useCallback(async (page: number) => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/board/list',
                 params: {
-                    per_page: perPage,
-                    page: 1
+                    per_page: 10,
+                    page: page
                 }
             });
             if (response.status === 200) {
-                // console.log(response);
-                setBoardList(response.data.data);
-                if(response.data.total<=perPage){
+                // console.log(response.data);
+                setBoardList(produce(draft => {
+                    response.data.data.map((board: any) => {
+                        draft.push(board);
+                    });
+                }));
+                if (response.data.total <= page * 10) {
                     setHasMore(false);
                 }
-                setBoardCount(response.data.data.length);
+                setBoardPage(page);
             }
         } catch (err) {
-            if (err.response.status === 422) {
-                console.log(err);
-            } else {
-                throw err;
-            }
+            console.log(err);
         }
-    },[]);
+    }, []);
+
     const UserAPI = useCallback(async () => {
         try {
             let response = await axios({
@@ -82,13 +88,38 @@ const Index: React.FC = ({history}: any) => {
                 setUser(response.data);
             }
         } catch (err) {
-            throw err;
+            console.log(err);
+        }
+    },[]);
+
+    const BannerAPI = useCallback(async () => {
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/banner'
+            });
+            // console.log(response);
+            if (response.status === 200) {
+                setMainBanner(
+                    response.data.data.filter((data: any) =>
+                        data.location === 'main'
+                    )[0]
+                );
+                setSideBanner(
+                    response.data.data.filter((data: any) =>
+                        data.location.includes('side')
+                    )
+                );
+
+            }
+        } catch (err) {
+            console.log(err);
         }
     },[]);
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
-    },[]);
+    }, []);
 
     return (
         <>
@@ -99,23 +130,24 @@ const Index: React.FC = ({history}: any) => {
             <IndexSection>
                 <Nav css={onlyPc}>
                     <Identification user={user}/>
-                    <SideBanner/>
+                    <SideBanner banner={sideBanner}/>
                 </Nav>
 
                 <div css={css` width:100%;`}>
                     <PreviewWrite/>
-                    <MainBanner/>
+                    <MainBanner banner={mainBanner}/>
                     <InfiniteScroll
                         css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                        dataLength={boardCount}
-                        next={()=>BoardAPI(boardCount+10)}
+                        dataLength={boardList.length}
+                        next={() => BoardAPI(boardPage + 1)}
                         hasMore={hasMore}
                         loader={
                             <div css={css`text-align: center; padding:3em;`}>
-                                <img css={css`width:5em;`} src="../../../assets/img/icon/spinner.gif"/>
+                                <img css={css`width:5em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
                             </div>
                         }
-                        endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                        endMessage={<div
+                            css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                         <PreviewBoard boardList={boardList} goDetail={goDetail}/>
                     </InfiniteScroll>
                 </div>

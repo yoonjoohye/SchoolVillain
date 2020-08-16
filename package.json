@@ -4,15 +4,17 @@
   "description": "학교 정보 커뮤니티",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "serve": "webpack-dev-server --https --host 0.0.0.0 --disableHostCheck --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.dev.js",
+    "serve": "cross-env NODE_ENV=development webpack-dev-server --https --host 0.0.0.0 --disableHostCheck --config webpack.dev.js",
+    "build:development": "cross-env NODE_ENV=development webpack --config webpack.prod.js",
+    "build:production": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/yoonjoohye/SchoolVillain.git"
   },
+  "homepage": "https://develop.villain.school",
   "keywords": [
     "초등학교",
     "중학교",
@@ -35,7 +37,9 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/redux-saga": "^0.10.5",
     "axios": "^0.19.2",
+    "cross-env": "^7.0.2",
     "immer": "^7.0.5",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",

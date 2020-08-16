@@ -55,13 +55,14 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/i,
+                test: /\.(ico|png|jpe?g|gif|svg|woff|woff2|ttf|eot)$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            publicPath: './dist/',
-                            name: '[name].[ext]?[hash]'
+                            publicPath: '/',
+                            name: 'img/[name].[ext]?[hash]',
+                            esModule:false
                         }
                     }
                 ]
@@ -75,7 +76,7 @@ module.exports = {
             chunkFilename: '[name][hash].chunk.css'
         }),
         new HtmlWebpackPlugin({
-            favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.png'),
+            favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.ico'),
             template: path.resolve(__dirname, 'public', 'index.html')
         }),
         new WebpackManifestPlugin({

@@ -14,7 +14,20 @@ const store=createStore(rootReducer,composeWithDevTools(applyMiddleware(sagaMidd
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = 'https://dev.villain.school';
+
+alert(process.env.NODE_ENV);
+
+let url='https://api.villain.school';
+
+if(process.env.NODE_ENV=='production'){
+    url = 'https://api.villain.school';
+}
+
+if(process.env.NODE_ENV=='development'){
+    url = 'https://dev.villain.school';
+}
+
+axios.defaults.baseURL=url;
 
 const App: React.FC = () => {
     useEffect(()=>{
@@ -33,7 +46,7 @@ const App: React.FC = () => {
             }
         } catch (err) {
             sessionStorage.removeItem('logged');
-            throw err;
+            // throw err;
         }
     }
 

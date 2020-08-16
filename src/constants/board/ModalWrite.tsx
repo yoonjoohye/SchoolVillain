@@ -5,6 +5,7 @@ import {Color} from "../../../assets/style/Color.style";
 import React from "react";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Tag} from "../../../assets/style/Util";
+import {IconSm} from "../../../assets/style/Icon.style";
 
 const ModalSection = styled.section`
   position: fixed;
@@ -23,6 +24,7 @@ const ModalBox = styled.div`
   box-shadow:0 10px 10px rgba(0,0,0,0.18);
 `
 const ModalHeader = styled.div`
+  position:relative;
   border-bottom:1px solid ${Color.gray100};
   padding: 0.8em 1em;
    ${MarkdownMd(Color.black, 500)};
@@ -110,6 +112,19 @@ const DelButton=styled.button`
   margin-top: -10px;
   margin-left: -13px;
 `
+const CloseButton=styled.button`
+  position:absolute; 
+  right:1em; 
+  width:30px;
+  height:30px;
+  ${FlexBox()};
+  background: ${Color.gray100};
+  border-radius: 50%;
+  padding:0.6em;
+  &:hover{
+    background:#e1e1e1;
+  }
+`
 
 interface propsType {
     isOpen: any;
@@ -156,8 +171,7 @@ const ModalWrite: React.FC<propsType> = ({
             <ModalBox>
                 <ModalHeader>
                     <p>게시물 {name}</p>
-                    <span css={css`position:absolute; margin-left:24em; cursor:pointer;`}
-                          onClick={() => isOpen(false)}>X</span>
+                    <CloseButton onClick={() => isOpen(false)}><img css={css`width:100%;`} src={require('../../../assets/img/icon/close.svg')}/></CloseButton>
                 </ModalHeader>
                 <ModalBody>
                     <div css={css`padding:1em; border-bottom:1px solid ${Color.gray100};`}>
@@ -186,8 +200,7 @@ const ModalWrite: React.FC<propsType> = ({
                                         <figure css={css`position:relative;`} key={index}>
                                             <DelButton onClick={() => deleteImg(index)}>X</DelButton>
                                             <PreviewImg>
-                                                <img
-                                                    css={css`width: 100%; height: 100%;`}
+                                                <img css={css`width: 100%; height: 100%;`}
                                                     src={preview}/>
                                             </PreviewImg>
                                         </figure>
