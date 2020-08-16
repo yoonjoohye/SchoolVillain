@@ -14,7 +14,7 @@ const store=createStore(rootReducer,composeWithDevTools(applyMiddleware(sagaMidd
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = 'https://dev.villain.school';
+axios.defaults.baseURL = 'https://api.villain.school';
 
 const App: React.FC = () => {
     useEffect(()=>{
