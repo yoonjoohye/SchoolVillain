@@ -76,6 +76,7 @@ const Index: React.FC = ({history}: any) => {
             console.log(err);
         }
     }, []);
+
     const UserAPI = useCallback(async () => {
         try {
             let response = await axios({
@@ -90,6 +91,7 @@ const Index: React.FC = ({history}: any) => {
             console.log(err);
         }
     },[]);
+
     const BannerAPI = useCallback(async () => {
         try {
             let response = await axios({
