@@ -44,12 +44,10 @@ const FakeCheckBox = styled.div`
   width:30px;
   height:30px;
   text-align: center;
-  &::before{
-    color:${Color.white};
-    content: '✔';
-    position: relative;
-    top: 5px;
-  }
+  background-image: url(${require('../../../assets/img/icon/check.svg')});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
 `
 
 interface buttonProps {

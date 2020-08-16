@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
-import {FlexBox, Section} from "../../../assets/style/Layout.style";
+import {FlexBox, onlyMobile, onlyPc, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {MarkdownLg} from "../../../assets/style/Markdown.style";
 import {media} from "../../../assets/style/Media.style";
@@ -31,11 +31,8 @@ const ApplyFloating=styled.div`
 const Apply = () => {
     return (
         <ApplySection>
-            {
-                window.screen.width>480?
-                <ApplyImg src={require('../../../assets/img/banner/pc_apply.png')}/>:
-                <ApplyImg src={require('../../../assets/img/banner/m_apply.png')}/>
-            }
+                <ApplyImg css={css`${onlyPc()}`} src={require('../../../assets/img/banner/pc_apply.png')}/>
+                <ApplyImg css={css`${onlyMobile()}`} src={require('../../../assets/img/banner/m_apply.png')}/>
 
             <ApplyFloating><a css={css`width:100%; text-align: center;`} href="https://pf.kakao.com/_QxakAK" target="_blank">지금 바로 배너등록 신청하기</a></ApplyFloating>
         </ApplySection>

@@ -27,6 +27,7 @@ const IndexSection = styled.section`
 `
 
 const Nav = styled.nav`
+  ${media.md`display:none;`};
   position: -webkit-sticky;
   position: sticky;
   margin-right:1rem;
@@ -73,7 +74,7 @@ const Index: React.FC = ({history}: any) => {
                 setBoardPage(page);
             }
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     }, []);
 
@@ -88,7 +89,7 @@ const Index: React.FC = ({history}: any) => {
                 setUser(response.data);
             }
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     },[]);
 
@@ -113,7 +114,7 @@ const Index: React.FC = ({history}: any) => {
 
             }
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     },[]);
 
@@ -128,7 +129,7 @@ const Index: React.FC = ({history}: any) => {
                  keywords="스쿨빌런 메인 페이지"
             />
             <IndexSection>
-                <Nav css={onlyPc}>
+                <Nav>
                     <Identification user={user}/>
                     <SideBanner banner={sideBanner}/>
                 </Nav>

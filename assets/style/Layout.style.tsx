@@ -17,7 +17,7 @@ export const Section=()=>css`
 
 export const onlyPc=()=>css`
   display:initial;
-  ${media.md`display:none;`}
+  ${media.sm`display:none;`}
 `
 
 export const onlyMobile=()=>css`
