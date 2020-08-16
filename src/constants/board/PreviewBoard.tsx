@@ -146,20 +146,25 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
 
                                     <BoardBox
                                         css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
-                                        <div>
-                                <span css={css`margin-right:1em;`}>
-                                    <IconSm
-                                        src={require('../../../assets/img/icon/view.svg')}/>{board.board_view_log_count}
-                                </span>
-                                            <span>{board.create_time_ago}</span>
+                                        <div css={css`${FlexBox()};`}>
+                                            <div css={css`margin-right:1em; ${FlexBox()};`}>
+                                                <IconSm css={css`margin-right:0.3em;`}
+                                                        src={require('../../../assets/img/icon/view.svg')}/>
+                                                <div>{board.board_view_log_count}</div>
+                                            </div>
+                                            <div>{board.create_time_ago}</div>
                                         </div>
-                                        <div>
-                                <span css={css`margin-right:1em;`}>
-                                    <IconSm
-                                        src={require('../../../assets/img/icon/like.svg')}/> {board.board_like_count}
-                                </span>
-                                            <span><IconSm
-                                                src={require('../../../assets/img/icon/comment.svg')}/> {board.comment_count}</span>
+                                        <div css={css`${FlexBox()};`}>
+                                            <div css={css`margin-right:1em; ${FlexBox()};`}>
+                                                <IconSm css={css`margin-right:0.3em;`}
+                                                        src={require('../../../assets/img/icon/like.svg')}/>
+                                                <div>{board.board_like_count}</div>
+                                            </div>
+                                            <div css={css`${FlexBox()};`}>
+                                                <IconSm css={css`margin-right:0.3em;`}
+                                                        src={require('../../../assets/img/icon/comment.svg')}/>
+                                                <div>{board.comment_count}</div>
+                                            </div>
                                         </div>
                                     </BoardBox>
                                     {
@@ -172,8 +177,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                                     return (
                                                         <div key={index} css={css`margin-top:0.5em;`}>
                                                             <ReplyName>
-                                                                {'익명'} <span
-                                                                css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                                                {board.user.name ? board.user.name : '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                                             </ReplyName>
                                                             <ReplyContent
                                                                 dangerouslySetInnerHTML={{__html: reply.contents}}/>
@@ -190,7 +194,9 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                         :
                         <div css={css`height:50vh; ${FlexBox('column')}; ${MarkdownBase(Color.gray200)}`}>
                             <div>해당 게시글이 존재하지 않아요.</div>
-                            <div css={css`margin-bottom:1em;`}>글을 작성하여, <span css={css`font-weight:700;`}>당신의 인싸력</span>을 보여주세요.</div>
+                            <div css={css`margin-bottom:1em;`}>글을 작성하여, <span css={css`font-weight:700;`}>당신의 인싸력</span>을
+                                보여주세요.
+                            </div>
                             <Button onClick={goWrite}>인싸글 도전하기</Button>
                         </div>
             }

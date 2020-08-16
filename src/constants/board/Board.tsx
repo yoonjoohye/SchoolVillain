@@ -67,9 +67,9 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
     const [openModifyBox, setOpenModifyBox] = useState(false);
 
     const textToTag = (str: string) => {
-        let newLineRegex=/\n/g;
+        let newLineRegex = /\n/g;
         let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\n|\s+|"|$)/g;
-        str=str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
+        str = str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
         return str;
     }
 
@@ -83,13 +83,17 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                 <BoardBox justifyContent="space-between" alignItems="flex-end"
                           css={css`margin-bottom:1em; padding-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
                     <div>
-                        <div>익명</div>
-                        <div>
-                            <span>{board.create_time_ago}</span>
-                            <span css={css`padding:0 0.5em;`}>|</span>
-                            <span>
-                                <IconSm
-                                    src={require('../../../assets/img/icon/view.svg')}/>{board.board_view_log_count}</span>
+                        <div>{board.user.name ? board.user.name : '익명'}</div>
+                        <div css={css`${FlexBox('', 'center', 'flex-start')};`}>
+                            <div>{board.create_time_ago}</div>
+
+                            <div css={css`padding:0 0.5em;`}>|</div>
+
+                            <div css={css`${FlexBox('', 'center', 'center')};`}>
+                                <IconSm css={css`margin-right:0.3em;`}
+                                        src={require('../../../assets/img/icon/view.svg')}/>
+                                <div>{board.board_view_log_count}</div>
+                            </div>
                         </div>
                     </div>
                     <>
@@ -112,7 +116,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     </>
                 </BoardBox>
                 <BoardContents dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}></BoardContents>
-                <div css={css`margin-bottom:1em; text-align:center;`}>
+                <div css={css`margin-bottom:2em; text-align:center;`}>
                     {
                         board.board_image ?
                             board.board_image.map((item: any) => {
@@ -124,7 +128,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             }) : null
                     }
                 </div>
-                <BoardBox css={css`margin-bottom:1em`}>
+                <BoardBox css={css`margin-bottom:2em`}>
                     {
                         board.hash_tags ?
                             board.hash_tags.map((tag: any) => {
@@ -134,22 +138,23 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             }) : null
                     }
                 </BoardBox>
-                <div css={css`margin-bottom:1em;`}>
-                <span css={css`margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
-                    {boardLikeId>0?
-                        <IconSm src={require('../../../assets/img/icon/like_purple.svg')}/>
-                        :
-                        <IconSm src={require('../../../assets/img/icon/like.svg')}/>
+                <div css={css`${FlexBox('','flex-start','')}; margin-bottom:2em;`}>
+                    <div css={css`${FlexBox()}; margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
+                        {boardLikeId > 0 ?
+                            <IconSm css={css`margin-right:0.3em;`}
+                                    src={require('../../../assets/img/icon/like_purple.svg')}/>
+                            :
+                            <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/like.svg')}/>
 
-                    }
-                    <span css={css`color:${Color.gray200}`}>
-                        {board.board_like_count}
-                    </span>
-                </span>
-                    <span>
-                    <IconSm src={require('../../../assets/img/icon/comment.svg')}/>
-                    <span css={css`color:${Color.gray200}`}>{board.comment_count}</span>
-                </span>
+                        }
+                        <div css={css`color:${Color.gray200}`}>
+                            {board.board_like_count}
+                        </div>
+                    </div>
+                    <div css={css`${FlexBox()};`}>
+                        <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/comment.svg')}/>
+                        <div css={css`color:${Color.gray200}`}>{board.comment_count}</div>
+                    </div>
                 </div>
             </>
             :

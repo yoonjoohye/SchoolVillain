@@ -44,19 +44,20 @@ const MoreReply = styled.div`
 const LikeBadge=styled.span`
     position: absolute; 
     background: white;
-    margin-top: 2em;
+    margin-top: 1.5em;
     margin-left:-1em;
     border-radius: 5em;
     ${MarkdownSm(Color.gray200, 500)};
-    padding: 0.1em 0.8em;
+    padding: 0.2em 0.7em;
     box-shadow: 0 0 8px #00000014;
+    ${media.sm`
+        padding:0.15em 0.7em;
+    `}
 `
 const LikeIcon=styled.img`
     width:1em; 
     height:1em; 
-    position: relative;
-    margin-right: 0.3em;
-    vertical-align: text-top;
+    margin-right: 0.5em;
 `
 interface btnProps{
     click:boolean;
@@ -134,8 +135,10 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                 {
                                     reply.comment_like_count > 0 &&
                                     <LikeBadge>
-                                        <LikeIcon css={css``} src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                        {reply.comment_like_count}
+                                        <div css={css`${FlexBox()};`}>
+                                            <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                            <div>{reply.comment_like_count}</div>
+                                        </div>
                                     </LikeBadge>
                                 }
                                 <ReplyBox>
@@ -164,8 +167,10 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                                         {
                                                             reReply.comment_like_count > 0 &&
                                                             <LikeBadge>
-                                                                <LikeIcon css={css``} src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                                                {reReply.comment_like_count}
+                                                                <div css={css`${FlexBox()};`}>
+                                                                    <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                                                    <div>{reReply.comment_like_count}</div>
+                                                                </div>
                                                             </LikeBadge>
                                                         }
 
