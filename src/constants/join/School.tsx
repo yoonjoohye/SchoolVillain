@@ -24,7 +24,7 @@ const Select = styled.select`
   -moz-appearance: none; 
   appearance: none; 
   &::-ms-expand { display: none; }
-  background: url('../../../assets/img/icon/arrow-bottom.svg'); 
+  background: url(${require('../../../assets/img/icon/arrow-bottom.svg')}); 
   background-position: calc( 100% - 1em );
   background-size:5%;
   background-repeat: no-repeat;
