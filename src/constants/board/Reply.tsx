@@ -5,6 +5,7 @@ import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
 import {css} from "@emotion/core";
+import {media} from "../../../assets/style/Media.style";
 
 const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
@@ -113,7 +114,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
     }
 
     return (
-        <div css={css`margin-bottom:6em;`}>
+        <div css={css`margin-bottom:6em; ${media.sm`margin-bottom:10em`};`}>
             <ReplyFormBox>
                 <ReplyForm>
                     <ReplyInput value={reply} onChange={replyChange} placeholder="댓글을 입력해주세요."/>
