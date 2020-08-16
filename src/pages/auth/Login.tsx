@@ -7,6 +7,10 @@ import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdo
 import {Color} from "../../../assets/style/Color.style";
 import axios from "axios";
 import SEO from "../SEO/SEO";
+import {css} from "@emotion/core";
+import {Link} from "react-router-dom";
+import {ErrorMsg} from "../../../assets/style/Util";
+import produce from "immer";
 
 const LoginSection = styled.section`
   ${Section};
@@ -19,22 +23,14 @@ const LoginContainer = styled.article`
 const LoginTitle = styled.div`
   ${MarkdownBase(Color.purple200, 600)};
 `
-type ErrorMsgProps = {
-    visible: boolean;
-}
-const ErrorMsg = styled.div<ErrorMsgProps>`
-    ${MarkdownSm(Color.red)};
-    visibility: ${(props: ErrorMsgProps) => (props.visible ? 'visible' : 'hidden')};
-    margin-bottom:10px;
-`
-type buttonProps = {
+interface buttonProps {
     enabled: boolean;
 }
 const Button = styled.button`
   ${MarkdownMd(Color.white)};
   width:100%;
   height: 45px;
-  border-radius: 3px;
+  border-radius: 0.3em;
   box-shadow: 0 1.5px 2.5px 0 rgba(0, 0, 0, 0.16);
   margin-top:30px;
   ${(props: buttonProps) => props.enabled ?
@@ -50,6 +46,16 @@ const Button = styled.button`
   }
 `
 
+const Input = styled.input`
+    ${MarkdownMd()};
+    width:100%;
+    border:0;
+    border-bottom:1px solid ${Color.purple200};
+    outline:none;
+    padding:10px 0 10px 0;
+    margin-bottom:10px;
+`
+
 const Login = ({history}: any) => {
     const [email, setEmail] = useState('');
     const [emailCheck, setEmailCheck] = useState(false);
@@ -60,7 +66,7 @@ const Login = ({history}: any) => {
     const [passwordErr, setPasswordErr] = useState('');
 
 
-    const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         setEmail(e.target.value);
 
@@ -72,7 +78,7 @@ const Login = ({history}: any) => {
             setEmailCheck(true);
         }
     }
-    const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
         setPassword(e.target.value);
 
@@ -82,6 +88,14 @@ const Login = ({history}: any) => {
         } else {
             setPasswordErr('');
             setPasswordCheck(true);
+        }
+    }
+
+    const onEnter = (e: React.KeyboardEvent) => {
+        if(emailCheck && passwordCheck){
+            if (e.key === 'Enter') {
+                goLogin();
+            }
         }
     }
 
@@ -102,7 +116,7 @@ const Login = ({history}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    sessionStorage.setItem('logged', true);
+                    sessionStorage.setItem('logged', 'true');
                     window.location.href = '/';
                 }
             }
@@ -130,14 +144,21 @@ const Login = ({history}: any) => {
             <LoginSection>
                 <LoginContainer>
                     <LoginTitle>E-MAIL</LoginTitle>
-                    <JoinInput type="text" value={email} onChange={emailChange} placeholder="이메일을 입력해주세요."/>
-                    <ErrorMsg visible={emailErr.length > 0}>{emailErr}</ErrorMsg>
+                    <JoinInput type="text" value={email} onChange={changeEmail} placeholder="이메일을 입력해주세요."/>
+                    <ErrorMsg css={css`margin-bottom:1em;`} visible={emailErr.length > 0}>{emailErr}</ErrorMsg>
 
                     <LoginTitle>PASSWORD</LoginTitle>
-                    <JoinInput type="password" value={password} onChange={passwordChange} placeholder="패스워드를 입력해주세요."/>
-                    <ErrorMsg visible={passwordErr.length > 0}>{passwordErr}</ErrorMsg>
+                    <Input type="password" value={password} onChange={changePassword} placeholder="패스워드를 입력해주세요."
+                           onKeyPress={(e: React.KeyboardEvent) => onEnter(e)}
+                    />
+                    <ErrorMsg css={css`margin-bottom:1em;`} visible={passwordErr.length > 0}>{passwordErr}</ErrorMsg>
 
                     <Button enabled={emailCheck && passwordCheck} onClick={goLogin}>로그인</Button>
+
+                    <div css={css`margin-top:3em; text-align:right;`}>
+                        <p css={css`margin-bottom:1em;`}><Link to="/join/agreement" >아직 회원가입을 안 하셨나요?</Link></p>
+                        <p><Link to="/send/email">패스워드를 잊어버리셨나요?</Link></p>
+                    </div>
                 </LoginContainer>
             </LoginSection>
         </>

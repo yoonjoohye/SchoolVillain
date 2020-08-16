@@ -54,7 +54,7 @@ const Header = () => {
                 setUser(response.data);
             }
         } catch (err) {
-            console.error(err);
+            // console.log(err);
         }
     }
 
@@ -73,7 +73,7 @@ const Header = () => {
                         user ?
                             <>
                                 <Link to="/mypage/profile"><img css={css`width:2em;`}
-                                                        src="../../../assets/img/icon/profile.svg"/></Link>
+                                                        src={require('../../../assets/img/icon/profile.svg')}/></Link>
                             </>
                             :
                             <>

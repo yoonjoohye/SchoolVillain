@@ -7,7 +7,7 @@ import {IconSm} from "../../../assets/style/Icon.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
-import {Tag, url} from "../../../assets/style/Util";
+import {Tag} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
@@ -70,9 +70,8 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
 
     const textToTag = (str: string) => {
         let newLineRegex=/\n/g;
-        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\s+|"|$)/g;
+        let urlRegex = /(https?:\/\/.*?)([.!?;,])?(\n|\s+|"|$)/g;
         str=str.replace(urlRegex, `<a href="$1" style="color:${Color.blue200};" target="_blank" >$1</a>`).replace(newLineRegex, '<br />')
-
         return str;
     }
 
@@ -92,7 +91,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             <span css={css`padding:0 0.5em;`}>|</span>
                             <span>
                                 <IconSm
-                                    src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}</span>
+                                    src={require('../../../assets/img/icon/view.svg')}/>{board.board_view_log_count}</span>
                         </div>
                     </div>
                     <>
@@ -100,7 +99,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.is_mine ?
                                 <div css={css`${FlexBox('column', 'center', 'center')};`}>
                                     <div><IconSm css={css`margin:0; cursor: pointer;`}
-                                                 src="../../../assets/img/icon/more.svg" onClick={() => {
+                                                 src={require('../../../assets/img/icon/more.svg')} onClick={() => {
                                         setOpenModifyBox(!openModifyBox)
                                     }}/></div>
                                     {openModifyBox &&
@@ -138,14 +137,19 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     }
                 </BoardBox>
                 <div css={css`margin-bottom:1em;`}>
-                <span css={css`margin-right:1em;`} onClick={() => likeBoard(board.id)}>
-                    <IconSm src="../../../assets/img/icon/like.svg"/>
-                    <span css={boardLikeId > 0 ? css`color:red;` : css`color:${Color.gray200}`}>
+                <span css={css`margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
+                    {boardLikeId>0?
+                        <IconSm src={require('../../../assets/img/icon/like_purple.svg')}/>
+                        :
+                        <IconSm src={require('../../../assets/img/icon/like.svg')}/>
+
+                    }
+                    <span css={css`color:${Color.gray200}`}>
                         {board.board_like_count}
                     </span>
                 </span>
                     <span>
-                    <IconSm src="../../../assets/img/icon/comment.svg"/>
+                    <IconSm src={require('../../../assets/img/icon/comment.svg')}/>
                     <span css={css`color:${Color.gray200}`}>{board.comment_count}</span>
                 </span>
                 </div>

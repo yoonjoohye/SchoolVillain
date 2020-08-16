@@ -17,17 +17,19 @@ const Detail: React.FC = ({match}: any) => {
     const [board, setBoard]: any = useState(null);
     const [boardLikeId, setBoardLikeId] = useState(0);
     const [replyList, setReplyList] = useState([]);
+    const [replyTotal, setReplyTotal] = useState(0);
+    const [replyPage, setReplyPage] = useState(1);
+    const [reReplyPage, setReReplyPage] = useState([]);
     const [replyLikeId, setReplyLikeId] = useState([]);
     const [reply, setReply] = useState('');
     const [reReply, setReReply] = useState([]);
     const [openReply, setOpenReply] = useState([] as any);
-    const [openModal,setOpenModal]=useState(false);
-    const [page,setPage]=useState(1);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         BoardAPI();
-        ReplyAPI(page);
-    }, [page]);
+        ReplyAPI();
+    }, []);
 
     const BoardAPI = useCallback(async () => {
         try {
@@ -46,45 +48,53 @@ const Detail: React.FC = ({match}: any) => {
                 }
             }
         } catch (err) {
-            throw err;
+            // throw err;
         }
     }, []);
 
-    const ReplyAPI = useCallback(async (page) => {
+    const ReplyAPI = useCallback(async () => {
         try {
             let response = await axios({
                 method: 'GET',
                 url: '/api/comment/list',
                 params: {
                     board_id: match.params.id,
-                    per_page: 10*page,
+                    per_page: 10,
                     page: 1,
                 }
             });
             // console.log(response.data);
             if (response.status === 200) {
+
                 setReplyList(response.data.data);
 
+                setReplyTotal(response.data.total);
+
                 let likeId: any = [];
+                let pages: any = [];
+
                 response.data.data.map((reply: any, replyIndex: number) => {
+                    pages.push(1);
                     likeId.push({reply: response.data.data[replyIndex].my_like_id, reReply: []});
                     reply.children.map((reReply: any, reReplyIndex: number) => {
                         likeId[replyIndex].reReply.push(response.data.data[replyIndex].children[reReplyIndex].my_like_id);
                     })
                 })
+
+                setReReplyPage(pages);
                 setReplyLikeId(likeId);
             }
         } catch (err) {
             if (err.response.status === 422) {
                 console.log(err);
             } else {
-                throw err;
+                // throw err;
             }
         }
-    },[]);
-    const likeBoard =async (id: number) => {
+    }, []);
+    const likeBoard = async (id: number) => {
         try {
-            if (boardLikeId>0) {
+            if (boardLikeId > 0) {
                 let response = await axios({
                     method: 'POST',
                     url: '/api/board/like/delete',
@@ -95,8 +105,8 @@ const Detail: React.FC = ({match}: any) => {
                 // console.log(response);
                 if (response.status === 200) {
                     // console.log('좋아요 취소');
-                    setBoard(produce(draft=>{
-                        draft.board_like_count=response.data.count
+                    setBoard(produce(draft => {
+                        draft.board_like_count = response.data.count
                     }));
                     setBoardLikeId(0);
                 }
@@ -110,8 +120,8 @@ const Detail: React.FC = ({match}: any) => {
                 });
                 if (response.status === 200) {
                     // console.log(response.data);
-                    setBoard(produce(draft=>{
-                        draft.board_like_count=response.data.count
+                    setBoard(produce(draft => {
+                        draft.board_like_count = response.data.count
                     }));
                     setBoardLikeId(response.data.id);
                 }
@@ -120,7 +130,7 @@ const Detail: React.FC = ({match}: any) => {
             if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
             } else {
-                throw err;
+                // throw err;
             }
         }
     }
@@ -129,7 +139,7 @@ const Detail: React.FC = ({match}: any) => {
             let response = await axios({
                 method: 'POST',
                 url: '/api/board/delete',
-                params: {
+                data: {
                     id: id
                 }
             });
@@ -138,14 +148,14 @@ const Detail: React.FC = ({match}: any) => {
                 window.location.href = '/';
             }
         } catch (err) {
-            throw err;
+            // throw err;
         }
     }
     const editBoard = () => {
-        if(screen.width>480){
+        if (screen.width > 480) {
             setOpenModal(true);
-        }else{
-            location.href=`/edit/${match.params.id}`;
+        } else {
+            location.href = `/edit/${match.params.id}`;
         }
     }
 
@@ -241,7 +251,6 @@ const Detail: React.FC = ({match}: any) => {
                         setReplyLikeId(produce(draft => {
                             draft[replyIndex].reply = response.data.like
                         }));
-
                     }
                 }
             }
@@ -265,23 +274,23 @@ const Detail: React.FC = ({match}: any) => {
 
             // console.log(response);
             if (response.status === 204) {
-                setBoard(produce(draft=>{
-                    draft.comment_count-=1;
+                setBoard(produce(draft => {
+                    draft.comment_count -= 1;
                 }));
 
-                if (reReplyIndex!==null) {
+                if (reReplyIndex !== null) {
                     setReplyList(produce(draft => {
                         draft[replyIndex].children.splice(reReplyIndex, 1)
                     }));
                     setReplyLikeId(produce(draft => {
-                        draft[replyIndex].reReply.splice(reReplyIndex,1)
+                        draft[replyIndex].reReply.splice(reReplyIndex, 1)
                     }));
                 } else {
                     setReplyList(
-                        replyList.filter((reply:any) => reply.id !== id)
+                        replyList.filter((reply: any) => reply.id !== id)
                     );
                     setReplyLikeId(produce(draft => {
-                        draft.splice(replyIndex,1)
+                        draft.splice(replyIndex, 1)
                     }));
                 }
             }
@@ -302,10 +311,10 @@ const Detail: React.FC = ({match}: any) => {
             });
             // console.log(response);
             if (response.status === 200) {
-                setBoard(produce(draft=>{
-                    draft.comment_count+=1;
+                setBoard(produce(draft => {
+                    draft.comment_count += 1;
                 }));
-                if (replyIndex!==null) {
+                if (replyIndex !== null) {
                     setReplyList(produce(draft => {
                         if (!draft[replyIndex].children) draft[replyIndex].children = [];
                         draft[replyIndex].children.push(response.data);
@@ -333,7 +342,7 @@ const Detail: React.FC = ({match}: any) => {
             } else if (err.response.status === 422) {
                 alert('댓글을 입력해주세요.');
             } else {
-                throw err;
+                console.log(err);
             }
         }
     }
@@ -345,14 +354,92 @@ const Detail: React.FC = ({match}: any) => {
         }
     }, [openReply]);
 
-    const moreReply = () => {
-        setPage(page+1);
-    }
-    const moreReReply = () => {
+    const moreReply = async () => {
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/comment/list',
+                params: {
+                    board_id: match.params.id,
+                    per_page: 10,
+                    page: replyPage + 1,
+                }
+            });
+            // console.log(response.data);
+            if (response.status === 200) {
+                setReplyList(produce(draft => {
+                    response.data.data.map((reply:any)=>{
+                        draft.push(reply);
+                    })
+                }));
 
+                setReplyPage(replyPage + 1);
+
+                let likeId: any = [];
+                let pages: any = [];
+
+                response.data.data.map((reply: any, replyIndex: number) => {
+                    pages.push(1);
+                    likeId.push({reply: response.data.data[replyIndex].my_like_id, reReply: []});
+                    reply.children.map((reReply: any, reReplyIndex: number) => {
+                        likeId[replyIndex].reReply.push(response.data.data[replyIndex].children[reReplyIndex].my_like_id);
+                    })
+                });
+
+                setReplyLikeId(produce(draft => {
+                    likeId.map((id:any)=> {
+                        draft.push(id);
+                    });
+                }));
+                setReReplyPage(produce(draft => {
+                    pages.map((page:any)=> {
+                        draft.push(page);
+                    });
+                }));
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                console.log(err);
+            } else {
+                // throw err;
+            }
+        }
+    }
+    const moreReReply = async (commentId: number, replyIndex: number) => {
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/comment/reList',
+                params: {
+                    comment_id: commentId,
+                    per_page: 5,
+                    page: reReplyPage[replyIndex],
+                }
+            });
+            // console.log(response);
+            if (response.status === 200) {
+                setReReplyPage(produce(draft => {
+                    draft[replyIndex] += 1;
+                }));
+
+                setReplyList(produce(draft => {
+                    response.data.data.map((reReply:any)=>{
+                        draft[replyIndex].children.push(reReply);
+                    });
+                }));
+
+                setReplyLikeId(produce(draft => {
+                    response.data.data.map((reReply: any, reReplyIndex: number) => {
+                        draft[replyIndex].reReply.push(reReply.my_like_id);
+                    });
+                }));
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
-    const isOpen=(open:boolean)=>{
+    const isOpen = (open: boolean) => {
         setOpenModal(open);
     }
     return (
@@ -366,7 +453,7 @@ const Detail: React.FC = ({match}: any) => {
                        likeBoard={likeBoard} boardLikeId={boardLikeId}
                        deleteBoard={deleteBoard} editBoard={editBoard}/>
 
-                <Reply replyList={replyList}
+                <Reply replyList={replyList} replyTotal={replyTotal}
                        likeReply={likeReply} goReReply={goReReply} deleteReply={deleteReply}
                        openReply={openReply} replyLikeId={replyLikeId}
                        reply={reply} changeReply={changeReply} saveReply={saveReply}
@@ -375,8 +462,8 @@ const Detail: React.FC = ({match}: any) => {
                 />
 
                 {
-                    openModal&&
-                    <Edit isOpen={isOpen} boardId={match.params.id} />
+                    openModal &&
+                    <Edit isOpen={isOpen} boardId={match.params.id}/>
                 }
             </DetailSection>
         </>
