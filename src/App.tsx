@@ -15,11 +15,16 @@ axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-if(process.env.NODE_ENV==='production'){
-    axios.defaults.baseURL = 'https://api.villain.school';
-}else{
-    axios.defaults.baseURL = 'https://dev.villain.school';
+let url='';
+if(process.env.NODE_ENV=='production'){
+    url = 'https://api.villain.school';
 }
+
+if(process.env.NODE_ENV=='development'){
+    url = 'https://dev.villain.school';
+}
+
+axios.defaults.baseURL=url;
 
 const App: React.FC = () => {
     useEffect(()=>{
