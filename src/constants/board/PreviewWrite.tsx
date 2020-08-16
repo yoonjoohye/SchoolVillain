@@ -39,13 +39,12 @@ const PreviewWrite = () => {
                 <div onClick={goWrite}>
                     <WriteContainer>
                         <img css={css`width:2em; height:2em; margin-right:10px;`} src={require('../../../assets/img/icon/edit.svg')}/>
-                        빌런아, 오늘 있었던 일 뭐야?
+                        빌런아, 뭔일이야? 말해줘!
                     </WriteContainer>
                 </div>
             </WriteSection>
             {
-                openModal ?
-                <Write isOpen={isOpen}/>:null
+                openModal && <Write isOpen={isOpen}/>
             }
         </>
     )

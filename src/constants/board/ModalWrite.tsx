@@ -9,7 +9,7 @@ import {IconSm} from "../../../assets/style/Icon.style";
 
 const ModalSection = styled.section`
   position: fixed;
-  z-index:1;
+  z-index:3;
   background-color:rgba(255,255,255,0.13);
   backdrop-filter: blur(4px);
   left:0;
@@ -36,8 +36,8 @@ const ModalFooter = styled.div`
 `
 const ModalBody = styled.div`
   overflow: auto;
-  min-height: 350px; 
-  max-height:530px;
+  min-height: 35vh; 
+  max-height: 60vh;
 `
 
 interface buttonProps {
@@ -190,8 +190,10 @@ const ModalWrite: React.FC<propsType> = ({
                             <FileInput type="file" id="img"
                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => loadImg(e)}
                                        accept="image/jpg, image/png, image/jpeg, image/gif" multiple/>
-                            <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
-                            <span css={css`${MarkdownSm(Color.gray200)}`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</span>
+                            {/*<div css={css`${FlexBox('','space-between','center')}`}>*/}
+                                <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
+                                {/*<div css={css`${MarkdownSm(Color.gray200)};`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</div>*/}
+                            {/*</div>*/}
                         </div>
                         <Preview>
                             {
@@ -225,7 +227,7 @@ const ModalWrite: React.FC<propsType> = ({
                                 return (
                                     <Tag key={index}>
                                         <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
-                                        <span onClick={() => deleteTag(index)}>X</span>
+                                        <span css={css`cursor:pointer;`} onClick={() => deleteTag(index)}>X</span>
                                     </Tag>
                                 )
                             }):null

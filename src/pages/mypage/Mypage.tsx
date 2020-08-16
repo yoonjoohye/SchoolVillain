@@ -57,6 +57,12 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [newPasswordConfirmErr, setNewPasswordConfirmErr] = useState('');
     const [newPasswordConfirmCheck, setNewPasswordConfirmCheck] = useState(false);
 
+    const [loading,setLoading]=useState({
+        like:false,
+        board:false,
+        reply:false
+    });
+
     const tab = ['좋아요', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
     const [menu, setMenu] = useState(0);
 
@@ -82,6 +88,7 @@ const Mypage: React.FC = ({history, match}: any) => {
     }, [match.params]);
 
     const MyLikeAPI = async (page:number) => {
+        setLoading({...loading,like:true});
         try {
             let response = await axios({
                 method: 'GET',
@@ -102,7 +109,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                     setLikeHasMore(false);
                 }
                 setLikePage(page);
-
+                setLoading({...loading,like:false});
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -110,9 +117,13 @@ const Mypage: React.FC = ({history, match}: any) => {
             } else {
                 console.log(err);
             }
+            setLoading({...loading,like:false});
+
         }
     }
     const MyBoardAPI = async (page:number) => {
+        setLoading({...loading,board:true});
+
         try {
             let response = await axios({
                 method: 'GET',
@@ -133,6 +144,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                     setBoardHasMore(false);
                 }
                 setBoardPage(page);
+                setLoading({...loading,board:false});
 
             }
         } catch (err) {
@@ -141,9 +153,12 @@ const Mypage: React.FC = ({history, match}: any) => {
             } else {
                 console.log(err);
             }
+            setLoading({...loading,board:false});
         }
     }
     const MyReplyAPI = async (page:number) => {
+        setLoading({...loading,reply:true});
+
         try {
             let response = await axios({
                 method: 'GET',
@@ -164,7 +179,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                     setReplyHasMore(false);
                 }
                 setReplyPage(page);
-
+                setLoading({...loading,reply:false});
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -172,6 +187,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             } else {
                 console.log(err);
             }
+            setLoading({...loading,reply:false});
         }
     }
     const MyProfileAPI = async () => {
@@ -363,7 +379,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                                 </div>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                            <PreviewBoard boardList={likeList} goDetail={goDetail}/>
+                            <PreviewBoard loading={loading.like} boardList={likeList} goDetail={goDetail}/>
                         </InfiniteScroll>
                     }
                     {
@@ -379,7 +395,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                                 </div>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                            <PreviewBoard boardList={boardList} goDetail={goDetail}/>
+                            <PreviewBoard loading={loading.board} boardList={boardList} goDetail={goDetail}/>
                         </InfiniteScroll>
                     }
                     {
@@ -395,7 +411,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                                 </div>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                            <PreviewBoard boardList={replyList} mypage={true} goDetail={goDetail}/>
+                            <PreviewBoard loading={loading.reply} boardList={replyList} mypage={true} goDetail={goDetail}/>
                         </InfiniteScroll>
                     }
                     {

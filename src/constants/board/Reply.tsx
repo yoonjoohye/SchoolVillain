@@ -5,6 +5,7 @@ import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import ReplyInput from "../../components/input/ReplyInput";
 import {css} from "@emotion/core";
+import {media} from "../../../assets/style/Media.style";
 
 const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
@@ -43,19 +44,20 @@ const MoreReply = styled.div`
 const LikeBadge=styled.span`
     position: absolute; 
     background: white;
-    margin-top: 2em;
+    margin-top: 1.5em;
     margin-left:-1em;
     border-radius: 5em;
     ${MarkdownSm(Color.gray200, 500)};
-    padding: 0.1em 0.8em;
+    padding: 0.2em 0.7em;
     box-shadow: 0 0 8px #00000014;
+    ${media.sm`
+        padding:0.15em 0.7em;
+    `}
 `
 const LikeIcon=styled.img`
     width:1em; 
     height:1em; 
-    position: relative;
-    margin-right: 0.3em;
-    vertical-align: text-top;
+    margin-right: 0.5em;
 `
 interface btnProps{
     click:boolean;
@@ -113,7 +115,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
     }
 
     return (
-        <div css={css`margin-bottom:6em;`}>
+        <div css={css`margin-bottom:6em; ${media.sm`margin-bottom:10em`};`}>
             <ReplyFormBox>
                 <ReplyForm>
                     <ReplyInput value={reply} onChange={replyChange} placeholder="댓글을 입력해주세요."/>
@@ -133,8 +135,10 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                 {
                                     reply.comment_like_count > 0 &&
                                     <LikeBadge>
-                                        <LikeIcon css={css``} src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                        {reply.comment_like_count}
+                                        <div css={css`${FlexBox()};`}>
+                                            <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                            <div>{reply.comment_like_count}</div>
+                                        </div>
                                     </LikeBadge>
                                 }
                                 <ReplyBox>
@@ -156,15 +160,17 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                                 return (
                                                     <div css={css`margin-top:0.8em;`} key={reReplyIndex}>
                                                         <ReplyName>
-                                                            {'익명'} <span
+                                                            {reply.user ? reply.user.name : '익명'} <span
                                                             css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
                                                         </ReplyName>
                                                         <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reReply.contents)}}/>
                                                         {
                                                             reReply.comment_like_count > 0 &&
                                                             <LikeBadge>
-                                                                <LikeIcon css={css``} src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                                                {reReply.comment_like_count}
+                                                                <div css={css`${FlexBox()};`}>
+                                                                    <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                                                    <div>{reReply.comment_like_count}</div>
+                                                                </div>
                                                             </LikeBadge>
                                                         }
 
@@ -209,9 +215,9 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                         )
                     })
                     :
-                    <div css={css` ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
+                    <div css={css`color:${Color.gray200}; ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
                         <p>존재하는 댓글이 없어요.</p>
-                        <p>댓글을 남겨 첫번째 빌런이 되세요.</p>
+                        <p>댓글을 남겨 첫번째 빌런이 되주세요.</p>
                     </div>
             }
             {

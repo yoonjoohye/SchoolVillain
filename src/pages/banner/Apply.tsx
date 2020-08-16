@@ -8,7 +8,7 @@ import {media} from "../../../assets/style/Media.style";
 const ApplySection = styled.section`
   margin:6em 0 4em 0;
   ${Section};
-  ${media.sm`padding:0;`}
+  ${media.sm`padding:0; margin-bottom:10em;`}
 `
 const ApplyImg = styled.img`
   display:block;

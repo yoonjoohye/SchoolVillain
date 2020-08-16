@@ -7,7 +7,6 @@ const Input = styled.textarea`
     border:0;
     resize:none;
     outline:none;
-    overflow:visible;
 `
 
 interface propsType {

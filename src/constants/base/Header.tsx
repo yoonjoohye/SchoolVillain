@@ -21,9 +21,9 @@ const HeaderSection = styled.header`
 `;
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
-  padding:0 15%;
+  padding:0 20%;
   height:4em;
-  ${media.md`padding:0 8%`};
+  ${media.md`padding:0 10%`};
   ${media.sm`padding:0 5%`};
 `
 const HeaderLogo = styled.div`
