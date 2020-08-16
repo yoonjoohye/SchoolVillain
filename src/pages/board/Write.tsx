@@ -35,8 +35,8 @@ const Write: React.FC<propsType> = ({isOpen}) => {
 
         Array.from(files).map((file: File, index: number) => {
             //사이즈 유효성
-            if (file.size > 2 * 1024 * 1024) {
-                alert('이미지 사이즈가 2mb를 넘습니다.');
+            if (file.size > 20 * 1024 * 1024) {
+                alert('이미지 사이즈가 20mb를 넘습니다.');
             } else {
                 //선택한 이미지 개수 + 이미 고른 이미지 개수 = 6 크.. 난 천재!
                 if (index < (6 - imgList.length) && imgList.length < (6 - index)) {
