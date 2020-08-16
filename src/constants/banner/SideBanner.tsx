@@ -5,10 +5,16 @@ import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase} from "../../../assets/style/Markdown.style";
 import {memo} from "react";
+import styled from "@emotion/styled";
 
 interface propsType {
     banner: any;
 }
+
+const BannerImg = styled.img`
+  width:100%; 
+  margin-bottom:0.5em;
+`
 
 const SideBanner: React.FC<propsType> = ({banner}) => {
     return (
@@ -19,19 +25,19 @@ const SideBanner: React.FC<propsType> = ({banner}) => {
                     return (
                         item.banner_count > 0 ?
                             <a href={item.banner[0].link} key={index}>
-                                <img css={css`width:100%; margin-bottom:0.5em;`} src={item.banner[0].path}/>
+                                <BannerImg src={item.banner[0].path}/>
                             </a> :
                             <div key={index}>
-                                {index === 0 &&
-                                <Link to="/banner/apply">
-                                    <img css={css`width:100%; margin-bottom:0.5em;`}
-                                         src="../../../assets/img/banner/chanyeol.jpg"/>
-                                </Link>}
+                                {
+                                    index === 0 &&
+                                    <Link to="/banner/apply">
+                                        <BannerImg src="../../../assets/img/banner/chanyeol.jpg"/>
+                                    </Link>
+                                }
                                 {
                                     index === 1 &&
                                     <Link to="/banner/apply">
-                                        <img css={css`width:100%; margin-bottom:0.5em;`}
-                                             src="../../../assets/img/banner/twice.jpg"/>
+                                        <BannerImg src="../../../assets/img/banner/twice.jpg"/>
                                     </Link>
                                 }
                             </div>

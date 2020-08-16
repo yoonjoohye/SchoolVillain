@@ -17,7 +17,6 @@ const BannerImg = styled.img`
   width:100%;
 `
 const BannerTag = styled.div`
-  //margin-top:1em;
   padding:0.5em;
   ${MarkdownSm(Color.white, 500)};
   background-color:rgba(0,0,0,0.18);
@@ -36,7 +35,7 @@ const MainBanner: React.FC<propsType> = ({banner}) => {
                 banner.banner_count>0 ?
                     <a href={banner.banner[0].link} target="_blank">
                         <BannerImg src={banner.banner[0].path}/>
-                        <BannerTag>나의 배너 등록하러가기</BannerTag>
+                        {/*<BannerTag>나의 배너 등록하러가기</BannerTag>*/}
                     </a>
 
                     :
