@@ -126,7 +126,7 @@ const Identification = ({user}: any) => {
                         :
                         <SkeletonProfile/>
                     :
-                    <section css={css`padding:2em;
+                    <section css={css`padding:2em 1em;
                                       box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
                                       margin-bottom:1em;
                                       text-align:center;`}>

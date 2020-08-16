@@ -14,6 +14,7 @@ interface propsType {
 const BannerImg = styled.img`
   width:100%; 
   margin-bottom:0.5em;
+  display:block;
 `
 
 const SideBanner: React.FC<propsType> = ({banner}) => {

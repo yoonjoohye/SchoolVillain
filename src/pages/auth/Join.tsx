@@ -11,7 +11,6 @@ import SEO from "../SEO/SEO";
 import ServiceRule from "../../constants/join/ServiceRule";
 import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';
-import {Color} from "../../../assets/style/Color.style";
 
 const JoinSection = styled.section`
   ${Section};
@@ -146,7 +145,7 @@ const Join: React.FC = ({match, history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: 'https://dev.villain.school/api/user/email/check',
+                url: '/api/user/email/check',
                 data: {
                     email: email
                 },
