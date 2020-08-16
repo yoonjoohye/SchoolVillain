@@ -6,12 +6,13 @@ import {Color} from "../../../assets/style/Color.style";
 import {memo} from "react";
 
 const BannerSection = styled.section`
-  margin-top:2em;
+  margin-top:1em;
   background-image: linear-gradient(to left, #cb61f8, #7c2bdc 50%, #8e6dff);
   padding:1.5em;
   border-radius: 0.3em;
 `
 const BannerImg = styled.img`
+  display:block;
   position: relative;
   vertical-align: middle;
   width:100%;
