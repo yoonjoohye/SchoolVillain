@@ -45,6 +45,7 @@ const FakeCheckBox = styled.div`
   height:30px;
   text-align: center;
   &::before{
+    color:${Color.white};
     content: '✔';
     position: relative;
     top: 5px;

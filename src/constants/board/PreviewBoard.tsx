@@ -108,7 +108,7 @@ const PreviewBoard: React.FC<propsType> = ({boardList, goDetail, mypage}) => {
                             css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
                             <div>
                                 <span css={css`margin-right:1em;`}>
-                                    <IconSm src="../../../assets/img/icon/view.svg"/>{board.board_view_log_count}
+                                    <IconSm src={require('../../../assets/img/icon/view.svg')}/>{board.board_view_log_count}
                                 </span>
                                 <span>{board.create_time_ago}</span>
                             </div>
