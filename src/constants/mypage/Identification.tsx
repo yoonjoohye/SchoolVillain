@@ -65,6 +65,7 @@ interface btnProps {
 const AuthBtn = styled.button`
   width:100%;
   padding:1em;
+  border-radius: 0.3em;
    ${(props: btnProps) => `
     background-color:${props.bgColor};
     color:${props.color}!important;
@@ -82,7 +83,7 @@ const Identification = ({user}: any) => {
                             <ProfileSection className="front">
                                 <ProfileTitle>
                                     <span css={css`${MarkdownLg(Color.white, 700)};`}>{user.name || '익명'}</span>
-                                    <img css={css`width:4.5em;`} src="../../../assets/img/index/badge.png"/>
+                                    <img css={css`width:4.5em;`} src={require('../../../assets/img/index/badge.png')}/>
                                 </ProfileTitle>
                                 <ProfileBody>
                                     <div css={css`${MarkdownLg('', 700)}; margin-bottom:0.5em;`}>스쿨빌런학교</div>
@@ -125,7 +126,7 @@ const Identification = ({user}: any) => {
                         :
                         <SkeletonProfile/>
                     :
-                    <section css={css`padding:1em;
+                    <section css={css`padding:2em;
                                       box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
                                       margin-bottom:1em;
                                       text-align:center;`}>

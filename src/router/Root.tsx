@@ -11,8 +11,9 @@ import NotFound from "../pages/error/NotFound";
 import Header from "../constants/base/Header";
 import Apply from "../pages/banner/Apply";
 import ScrollToTop from "./ScrollToTop";
-import FindPassword from "../pages/auth/FindPassword";
+import SendEmail from "../pages/auth/SendEmail";
 import Withdrawal from "../pages/auth/Withdrawal";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 const Root: React.FC = () => {
     return (
@@ -24,8 +25,11 @@ const Root: React.FC = () => {
                 <Route exact path="/login" render={props => (
                     sessionStorage.getItem('logged') ? <Redirect to="/"/> : <Login {...props} />
                 )}/>
-                <Route exact path="/find/password/:id" render={props => (
-                    sessionStorage.getItem('logged') ? <Redirect to="/"/> : <FindPassword {...props} />
+                <Route exact path="/send/email" render={props => (
+                    sessionStorage.getItem('logged') ? <Redirect to="/"/> : <SendEmail {...props} />
+                )}/>
+                <Route exact path="/reset/password" render={props => (
+                    sessionStorage.getItem('logged') ? <Redirect to="/"/> : <ResetPassword {...props} />
                 )}/>
                 <Route exact path="/join/:id" render={props => (
                     sessionStorage.getItem('logged') ? <Redirect to="/"/> : <Join {...props} />
@@ -38,7 +42,6 @@ const Root: React.FC = () => {
                 )}/>
                 <Route exact path="/write" component={Write}/>
                 <Route exact path="/edit/:id" component={Edit}/>
-
                 <Route exact path="/detail/:id" component={Detail}/>
                 <Route exact path="/banner/apply" component={Apply}/>
 
