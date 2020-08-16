@@ -32,7 +32,7 @@ const ProfileSection = styled.div`
     ${media.md`height:350px;`}
 
   &.front{
-    background-image: url('../../../assets/img/index/bg_student_id.png');
+    background-image: url(${require('../../../assets/img/index/bg_student_id.png')});
     background-repeat: no-repeat;
     background-size: 100% 33%;
   }
