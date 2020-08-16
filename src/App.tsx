@@ -15,7 +15,7 @@ axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-let url='https://api.villain.school';
+let url='https://dev.villain.school';
 
 if(process.env.BUILD_ENV=='production'){
     url = 'https://api.villain.school';
