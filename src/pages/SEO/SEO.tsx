@@ -17,13 +17,12 @@ const SEO: React.FC<propsType> = ({title, description, keywords, img}) => {
 
             <meta property="og:title" content={title}/>
             <meta property="og:description" content={description}/>
-
-            <meta property="og:image:width" content="400"/>
-            <meta property="og:image:height" content="300"/>
             <meta property="og:image" content={img}/>
 
             <meta name="twitter:title" content={title}/>
             <meta name="twitter:description" content={description}/>
+            <meta name="twitter:image" content={img}/>
+
         </Helmet>
     );
 }

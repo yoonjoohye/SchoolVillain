@@ -8,7 +8,7 @@ import {media} from "../../../assets/style/Media.style";
 const ApplySection = styled.section`
   margin:6em 0 4em 0;
   ${Section};
-  ${media.sm`padding:0; margin-bottom:10em;`}
+  ${media.sm`padding:0; margin-bottom:15em;`}
 `
 const ApplyImg = styled.img`
   display:block;
@@ -18,7 +18,7 @@ const ApplyFloating=styled.div`
   position:fixed; 
   bottom:0; 
   left:0;
-  padding:0.5em 0; 
+  padding:1em 0; 
   ${FlexBox()};
   width:100%;
   border-top:4px solid #000000;
