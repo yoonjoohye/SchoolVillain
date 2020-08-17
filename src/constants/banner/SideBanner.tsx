@@ -15,44 +15,28 @@ const BannerImg = styled.img`
   width:100%; 
   margin-bottom:0.5em;
   display:block;
+  cursor:pointer;
 `
 
 const SideBanner: React.FC<propsType> = ({banner}) => {
     return (
         <section>
             {
-                banner &&
+                banner.length>0 ?
                 banner.map((item: any, index: number) => {
                     return (
                         item.banner_count > 0 ?
                             <a href={item.banner[0].link} key={index}>
                                 <BannerImg src={item.banner[0].path}/>
                             </a> :
-                            <div key={index}>
-                                {
-                                    index === 0 &&
-                                    <Link to="/banner/apply">
-                                        <BannerImg src={require('../../../assets/img/banner/chanyeol.jpg')}/>
-                                    </Link>
-                                }
-                                {
-                                    index === 1 &&
-                                    <Link to="/banner/apply">
-                                        <BannerImg src={require('../../../assets/img/banner/twice.jpg')}/>
-                                    </Link>
-                                }
-                            </div>
+                            index === 0 &&
+                            <Link to="/banner/apply" key={index}>
+                                <BannerImg src={require('../../../assets/img/banner/side_banner.png')}/>
+                            </Link>
                     )
-                })
+                }):
+                <div css={css`width:100%; height:5em; background-color:${Color.gray100};`}></div>
             }
-
-            <a href="https://pf.kakao.com/_QxakAK" target="_blank">
-                <div
-                    css={css`background-color:${Color.kakao}; padding:0.5em 0; ${FlexBox()}; ${MarkdownBase('#3b1c1c', 500)}`}>
-                    <img css={css`height:2.5em;`} src={require('../../../assets/img/icon/kakao.png')}/>
-                    <span css={css`font-weight:700;`}>스쿨빌런 </span>으로 배너 문의주세요!
-                </div>
-            </a>
         </section>
     )
 }

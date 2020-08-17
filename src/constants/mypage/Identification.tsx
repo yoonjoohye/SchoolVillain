@@ -29,14 +29,7 @@ const ProfileSection = styled.div`
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  ${FlexBox('column', 'space-around', '')}
-    ${media.md`height:350px;`}
-
-  &.front{
-    background-image: url(${require('../../../assets/img/index/bg_student_id.png')});
-    background-repeat: no-repeat;
-    background-size: 100% 33%;
-  }
+  ${media.md`height:350px;`}
   &.back{
     transform: rotateY(180deg);
     background-color:${Color.white};
@@ -44,13 +37,18 @@ const ProfileSection = styled.div`
   
 `
 const ProfileTitle = styled.div`
+  background-image: url(${require('../../../assets/img/bg/identification.png')});
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   padding: 0 1em;
+  margin-bottom:1.5em;
   height:30%;
   ${FlexBox('row', 'space-between', 'center')};
 `
 const ProfileBody = styled.div`
   padding:0 1em;
   ${MarkdownSm()}
+  margin-bottom:2em;
 `
 
 const ProfileFooter=styled.div`
@@ -97,10 +95,10 @@ const Identification = ({user}: any) => {
                 sessionStorage.getItem('logged') ?
                     user ?
                         <ProfileContainer>
-                            <ProfileSection className="front">
+                            <ProfileSection>
                                 <ProfileTitle>
                                     <span css={css`${MarkdownLg(Color.white, 700)};`}>{user.name || '익명'}</span>
-                                    <img css={css`width:4.5em;`} src={require('../../../assets/img/index/badge.png')}/>
+                                    <img css={css`width:4em;`} src={require('../../../assets/img/badge/badge.svg')}/>
                                 </ProfileTitle>
                                 <ProfileBody>
                                     <div css={css`${MarkdownLg('', 700)}; margin-bottom:0.5em;`}>스쿨빌런학교</div>
@@ -114,10 +112,10 @@ const Identification = ({user}: any) => {
                             </ProfileSection>
                             <ProfileSection className="back">
                                 <div
-                                    css={css`text-align:center; padding: 0.5em 1em; margin-bottom:0.5em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
+                                    css={css`text-align:center; padding: 1em; margin-bottom:1em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
                                     유의사항
                                 </div>
-                                <ProfileBody>
+                                <ProfileBody css={css`margin-bottom:1em;`}>
                                     <li css={css`${FlexBox('', 'Flex-start', '')}; margin-bottom:0.5em;`}>
                                         <div css={css`margin-right:0.5em;`}>▶</div>
                                         <div>당신만의 학생다움을 보여주세요.</div>

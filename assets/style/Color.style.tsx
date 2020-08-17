@@ -18,7 +18,5 @@ export const Color:ColorType={
 
     purple100:'#f1e6f9',
     purple200:'#bd67ff',
-    purple300:'#a657e0',
-
-    kakao:'#f9e000'
+    purple300:'#a657e0'
 }

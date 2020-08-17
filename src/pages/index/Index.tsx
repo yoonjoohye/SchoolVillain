@@ -40,7 +40,7 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
     const [boardList, setBoardList] = useState([]);
     const [user, setUser] = useState(null);
-    const [mainBanner, setMainBanner] = useState([]);
+    const [mainBanner, setMainBanner] = useState(null);
     const [sideBanner, setSideBanner] = useState([]);
     const [boardPage, setBoardPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
@@ -75,6 +75,7 @@ const Index: React.FC = ({history}: any) => {
                     setHasMore(false);
                 }
                 setBoardPage(page);
+
                 setLoading(false);
 
             }
