@@ -17,6 +17,8 @@ const Write: React.FC<propsType> = ({isOpen}) => {
     const [imgList, setImgList] = useState([]);
     const [previewList, setPreviewList] = useState([]);
 
+    const[loading,setLoading]=useState(false);
+
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     }
@@ -31,8 +33,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
     const loadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {files} = e.target;
 
-        console.log(files);
-
+        // console.log(files);
         Array.from(files).map((file: File, index: number) => {
             //사이즈 유효성
             if (file.size > 20 * 1024 * 1024) {
@@ -92,6 +93,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
     }
 
     const goWrite = async () => {
+        setLoading(true);
         try {
             let formData = new FormData();
 
@@ -112,16 +114,19 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                 url: '/api/board/create',
                 data: formData
             });
-            if (response.status === 204) {
-                console.log(response);
-                window.location.href = '/';
+            if (response.status === 200 || response.status===204) {
+                // console.log(response);
+                window.location.href = `/detail/${response.data.board_id}`;
+                setLoading(false);
             }
         } catch (err) {
             if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
             } else {
-                console.error(err.response);
+                // console.error(err.response);
             }
+            setLoading(false);
+
         }
     }
     return (
@@ -148,7 +153,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                 loadImg={loadImg}
                                 deleteImg={deleteImg}
                                 previewList={previewList}
-
+                                loading={loading}
                                upload={goWrite}/>
                     :
                     <PageWrite title={title}
@@ -166,7 +171,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                loadImg={loadImg}
                                deleteImg={deleteImg}
                                previewList={previewList}
-
+                               loading={loading}
                                upload={goWrite}/>
             }
         </>

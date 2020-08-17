@@ -13,7 +13,7 @@ const SkeletonIdentification = () => {
                   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
                   text-align:center;`}>
             <div
-                css={css`${FlexBox('', 'space-between', 'center')}; background-color:${Color.gray100}; width:100%; height:5em; margin-bottom:0.5em;`}>
+                css={css`${FlexBox('', 'space-between', 'center')}; background-color:${Color.gray100}; width:100%; height:35%; margin-bottom:0.5em;`}>
             </div>
             <div css={css`padding:1em;`}>
                 <div css={css`background-color:${Color.gray100}; width:60%; height:2em; margin-bottom:1em;`}></div>
