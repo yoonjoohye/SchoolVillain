@@ -128,7 +128,9 @@ const Detail: React.FC = ({match}: any) => {
             }
         } catch (err) {
             if (err.response.status === 401) {
-                alert('로그인이 필요합니다.');
+                // alert('로그인이 필요합니다.');
+                window.location.href='/login';
+
             } else {
                 // throw err;
             }
@@ -256,7 +258,8 @@ const Detail: React.FC = ({match}: any) => {
             }
         } catch (err) {
             if (err.response.status === 401) {
-                alert('로그인이 필요합니다.');
+                // alert('로그인이 필요합니다.');
+                window.location.href='/login';
             } else {
                 throw err;
             }
@@ -338,7 +341,8 @@ const Detail: React.FC = ({match}: any) => {
             }
         } catch (err) {
             if (err.response.status === 401) {
-                alert('로그인이 필요합니다.');
+                // alert('로그인이 필요합니다.');
+                window.location.href='/login';
             } else if (err.response.status === 422) {
                 alert('댓글을 입력해주세요.');
             } else {

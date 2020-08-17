@@ -65,6 +65,7 @@ const Login = ({history}: any) => {
     const [passwordCheck, setPasswordCheck] = useState(false);
     const [passwordErr, setPasswordErr] = useState('');
 
+    const [loading,setLoading]=useState(false);
 
     const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -101,6 +102,7 @@ const Login = ({history}: any) => {
 
     //API
     const goLogin = async () => {
+        setLoading(true);
         try {
             let csrf = await axios({
                 method: 'GET',
@@ -118,6 +120,8 @@ const Login = ({history}: any) => {
                 if (response.status === 200) {
                     sessionStorage.setItem('logged', 'true');
                     window.location.href = '/';
+                    setLoading(false);
+
                 }
             }
         } catch (err) {
@@ -130,8 +134,9 @@ const Login = ({history}: any) => {
             } else {
                 setPasswordCheck(false);
                 setPasswordErr('다시 입력해주세요.');
-                console.log(err);
             }
+            setLoading(false);
+
         }
     }
 
@@ -153,7 +158,12 @@ const Login = ({history}: any) => {
                     />
                     <ErrorMsg css={css`margin-bottom:1em;`} visible={passwordErr.length > 0}>{passwordErr}</ErrorMsg>
 
-                    <Button enabled={emailCheck && passwordCheck} onClick={goLogin}>로그인</Button>
+                    <Button enabled={emailCheck && passwordCheck} onClick={goLogin}>
+                        {
+                            loading?
+                                <img css={css`height:2em; width:2em;`}
+                                     src={require('../../../assets/img/icon/white_spinner.gif')}/> : '로그인'
+                        }</Button>
 
                     <div css={css`margin-top:3em; text-align:right;`}>
                         <p css={css`margin-bottom:1em;`}><Link to="/join/agreement" >아직 회원가입을 안 하셨나요?</Link></p>

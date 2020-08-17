@@ -7,6 +7,7 @@ import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm, MarkdownXl} from "../.
 import {FlexBox, onlyMobile} from "../../../assets/style/Layout.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
+import Modal from "../../components/modal/Modal";
 
 const Greeting = styled.div`
     ${MarkdownMd('', 500)};
@@ -177,6 +178,8 @@ const Profile: React.FC<propsType> = ({
 
     return (
         <section>
+
+
             <Greeting>
                 <span css={css`color:${Color.yellow200}`}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
                 환영합니다.
