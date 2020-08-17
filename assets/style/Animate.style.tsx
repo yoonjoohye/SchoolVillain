@@ -28,11 +28,13 @@ export const Cursor=keyframes`
 `;
 
 export const TypingPc=keyframes`
-    from { width: 0; }
-    to { width: 165px; }
+    0% { width: 0; }
+    50% { width: 165px; }
+    100% { width: 165px; }
 `
 
 export const TypingMobile=keyframes`
-    from { width: 0; }
-    to { width: 135px; }
+    0% { width: 0; }
+    50% { width: 135px; }
+    100% { width: 135px; }
 `

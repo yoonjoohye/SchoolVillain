@@ -26,11 +26,15 @@ const WriteTxt=styled.span`
   overflow: hidden; 
   border-right: 2px solid ${Color.purpl200};
   white-space: nowrap;
-  ${media.lg`
-    animation: ${TypingPc} 1.5s steps(20, end),${Cursor} .5s step-end infinite;
-  `}
+  // animation-name:${Cursor},${TypingPc};
+  // animation-duration:.5s, 1.5s;
+  // transition-timing-function:step-end,  steps(30, end);
+  // animation-iteration-count:infinite;
+  // animation-delay: 5s;
+  animation: ${Cursor} .5s step-end infinite, ${TypingPc} 3s steps(20, end) infinite ;
   ${media.sm`
-    animation: ${TypingMobile} 1.5s steps(20, end),${Cursor} .5s step-end infinite;
+       // animation:name:${TypingMobile},${Cursor};
+    animation: ${TypingMobile} 3s steps(20, end) infinite,${Cursor} .5s step-end infinite ;
   `}
 `
 const PreviewWrite = () => {
