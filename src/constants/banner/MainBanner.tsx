@@ -4,6 +4,8 @@ import styled from "@emotion/styled";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {memo} from "react";
+import {css} from "@emotion/core";
+import {media} from "../../../assets/style/Media.style";
 
 const BannerSection = styled.section`
   margin-top:1em;
@@ -31,20 +33,21 @@ interface propsType {
 
 const MainBanner: React.FC<propsType> = ({banner}) => {
     return (
-        <BannerSection>
-            {
-                banner.banner_count>0 ?
-                    <a href={banner.banner[0].link} target="_blank">
-                        <BannerImg src={banner.banner[0].path}/>
-                    </a>
-                    :
-                    <Link to="/banner/apply">
-                        <BannerImg src={require('../../../assets/img/banner/example.jpg')}/>
-                        <BannerTag>나의 배너 등록하러가기</BannerTag>
-                    </Link>
-
-            }
-        </BannerSection>
+        banner ?
+            <BannerSection>
+                {
+                    banner.banner_count > 0 ?
+                        <a href={banner.banner[0].link} target="_blank">
+                            <BannerImg src={banner.banner[0].path}/>
+                        </a>
+                        :
+                        <Link to="/banner/apply">
+                            <BannerImg src={require('../../../assets/img/banner/main_banner.png')}/>
+                        </Link>
+                }
+            </BannerSection>
+            :
+            <div css={css` margin-top:1em; width:100%; height:15em; ${media.sm`height:10em;`} background-color:${Color.gray100};`}></div>
     )
 }
 export default memo(MainBanner);
