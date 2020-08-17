@@ -104,6 +104,8 @@ interface propsType {
     deleteImg: any;
     previewList: string[];
 
+    loading:boolean;
+
     upload: any;
 }
 
@@ -120,6 +122,7 @@ const PageWrite: React.FC<propsType> = ({
                                             loadImg,
                                             deleteImg,
                                             previewList,
+                                            loading,
                                            upload
                                         }) => {
 
@@ -185,7 +188,15 @@ const PageWrite: React.FC<propsType> = ({
                         }
                     </div>
                 </div>
-                <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>등록</Button>
+                <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>
+                    {
+                        loading ?
+                            <img css={css`height:2em; width:2em;`}
+                                 src={require('../../../assets/img/icon/white_spinner.gif')}/>
+                            :
+                            '등록'
+                    }
+                </Button>
             </WriteContainer>
         </WriteSection>
     )

@@ -101,7 +101,7 @@ const Preview = styled.div`
   text-align:right;
   margin-top:1em;
 `
-const DelButton=styled.button`
+const DelButton = styled.button`
   background-color:${Color.gray100};
   ${MarkdownSm(Color.gray200)};
   border-radius: 50%;
@@ -112,7 +112,7 @@ const DelButton=styled.button`
   margin-top: -10px;
   margin-left: -13px;
 `
-const CloseButton=styled.button`
+const CloseButton = styled.button`
   position:absolute; 
   right:1em; 
   width:30px;
@@ -128,7 +128,7 @@ const CloseButton=styled.button`
 
 interface propsType {
     isOpen: any;
-    name:string;
+    name: string;
     title: string;
     changeTitle: any;
 
@@ -144,6 +144,8 @@ interface propsType {
     loadImg: any;
     deleteImg: any;
     previewList: string[];
+
+    loading: boolean;
 
     upload: any;
 }
@@ -163,7 +165,8 @@ const ModalWrite: React.FC<propsType> = ({
                                              loadImg,
                                              deleteImg,
                                              previewList,
-                                            upload
+                                             loading,
+                                             upload
                                          }) => {
 
     return (
@@ -171,7 +174,8 @@ const ModalWrite: React.FC<propsType> = ({
             <ModalBox>
                 <ModalHeader>
                     <p>게시물 {name}</p>
-                    <CloseButton onClick={() => isOpen(false)}><img css={css`width:100%;`} src={require('../../../assets/img/icon/close.svg')}/></CloseButton>
+                    <CloseButton onClick={() => isOpen(false)}><img css={css`width:100%;`}
+                                                                    src={require('../../../assets/img/icon/close.svg')}/></CloseButton>
                 </ModalHeader>
                 <ModalBody>
                     <div css={css`padding:1em; border-bottom:1px solid ${Color.gray100};`}>
@@ -191,8 +195,8 @@ const ModalWrite: React.FC<propsType> = ({
                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => loadImg(e)}
                                        accept="image/jpg, image/png, image/jpeg, image/gif" multiple/>
                             {/*<div css={css`${FlexBox('','space-between','center')}`}>*/}
-                                <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
-                                {/*<div css={css`${MarkdownSm(Color.gray200)};`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</div>*/}
+                            <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
+                            {/*<div css={css`${MarkdownSm(Color.gray200)};`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</div>*/}
                             {/*</div>*/}
                         </div>
                         <Preview>
@@ -203,7 +207,7 @@ const ModalWrite: React.FC<propsType> = ({
                                             <DelButton onClick={() => deleteImg(index)}>X</DelButton>
                                             <PreviewImg>
                                                 <img css={css`width: 100%; height: 100%;`}
-                                                    src={preview}/>
+                                                     src={preview}/>
                                             </PreviewImg>
                                         </figure>
 
@@ -222,18 +226,26 @@ const ModalWrite: React.FC<propsType> = ({
                     </div>
                     <div css={css`margin-bottom:1em;`}>
                         {
-                            tagList?
-                            tagList.map((item:any, index:number) => {
-                                return (
-                                    <Tag key={index}>
-                                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
-                                        <span css={css`cursor:pointer;`} onClick={() => deleteTag(index)}>X</span>
-                                    </Tag>
-                                )
-                            }):null
+                            tagList ?
+                                tagList.map((item: any, index: number) => {
+                                    return (
+                                        <Tag key={index}>
+                                            <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
+                                            <span css={css`cursor:pointer;`} onClick={() => deleteTag(index)}>X</span>
+                                        </Tag>
+                                    )
+                                }) : null
                         }
                     </div>
-                    <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>등록</Button>
+                    <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>
+                        {
+                            loading ?
+                                <img css={css`height:2em; width:2em;`}
+                                     src={require('../../../assets/img/icon/white_spinner.gif')}/>
+                                :
+                                '등록'
+                        }
+                    </Button>
                 </ModalFooter>
             </ModalBox>
         </ModalSection>

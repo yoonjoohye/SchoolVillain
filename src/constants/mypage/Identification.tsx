@@ -42,7 +42,7 @@ const ProfileTitle = styled.div`
   background-size: 100% 100%;
   padding: 0 1em;
   margin-bottom:1.5em;
-  height:30%;
+  height:35%;
   ${FlexBox('row', 'space-between', 'center')};
 `
 const ProfileBody = styled.div`

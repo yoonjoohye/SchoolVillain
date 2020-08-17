@@ -7,12 +7,12 @@ import ModalWrite from "../../constants/board/ModalWrite";
 
 interface propsType {
     isOpen: any;
-    match?:any;
-    boardId?:any;
+    match?: any;
+    boardId?: any;
 }
 
-const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
-    const [id, setId]=useState(boardId||match.params.id);
+const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
+    const [id, setId] = useState(boardId || match.params.id);
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
@@ -24,8 +24,10 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
 
     const [previewList, setPreviewList] = useState([]);
 
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
-            BoardAPI();
+        BoardAPI();
     }, []);
 
     const BoardAPI = useCallback(async () => {
@@ -57,7 +59,6 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
 
         }
     }, []);
-
 
 
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,6 +145,7 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
     }
 
     const goEdit = async () => {
+        setLoading(true);
         try {
             let formData = new FormData();
 
@@ -158,9 +160,9 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
             });
 
             tagList.map((tag: string, index: number) => {
-                if(typeof tagList[index] === 'object') {
+                if (typeof tagList[index] === 'object') {
                     formData.append('hashTags[]', tag.tag);
-                }else{
+                } else {
                     formData.append('hashTags[]', tag);
                 }
 
@@ -178,16 +180,20 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                 url: '/api/board/update',
                 data: formData
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 204) {
-                window.location.href=`/detail/${id}`;
+                window.location.href = `/detail/${id}`;
+                setLoading(false);
+
             }
         } catch (err) {
             if (err.response.status === 401) {
                 alert('로그인이 필요합니다.');
             } else {
-                console.error(err.response);
+                // console.error(err.response);
             }
+            setLoading(false);
+
         }
     }
     return (
@@ -198,8 +204,26 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
             {
                 window.screen.width > 480 ?
                     <ModalWrite isOpen={isOpen}
-                               name="수정"
-                               title={title}
+                                name="수정"
+                                title={title}
+                                changeTitle={changeTitle}
+
+                                contents={contents}
+                                changeContents={changeContents}
+
+                                tag={tag}
+                                tagList={tagList}
+                                changeTag={changeTag}
+                                onEnter={onEnter}
+                                deleteTag={deleteTag}
+
+                                loadImg={loadImg}
+                                deleteImg={deleteImg}
+                                previewList={previewList}
+                                loading={loading}
+                                upload={goEdit}/>
+                    :
+                    <PageWrite title={title}
                                changeTitle={changeTitle}
 
                                contents={contents}
@@ -214,26 +238,9 @@ const Edit: React.FC<propsType> = ({isOpen,match,boardId}) => {
                                loadImg={loadImg}
                                deleteImg={deleteImg}
                                previewList={previewList}
+                               loading={loading}
 
                                upload={goEdit}/>
-                    :
-                    <PageWrite title={title}
-                              changeTitle={changeTitle}
-
-                              contents={contents}
-                              changeContents={changeContents}
-
-                              tag={tag}
-                              tagList={tagList}
-                              changeTag={changeTag}
-                              onEnter={onEnter}
-                              deleteTag={deleteTag}
-
-                              loadImg={loadImg}
-                              deleteImg={deleteImg}
-                              previewList={previewList}
-
-                              upload={goEdit}/>
             }
         </>
 
