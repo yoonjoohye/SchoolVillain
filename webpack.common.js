@@ -4,6 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     resolve: {
@@ -63,7 +64,7 @@ module.exports = {
                         options: {
                             publicPath: '/',
                             name: 'img/[name].[ext]?[hash]',
-                            esModule:false
+                            esModule: false
                         }
                     }
                 ]
@@ -75,6 +76,11 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css',
             chunkFilename: '[name][hash].chunk.css'
+        }),
+        new CopyPlugin({
+            patterns: [
+                {from: path.resolve(__dirname, 'robots.txt'), to: 'robots.txt'}
+            ]
         }),
         new HtmlWebpackPlugin({
             favicon: path.resolve(__dirname, 'assets', 'img', 'favicon.ico'),
