@@ -129,7 +129,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                         return (
                             <div css={css`margin-bottom:1em;`} key={replyIndex}>
                                 <ReplyName>
-                                    {reply.user ? reply.user.name : '익명'} <span
+                                    {reply.user.name ? reply.user.name : '익명'} <span
                                     css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                 </ReplyName>
                                 <div css={css`position:relative`}>
@@ -163,7 +163,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                                 return (
                                                     <div css={css`margin-top:0.8em;`} key={reReplyIndex}>
                                                         <ReplyName>
-                                                            {reply.user ? reply.user.name : '익명'} <span
+                                                            {reply.user.name ? reply.user.name : '익명'} <span
                                                             css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
                                                         </ReplyName>
                                                         <div css={css`position:relative`}>
@@ -222,7 +222,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                     :
                     <div css={css`color:${Color.gray200}; ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
                         <p>존재하는 댓글이 없어요.</p>
-                        <p>댓글을 남겨 첫번째 빌런이 되주세요.</p>
+                        <p>댓글을 남겨 첫번째 빌런이 되어주세요.</p>
                     </div>
             }
             {

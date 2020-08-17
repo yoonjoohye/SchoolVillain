@@ -130,7 +130,7 @@ const Index: React.FC = ({history}: any) => {
 
     return (
         <>
-            <SEO title="스쿨빌런"
+            <SEO title="스쿨빌런 | 중고등학교 대표 커뮤니티"
                  description="스쿨빌런 메인 페이지입니다."
                  keywords="스쿨빌런 메인 페이지"
             />
