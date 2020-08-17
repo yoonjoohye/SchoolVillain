@@ -7,6 +7,7 @@ import Write from "../../pages/board/Write";
 import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
 import produce from "immer";
 import {media} from "../../../assets/style/Media.style";
+import Modal from "../../components/modal/Modal";
 
 const WriteSection = styled.section`
   width:100%;
@@ -38,21 +39,27 @@ const WriteTxt=styled.span`
   `}
 `
 const PreviewWrite = () => {
+    const [writeModal, setWriteModal] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-
     const goWrite = () => {
-        if (screen.width > 480) {
-            setOpenModal(true);
-        } else {
-            location.href = '/write';
+        if(sessionStorage.getItem('logged')) {
+            if (screen.width > 480) {
+                setWriteModal(true);
+            } else {
+                window.location.href='/write';
+            }
+        }else{
+            window.location.href='/login';
         }
     }
     const isOpen = (open: boolean) => {
-        setOpenModal(open);
+        setWriteModal(open);
     }
-
     return (
         <>
+            {
+                writeModal && <Write isOpen={isOpen}/>
+            }
             <WriteSection>
                 <div onClick={goWrite}>
                     <WriteContainer>
@@ -62,9 +69,7 @@ const PreviewWrite = () => {
                     </WriteContainer>
                 </div>
             </WriteSection>
-            {
-                openModal && <Write isOpen={isOpen}/>
-            }
+
         </>
     )
 }

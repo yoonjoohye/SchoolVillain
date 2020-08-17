@@ -11,6 +11,7 @@ import SEO from "../SEO/SEO";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import InfiniteScroll from "react-infinite-scroll-component";
 import produce from "immer";
+import Modal from "../../components/modal/Modal";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -272,6 +273,11 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }
 
+    const [openModal, setOpenModal] = useState(false);
+    const [title, setTitle]=useState('');
+    const[contents,setContents]=useState('');
+    const [buttonName,setButtonName]=useState('');
+
     const editNickname = async () => {
         console.log(nickname);
         try {
@@ -284,7 +290,10 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 201) {
-                location.reload();
+                setOpenModal(true);
+                setTitle('닉네임 변경');
+                setContents('닉네임 변경이 완료되었습니다.<br/>당신의 인싸력으로 보여주세요.');
+                setButtonName('확인');
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -309,7 +318,10 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 201) {
-                location.reload();
+                setOpenModal(true);
+                setTitle('패스워드 변경');
+                setContents('패스워드 변경이 완료되었습니다.<br/>보안에 철저한 당신, 칭찬합니다.');
+                setButtonName('확인');
             }
         } catch (err) {
             if (err.response.status === 422) {
@@ -359,11 +371,24 @@ const Mypage: React.FC = ({history, match}: any) => {
     const goDetail = (id: number) => {
         history.push(`/detail/${id}`);
     }
+
+    const confirmModal = () => {
+        setOpenModal(false);
+        location.reload();
+    }
+
+
+
     return (
         <>
             <SEO title="마이페이지 | 스쿨빌런"
                  description="스쿨빌런 마이페이지입니다."
                  keywords="스쿨빌런 마이페이지"/>
+
+            <Modal openModal={openModal} confirmModal={confirmModal}
+                   title={title}
+                   contents={contents}
+                   buttonName={buttonName}/>
 
             <MypageSection>
                 <MypageTab>

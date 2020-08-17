@@ -33,7 +33,7 @@ const ModalSection = styled.section<sectionProp>`
 }
 `
 const ModalBox = styled.div`
-  width: 450px;
+  width: 400px;
   border-radius: 0.3em;
   background-color:white;
   box-shadow:0 0 10px rgba(0,0,0,0.18);
@@ -43,10 +43,15 @@ const ModalBox = styled.div`
 `
 
 const ModalHeader = styled.header`
-  ${MarkdownLg('', 700)};
+  ${MarkdownMd('', 700)};
+  font-size:22px;
+  font-weight:700;
   text-align:center;
   margin-top:1.5em;
   margin-bottom:1em;
+  ${media.sm`
+    font-size:18px;
+  `}
 `
 const ModalBody = styled.div`
   ${MarkdownBase()};
