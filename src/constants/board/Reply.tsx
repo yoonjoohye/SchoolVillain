@@ -222,7 +222,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                     :
                     <div css={css`color:${Color.gray200}; ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
                         <p>존재하는 댓글이 없어요.</p>
-                        <p>댓글을 남겨 첫번째 빌런이 되주세요.</p>
+                        <p>댓글을 남겨 첫번째 빌런이 되어주세요.</p>
                     </div>
             }
             {
