@@ -11,14 +11,16 @@ import SEO from "../SEO/SEO";
 import ServiceRule from "../../constants/join/ServiceRule";
 import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';
+import ProgressBar from "../../components/progress/ProgressBar";
 
 const JoinSection = styled.section`
-  ${Section};
-  ${FlexBox()};
+  // ${Section()};
+  min-height:100vh;
+  ${FlexBox('column')};
 `
 const JoinContainer = styled.article`
   min-width:500px;
-  ${media.sm`min-width:100%;`}
+  ${media.sm`min-width:90%;   padding:0 5%;`}
 `
 
 const Join: React.FC = ({match, history}: any) => {
@@ -247,6 +249,7 @@ const Join: React.FC = ({match, history}: any) => {
                  keywords="회원가입 스쿨빌런 가입페이지"
             />
             <JoinSection>
+                <ProgressBar step={page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
                 <JoinContainer>
                     {joinComponent}
                 </JoinContainer>

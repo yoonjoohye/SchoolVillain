@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import JoinInput from "../../components/input/JoinInput";
+import ProgressBar from "../../components/progress/ProgressBar";
 
 const JoinTitle = styled.div`
    ${MarkdownBase(Color.purple200, 600)};
