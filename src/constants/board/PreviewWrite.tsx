@@ -4,32 +4,46 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import Write from "../../pages/board/Write";
+import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
+import produce from "immer";
+import {media} from "../../../assets/style/Media.style";
 
 const WriteSection = styled.section`
   width:100%;
 `
 const WriteContainer = styled.div`
-  ${FlexBox('','flex-start','center')};
+  ${FlexBox('', 'flex-start', 'center')};
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.15);
   color:${Color.purple200};
   padding:2em;
-  cursor:pointer;
+  cursor:text;
   &:hover{
     background-color:${Color.purple100};
   }
 `
 
+const WriteTxt=styled.span`
+  overflow: hidden; 
+  border-right: 2px solid ${Color.purpl200};
+  white-space: nowrap;
+  ${media.lg`
+    animation: ${TypingPc} 1.5s steps(20, end),${Cursor} .5s step-end infinite;
+  `}
+  ${media.sm`
+    animation: ${TypingMobile} 1.5s steps(20, end),${Cursor} .5s step-end infinite;
+  `}
+`
 const PreviewWrite = () => {
-    const [openModal,setOpenModal]=useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
-    const goWrite=()=>{
-        if(screen.width>480){
+    const goWrite = () => {
+        if (screen.width > 480) {
             setOpenModal(true);
-        }else{
-            location.href='/write';
+        } else {
+            location.href = '/write';
         }
     }
-    const isOpen=(open:boolean)=>{
+    const isOpen = (open: boolean) => {
         setOpenModal(open);
     }
 
@@ -38,8 +52,9 @@ const PreviewWrite = () => {
             <WriteSection>
                 <div onClick={goWrite}>
                     <WriteContainer>
-                        <img css={css`width:2em; height:2em; margin-right:10px;`} src={require('../../../assets/img/icon/edit.svg')}/>
-                        빌런아, 뭔일이야? 말해줘!
+                        <img css={css`width:2em; height:2em; margin-right:10px;`}
+                             src={require('../../../assets/img/icon/edit.svg')}/>
+                        <WriteTxt>빌런아, 뭔일이야? 말해줘!</WriteTxt>
                     </WriteContainer>
                 </div>
             </WriteSection>
