@@ -180,7 +180,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                                                 {board.user.name ? board.user.name : '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                                             </ReplyName>
                                                             <ReplyContent
-                                                                dangerouslySetInnerHTML={{__html: reply.contents}}/>
+                                                                dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
                                                         </div>
                                                     )
                                                 })

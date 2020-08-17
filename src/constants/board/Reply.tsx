@@ -44,8 +44,9 @@ const MoreReply = styled.div`
 const LikeBadge=styled.span`
     position: absolute; 
     background: white;
-    margin-top: 1.5em;
+    margin-bottom: 0.8em;
     margin-left:-1em;
+    bottom:0;
     border-radius: 5em;
     ${MarkdownSm(Color.gray200, 500)};
     padding: 0.2em 0.7em;
@@ -131,16 +132,18 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                     {reply.user ? reply.user.name : '익명'} <span
                                     css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                 </ReplyName>
-                                <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
-                                {
-                                    reply.comment_like_count > 0 &&
-                                    <LikeBadge>
-                                        <div css={css`${FlexBox()};`}>
-                                            <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                            <div>{reply.comment_like_count}</div>
-                                        </div>
-                                    </LikeBadge>
-                                }
+                                <div css={css`position:relative`}>
+                                    <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
+                                    {
+                                        reply.comment_like_count > 0 &&
+                                        <LikeBadge>
+                                            <div css={css`${FlexBox()};`}>
+                                                <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                                <div>{reply.comment_like_count}</div>
+                                            </div>
+                                        </LikeBadge>
+                                    }
+                                </div>
                                 <ReplyBox>
                                 <LikeButton click={replyLikeId[replyIndex] && replyLikeId[replyIndex].reply!==null?true:false} onClick={() => likeReply(reply.id, replyIndex, null)}>좋아요</LikeButton>
                                     <span css={css`cursor:pointer; margin-right:0.5em;`}
@@ -163,16 +166,18 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                                             {reply.user ? reply.user.name : '익명'} <span
                                                             css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
                                                         </ReplyName>
-                                                        <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reReply.contents)}}/>
-                                                        {
-                                                            reReply.comment_like_count > 0 &&
-                                                            <LikeBadge>
-                                                                <div css={css`${FlexBox()};`}>
-                                                                    <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                                                    <div>{reReply.comment_like_count}</div>
-                                                                </div>
-                                                            </LikeBadge>
-                                                        }
+                                                        <div css={css`position:relative`}>
+                                                            <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reReply.contents)}}/>
+                                                            {
+                                                                reReply.comment_like_count > 0 &&
+                                                                <LikeBadge>
+                                                                    <div css={css`${FlexBox()};`}>
+                                                                        <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                                                        <div>{reReply.comment_like_count}</div>
+                                                                    </div>
+                                                                </LikeBadge>
+                                                            }
+                                                        </div>
 
                                                         <ReplyBox>
                                                             <LikeButton click={replyLikeId[replyIndex] && replyLikeId[replyIndex].reReply[reReplyIndex]!==null?true:false}
