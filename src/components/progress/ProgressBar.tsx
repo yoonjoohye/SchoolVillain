@@ -13,7 +13,7 @@ const Progress = styled.div`
 `
 
 interface statusProps {
-    step: number
+    step: number;
 }
 
 const Status = styled.div<statusProps>`
@@ -39,8 +39,8 @@ interface propsType {
 const ProgressBar: React.FC<propsType> = ({step}) => {
     return (
             <Progress>
-                <Status step={step}/>
-                <div css={css`${MarkdownSm(Color.purple200)}; text-align:center;`}>{step * 20}%</div>
+                <Status step={step-1}/>
+                <div css={css`${MarkdownSm(Color.purple200)}; text-align:center;`}>{(step-1) * 20}%</div>
             </Progress>
     )
 }

@@ -249,7 +249,8 @@ const Join: React.FC = ({match, history}: any) => {
                  keywords="회원가입 스쿨빌런 가입페이지"
             />
             <JoinSection>
-                <ProgressBar step={page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
+                <ProgressBar step={
+                    page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
                 <JoinContainer>
                     {joinComponent}
                 </JoinContainer>
