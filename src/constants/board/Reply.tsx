@@ -129,7 +129,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                         return (
                             <div css={css`margin-bottom:1em;`} key={replyIndex}>
                                 <ReplyName>
-                                    {reply.user ? reply.user.name : '익명'} <span
+                                    {reply.user.name ? reply.user.name : '익명'} <span
                                     css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                 </ReplyName>
                                 <div css={css`position:relative`}>
@@ -163,7 +163,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                                                 return (
                                                     <div css={css`margin-top:0.8em;`} key={reReplyIndex}>
                                                         <ReplyName>
-                                                            {reply.user ? reply.user.name : '익명'} <span
+                                                            {reply.user.name ? reply.user.name : '익명'} <span
                                                             css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
                                                         </ReplyName>
                                                         <div css={css`position:relative`}>

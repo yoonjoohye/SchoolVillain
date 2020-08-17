@@ -63,7 +63,7 @@ const Mypage: React.FC = ({history, match}: any) => {
         reply:false
     });
 
-    const tab = ['좋아요', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
+    const tab = ['좋아요한 글', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
     const [menu, setMenu] = useState(0);
 
     useEffect(() => {
@@ -87,7 +87,7 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }, [match.params]);
 
-    const MyLikeAPI = async (page:number) => {
+    const MyLikeAPI = useCallback(async (page:number) => {
         setLoading({...loading,like:true});
         try {
             let response = await axios({
@@ -100,11 +100,15 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 200) {
-                setLikeList(produce(draft=>{
-                    response.data.data.map((like:any)=>{
-                        draft.push(like);
-                    });
-                }));
+                if(page>1) {
+                    setLikeList(produce(draft => {
+                        response.data.data.map((like: any) => {
+                            draft.push(like);
+                        });
+                    }));
+                }else{
+                    setLikeList(response.data.data);
+                }
                 if(response.data.total<=page*10){
                     setLikeHasMore(false);
                 }
@@ -120,8 +124,8 @@ const Mypage: React.FC = ({history, match}: any) => {
             setLoading({...loading,like:false});
 
         }
-    }
-    const MyBoardAPI = async (page:number) => {
+    },[]);
+    const MyBoardAPI = useCallback(async (page:number) => {
         setLoading({...loading,board:true});
 
         try {
@@ -135,11 +139,15 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 200) {
-                setBoardList(produce(draft=>{
-                    response.data.data.map((board:any)=>{
-                        draft.push(board);
-                    });
-                }));
+                if(page>1) {
+                    setBoardList(produce(draft => {
+                        response.data.data.map((board: any) => {
+                            draft.push(board);
+                        });
+                    }));
+                }else{
+                    setBoardList(response.data.data);
+                }
                 if(response.data.total<=page*10){
                     setBoardHasMore(false);
                 }
@@ -155,8 +163,8 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
             setLoading({...loading,board:false});
         }
-    }
-    const MyReplyAPI = async (page:number) => {
+    },[]);
+    const MyReplyAPI = useCallback(async (page:number) => {
         setLoading({...loading,reply:true});
 
         try {
@@ -170,11 +178,15 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 200) {
-                setReplyList(produce(draft=>{
-                    response.data.data.map((reply:any)=>{
-                        draft.push(reply);
-                    });
-                }));
+                if(page>1) {
+                    setReplyList(produce(draft => {
+                        response.data.data.map((reply: any) => {
+                            draft.push(reply);
+                        });
+                    }));
+                }else{
+                    setReplyList(response.data.data);
+                }
                 if(response.data.total<=page*5){
                     setReplyHasMore(false);
                 }
@@ -189,7 +201,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             }
             setLoading({...loading,reply:false});
         }
-    }
+    },[])
     const MyProfileAPI = async () => {
         try {
             let response = await axios({

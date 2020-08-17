@@ -177,7 +177,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                                     return (
                                                         <div key={index} css={css`margin-top:0.5em;`}>
                                                             <ReplyName>
-                                                                {board.user.name ? board.user.name : '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                                                {reply.user.name ? reply.user.name : '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
                                                             </ReplyName>
                                                             <ReplyContent
                                                                 dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
