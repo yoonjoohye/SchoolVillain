@@ -6,9 +6,10 @@ import {MarkdownLg} from "../../../assets/style/Markdown.style";
 import {media} from "../../../assets/style/Media.style";
 
 const ApplySection = styled.section`
-  margin:6em 0 4em 0;
+  margin:6em 0 0 0;
+  padding-bottom:4em;
   ${Section};
-  ${media.sm`padding:0; margin-bottom:15em;`}
+  ${media.sm` padding:0 0 4em 0;`}
 `
 const ApplyImg = styled.img`
   display:block;

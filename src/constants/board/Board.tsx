@@ -84,7 +84,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                           css={css`margin-bottom:1em; padding-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
                     <div>
                         <div>{board.user.name ? board.user.name : '익명'}</div>
-                        <div css={css`${FlexBox('', 'center', 'flex-start')};`}>
+                        <div css={css`${FlexBox('', 'flex-start', 'flex-start')};`}>
                             <div>{board.create_time_ago}</div>
 
                             <div css={css`padding:0 0.5em;`}>|</div>
@@ -122,7 +122,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.board_image.map((item: any) => {
                                 return (
                                     <figure key={item.id}>
-                                        <img css={css`max-width: 60%;`} src={`${item.path}?q=60`}/>
+                                        <img css={css`max-width: 60%; ${media.sm`max-width:80%;`}`} src={`${item.path}?q=60`}/>
                                     </figure>
                                 )
                             }) : null
