@@ -184,20 +184,6 @@ const Profile: React.FC<propsType> = ({
                 <span css={css`color:${Color.yellow200}`}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
                 환영합니다.
             </Greeting>
-            {/*<ImgBox>*/}
-            {/*    <input css={css`display:none;`} type="file" id="id"*/}
-            {/*           onChange={(e: React.ChangeEvent<HTMLInputElement>) => loadImg(e)}*/}
-            {/*           accept="image/jpg, image/png, image/jpeg"/>*/}
-            {/*    {*/}
-            {/*        preview.length > 0 ?*/}
-            {/*            <div css={css`position:relative; width:450px; text-align: center;`}>*/}
-            {/*                <button css={css`position:absolute`} onClick={deleteImg}>X</button>*/}
-            {/*                <img css={css`max-width:100%;`} src={preview}/>*/}
-            {/*            </div> :*/}
-            {/*            <FakeFileInput htmlFor="id">학생증 인증</FakeFileInput>*/}
-            {/*    }*/}
-            {/*</ImgBox>*/}
-
             <ProfileBox>
                 <ProfileTitle>빌런 닉네임</ProfileTitle>
                 <NicknameBox>

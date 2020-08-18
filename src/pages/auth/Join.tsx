@@ -95,7 +95,7 @@ const Join: React.FC = ({match, history}: any) => {
 
     const changeEmail = (e:React.ChangeEvent<HTMLInputElement>) => {
         let {value}=e.target
-        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,8}$/i;
         setEmail(value);
 
         if (!(emailRegex.test(value))) {
@@ -249,7 +249,8 @@ const Join: React.FC = ({match, history}: any) => {
                  keywords="회원가입 스쿨빌런 가입페이지"
             />
             <JoinSection>
-                <ProgressBar step={page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
+                <ProgressBar step={
+                    page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
                 <JoinContainer>
                     {joinComponent}
                 </JoinContainer>

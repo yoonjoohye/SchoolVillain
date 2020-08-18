@@ -20,7 +20,7 @@ const IndexSection = styled.section`
   ${Section};
   margin-top:6em;
   display: grid;
-  grid-template-columns: 33% 67%;
+  grid-template-columns: 30% 70%;
   ${media.md`
      grid-template-columns: 100%;
   `};
