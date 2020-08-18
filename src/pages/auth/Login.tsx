@@ -68,7 +68,7 @@ const Login = ({history}: any) => {
     const [loading,setLoading]=useState(false);
 
     const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,8}$/i;
         setEmail(e.target.value);
 
         if (!(emailRegex.test(e.target.value))) {

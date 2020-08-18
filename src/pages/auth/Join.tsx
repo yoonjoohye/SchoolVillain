@@ -95,7 +95,7 @@ const Join: React.FC = ({match, history}: any) => {
 
     const changeEmail = (e:React.ChangeEvent<HTMLInputElement>) => {
         let {value}=e.target
-        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,8}$/i;
         setEmail(value);
 
         if (!(emailRegex.test(value))) {
