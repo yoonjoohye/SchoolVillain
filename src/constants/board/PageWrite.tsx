@@ -5,6 +5,7 @@ import {Color} from "../../../assets/style/Color.style";
 import React from "react";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Tag} from "../../../assets/style/Util";
+import {IconBase} from "../../../assets/style/Icon.style";
 
 const WriteSection = styled.section`
   margin-top:6em;
@@ -56,14 +57,23 @@ const FileInput = styled.input`
 `
 const FakeFileInput = styled.label`
   display:inline-block;
-  padding:0.5em 0.8em;
-   background-color:${Color.yellow100};
-  ${MarkdownBase(Color.yellow200)};
+  width:100%;
+  height:130px;
+  ${FlexBox('column')};  
+  ${MarkdownSm(Color.gray200)};
+  background-color:${Color.gray100};
   cursor:pointer;
+  &:hover{
+    background-color:#e1e1e1;
+    &::after{
+      content:'이미지는 최대 6개';
+      margin-top:1em;
+    }
+  }
 `
 const PreviewImg = styled.div`
   width:100%;
-  height:150px;
+  height:130px;
   display:flex;
   position:relative;
   top:0;
@@ -71,9 +81,8 @@ const PreviewImg = styled.div`
 const Preview = styled.div`
   display:grid; 
   grid-template-columns: repeat(3, 1fr); 
-  grid-gap:0.5em; 
+  grid-gap:1em; 
   text-align:right;
-  margin-top:1em;
 `
 const DelButton=styled.button`
   background-color:${Color.gray100};
@@ -85,6 +94,9 @@ const DelButton=styled.button`
   z-index: 2;
   margin-top: -10px;
   margin-left: -13px;
+  &:hover{
+    background-color:#e1e1e1;
+  }
 `
 
 interface propsType {
@@ -139,31 +151,30 @@ const PageWrite: React.FC<propsType> = ({
                               placeholder="내용을 입력해주세요."></TextArea>
                 </div>
                 <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
-                    <div>
+                    <Preview>
                         <FileInput type="file" id="img"
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => loadImg(e)}
-                                   accept="image/jpg, image/png, image/jpeg, image/gif"
-                                   multiple/>
-                            {/*<div css={css`${FlexBox('','space-between','center')}`}>*/}
-                                <FakeFileInput htmlFor="img">+ 이미지 업로드</FakeFileInput>
-                                {/*<div css={css`${MarkdownSm(Color.gray200)}`}>* 이미지는 최대 6개까지 등록할 수 있습니다.</div>*/}
-                            {/*</div>*/}
-                    </div>
-                    <Preview>
+                                   accept="image/jpg, image/png, image/jpeg, image/gif" multiple/>
                         {
-                            previewList.map((preview: any, index: number) => {
-                                return (
-                                    <figure css={css`position:relative;`} key={index}>
-                                        <DelButton onClick={() => deleteImg(index)}>X</DelButton>
-                                        <PreviewImg>
-                                            <img
-                                                css={css`width:100%; position: absolute; clip: rect(0px 152px 130px 0px);`}
-                                                src={preview}/>
-                                        </PreviewImg>
-                                    </figure>
 
-                                )
-                            })
+                            previewList.length>0?
+                                previewList.map((preview: any, index: number) => {
+                                    return (
+                                        <figure css={css`position:relative;`} key={index}>
+                                            <DelButton onClick={() => deleteImg(index)}>
+                                                <img css={css`width:50%;`} src={require('../../../assets/img/icon/close.svg')}/>
+                                            </DelButton>
+                                            <PreviewImg>
+                                                <img css={css`width: 100%; height: 100%;`}
+                                                     src={preview}/>
+                                            </PreviewImg>
+                                        </figure>
+                                    );
+                                }): null
+                        }
+                        {
+                            previewList.length < 6 &&
+                            <FakeFileInput htmlFor="img"><IconBase src={require('../../../assets/img/icon/gallery.svg')}/></FakeFileInput>
                         }
                     </Preview>
                 </div>

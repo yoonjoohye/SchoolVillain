@@ -45,9 +45,28 @@ const ProfileTitle = styled.div`
   height:35%;
   ${FlexBox('row', 'space-between', 'center')};
 `
+
+const ProfileName=styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  ${MarkdownLg(Color.white, 700)};
+  //animation:marquee 8s linear infinite alternate-reverse;
+  //@keyframes marquee {
+  //0% {
+  //  transform: translate(0%);
+  //}
+  //100% {
+  //  transform: translate(100%);
+  //}
+}
+`
 const ProfileBody = styled.div`
   padding:0 1em;
-  ${MarkdownSm()}
+  ${MarkdownSm()};
   margin-bottom:2em;
 `
 
@@ -97,7 +116,9 @@ const Identification = ({user}: any) => {
                         <ProfileContainer>
                             <ProfileSection>
                                 <ProfileTitle>
-                                    <span css={css`${MarkdownLg(Color.white, 700)};`}>{user.name || '익명'}</span>
+                                    <div css={css` width:100%; margin-right:0.3em; overflow:hidden;`}>
+                                        <ProfileName>{user.name || '익명'}</ProfileName>
+                                    </div>
                                     <img css={css`width:4em;`} src={require('../../../assets/img/badge/badge.svg')}/>
                                 </ProfileTitle>
                                 <ProfileBody>
