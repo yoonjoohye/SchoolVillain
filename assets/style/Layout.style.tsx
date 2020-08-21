@@ -1,5 +1,6 @@
 import {css} from "@emotion/core";
 import {media} from "./Media.style";
+import styled from "@emotion/styled";
 
 export const FlexBox = (flexDirection:string='row', justifyContent: string = 'center', alignItems: string = 'center') => css`
   display: flex;
@@ -9,10 +10,12 @@ export const FlexBox = (flexDirection:string='row', justifyContent: string = 'ce
 `;
 
 export const Section=()=>css` 
-  padding:0 20%;
+  //padding:0 20%;
+   width:1000px;
+  margin:auto;
   min-height:100vh;
-  ${media.md`padding:0 10%;`};
-  ${media.sm`padding:0 5%`};
+  ${media.md`width:80%;`};
+  ${media.sm`width:90%;`};
 `
 
 export const onlyPc=()=>css`
@@ -35,4 +38,11 @@ export const Margin=(top:number=0, right:number=0, bottom:number=0, left:number=
 
 export const Padding=(top:number=0, right:number=0, bottom:number=0, left:number=0)=>css`
   padding:${top}em ${right}em ${bottom}em ${left}em;
+`;
+
+
+export const HalfGrid=styled.div`
+  display:grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-gap:1em;
 `;

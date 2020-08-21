@@ -146,7 +146,7 @@ const PageWrite: React.FC<propsType> = ({
                            placeholder="오늘 무슨일 있었냐?"/>
                 </div>
                 <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
-                    <TextArea rows={6} value={contents}
+                    <TextArea rows={10} value={contents}
                               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => changeContents(e)}
                               placeholder="내용을 입력해주세요."></TextArea>
                 </div>

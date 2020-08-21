@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {MarkdownSm, MarkdownBase} from "../../../assets/style/Markdown.style";
 import {ErrorMsg} from "../../../assets/style/Util";
+import {HalfGrid} from "../../../assets/style/Layout.style";
 
 
 const JoinTitle = styled.div`
@@ -40,7 +41,8 @@ const Option = styled.option`
 `
 
 interface propsType {
-    goJoin: any;
+    goPrev: any;
+    goNext: any;
     school: string;
     grade: string;
     selectSchool: any;
@@ -49,7 +51,7 @@ interface propsType {
     enabled: any;
 }
 
-const School: React.FC<propsType> = ({goJoin, school, grade, selectSchool, selectGrade, err, enabled}) => {
+const School: React.FC<propsType> = ({goPrev, goNext, school, grade, selectSchool, selectGrade, err, enabled}) => {
 
     return (
         <>
@@ -69,7 +71,10 @@ const School: React.FC<propsType> = ({goJoin, school, grade, selectSchool, selec
                 </Select>
             </SelectBox>
             <ErrorMsg visible={err.length > 0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin} enabled={enabled} name="다음"/>
+            <HalfGrid>
+                <JoinButton goPage={goPrev} isEmpty={true} enabled={true} name="이전"/>
+                <JoinButton goPage={goNext} enabled={enabled} name="다음"/>
+            </HalfGrid>
         </>
     )
 }

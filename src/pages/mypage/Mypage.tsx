@@ -44,6 +44,7 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [boardHasMore,setBoardHasMore]=useState(true);
     const [replyHasMore,setReplyHasMore]=useState(true);
 
+    const [user,setUser]=useState(null);
     const [nickname, setNickname] = useState('');
     const [nicknameErr, setNicknameErr] = useState('');
     const [nicknameCheck, setNicknameCheck] = useState(false);
@@ -211,6 +212,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 200) {
+                setUser(response.data);
                 setNickname(response.data.name || '익명');
                 setNicknameCheck(true);
                 setEmail(response.data.email);
@@ -453,7 +455,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                     }
                     {
                         menu === 3 &&
-                        <Profile nickname={nickname} nicknameErr={nicknameErr} nicknameCheck={nicknameCheck} changeNickname={changeNickname}
+                        <Profile user={user} nickname={nickname} nicknameErr={nicknameErr} nicknameCheck={nicknameCheck} changeNickname={changeNickname}
                                  email={email}
                                  currentPassword={currentPassword} currentPasswordErr={currentPasswordErr} currentPasswordCheck={currentPasswordCheck} changeCurrentPassword={changeCurrentPassword}
                                  newPassword={newPassword} newPasswordErr={newPasswordErr} newPasswordCheck={newPasswordCheck} changeNewPassword={changeNewPassword}

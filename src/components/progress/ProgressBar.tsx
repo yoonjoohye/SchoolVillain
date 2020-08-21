@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import React from 'react';
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
-import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 
 const Progress = styled.div`
   width:100%;
-  height:1em;
+  height:10px;
   background-color:${Color.gray100};
   position:fixed;
   top:4em;
@@ -40,7 +40,7 @@ const ProgressBar: React.FC<propsType> = ({step}) => {
     return (
             <Progress>
                 <Status step={step-1}/>
-                <div css={css`${MarkdownSm(Color.purple200)}; text-align:center;`}>{(step-1) * 20}%</div>
+                <div css={css`${MarkdownBase(Color.purple200)}; text-align:center;`}>{(step-1) * 20}%</div>
             </Progress>
     )
 }

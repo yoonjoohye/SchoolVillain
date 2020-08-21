@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import axios from "axios";
@@ -115,12 +115,14 @@ const SendEmail = () => {
 
     return (
         <>
-            <SEO title="패스워드 찾기 | 스쿨빌런"
-                 description="스쿨빌런 패스워드 찾기 페이지입니다."
-                 keywords="스쿨빌런 패스워드 찾기 페이지"
+            <SEO title="패스워드 재설정 | 스쿨빌런"
+                 description="스쿨빌런 패스워드 재설정 페이지입니다."
+                 keywords="스쿨빌런 패스워드 재설정 페이지"
             />
             <LoginSection>
                 <LoginContainer>
+                    <div css={css`${MarkdownLg(Color.purple200,700)}; margin-bottom:3em; text-align:center;`}>패스워드 재설정</div>
+
                     <LoginTitle>E-MAIL</LoginTitle>
                     <Input type="text" value={email} onChange={changeEmail} placeholder="이메일을 입력해주세요." onKeyPress={(e: React.KeyboardEvent) => onEnter(e)}/>
                     <ErrorMsg visible={emailErr.length > 0}>{emailErr}</ErrorMsg>

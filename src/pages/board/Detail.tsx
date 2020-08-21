@@ -147,7 +147,8 @@ const Detail: React.FC = ({match}: any) => {
             });
             if (response.status === 204) {
                 // console.log(response);
-                window.location.href = '/';
+                // window.location.href = '/';
+                history.go(-1);
             }
         } catch (err) {
             // throw err;

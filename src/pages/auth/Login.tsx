@@ -3,7 +3,7 @@ import JoinInput from "../../components/input/JoinInput";
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
-import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import axios from "axios";
 import SEO from "../SEO/SEO";
@@ -148,6 +148,7 @@ const Login = ({history}: any) => {
             />
             <LoginSection>
                 <LoginContainer>
+                    <div css={css`${MarkdownLg(Color.purple200,700)}; margin-bottom:3em; text-align:center;`}>로그인</div>
                     <LoginTitle>E-MAIL</LoginTitle>
                     <JoinInput type="text" value={email} onChange={changeEmail} placeholder="이메일을 입력해주세요."/>
                     <ErrorMsg css={css`margin-bottom:1em;`} visible={emailErr.length > 0}>{emailErr}</ErrorMsg>

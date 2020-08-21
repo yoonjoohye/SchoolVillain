@@ -20,7 +20,7 @@ const IndexSection = styled.section`
   ${Section};
   margin-top:6em;
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 35% 65%;
   ${media.md`
      grid-template-columns: 100%;
   `};
@@ -77,7 +77,6 @@ const Index: React.FC = ({history}: any) => {
                 setBoardPage(page);
 
                 setLoading(false);
-
             }
         } catch (err) {
             setLoading(false);
@@ -130,9 +129,10 @@ const Index: React.FC = ({history}: any) => {
 
     return (
         <>
-            <SEO title="스쿨빌런 | 중고등학교 대표 커뮤니티"
-                 description="스쿨빌런 메인 페이지입니다."
-                 keywords="스쿨빌런 메인 페이지"
+            <SEO title="스쿨빌런 | 전국 5570개 중고등학교를 대표하는 학생 커뮤니티"
+                 description="나의 고민을 함께하스쿨빌런"
+                 keywords="익명, 커뮤니티, 배너광고, 아이돌, 덕질, 익명고백, 학교정보, 입시정보, 고등학생, 중학생, 전학, 대나무 숲, 중고등학생을 위한 대나무 숲!, 학교축제, 인맥, 친구, 뒷담화, 학생 대표 커뮤니티
+전국 5570개 중고등학교를 대표하는 학생 커뮤니티, school villain, 학교 생활정보, 익명 커뮤니티, 시간표, 대학, 중학교, 고등학교, 고백, 10대, 진로고민, 성적고민, 연애고민, 가정고민, 청소년, 사춘기, 상담"
             />
             <IndexSection>
                 <Nav>
