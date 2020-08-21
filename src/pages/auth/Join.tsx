@@ -138,8 +138,6 @@ const Join: React.FC = ({match, history}: any) => {
         }
     }
 
-
-
     //api 통신
     const goAgreement = () => {
         history.push('/join/school');
@@ -155,10 +153,6 @@ const Join: React.FC = ({match, history}: any) => {
                 data: {
                     email: email
                 },
-                // headers: {
-                //     Accept: 'application/json',
-                //     ContentType: 'application/json'
-                // }
             });
             if (response.status === 200) {
                 //console.log(response);
