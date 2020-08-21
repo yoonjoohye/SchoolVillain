@@ -57,13 +57,13 @@ const School: React.FC<propsType> = ({goPrev, goNext, school, grade, selectSchoo
         <>
             <JoinTitle>School & Grade</JoinTitle>
             <SelectBox>
-                <Select value={school} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectSchool(e)}>
+                <Select value={school} defaultValue={''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectSchool(e)}>
                     <Option value="" selected disabled>학교를 선택해주세요.</Option>
                     <Option value="1">중학교</Option>
                     <Option value="2">고등학교</Option>
                 </Select>
 
-                <Select value={grade} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectGrade(e)}>
+                <Select value={grade} defaultValue={''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectGrade(e)}>
                     <Option value="" selected disabled>학년을 선택해주세요.</Option>
                     <Option value="1">1학년</Option>
                     <Option value="2">2학년</Option>

@@ -21,8 +21,10 @@ const JoinSection = styled.section`
   ${FlexBox('column')};
 `
 const JoinContainer = styled.article`
-  width:500px;
-  ${media.sm`width:90%;`}
+  min-width:500px;
+  max-width:1000px;
+  ${media.md`min-width:500px; max-width:80%;`}
+  ${media.sm`min-width:90%; max-width:90%;`}
 `
 
 const Join: React.FC = ({match, history}: any) => {
@@ -252,7 +254,7 @@ const Join: React.FC = ({match, history}: any) => {
             />
             <JoinSection>
                 <ProgressBar step={
-                    page==='agreement' && 1 || 'service-rule' && 1 || 'privacy-rule' && 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
+                    page==='agreement' && 1 || page==='service-rule' && 1 || page==='privacy-rule' && 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
                 <JoinContainer>
                     <div css={css`${MarkdownLg(Color.purple200,700)}; margin-bottom:3em; text-align:center;`}>회원가입</div>
                     {joinComponent}
