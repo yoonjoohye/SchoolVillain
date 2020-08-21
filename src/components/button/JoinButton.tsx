@@ -55,7 +55,7 @@ interface propsType {
 
 const JoinButton: React.FC<propsType> = ({goPage, enabled,name, isEmpty}) => {
     return (
-        <Button enabled={enabled || true} isEmpty={isEmpty || false} onClick={() => goPage()}>{name}</Button>
+        <Button enabled={enabled || false} isEmpty={isEmpty || false} onClick={() => goPage()}>{name}</Button>
     )
 }
 export default JoinButton;

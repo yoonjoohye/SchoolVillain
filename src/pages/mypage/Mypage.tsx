@@ -18,7 +18,6 @@ const MypageSection = styled.section`
 `
 const MypageTab = styled.nav`
   ${FlexBox('row', 'space-between', 'center')};
-  margin-top:6em;
   margin-bottom:1em;
   border-bottom:1px solid ${Color.gray100};
   ${MarkdownBase('',500)};
