@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
-import React from "react";
+import React, {useEffect} from "react";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Tag} from "../../../assets/style/Util";
 import {IconBase, IconSm} from "../../../assets/style/Icon.style";
@@ -180,12 +180,15 @@ const ModalWrite: React.FC<propsType> = ({
                                              upload
                                          }) => {
 
+    useEffect(()=>{
+        document.body.style.overflow='hidden';
+    },[]);
     return (
         <ModalSection>
             <ModalBox>
                 <ModalHeader>
                     <p>게시물 {name}</p>
-                    <CloseButton onClick={() => isOpen(false)}><img css={css`width:100%;`}
+                    <CloseButton onClick={() => {isOpen(false); document.body.style.overflow='initial';}}><img css={css`width:100%;`}
                                                                     src={require('../../../assets/img/icon/close.svg')}/></CloseButton>
                 </ModalHeader>
                 <ModalBody>
