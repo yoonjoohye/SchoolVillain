@@ -17,13 +17,12 @@ import {MarkdownLg} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 
 const JoinSection = styled.section`
-  // ${Section()};
   min-height:100vh;
   ${FlexBox('column')};
 `
 const JoinContainer = styled.article`
-  min-width:500px;
-  ${media.sm`min-width:90%;   padding:0 5%;`}
+  width:500px;
+  ${media.sm`width:90%;`}
 `
 
 const Join: React.FC = ({match, history}: any) => {
@@ -253,7 +252,7 @@ const Join: React.FC = ({match, history}: any) => {
             />
             <JoinSection>
                 <ProgressBar step={
-                    page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
+                    page==='agreement' && 1 || 'service-rule' && 1 || 'privacy-rule' && 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
                 <JoinContainer>
                     <div css={css`${MarkdownLg(Color.purple200,700)}; margin-bottom:3em; text-align:center;`}>회원가입</div>
                     {joinComponent}
