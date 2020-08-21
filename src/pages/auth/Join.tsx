@@ -12,6 +12,9 @@ import ServiceRule from "../../constants/join/ServiceRule";
 import PrivacyRule from "../../constants/join/PrivacyRule";
 import axios from 'axios';
 import ProgressBar from "../../components/progress/ProgressBar";
+import {css} from "@emotion/core";
+import {MarkdownLg} from "../../../assets/style/Markdown.style";
+import {Color} from "../../../assets/style/Color.style";
 
 const JoinSection = styled.section`
   // ${Section()};
@@ -218,7 +221,7 @@ const Join: React.FC = ({match, history}: any) => {
     }
 
     if (page === 'agreement') {
-        joinComponent = <Agreement goJoin={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement}
+        joinComponent = <Agreement goNext={goAgreement} age={age} agree={agree} checkedAgreement={checkedAgreement}
                                    err={agreementErr}
                                    enabled={agreementCheck}/>;
     } else if (page === 'service-rule') {
@@ -226,18 +229,18 @@ const Join: React.FC = ({match, history}: any) => {
     } else if (page === 'privacy-rule') {
         joinComponent = <PrivacyRule/>;
     } else if(page==='school'){
-        joinComponent = <School goJoin={goSchool} school={school} grade={grade} selectSchool={selectSchool} selectGrade={selectGrade}
+        joinComponent = <School goPrev={()=>history.push('/join/agreement')} goNext={goSchool} school={school} grade={grade} selectSchool={selectSchool} selectGrade={selectGrade}
             err={schoolErr} enabled={schoolCheck}/>;
     }
     else if (page === 'email') {
         joinComponent =
-            <Email goJoin={goEmail} email={email} changeEmail={changeEmail} err={emailErr} enabled={emailCheck}/>;
+            <Email goPrev={()=>history.push('/join/school')} goNext={goEmail} email={email} changeEmail={changeEmail} err={emailErr} enabled={emailCheck}/>;
     } else if (page === 'password') {
         joinComponent =
-            <Password goJoin={goPassword} password={password} changePassword={changePassword} err={passwordErr}
+            <Password goPrev={()=>history.push('/join/email')} goNext={goPassword} password={password} changePassword={changePassword} err={passwordErr}
                       enabled={passwordCheck}/>;
     } else if (page === 'confirm') {
-        joinComponent = <PasswordConfirm goJoin={goPasswordConfirm} password={passwordConfirm}
+        joinComponent = <PasswordConfirm goPrev={()=>history.push('/join/password')} goNext={goPasswordConfirm} password={passwordConfirm}
                                          changePasswordConfirm={changePasswordConfirm} err={passwordConfirmErr}
                                          enabled={passwordConfirmCheck}/>;
     }
@@ -252,6 +255,7 @@ const Join: React.FC = ({match, history}: any) => {
                 <ProgressBar step={
                     page==='agreement'&& 1 || page==='school' && 2 || page==='email' && 3 || page==='password' && 4 || page==='confirm'&& 5}/>
                 <JoinContainer>
+                    <div css={css`${MarkdownLg(Color.purple200,700)}; margin-bottom:3em; text-align:center;`}>회원가입</div>
                     {joinComponent}
                 </JoinContainer>
             </JoinSection>

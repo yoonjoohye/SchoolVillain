@@ -28,7 +28,7 @@ const BoardBox = styled.div<boxProps>`
   ${MarkdownBase(Color.gray200)};
 `
 const BoardTitle = styled.div`
-  ${MarkdownLg(Color.black, 700)};
+  ${MarkdownMd(Color.black, 700)};
   margin-bottom:0.5em;
     overflow: hidden;
     text-overflow: ellipsis;

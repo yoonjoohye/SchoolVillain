@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
-import {MarkdownLg} from "../../../assets/style/Markdown.style";
+import {MarkdownLg, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
@@ -21,20 +21,25 @@ const HeaderSection = styled.header`
 `;
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
-  padding:0 20%;
   height:4em;
-  ${media.md`padding:0 10%`};
-  ${media.sm`padding:0 5%`};
+  // padding:0 20%;
+  // ${media.md`padding:0 10%`};
+  // ${media.sm`padding:0 5%`};
+  width:1000px;
+  margin:auto;
+  ${media.md`width:80%;`};
+  ${media.sm`width:90%;`};
 `
 const HeaderLogo = styled.div`
-  ${MarkdownLg(Color.purple200, 700)};
+  // ${MarkdownLg(Color.purple200, 700)};
+  height:1em;
 `
 const HeaderMenu = styled.span`
   text-align:right;
   min-width: fit-content;
 `
 
-const Header = () => {
+const Header = ({history}:any) => {
     const value = useSelector(state => state.auth.logged);
 
     const [user,setUser]=useState(null);
@@ -63,7 +68,7 @@ const Header = () => {
             <HeaderContainer>
                 <Link to="/">
                     <HeaderLogo>
-                        스쿨빌런
+                        <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
                     </HeaderLogo>
                 </Link>
 
@@ -77,7 +82,12 @@ const Header = () => {
                             </>
                             :
                             <>
-                                <Link to="/login">로그인</Link>/<Link to="/join/agreement">가입</Link>
+                                <button css={css`background:${Color.purple200}; 
+                                        ${MarkdownSm(Color.white)}; width:80px; height:30px; border-radius: 0.3em; margin-right:0.5em; `}
+                                        onClick={()=>location.href='/login'}>로그인</button>
+                                <button css={css`background:${Color.white}; border:1px solid ${Color.purple200};
+                                        ${MarkdownSm(Color.purple200)}; width:80px; height:30px; border-radius: 0.3em;`}
+                                        onClick={()=>location.href='/join/agreement'}>회원가입</button>
                             </>
                     }
                 </HeaderMenu>

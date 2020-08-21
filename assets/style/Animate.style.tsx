@@ -38,3 +38,12 @@ export const TypingMobile=keyframes`
     50% { width: 135px; }
     100% { width: 135px; }
 `
+
+export const ColorChange=keyframes`
+    0% {
+        background: #eeeeee;
+    }
+    100% {
+        background: #fafafa;
+    }
+`

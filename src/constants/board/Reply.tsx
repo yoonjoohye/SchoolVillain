@@ -116,7 +116,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
     }
 
     return (
-        <div css={css`margin-bottom:6em; ${media.sm`margin-bottom:10em`};`}>
+        <div css={css`padding-bottom:6em;`}>
             <ReplyFormBox>
                 <ReplyForm>
                     <ReplyInput value={reply} onChange={replyChange} placeholder="댓글을 입력해주세요."/>
