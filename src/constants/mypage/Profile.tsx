@@ -189,7 +189,7 @@ const Profile: React.FC<propsType> = ({
             </Greeting>
 
             <ProfileBox css={css`${FlexBox()}`}>
-                <div css={css`width:350px; ${media.sm`width:100%;`}`}>
+                <div css={css`width:350px;`}>
                     <Identification user={user}/>
                 </div>
             </ProfileBox>

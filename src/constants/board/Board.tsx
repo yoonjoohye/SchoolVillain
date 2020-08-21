@@ -15,7 +15,7 @@ const BoardTitle = styled.div`
   word-break:break-word;
 `
 const BoardContents = styled.div`
-  ${MarkdownMd(Color.black, 400)};
+  ${MarkdownBase(Color.black, 400)};
   word-break:break-word;
   margin-bottom:1em;
   line-height:1.7em;
@@ -122,7 +122,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.board_image.map((item: any) => {
                                 return (
                                     <figure key={item.id}>
-                                        <img css={css`max-width: 60%; ${media.sm`max-width:80%;`}`} src={`${item.path}?q=60`}/>
+                                        <img css={css`max-width: 60%; ${media.sm`max-width:90%;`}`} src={`${item.path}?q=60`}/>
                                     </figure>
                                 )
                             }) : null

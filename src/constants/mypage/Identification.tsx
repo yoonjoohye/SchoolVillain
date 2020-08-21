@@ -23,13 +23,14 @@ const ProfileContainer = styled.div`
 const ProfileSection = styled.div`
   position: absolute;
   width:100%;
-  height:250px;
+  height:100%;
   cursor:pointer;
   border-radius:0.3em;
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   &.back{
+    ${FlexBox('column','space-around','')};
     transform: rotateY(180deg);
     background-color:${Color.white};
   }
@@ -41,7 +42,7 @@ const ProfileTitle = styled.div`
   background-repeat: no-repeat;
   background-size: 100% 100%;
   padding: 0 1em;
-  margin-bottom:1.5em;
+  margin-bottom:1em;
   height:35%;
   ${FlexBox('row', 'space-between', 'center')};
 `
@@ -59,11 +60,11 @@ const ProfileName=styled.div`
 const ProfileBody = styled.div`
   padding:0 1em;
   ${MarkdownSm()};
-  margin-bottom:2em;
+  height:7.5em;
 `
 
 const ProfileFooter=styled.div`
-  padding:0.5em 1em;
+  padding: 1.2em;
   text-align:center;
 `
 
@@ -119,16 +120,16 @@ const Identification = ({user}: any) => {
                                     <div>유효기간 : 고등학교 졸업식</div>
                                 </ProfileBody>
 
-                                <ProfileFooter css={css`${MarkdownSm(Color.gray200)}; `}>
+                                <ProfileFooter css={css`${MarkdownSm(Color.gray200)};`}>
                                     위 학생은 본교 학생임을 인증합니다.
                                 </ProfileFooter>
                             </ProfileSection>
                             <ProfileSection className="back">
                                 <div
-                                    css={css`text-align:center; padding: 1.2em; margin-bottom:1.2em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
+                                    css={css`text-align:center; padding: 1.2em; margin-bottom:1em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
                                     유의사항
                                 </div>
-                                <ProfileBody css={css`margin-bottom:2em;`}>
+                                <ProfileBody>
                                     <li css={css`${FlexBox('', 'Flex-start', '')}; margin-bottom:0.5em;`}>
                                         <div css={css`margin-right:1em;`}>▶</div>
                                         <div>당신만의 학생다움을 보여주세요.</div>
@@ -139,11 +140,11 @@ const Identification = ({user}: any) => {
                                     </li>
                                     <li css={css`${FlexBox('', 'Flex-start', '')}; margin-bottom:0.5em;`}>
                                         <div css={css`margin-right:1em;`}>▶</div>
-                                        <div>본인만이 사용할 수 있으며, 타인에게 양도할 수 없습니다.</div>
+                                        <div>타인에게 양도할 수 없습니다.</div>
                                     </li>
                                     <li css={css`${FlexBox('', 'Flex-start', '')};`}>
                                         <div css={css`margin-right:1em;`}>▶</div>
-                                        <div>본인이 아닐경우, 즉시 로그아웃을 진행해주시길 바랍니다.</div>
+                                        <div>타인이 접속한 경우, 로그아웃해주세요.</div>
                                     </li>
                                 </ProfileBody>
                                 <ProfileFooter
