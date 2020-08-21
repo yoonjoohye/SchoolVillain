@@ -1,14 +1,14 @@
 import * as React from 'react';
 import styled from "@emotion/styled";
-import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
 import SEO from "../../pages/SEO/SEO";
 import {media} from "../../../assets/style/Media.style";
 
 const ServiceRuleSection = styled.section`
-  padding:6em 0;
   min-height:100vh;
+  padding:2em 0 4em 0;
   ${media.sm` padding:1em 0 4em 0 ;`}
 
 `
@@ -16,9 +16,8 @@ const ServiceRuleArticle = styled.article`
   padding:15px 0;
 `
 const ServiceRuleHeading = styled.div`
-  ${MarkdownMd(Color.purple200, 700)};
+  ${MarkdownLg(Color.purple200, 700)};
   text-align: center;
-  margin-top:20px;
 `
 const ServiceRuleTitle = styled.div`
   ${MarkdownBase('', 700)};

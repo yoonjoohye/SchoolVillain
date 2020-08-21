@@ -18,7 +18,6 @@ import produce from "immer";
 
 const IndexSection = styled.section`
   ${Section};
-  margin-top:6em;
   display: grid;
   grid-template-columns: 35% 65%;
   ${media.md`
