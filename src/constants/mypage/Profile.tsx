@@ -237,7 +237,7 @@ const Profile: React.FC<propsType> = ({
                 </div>
             </ProfileBox>
 
-            <ProfileBox css={css`margin-top:1em; text-align: right;`}>
+            <ProfileBox css={css` text-align: right;`}>
                 <GrayButton onClick={goWithdrawal}>회원탈퇴</GrayButton>
                 <GrayButton onClick={goLogout}>로그아웃</GrayButton>
             </ProfileBox>
