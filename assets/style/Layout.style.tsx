@@ -10,12 +10,11 @@ export const FlexBox = (flexDirection:string='row', justifyContent: string = 'ce
 `;
 
 export const Section=()=>css` 
-  //padding:0 20%;
-   width:1000px;
-  margin:auto;
+  width:1000px;
+  margin:6em auto 0 auto;
   min-height:100vh;
-  ${media.md`width:80%; margin:6em auto 0 auto;`};
-  ${media.sm`width:90%; margin:6em auto 0 auto;`};
+  ${media.md`width:80%;`};
+  ${media.sm`width:90%;`};
 `
 
 export const onlyPc=()=>css`
