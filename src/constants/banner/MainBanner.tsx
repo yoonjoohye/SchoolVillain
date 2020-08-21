@@ -6,11 +6,12 @@ import {Color} from "../../../assets/style/Color.style";
 import {memo} from "react";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
+import {SkeletonColor} from "../../../assets/style/Util";
 
 const BannerSection = styled.section`
   margin-top:1em;
-  background-image: linear-gradient(to left, #cb61f8, #7c2bdc 50%, #8e6dff);
-  padding:1.5em;
+  //background-image: linear-gradient(to left, #cb61f8, #7c2bdc 50%, #8e6dff);
+  //padding:1.5em;
   border-radius: 0.3em;
 `
 const BannerImg = styled.img`
@@ -36,7 +37,7 @@ const MainBanner: React.FC<propsType> = ({banner}) => {
         banner ?
             <BannerSection>
                 {
-                    banner.banner_count > 0 ?
+                    banner.banner_count < 0 ?
                         <a href={banner.banner[0].link} target="_blank">
                             <BannerImg src={banner.banner[0].path}/>
                         </a>
@@ -47,7 +48,7 @@ const MainBanner: React.FC<propsType> = ({banner}) => {
                 }
             </BannerSection>
             :
-            <div css={css` margin-top:1em; width:100%; height:15em; ${media.sm`height:10em;`} background-color:${Color.gray100};`}></div>
+            <div css={css` margin-top:1em; width:100%; height:14em; ${media.sm`height:8em;`} ${SkeletonColor()};`}></div>
     )
 }
 export default memo(MainBanner);

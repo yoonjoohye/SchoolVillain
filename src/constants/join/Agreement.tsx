@@ -61,7 +61,7 @@ const ErrorMsg=styled.div<ErrorMsgProps>`
 `
 
 interface propsType {
-    goJoin: any;
+    goNext: any;
     age: boolean;
     agree: boolean;
     checkedAgreement: any;
@@ -69,7 +69,7 @@ interface propsType {
     enabled: boolean;
 }
 
-const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, err, enabled}) => {
+const Agreement: React.FC<propsType> = ({goNext, age, agree, checkedAgreement, err, enabled}) => {
 
     const ageChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
         checkedAgreement(!age, agree);
@@ -119,7 +119,8 @@ const Agreement: React.FC<propsType> = ({goJoin, age, agree, checkedAgreement, e
                 </AgreementList>
             </AgreementLabel>
             <ErrorMsg visible={err.length>0}>{err}</ErrorMsg>
-            <JoinButton goJoin={goJoin} enabled={enabled} name="다음"/>
+
+            <JoinButton goPage={goNext} enabled={enabled} name="다음"/>
         </>
     )
 }

@@ -20,7 +20,7 @@ const IndexSection = styled.section`
   ${Section};
   margin-top:6em;
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 36% 64%;
   ${media.md`
      grid-template-columns: 100%;
   `};
@@ -77,7 +77,6 @@ const Index: React.FC = ({history}: any) => {
                 setBoardPage(page);
 
                 setLoading(false);
-
             }
         } catch (err) {
             setLoading(false);

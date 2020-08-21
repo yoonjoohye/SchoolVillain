@@ -4,7 +4,7 @@ import JoinButton from "../../components/button/JoinButton";
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
-import {MarkdownBase, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {css} from "@emotion/core";
@@ -145,12 +145,14 @@ const ResetPassword = () => {
             />
             <LoginSection>
                 <LoginContainer>
-                    <LoginTitle>PASSWORD</LoginTitle>
+                    <div css={css`${MarkdownLg(Color.purple200,700)}; margin-bottom:3em; text-align:center;`}>패스워드 재설정</div>
+
+                    <LoginTitle>NEW PASSWORD</LoginTitle>
                     <JoinInput type="password" value={password} onChange={changePassword} placeholder="패스워드를 입력해주세요."/>
                     <ErrorMsg css={css`margin-bottom:1em;`} visible={passwordErr.length > 0}>{passwordErr}</ErrorMsg>
 
 
-                    <LoginTitle>PASSWORD CHECK</LoginTitle>
+                    <LoginTitle>NEW PASSWORD CHECK</LoginTitle>
                     <Input type="password" value={passwordConfirm} onChange={changePasswordConfirm}
                                placeholder="패스워드를 입력해주세요." onKeyPress={(e: React.KeyboardEvent) => onEnter(e)}/>
                     <ErrorMsg visible={passwordConfirmErr.length > 0}>{passwordConfirmErr}</ErrorMsg>

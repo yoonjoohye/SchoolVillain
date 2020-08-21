@@ -8,6 +8,7 @@ import {FlexBox, onlyMobile} from "../../../assets/style/Layout.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 import Modal from "../../components/modal/Modal";
+import Identification from "./Identification";
 
 const Greeting = styled.div`
     ${MarkdownMd('', 500)};
@@ -55,7 +56,7 @@ const ProfileBox = styled.div`
 const NicknameBox=styled.div`
   display:grid; 
   grid-template-columns: 90% 10%; 
-  ${media.sm`grid-template-columns: 80% 20%;`}
+  ${media.md`grid-template-columns: 80% 20%;`}
 `
 interface buttonProps {
     enabled: boolean;
@@ -118,6 +119,8 @@ const GrayButton = styled.button`
 `
 
 interface propsType {
+    user:any;
+
     nickname: string;
     nicknameErr: string;
     nicknameCheck: boolean;
@@ -147,6 +150,7 @@ interface propsType {
 }
 
 const Profile: React.FC<propsType> = ({
+                                            user,
                                           nickname,
                                           nicknameErr,
                                           nicknameCheck,
@@ -179,11 +183,17 @@ const Profile: React.FC<propsType> = ({
     return (
         <section>
 
-
             <Greeting>
                 <span css={css`color:${Color.yellow200}`}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
                 환영합니다.
             </Greeting>
+
+            <ProfileBox css={css`${FlexBox()}`}>
+                <div css={css`width:350px; ${media.sm`width:100%;`}`}>
+                    <Identification user={user}/>
+                </div>
+            </ProfileBox>
+
             <ProfileBox>
                 <ProfileTitle>빌런 닉네임</ProfileTitle>
                 <NicknameBox>

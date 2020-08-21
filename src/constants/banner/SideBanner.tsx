@@ -6,6 +6,7 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase} from "../../../assets/style/Markdown.style";
 import {memo} from "react";
 import styled from "@emotion/styled";
+import {SkeletonColor} from "../../../assets/style/Util";
 
 interface propsType {
     banner: any;
@@ -35,7 +36,7 @@ const SideBanner: React.FC<propsType> = ({banner}) => {
                             </Link>
                     )
                 }):
-                <div css={css`width:100%; height:5em; background-color:${Color.gray100};`}></div>
+                <div css={css`width:100%; height:5em; ${SkeletonColor()};`}></div>
             }
         </section>
     )

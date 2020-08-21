@@ -2,10 +2,13 @@ import React from "react";
 import styled from "@emotion/styled";
 import {Color} from '../../../assets/style/Color.style';
 import {MarkdownMd} from "../../../assets/style/Markdown.style";
+import {css} from "@emotion/core";
 
 interface buttonProps {
     enabled: boolean;
+    isEmpty: boolean;
 }
+
 const Button = styled.button`
   ${MarkdownMd(Color.white)};
   width:100%;
@@ -13,29 +16,46 @@ const Button = styled.button`
   border-radius: 0.3em;
   box-shadow: 0 1.5px 2.5px 0 rgba(0, 0, 0, 0.16);
   margin-top:30px;
-  ${(props: buttonProps) => props.enabled ?
-    `pointer-events:initial;
-     background-color:${Color.purple200};
+  ${(props: buttonProps) => props.isEmpty ?
+    css`     
+          background-color:${Color.white};
+          border:1px solid ${Color.purple200};
+          color:${Color.purple200};
+          &:hover{
+            background-color: ${Color.purple100};
+          }
     ` :
-    `pointer-events:none;
-     background-color:${Color.purple100};
+    css`
+        background-color:${Color.purple200};
+        color:${Color.white};
+        &:hover{
+          background-color: ${Color.purple300};
+        }
+        
+        ${props.enabled ?
+            css`pointer-events:initial;
+                background-color:${Color.purple200};
+            ` :
+            css`pointer-events:none;
+                background-color:${Color.purple100};
+            `
+        }
     `
-    }
-  &:hover{
-    background-color: ${Color.purple300};
-  }
+    };
 `
+  
+
 
 interface propsType {
-    goJoin: any;
-    enabled: boolean;
+    goPage: any;
+    enabled ?: boolean;
     name:string;
+    isEmpty?:boolean;
 }
 
-const JoinButton: React.FC<propsType> = ({goJoin, enabled,name}) => {
+const JoinButton: React.FC<propsType> = ({goPage, enabled,name, isEmpty}) => {
     return (
-        <Button enabled={enabled} onClick={() => goJoin()}>{name}</Button>
+        <Button enabled={enabled || true} isEmpty={isEmpty || false} onClick={() => goPage()}>{name}</Button>
     )
 }
-
 export default JoinButton;
