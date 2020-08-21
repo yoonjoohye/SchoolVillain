@@ -13,12 +13,12 @@ import {ErrorMsg} from "../../../assets/style/Util";
 import produce from "immer";
 
 const LoginSection = styled.section`
-  ${Section};
-  ${FlexBox()};
+  ${FlexBox('column')};
+  min-height:100vh;
 `
 const LoginContainer = styled.article`
   width:500px;
-  ${media.sm`width:100%;`}
+  ${media.sm`width:90%;`}
 `
 const LoginTitle = styled.div`
   ${MarkdownBase(Color.purple200, 600)};
