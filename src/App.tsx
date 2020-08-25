@@ -2,42 +2,47 @@ import React, {useEffect} from 'react';
 import Root from './router/Root';
 import {GlobalStyle} from '../assets/style/Global.style';
 import axios from 'axios';
-
+import {cacheAdapterEnhancer, Cache} from 'axios-extensions';
 import {Provider} from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from './store/index';
+
 const sagaMiddleware = createSagaMiddleware();
-const store=createStore(rootReducer,composeWithDevTools(applyMiddleware(sagaMiddleware)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+
 
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['Cache-Control'] = 'no-cache';
 
+let url = 'https://dev.villain.school';
 
-let url='https://dev.villain.school';
-
-if(process.env.BUILD_ENV=='production'){
+if (process.env.BUILD_ENV == 'production') {
     url = 'https://api.villain.school';
 }
 
-if(process.env.BUILD_ENV=='development'){
+if (process.env.BUILD_ENV == 'development') {
     url = 'https://dev.villain.school';
 }
 
 axios.defaults.baseURL=url;
+axios.defaults.adapter=cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false, cacheFlag: 'useCache'});
+
 
 const App: React.FC = () => {
-    useEffect(()=>{
+    useEffect(() => {
         UserAPI();
-    },[]);
+    }, []);
 
-    const UserAPI=async ()=> {
+    const UserAPI = async () => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: '/api/user/auth/check'
+                url: '/api/user/auth/check',
+                cache: true
             });
             // console.log(response);
             if (response.status === 200) {
