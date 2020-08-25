@@ -12,6 +12,8 @@ import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdo
 import InfiniteScroll from "react-infinite-scroll-component";
 import produce from "immer";
 import Modal from "../../components/modal/Modal";
+import {useDispatch, useSelector} from "react-redux";
+import {likeBoardListRequest, postBoardListRequest} from "../../store/board";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -32,13 +34,22 @@ const MypageContents = styled.div`
   padding:1em 0;
 `
 const Mypage: React.FC = ({history, match}: any) => {
-    const [likeList, setLikeList] = useState([]);
-    const [boardList, setBoardList] = useState([]);
-    const [replyList, setReplyList] = useState([]);
+    const dispatch = useDispatch();
+    let likeBoardList=useSelector(state=>state.board.likeBoardList);
+    let likeBoardPage=useSelector(state=>state.board.likeBoardPage);
+    let postBoardList=useSelector(state=>state.board.postBoardList);
+    let postBoardPage=useSelector(state=>state.board.postBoardPage);
+    let replyBoardList=useSelector(state=>state.board.replyBoardList);
+    let replyBoardPage=useSelector(state=>state.board.replyBoardPage);
 
-    const [likePage,setLikePage]=useState(1);
-    const [boardPage,setBoardPage]=useState(1);
-    const [replyPage,setReplyPage]=useState(1);
+    const [likeList, setLikeList] = useState(likeBoardList);
+    const [boardList, setBoardList] = useState(postBoardList);
+    const [replyList, setReplyList] = useState(replyBoardList);
+
+    const [likePage,setLikePage]=useState(likeBoardPage);
+    const [boardPage,setBoardPage]=useState(postBoardPage);
+    const [replyPage,setReplyPage]=useState(replyBoardPage);
+
     const [likeHasMore,setLikeHasMore]=useState(true);
     const [boardHasMore,setBoardHasMore]=useState(true);
     const [replyHasMore,setReplyHasMore]=useState(true);
@@ -70,16 +81,21 @@ const Mypage: React.FC = ({history, match}: any) => {
     useEffect(() => {
         if (match.params.name === 'like') {
             setMenu(0);
-            MyLikeAPI(likePage);
+            if(likeBoardPage===1) {
+                MyLikeAPI(likePage);
+            }
         }
         if (match.params.name === 'board') {
             setMenu(1);
-            MyBoardAPI(boardPage);
-
+            if(postBoardPage===1) {
+                MyBoardAPI(boardPage);
+            }
         }
         if (match.params.name === 'reply') {
             setMenu(2);
-            MyReplyAPI(replyPage);
+            if(replyBoardPage===1) {
+                MyReplyAPI(replyPage);
+            }
 
         }
         if (match.params.name === 'profile') {
@@ -97,23 +113,26 @@ const Mypage: React.FC = ({history, match}: any) => {
                 params: {
                     per_page: 10,
                     page: page
-                }
+                },
+                cache:true
             });
             // console.log(response);
             if (response.status === 200) {
                 if(page>1) {
-                    setLikeList(produce(draft => {
-                        response.data.data.map((like: any) => {
-                            draft.push(like);
-                        });
-                    }));
+                    response.data.data.map((item: any) => {
+                        likeBoardList.push(item);
+                    });
                 }else{
-                    setLikeList(response.data.data);
+                    likeBoardList=response.data.data;
                 }
+
+                setLikeList(likeBoardList);
+
                 if(response.data.total<=page*10){
                     setLikeHasMore(false);
                 }
                 setLikePage(page);
+                dispatch(likeBoardListRequest(likeBoardList,page));
                 setLoading({...loading,like:false});
             }
         } catch (err) {
@@ -136,23 +155,25 @@ const Mypage: React.FC = ({history, match}: any) => {
                 params: {
                     per_page: 10,
                     page: page
-                }
+                },
+                cache:true
             });
             // console.log(response);
             if (response.status === 200) {
                 if(page>1) {
-                    setBoardList(produce(draft => {
-                        response.data.data.map((board: any) => {
-                            draft.push(board);
-                        });
-                    }));
+                    response.data.data.map((item: any) => {
+                        postBoardList.push(item);
+                    });
                 }else{
-                    setBoardList(response.data.data);
+                    postBoardList=response.data.data;
                 }
+                setBoardList(postBoardList);
+
                 if(response.data.total<=page*10){
                     setBoardHasMore(false);
                 }
                 setBoardPage(page);
+                dispatch(postBoardListRequest(postBoardList,page));
                 setLoading({...loading,board:false});
 
             }
@@ -175,23 +196,28 @@ const Mypage: React.FC = ({history, match}: any) => {
                 params: {
                     per_page: 5,
                     page: page
-                }
+                },
+                cache:true
             });
             // console.log(response);
             if (response.status === 200) {
                 if(page>1) {
-                    setReplyList(produce(draft => {
-                        response.data.data.map((reply: any) => {
-                            draft.push(reply);
-                        });
-                    }));
+                    response.data.data.map((item: any) => {
+                        replyBoardList.push(item);
+                    });
                 }else{
-                    setReplyList(response.data.data);
+                    replyBoardList=response.data.data;
                 }
+                
+                setReplyList(replyBoardList);
+
                 if(response.data.total<=page*5){
                     setReplyHasMore(false);
                 }
                 setReplyPage(page);
+
+                dispatch(postBoardListRequest(replyBoardList,page));
+
                 setLoading({...loading,reply:false});
             }
         } catch (err) {
