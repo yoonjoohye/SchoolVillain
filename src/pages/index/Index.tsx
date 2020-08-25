@@ -15,6 +15,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import produce from "immer";
+import {useDispatch, useSelector} from "react-redux";
+import {boardListRequest} from "../../store/board";
 
 const IndexSection = styled.section`
   ${Section};
@@ -37,17 +39,22 @@ const Nav = styled.nav`
 
 
 const Index: React.FC = ({history}: any) => {
-    const [boardList, setBoardList] = useState([]);
+
+    const dispatch = useDispatch();
+    let list = useSelector(state => state.board.boardList);
+    let page=useSelector(state=>state.board.boardPage);
+    const [boardList, setBoardList] = useState(list);
     const [user, setUser] = useState(null);
     const [mainBanner, setMainBanner] = useState(null);
     const [sideBanner, setSideBanner] = useState([]);
-    const [boardPage, setBoardPage] = useState(1);
+    const [boardPage, setBoardPage] = useState(page);
     const [hasMore, setHasMore] = useState(true);
-
     const [loading,setLoading]=useState(false);
 
     useEffect(() => {
-        BoardAPI(boardPage);
+        if(page===1) {
+            BoardAPI(boardPage);
+        }
         UserAPI();
         BannerAPI();
     }, []);
@@ -60,22 +67,30 @@ const Index: React.FC = ({history}: any) => {
                 url: '/api/board/list',
                 params: {
                     per_page: 10,
-                    page: page
+                    page: page,
+                    cache: true
                 }
             });
+            // console.log(response.data);
             if (response.status === 200) {
-                // console.log(response.data);
-                setBoardList(produce(draft => {
-                    response.data.data.map((board: any) => {
-                        draft.push(board);
+                if(page>1) {
+                    response.data.data.map((item: any) => {
+                        list.push(item);
                     });
-                }));
+                }else{
+                    list=response.data.data;
+                }
+
+                setBoardList(list);
                 if (response.data.total <= page * 10) {
                     setHasMore(false);
                 }
                 setBoardPage(page);
 
+
+                dispatch(boardListRequest(list,page));
                 setLoading(false);
+
             }
         } catch (err) {
             setLoading(false);
@@ -86,14 +101,15 @@ const Index: React.FC = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'POST',
-                url: '/api/user/me'
+                url: '/api/user/me',
+                cache: true
             });
             // console.log(response);
             if (response.status === 200) {
                 setUser(response.data);
             }
         } catch (err) {
-            // console.log(err);
+            console.log(err);
         }
     },[]);
 
@@ -101,7 +117,8 @@ const Index: React.FC = ({history}: any) => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: '/api/banner'
+                url: '/api/banner',
+                cache: true
             });
             // console.log(response);
             if (response.status === 200) {
@@ -118,7 +135,7 @@ const Index: React.FC = ({history}: any) => {
 
             }
         } catch (err) {
-            // console.log(err);
+            console.log(err);
         }
     },[]);
 
@@ -139,7 +156,7 @@ const Index: React.FC = ({history}: any) => {
                     <SideBanner banner={sideBanner}/>
                 </Nav>
 
-                <div css={css` width:100%;`}>
+                <main css={css` width:100%;`}>
                     <PreviewWrite/>
                     <MainBanner banner={mainBanner}/>
                     <InfiniteScroll
@@ -148,15 +165,15 @@ const Index: React.FC = ({history}: any) => {
                         next={() => BoardAPI(boardPage + 1)}
                         hasMore={hasMore}
                         loader={
-                            <div css={css`text-align: center; padding:3em;`}>
-                                <img css={css`width:5em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                            </div>
+                            <figure css={css`text-align: center; padding:3em;`}>
+                                <img css={css`width:5em;`} src={require('../../../assets/img/icon/spinner.gif')} alt="스쿨빌런-로딩스피너"/>
+                            </figure>
                         }
                         endMessage={<div
                             css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                         <PreviewBoard loading={loading} boardList={boardList} goDetail={goDetail}/>
                     </InfiniteScroll>
-                </div>
+                </main>
             </IndexSection>
         </>
     )

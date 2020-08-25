@@ -78,7 +78,7 @@ const Button = styled.button`
 `
 
 interface propsType {
-    loading: boolean;
+    loading?: boolean;
     boardList: any;
     goDetail: any;
     mypage?: boolean;

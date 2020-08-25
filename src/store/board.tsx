@@ -1,4 +1,10 @@
 //액션 타입글
+const BOARD_LIST_REQUEST = 'board/BOARD_LIST_REQUEST' as const;
+
+const LIKE_BOARD_LIST_REQUEST= 'board/LIKE_BOARD_LIST_REQUEST' as const;
+const POST_BOARD_LIST_REQUEST='board/POST_BOARD_LIST_REQUEST' as const;
+const REPLY_BOARD_LIST_REQUEST='board/REPLY_BOARD_LIST_REQUEST' as const;
+
 //게시판
 const BOARD_LIKE_REQUEST = 'board/BOARD_LIKE_REQUEST' as const;
 const BOARD_LIKE_SUCCESS = 'board/BOARD_LIKE_SUCCESS' as const;
@@ -30,6 +36,36 @@ const REPLY_DELETE_FAILURE='board/REPLY_DELETE_FAILURE' as const;
 const REPLY_DELETE_SUCCESS='board/REPLY_DELETE_SUCCESS' as const;
 
 //액션 생성 함수
+export const boardListRequest = (boardList:any,boardPage:number) => ({
+    type: BOARD_LIST_REQUEST,
+    payload:{
+        boardList:boardList,
+        boardPage:boardPage
+    }
+});
+
+export const likeBoardListRequest = (likeBoardList:any,likeBoardPage:number) => ({
+    type: LIKE_BOARD_LIST_REQUEST,
+    payload:{
+        likeBoardList:likeBoardList,
+        likeBoardPage:likeBoardPage
+    }
+});
+export const postBoardListRequest = (postBoardList:any,postBoardPage:number) => ({
+    type: POST_BOARD_LIST_REQUEST,
+    payload:{
+        postBoardList:postBoardList,
+        postBoardPage:postBoardPage
+    }
+});
+export const replyBoardListRequest = (replyBoardList:any,replyBoardPage:number) => ({
+    type: REPLY_BOARD_LIST_REQUEST,
+    payload:{
+        replyBoardList:replyBoardList,
+        replyBoardPage:replyBoardPage
+    }
+});
+
 export const boardLikeRequest = () => ({
     type: BOARD_LIKE_REQUEST
 });
@@ -106,6 +142,14 @@ interface stateType{
         edit:boolean,
         delete:boolean
     },
+    boardPage:number;
+    boardList:any;
+    likeBoardPage:number;
+    likeBoardList:any;
+    postBoardPage:number;
+    postBoardList:any;
+    replyBoardPage:number;
+    replyBoardList:any;
     board:any,
     reply:any;
     likeId:number
@@ -118,6 +162,14 @@ const initialState:stateType = {
         edit: false,
         delete: false
     },
+    boardPage:1,
+    boardList:[],
+    likeBoardPage:1,
+    likeBoardList:[],
+    postBoardPage:1,
+    postBoardList:[],
+    replyBoardPage:1,
+    replyBoardList:[],
     board: [],
     reply:[],
     likeId:0
@@ -126,6 +178,30 @@ const initialState:stateType = {
 
 const handleBoard=(state:stateType=initialState, action:any)=>{
     switch(action.type){
+        case BOARD_LIST_REQUEST:
+            return {
+                ...state,
+                boardPage:action.payload.boardPage,
+                boardList:action.payload.boardList
+            }
+        case LIKE_BOARD_LIST_REQUEST:
+            return {
+                ...state,
+                likeBoardPage:action.payload.likeBoardPage,
+                likeBoardList:action.payload.likeBoardList
+            }
+        case POST_BOARD_LIST_REQUEST:
+            return {
+                ...state,
+                postBoardPage:action.payload.postBoardPage,
+                postBoardList:action.payload.postBoardList
+            }
+        case REPLY_BOARD_LIST_REQUEST:
+            return {
+                ...state,
+                replyBoardPage:action.payload.replyBoardPage,
+                replyBoardList:action.payload.replyBoardList
+            }
         case BOARD_LIKE_REQUEST:
             return {
                 ...state,

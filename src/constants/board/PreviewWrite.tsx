@@ -7,7 +7,6 @@ import Write from "../../pages/board/Write";
 import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
 import produce from "immer";
 import {media} from "../../../assets/style/Media.style";
-import Modal from "../../components/modal/Modal";
 
 const WriteSection = styled.section`
   width:100%;
@@ -27,20 +26,13 @@ const WriteTxt=styled.span`
   overflow: hidden; 
   border-right: 2px solid ${Color.purpl200};
   white-space: nowrap;
-  // animation-name:${Cursor},${TypingPc};
-  // animation-duration:.5s, 1.5s;
-  // transition-timing-function:step-end,  steps(30, end);
-  // animation-iteration-count:infinite;
-  // animation-delay: 5s;
   animation: ${Cursor} .5s step-end infinite, ${TypingPc} 3s steps(20, end) infinite ;
   ${media.sm`
-       // animation:name:${TypingMobile},${Cursor};
     animation: ${TypingMobile} 3s steps(20, end) infinite,${Cursor} .5s step-end infinite ;
   `}
 `
 const PreviewWrite = () => {
     const [writeModal, setWriteModal] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
     const goWrite = () => {
         if(sessionStorage.getItem('logged')) {
             if (screen.width > 480) {
@@ -61,13 +53,11 @@ const PreviewWrite = () => {
                 writeModal && <Write isOpen={isOpen}/>
             }
             <WriteSection>
-                <div onClick={goWrite}>
-                    <WriteContainer>
-                        <img css={css`width:2em; height:2em; margin-right:10px;`}
-                             src={require('../../../assets/img/icon/edit.svg')}/>
-                        <WriteTxt>빌런아, 뭔일이야? 말해줘!</WriteTxt>
-                    </WriteContainer>
-                </div>
+                <WriteContainer onClick={goWrite}>
+                    <img css={css`width:2em; height:2em; margin-right:10px;`}
+                         src={require('../../../assets/img/icon/edit.svg')}/>
+                    <WriteTxt>빌런아, 뭔일이야? 말해줘!</WriteTxt>
+                </WriteContainer>
             </WriteSection>
 
         </>
