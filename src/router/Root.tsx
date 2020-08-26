@@ -40,8 +40,12 @@ const Root: React.FC = () => {
                     <Route exact path="/withdrawal" render={props => (
                         sessionStorage.getItem('logged') ? <Withdrawal {...props} /> : <Redirect to="/login"/>
                     )}/>
-                    <Route exact path="/write" component={Write}/>
-                    <Route exact path="/edit/:id" component={Edit}/>
+                    <Route exact path="/write" render={props => (
+                        sessionStorage.getItem('logged') ? <Write {...props} /> : <Redirect to="/login"/>
+                    )}/>
+                    <Route exact path="/edit/:id" render={props => (
+                        sessionStorage.getItem('logged') ? <Edit {...props} /> : <Redirect to="/login"/>
+                    )}/>
                     <Route exact path="/detail/:id" component={Detail}/>
                     <Route exact path="/banner/apply" component={Apply}/>
 
