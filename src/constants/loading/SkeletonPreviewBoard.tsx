@@ -9,7 +9,7 @@ const SkeletonPreviewBoard = () => {
     return (
         <>
             {
-                [1, 2, 3].map((item: number) => {
+                [1, 2].map((item: number) => {
                     return (
                         <article key={item} css={css`min-height:150px;
                       padding:1.8em 5%;
