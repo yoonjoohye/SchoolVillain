@@ -13,7 +13,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import produce from "immer";
 import Modal from "../../components/modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
-import {likeBoardListRequest, postBoardListRequest} from "../../store/board";
+import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../store/board";
+import SkeletonPreviewBoard from "../../constants/loading/SkeletonPreviewBoard";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -70,9 +71,9 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [newPasswordConfirmCheck, setNewPasswordConfirmCheck] = useState(false);
 
     const [loading,setLoading]=useState({
-        like:false,
-        board:false,
-        reply:false
+        like:true,
+        board:true,
+        reply:true
     });
 
     const tab = ['좋아요한 글', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
@@ -216,7 +217,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                 }
                 setReplyPage(page);
 
-                dispatch(postBoardListRequest(replyBoardList,page));
+                dispatch(replyBoardListRequest(replyBoardList,page));
 
                 setLoading({...loading,reply:false});
             }
@@ -306,7 +307,6 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [buttonName,setButtonName]=useState('');
 
     const editNickname = async () => {
-        console.log(nickname);
         try {
             let response = await axios({
                 method: 'POST',
@@ -438,9 +438,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                             next={()=>MyLikeAPI(likePage+1)}
                             hasMore={likeHasMore}
                             loader={
-                                <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                                </div>
+                                <SkeletonPreviewBoard/>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                             <PreviewBoard loading={loading.like} boardList={likeList} goDetail={goDetail}/>
@@ -454,9 +452,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                             next={()=>MyBoardAPI(boardPage+1)}
                             hasMore={boardHasMore}
                             loader={
-                                <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                                </div>
+                                <SkeletonPreviewBoard/>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                             <PreviewBoard loading={loading.board} boardList={boardList} goDetail={goDetail}/>
@@ -470,9 +466,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                             next={()=>MyReplyAPI(replyPage+1)}
                             hasMore={replyHasMore}
                             loader={
-                                <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                                </div>
+                                <SkeletonPreviewBoard/>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                             <PreviewBoard loading={loading.reply} boardList={replyList} mypage={true} goDetail={goDetail}/>

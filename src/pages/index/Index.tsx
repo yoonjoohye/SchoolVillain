@@ -17,6 +17,7 @@ import {Color} from "../../../assets/style/Color.style";
 import produce from "immer";
 import {useDispatch, useSelector} from "react-redux";
 import {boardListRequest} from "../../store/board";
+import SkeletonPreviewBoard from "../../constants/loading/SkeletonPreviewBoard";
 
 const IndexSection = styled.section`
   ${Section};
@@ -49,7 +50,7 @@ const Index: React.FC = ({history}: any) => {
     const [sideBanner, setSideBanner] = useState([]);
     const [boardPage, setBoardPage] = useState(page);
     const [hasMore, setHasMore] = useState(true);
-    const [loading,setLoading]=useState(false);
+    const [loading,setLoading]=useState(true);
 
     useEffect(() => {
         if(page===1) {
@@ -165,9 +166,7 @@ const Index: React.FC = ({history}: any) => {
                         next={() => BoardAPI(boardPage + 1)}
                         hasMore={hasMore}
                         loader={
-                            <figure css={css`text-align: center; padding:3em;`}>
-                                <img css={css`width:5em;`} src={require('../../../assets/img/icon/spinner.gif')} alt="스쿨빌런-로딩스피너"/>
-                            </figure>
+                            <SkeletonPreviewBoard/>
                         }
                         endMessage={<div
                             css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>

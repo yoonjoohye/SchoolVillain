@@ -106,99 +106,95 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
     return (
         <>
             {
-                loading ?
-                    [1, 2, 3].map((item: number) => {
+                loading ||
+                boardList.length > 0 && boardList ?
+                    boardList.map((board: any, index: number) => {
                         return (
-                            <SkeletonPreviewBoard key={item}/>
-                        )
-                    }) :
-                    boardList.length > 0 && boardList ?
-                        boardList.map((board: any, index: number) => {
-                            return (
-                                <BoardSection key={index} onClick={() => goDetail(board.id)}>
-                                    <BoardBox alignItems="flex-start" css={css`margin-bottom:1em;`}>
-                                        <div css={css`margin-right:0.5em;`}>
-                                            <BoardTitle>{board.title}</BoardTitle>
-                                            <BoardContents
-                                                dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
-                                        </div>
-                                        {
-                                            board.thumbnail !== null ?
-                                                <Img src={`${board.thumbnail}?s=120x75&t=crop&q=60`}/> : null
-                                        }
-                                    </BoardBox>
-
+                            <BoardSection key={index} onClick={() => goDetail(board.id)}>
+                                <BoardBox alignItems="flex-start" css={css`margin-bottom:1em;`}>
+                                    <div css={css`margin-right:0.5em;`}>
+                                        <BoardTitle>{board.title}</BoardTitle>
+                                        <BoardContents
+                                            dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
+                                    </div>
                                     {
-                                        board.hash_tags ?
-                                            board.hash_tags.map((tag: any, tagIndex: number) => {
-                                                return (
-                                                    <React.Fragment key={tag.id}>
-                                                        {
-                                                            tagIndex < 3 ?
-                                                                <Tag># {tag.tag}</Tag>
-                                                                :
-                                                                null
-                                                        }
-                                                    </React.Fragment>
-                                                )
-                                            }) : null
+                                        board.thumbnail !== null ?
+                                            <Img src={`${board.thumbnail}?s=120x75&t=crop&q=60`}/> : null
                                     }
+                                </BoardBox>
 
-                                    <BoardBox
+                                {
+                                    board.hash_tags ?
+                                        board.hash_tags.map((tag: any, tagIndex: number) => {
+                                            return (
+                                                <React.Fragment key={tag.id}>
+                                                    {
+                                                        tagIndex < 3 ?
+                                                            <Tag># {tag.tag}</Tag>
+                                                            :
+                                                            null
+                                                    }
+                                                </React.Fragment>
+                                            )
+                                        }) : null
+                                }
+
+                                <BoardBox
+                                    css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
+                                    <div css={css`${FlexBox()};`}>
+                                        <div css={css`margin-right:1em; ${FlexBox()};`}>
+                                            <IconSm css={css`margin-right:0.3em;`}
+                                                    src={require('../../../assets/img/icon/view.svg')}/>
+                                            <div>{board.board_view_log_count}</div>
+                                        </div>
+                                        <div>{board.create_time_ago}</div>
+                                    </div>
+                                    <div css={css`${FlexBox()};`}>
+                                        <div css={css`margin-right:1em; ${FlexBox()};`}>
+                                            <IconSm css={css`margin-right:0.3em;`}
+                                                    src={require('../../../assets/img/icon/like.svg')}/>
+                                            <div>{board.board_like_count}</div>
+                                        </div>
+                                        <div css={css`${FlexBox()};`}>
+                                            <IconSm css={css`margin-right:0.3em;`}
+                                                    src={require('../../../assets/img/icon/comment.svg')}/>
+                                            <div>{board.comment_count}</div>
+                                        </div>
+                                    </div>
+                                </BoardBox>
+                                {
+                                    mypage &&
+                                    <div
                                         css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
-                                        <div css={css`${FlexBox()};`}>
-                                            <div css={css`margin-right:1em; ${FlexBox()};`}>
-                                                <IconSm css={css`margin-right:0.3em;`}
-                                                        src={require('../../../assets/img/icon/view.svg')}/>
-                                                <div>{board.board_view_log_count}</div>
-                                            </div>
-                                            <div>{board.create_time_ago}</div>
-                                        </div>
-                                        <div css={css`${FlexBox()};`}>
-                                            <div css={css`margin-right:1em; ${FlexBox()};`}>
-                                                <IconSm css={css`margin-right:0.3em;`}
-                                                        src={require('../../../assets/img/icon/like.svg')}/>
-                                                <div>{board.board_like_count}</div>
-                                            </div>
-                                            <div css={css`${FlexBox()};`}>
-                                                <IconSm css={css`margin-right:0.3em;`}
-                                                        src={require('../../../assets/img/icon/comment.svg')}/>
-                                                <div>{board.comment_count}</div>
-                                            </div>
-                                        </div>
-                                    </BoardBox>
-                                    {
-                                        mypage &&
-                                        <div
-                                            css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
 
-                                            {
-                                                board.comment.map((reply: any, index: number) => {
-                                                    return (
-                                                        <div key={index} css={css`margin-top:0.5em;`}>
-                                                            <ReplyName>
-                                                                {reply.user.name ? reply.user.name : '익명'} <span css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
-                                                            </ReplyName>
-                                                            <ReplyContent
-                                                                dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    }
+                                        {
+                                            board.comment.map((reply: any, index: number) => {
+                                                return (
+                                                    <div key={index} css={css`margin-top:0.5em;`}>
+                                                        <ReplyName>
+                                                            {reply.user.name ? reply.user.name : '익명'} <span
+                                                            css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                                        </ReplyName>
+                                                        <ReplyContent
+                                                            dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                }
 
-                                </BoardSection>
-                            )
-                        })
-                        :
-                        <div css={css`height:50vh; ${FlexBox('column')}; ${MarkdownBase(Color.gray200)}`}>
-                            <div>해당 게시글이 존재하지 않아요.</div>
-                            <div css={css`margin-bottom:1em;`}>글을 작성하여, <span css={css`font-weight:700;`}>당신의 인싸력</span>을
-                                보여주세요.
-                            </div>
-                            <Button onClick={goWrite}>인싸글 도전하기</Button>
+                            </BoardSection>
+                        )
+                    })
+                    :
+                    <div css={css`height:50vh; ${FlexBox('column')}; ${MarkdownBase(Color.gray200)}`}>
+                        <div>해당 게시글이 존재하지 않아요.</div>
+                        <div css={css`margin-bottom:1em;`}>글을 작성하여, <span css={css`font-weight:700;`}>당신의 인싸력</span>을
+                            보여주세요.
                         </div>
+                        <Button onClick={goWrite}>인싸글 도전하기</Button>
+                    </div>
             }
             {
                 openModal && <Write isOpen={isOpen}/>

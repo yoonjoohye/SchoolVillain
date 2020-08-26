@@ -31,7 +31,6 @@ const HeaderContainer = styled.section`
   ${media.sm`width:90%;`};
 `
 const HeaderLogo = styled.div`
-  // ${MarkdownLg(Color.purple200, 700)};
   height:1em;
 `
 const HeaderMenu = styled.span`
@@ -66,12 +65,14 @@ const Header = ({history}:any) => {
     return (
         <HeaderSection>
             <HeaderContainer>
-                <Link to="/">
-                    <HeaderLogo>
-                        <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
-                    </HeaderLogo>
-                </Link>
-
+                <div css={css`${FlexBox()}`}>
+                    <Link to="/">
+                        <HeaderLogo>
+                            <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
+                        </HeaderLogo>
+                    </Link>
+                    <input css={css`margin-left:1em;`} type="text" placeholder="검색어를 입력해주세요."/>
+                </div>
                 <HeaderMenu>
 
                     {
