@@ -188,7 +188,7 @@ const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
             }
         } catch (err) {
             if (err.response.status === 401) {
-                alert('로그인이 필요합니다.');
+                window.location.href='/login';
             } else {
                 // console.error(err.response);
             }
