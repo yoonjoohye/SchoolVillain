@@ -11,7 +11,6 @@ import SkeletonIdentification from "../loading/SkeletonIdentification";
 
 const ProfileContainer = styled.div`
   position:relative;
-  margin-bottom:1em;
   width:100%;
   height:250px;
   transform-style: preserve-3d;

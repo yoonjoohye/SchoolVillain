@@ -21,7 +21,7 @@ const MypageSection = styled.section`
 `
 const MypageTab = styled.nav`
   ${FlexBox('row', 'space-between', 'center')};
-  margin-bottom:1em;
+  margin-bottom:2em;
   border-bottom:1px solid ${Color.gray100};
   ${MarkdownBase('',500)};
 `
@@ -32,7 +32,7 @@ const Tab = styled.li`
   text-align:center;
 `
 const MypageContents = styled.div`
-  padding:1em 0;
+  
 `
 const Mypage: React.FC = ({history, match}: any) => {
     const dispatch = useDispatch();

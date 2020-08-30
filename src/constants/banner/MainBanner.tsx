@@ -10,8 +10,7 @@ import {SkeletonColor} from "../../../assets/style/Util";
 
 const BannerSection = styled.section`
   margin-top:1em;
-  //background-image: linear-gradient(to left, #cb61f8, #7c2bdc 50%, #8e6dff);
-  //padding:1.5em;
+  margin-bottom:1em;
   border-radius: 0.3em;
 `
 const BannerImg = styled.img`
@@ -43,7 +42,7 @@ const MainBanner: React.FC<propsType> = ({banner}) => {
                         </a>
                         :
                         <Link to="/banner/apply">
-                            <BannerImg src={require('../../../assets/img/banner/main_banner.png')}/>
+                            <BannerImg src={require('../../../assets/img/banner/main_banner.svg')}/>
                         </Link>
                 }
             </BannerSection>

@@ -91,7 +91,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
 
                             <div css={css`${FlexBox('', 'center', 'center')};`}>
                                 <IconSm css={css`margin-right:0.3em;`}
-                                        src={require('../../../assets/img/icon/view.svg')}/>
+                                        src={require('../../../assets/img/icon/view.svg')} alt="스쿨빌런 조회수 이미지"/>
                                 <div>{board.board_view_log_count}</div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.is_mine ?
                                 <div css={css`position:relative;`}>
                                     <div><IconSm css={css`margin:0; cursor: pointer;`}
-                                                 src={require('../../../assets/img/icon/more.svg')} onClick={() => {
+                                                 src={require('../../../assets/img/icon/more.svg')} alt="스쿨빌런 더보기 이미지" onClick={() => {
                                         setOpenModifyBox(!openModifyBox)
                                     }}/></div>
                                     {openModifyBox &&
@@ -122,7 +122,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.board_image.map((item: any) => {
                                 return (
                                     <figure key={item.id}>
-                                        <img css={css`max-width: 60%; ${media.sm`max-width:90%;`}`} src={`${item.path}?q=60`}/>
+                                        <img css={css`max-width: 60%; ${media.sm`max-width:90%;`}`} src={`${item.path}?q=60`} alt={`스쿨빌런 ${board.title} 이미지`}/>
                                     </figure>
                                 )
                             }) : null
@@ -142,9 +142,9 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     <div css={css`${FlexBox()}; margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
                         {boardLikeId > 0 ?
                             <IconSm css={css`margin-right:0.3em;`}
-                                    src={require('../../../assets/img/icon/like_purple.svg')}/>
+                                    src={require('../../../assets/img/icon/like_purple.svg')} alt="스쿨빌런 좋아요 이미지"/>
                             :
-                            <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/like.svg')}/>
+                            <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/like.svg')} alt="스쿨빌런 좋아요 이미지"/>
 
                         }
                         <div css={css`color:${Color.gray200}`}>
@@ -152,7 +152,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                         </div>
                     </div>
                     <div css={css`${FlexBox()};`}>
-                        <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/comment.svg')}/>
+                        <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/comment.svg')} alt="스쿨빌런 댓글 이미지"/>
                         <div css={css`color:${Color.gray200}`}>{board.comment_count}</div>
                     </div>
                 </div>

@@ -14,7 +14,7 @@ const SkeletonPreviewBoard = () => {
                         <article key={item} css={css`min-height:150px;
                       padding:1.8em 5%;
                       background-color:${Color.white};
-                      margin-top:1.5em;
+                      margin-bottom:1.5em;
                       box-shadow: 0 3px 5px #00000021;`}>
                             <div css={css`display:flex; justify-content: space-between; margin-bottom:1em;`}>
                                 <div css={css`width:75%; margin-right:1em;`}>

@@ -162,11 +162,11 @@ const PageWrite: React.FC<propsType> = ({
                                     return (
                                         <figure css={css`position:relative;`} key={index}>
                                             <DelButton onClick={() => deleteImg(index)}>
-                                                <img css={css`width:50%;`} src={require('../../../assets/img/icon/close.svg')}/>
+                                                <img css={css`width:50%;`} src={require('../../../assets/img/icon/close.svg')} alt="스쿨빌런 삭제 이미지"/>
                                             </DelButton>
                                             <PreviewImg>
                                                 <img css={css`width: 100%; height: 100%;`}
-                                                     src={preview}/>
+                                                     src={preview} alt={`스쿨빌런 게시판 이미지`}/>
                                             </PreviewImg>
                                         </figure>
                                     );
@@ -174,7 +174,7 @@ const PageWrite: React.FC<propsType> = ({
                         }
                         {
                             previewList.length < 6 &&
-                            <FakeFileInput htmlFor="img"><IconBase src={require('../../../assets/img/icon/gallery.svg')}/></FakeFileInput>
+                            <FakeFileInput htmlFor="img"><IconBase src={require('../../../assets/img/icon/gallery.svg')} alt="스쿨빌런 이미지등록 이미지"/></FakeFileInput>
                         }
                     </Preview>
                 </div>
@@ -203,7 +203,7 @@ const PageWrite: React.FC<propsType> = ({
                     {
                         loading ?
                             <img css={css`height:2em; width:2em;`}
-                                 src={require('../../../assets/img/icon/white_spinner.gif')}/>
+                                 src={require('../../../assets/img/icon/white_spinner.gif')} alt="스쿨빌런 로딩스피너 이미지"/>
                             :
                             '등록'
                     }

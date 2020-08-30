@@ -23,7 +23,7 @@ const AgreementLabel = styled.label`
 const CheckBox = styled.input`
   display: none;
 `
-type FakeCheckBoxProps = {
+interface FakeCheckBoxProps {
     checked: boolean;
 }
 const FakeCheckBox = styled.div`

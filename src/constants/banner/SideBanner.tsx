@@ -1,9 +1,6 @@
 import {Link} from "react-router-dom";
 import * as React from "react";
 import {css} from "@emotion/core";
-import {Color} from "../../../assets/style/Color.style";
-import {FlexBox} from "../../../assets/style/Layout.style";
-import {MarkdownBase} from "../../../assets/style/Markdown.style";
 import {memo} from "react";
 import styled from "@emotion/styled";
 import {SkeletonColor} from "../../../assets/style/Util";
@@ -14,7 +11,8 @@ interface propsType {
 
 const BannerImg = styled.img`
   width:100%; 
-  margin-bottom:0.5em;
+  margin-top:1em;
+  margin-bottom:1em;
   display:block;
   cursor:pointer;
 `

@@ -15,7 +15,7 @@ const BoardSection = styled.section`
   cursor:pointer;
   padding:1.8em 5%;
   background-color:${Color.white};
-  margin-top:1.5em;
+  margin-bottom:1.5em;
   box-shadow: 0 1.5px 3px rgba(0,0,0,0.15);
 `
 
