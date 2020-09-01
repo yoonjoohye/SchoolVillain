@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import SEO from "../SEO/SEO";
+import SEO from "../../templates/SEO/SEO";
 import produce from "immer";
 import axios from "axios";
-import PageWrite from "../../constants/board/PageWrite";
-import ModalWrite from "../../constants/board/ModalWrite";
+import PageWrite from "../../templates/board/PageWrite";
+import ModalWrite from "../../templates/board/ModalWrite";
 
 interface propsType {
     isOpen: any;

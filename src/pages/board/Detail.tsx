@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import SEO from "../SEO/SEO";
+import SEO from "../../templates/SEO/SEO";
 import {jsx, css} from '@emotion/core';
 import styled from "@emotion/styled";
 import {Section} from "../../../assets/style/Layout.style";
-import Reply from "../../constants/board/Reply";
+import Reply from "../../templates/board/Reply";
 import axios from "axios";
-import Board from "../../constants/board/Board";
+import Board from "../../templates/board/Board";
 import produce from "immer";
 import Edit from "./Edit";
 

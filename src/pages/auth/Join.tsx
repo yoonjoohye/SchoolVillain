@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
-import Agreement from "../../constants/join/Agreement";
-import School from "../../constants/join/School";
-import Email from "../../constants/join/Email";
-import Password from "../../constants/join/Password";
-import PasswordConfirm from "../../constants/join/PasswordConfirm";
-import SEO from "../SEO/SEO";
-import ServiceRule from "../../constants/join/ServiceRule";
-import PrivacyRule from "../../constants/join/PrivacyRule";
+import Agreement from "../../templates/join/Agreement";
+import School from "../../templates/join/School";
+import Email from "../../templates/join/Email";
+import Password from "../../templates/join/Password";
+import PasswordConfirm from "../../templates/join/PasswordConfirm";
+import SEO from "../../templates/SEO/SEO";
+import ServiceRule from "../../templates/join/ServiceRule";
+import PrivacyRule from "../../templates/join/PrivacyRule";
 import axios from 'axios';
 import ProgressBar from "../../components/progress/ProgressBar";
 import {css} from "@emotion/core";
@@ -180,7 +180,7 @@ const Join: React.FC = ({match, history}: any) => {
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: '/register',
+                    url: '/api/user/register',
                     data: {
                         email: email,
                         password: passwordConfirm,

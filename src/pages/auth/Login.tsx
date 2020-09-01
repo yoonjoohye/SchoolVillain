@@ -6,7 +6,7 @@ import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import axios from "axios";
-import SEO from "../SEO/SEO";
+import SEO from "../../templates/SEO/SEO";
 import {css} from "@emotion/core";
 import {Link} from "react-router-dom";
 import {ErrorMsg} from "../../../assets/style/Util";
@@ -111,7 +111,7 @@ const Login = ({history}: any) => {
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: '/login',
+                    url: '/api/user/login',
                     data: {
                         email: email,
                         password: password

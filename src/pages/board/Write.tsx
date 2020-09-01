@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import SEO from "../SEO/SEO";
+import SEO from "../../templates/SEO/SEO";
 import produce from "immer";
-import ModalWrite from "../../constants/board/ModalWrite";
-import PageWrite from "../../constants/board/PageWrite";
+import ModalWrite from "../../templates/board/ModalWrite";
+import PageWrite from "../../templates/board/PageWrite";
 import axios from "axios";
 
 interface propsType {

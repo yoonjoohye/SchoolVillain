@@ -8,11 +8,10 @@ import {Color} from "../../../assets/style/Color.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import axios from "axios";
 import {css} from "@emotion/core";
-import SEO from "../SEO/SEO";
-import Modal from "../../components/modal/Modal";
+import SEO from "../../templates/SEO/SEO";
+import Modal from "../../templates/modal/Modal";
 
 const LoginSection = styled.section`
-  // ${Section};
   ${FlexBox('column')};
   min-height:100vh;
 `

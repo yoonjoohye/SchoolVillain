@@ -17,7 +17,6 @@ interface statusProps {
 }
 
 const Status = styled.div<statusProps>`
-  //background: linear-gradient(90deg,#ffd33d,#ea4aaa 17%,#b34bff 34%,#01feff 51%,#ffd33d 68%,#ea4aaa 85%,#b34bff);
   background: linear-gradient(90deg,#ec82ff,#d51cd8 17%,#bd67ff 34%,#8802ef 51%,#ec82ff 68%,#d51cd8 85%,#bd67ff);
   animation: progress 2s linear infinite;
   background-size: 300% 100%;

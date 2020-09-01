@@ -9,7 +9,7 @@ import Edit from "../pages/board/Edit";
 import Detail from "../pages/board/Detail";
 import Mypage from "../pages/mypage/Mypage";
 import NotFound from "../pages/error/NotFound";
-import Header from "../constants/base/Header";
+import Header from "../templates/base/Header";
 import Apply from "../pages/banner/Apply";
 import SendEmail from "../pages/auth/SendEmail";
 import Withdrawal from "../pages/auth/Withdrawal";

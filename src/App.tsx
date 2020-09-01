@@ -2,22 +2,13 @@ import React, {useEffect} from 'react';
 import Root from './router/Root';
 import {GlobalStyle} from '../assets/style/Global.style';
 import axios from 'axios';
-import {cacheAdapterEnhancer, Cache} from 'axios-extensions';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import createSagaMiddleware from 'redux-saga'
-import {composeWithDevTools} from 'redux-devtools-extension';
-import rootReducer from './store/index';
-
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
-
+import {cacheAdapterEnhancer} from 'axios-extensions';
+import Store from './store/store';
 
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Cache-Control'] = 'no-cache';
-
 let url = 'https://dev.villain.school';
 
 if (process.env.BUILD_ENV == 'production') {
@@ -44,21 +35,19 @@ const App: React.FC = () => {
                 url: '/api/user/auth/check',
                 cache: true
             });
-            // console.log(response);
             if (response.status === 200) {
                 sessionStorage.setItem('logged', response.data.is_user);
             }
         } catch (err) {
             sessionStorage.removeItem('logged');
-            // throw err;
         }
     }
 
     return (
-        <Provider store={store}>
+        <Store>
             <GlobalStyle/>
             <Root/>
-        </Provider>
+        </Store>
     )
 }
 

@@ -9,11 +9,10 @@ import {Color} from "../../../assets/style/Color.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {css} from "@emotion/core";
 import axios from "axios";
-import SEO from "../SEO/SEO";
-import Modal from "../../components/modal/Modal";
+import SEO from "../../templates/SEO/SEO";
+import Modal from "../../templates/modal/Modal";
 
 const LoginSection = styled.section`
-  // ${Section};
   ${FlexBox('column')};
   min-height:100vh;
 `
@@ -59,7 +58,6 @@ const Input = styled.input`
 `
 
 const ResetPassword = () => {
-
     const [code, setCode] = useState('');
     //비밀번호
     const [password, setPassword] = useState('');

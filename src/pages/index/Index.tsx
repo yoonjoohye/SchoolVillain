@@ -1,23 +1,21 @@
-import * as React from 'react';
-import SEO from '../SEO/SEO';
-import {useCallback, useEffect, useState} from 'react';
+import React,{useCallback, useEffect, useState} from 'react';
+import SEO from '../../templates/SEO/SEO';
 import styled from '@emotion/styled';
-import MainBanner from '../../constants/banner/MainBanner';
-import PreviewBoard from '../../constants/board/PreviewBoard';
-import PreviewWrite from '../../constants/board/PreviewWrite';
+import MainBanner from '../../templates/banner/MainBanner';
+import PreviewBoard from '../../templates/board/PreviewBoard';
+import PreviewWrite from '../../templates/board/PreviewWrite';
 import axios from 'axios';
-import SideBanner from "../../constants/banner/SideBanner";
-import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
+import SideBanner from "../../templates/banner/SideBanner";
+import {Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
-import Identification from "../../constants/mypage/Identification";
+import Identification from "../../templates/mypage/Identification";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
-import produce from "immer";
 import {useDispatch, useSelector} from "react-redux";
 import {boardListRequest} from "../../store/board";
-import SkeletonPreviewBoard from "../../constants/loading/SkeletonPreviewBoard";
+import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 
 const IndexSection = styled.section`
   ${Section};
@@ -42,9 +40,12 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
 
     const dispatch = useDispatch();
+
     let list = useSelector(state => state.board.boardList);
     let page=useSelector(state=>state.board.boardPage);
+
     const [boardList, setBoardList] = useState(list);
+
     const [user, setUser] = useState(null);
     const [mainBanner, setMainBanner] = useState(null);
     const [sideBanner, setSideBanner] = useState([]);

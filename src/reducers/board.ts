@@ -390,7 +390,7 @@ const handleBoard=(state:stateType=initialState, action:any)=>{
                     delete: false
                 }
             }
-        default: // need this for default case
+        default:
             return state
     }
 }
