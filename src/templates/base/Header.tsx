@@ -1,13 +1,12 @@
-import * as React from 'react';
+import React,{useCallback, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
-import {MarkdownLg, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {css} from "@emotion/core";
+import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
-import {css} from "@emotion/core";
 import {useSelector} from "react-redux";
-import {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 
 const HeaderSection = styled.header`
@@ -35,9 +34,8 @@ const HeaderMenu = styled.span`
   min-width: fit-content;
 `
 
-const Header = ({history}:any) => {
+const Header = () => {
     const value = useSelector(state => state.auth.logged);
-
     const [user,setUser]=useState(null);
 
     useEffect(()=>{
@@ -72,15 +70,15 @@ const Header = ({history}:any) => {
                     <input css={css`margin-left:1em; border-radius: 0.3em; padding:0.5em 1em;`} type="text" placeholder="검색어를 입력해주세요."/>
                 </div>
                 <HeaderMenu>
-
                     {
                         user ?
                             <div css={css`${FlexBox()}`}>
-                                <Link to="/mypage/profile"><img css={css`width:2em;`}
-                                                        src={require('../../../assets/img/icon/profile.svg')}/></Link>
                                 <span>
                                     알림
                                 </span>
+                                <Link to="/mypage/profile"><img css={css`width:2em;`}
+                                                        src={require('../../../assets/img/icon/profile.svg')}/></Link>
+
                             </div>
                             :
                             <>
@@ -93,8 +91,6 @@ const Header = ({history}:any) => {
                             </>
                     }
                 </HeaderMenu>
-
-
             </HeaderContainer>
         </HeaderSection>
     )

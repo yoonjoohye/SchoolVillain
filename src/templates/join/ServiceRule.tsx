@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
-import SEO from "../../pages/SEO/SEO";
+import SEO from "../SEO/SEO";
 import {media} from "../../../assets/style/Media.style";
 
 const ServiceRuleSection = styled.section`

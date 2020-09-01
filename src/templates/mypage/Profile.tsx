@@ -7,7 +7,7 @@ import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm, MarkdownXl} from "../.
 import {FlexBox, onlyMobile} from "../../../assets/style/Layout.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
-import Modal from "../../components/modal/Modal";
+import Modal from "../modal/Modal";
 import Identification from "./Identification";
 
 const Greeting = styled.div`
