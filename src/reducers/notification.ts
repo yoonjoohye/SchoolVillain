@@ -1,20 +1,18 @@
 const NOTIFICATION_REQUEST = 'notification/NOTIFICATION_REQUEST' as const;
-const NOTIFICATION_FAILURE = 'notification/NOTIFICATION_FAILURE' as const;
-const NOTIFICATION_SUCCESS = 'notification/NOTIFICATION_SUCCESS' as const;
+const READ_NOTIFICATION = 'notification/READ_NOTIFICATION' as const;
 
-export const notificationRequest = () => ({
-    type: NOTIFICATION_REQUEST
-});
 
-export const notificationFailure = () => ({
-    type: NOTIFICATION_FAILURE
-});
-
-export const notificationSuccess = (list:any,page:number) => ({
-    type: NOTIFICATION_SUCCESS,
+export const notificationRequest = (list:any,page:number) => ({
+    type: NOTIFICATION_REQUEST,
     payload: {
         list:list,
         page:page
+    }
+});
+export const readNotification=(list:any)=>({
+   type: READ_NOTIFICATION,
+    payload:{
+       list:list
     }
 });
 
@@ -31,26 +29,21 @@ const initialState: stateType = {
 }
 
 
-type NotificationType = ReturnType<typeof NOTIFICATION_REQUEST> | ReturnType<typeof NOTIFICATION_FAILURE> | ReturnType<typeof NOTIFICATION_SUCCESS>;
+type NotificationType = ReturnType<typeof NOTIFICATION_REQUEST> | ReturnType<typeof READ_NOTIFICATION>;
 
 const handleNotification = (state: stateType = initialState, action: NotificationType) => {
     switch (action.type) {
         case NOTIFICATION_REQUEST:
-            return {
-                ...state,
-                loading: true
-            }
-        case NOTIFICATION_FAILURE:
-            return{
-                ...state,
-                loading:false
-            };
-        case NOTIFICATION_SUCCESS:
             return{
                 ...state,
                 list:action.payload.list,
                 page:action.payload.page
             };
+        case READ_NOTIFICATION:
+            return{
+                ...state,
+                list:action.payload.list
+            }
         default:
             return state;
     }

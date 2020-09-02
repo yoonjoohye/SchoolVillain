@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {notificationFailure, notificationRequest, notificationSuccess} from "../../reducers/notification";
+import {notificationRequest, readNotification} from "../../reducers/notification";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
@@ -10,7 +10,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import NotificationList from "./NotificationList";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import SkeletonNotification from "../../templates/loading/SkeletonNotification";
-import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
+import { useHistory } from "react-router-dom";
+import produce from "immer";
 
 const NotiSection = styled.section`
   position:fixed;
@@ -23,7 +24,11 @@ const NotiSection = styled.section`
   border-radius: 0.3em;
   text-align:left;
 `
-const Notification = () => {
+interface propsType{
+    history?:History;
+}
+const Notification:React.FC<propsType> = () => {
+    let history=useHistory();
     const dispatch = useDispatch();
     let list = useSelector(state => state.notification.list);
     let page = useSelector(state => state.notification.page);
@@ -63,7 +68,7 @@ const Notification = () => {
                     setHasMore(true);
                 }
 
-                dispatch(notificationSuccess(list, page));
+                dispatch(notificationRequest(list, page));
             }
         } catch (err) {
             console.log(err);
@@ -84,7 +89,7 @@ const Notification = () => {
             console.log(err);
         }
     }
-    const readOne = async (id: number,link:string) => {
+    const readOne = async (id: number,index:number) => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -95,7 +100,12 @@ const Notification = () => {
             });
             console.log(response.data);
             if (response.status === 200) {
-                location.href=link;
+                setNotificationList(produce(draft=>{
+                    draft[index]=response.data;
+                }));
+                // list[index]=response.data;
+                // dispatch(readNotification(list));
+                location.href=response.data.link;
             }
         } catch (err) {
             console.log(err);
@@ -109,7 +119,7 @@ const Notification = () => {
                     <button css={css`padding:0.3em 0.5em; border-radius:0.3em; background-color:${Color.purple100}; ${MarkdownSm(Color.purple200)}`} onClick={readAll}>모두 확인</button>
                 </div>
             </div>
-            <div id="notification" css={css`max-height:60vh; overflow:auto`}>
+            <div id="notification" css={css`max-height:80vh; overflow:auto`}>
                 <InfiniteScroll
                     css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                     dataLength={notificationList.length}
@@ -118,9 +128,8 @@ const Notification = () => {
                     loader={
                         <SkeletonNotification/>
                     }
-                    scrollableTarget="notification"
-                    endMessage={<div css={css`text-align: center; padding:3em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                    <NotificationList readOne={readOne}/>
+                    scrollableTarget="notification">
+                    <NotificationList notificationList={notificationList} readOne={readOne}/>
                 </InfiniteScroll>
             </div>
         </NotiSection>

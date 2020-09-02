@@ -38,7 +38,7 @@ const HeaderMenu = styled.span`
 const Header = () => {
     const value = useSelector(state => state.auth.logged);
     const [user,setUser]=useState(null);
-    const [openNotification,setOpenNotification]=useState(true);
+    const [openNotification,setOpenNotification]=useState(false);
 
     useEffect(()=>{
         UserAPI();
