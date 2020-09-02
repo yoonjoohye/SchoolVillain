@@ -49,13 +49,12 @@ const Index: React.FC = ({history}: any) => {
     const [user, setUser] = useState(null);
     const [mainBanner, setMainBanner] = useState(null);
     const [sideBanner, setSideBanner] = useState([]);
-    const [boardPage, setBoardPage] = useState(page);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(false);
     const [loading,setLoading]=useState(true);
 
     useEffect(() => {
         if(page===1) {
-            BoardAPI(boardPage);
+            BoardAPI(page);
         }
         UserAPI();
         BannerAPI();
@@ -84,10 +83,12 @@ const Index: React.FC = ({history}: any) => {
                 }
 
                 setBoardList(list);
-                if (response.data.total <= page * 10) {
+                if (response.data.last_page <= page) {
                     setHasMore(false);
+                }else{
+                    setHasMore(true);
+
                 }
-                setBoardPage(page);
 
                 dispatch(boardListRequest(list,page));
                 setLoading(false);
@@ -163,7 +164,7 @@ const Index: React.FC = ({history}: any) => {
                     <InfiniteScroll
                         css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                         dataLength={boardList.length}
-                        next={() => BoardAPI(boardPage + 1)}
+                        next={() => BoardAPI(page + 1)}
                         hasMore={hasMore}
                         loader={
                             <SkeletonPreviewBoard/>

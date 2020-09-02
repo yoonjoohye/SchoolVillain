@@ -27,13 +27,13 @@ interface stateType {
 const initialState: stateType = {
     loading: false,
     list: [],
-    page:0
+    page:1
 }
 
 
 type NotificationType = ReturnType<typeof NOTIFICATION_REQUEST> | ReturnType<typeof NOTIFICATION_FAILURE> | ReturnType<typeof NOTIFICATION_SUCCESS>;
 
-const handleNotification = (state: stateType = initialState, action: any) => {
+const handleNotification = (state: stateType = initialState, action: NotificationType) => {
     switch (action.type) {
         case NOTIFICATION_REQUEST:
             return {

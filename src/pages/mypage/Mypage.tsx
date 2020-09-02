@@ -49,9 +49,9 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [boardPage,setBoardPage]=useState(postBoardPage);
     const [replyPage,setReplyPage]=useState(replyBoardPage);
 
-    const [likeHasMore,setLikeHasMore]=useState(true);
-    const [boardHasMore,setBoardHasMore]=useState(true);
-    const [replyHasMore,setReplyHasMore]=useState(true);
+    const [likeHasMore,setLikeHasMore]=useState(false);
+    const [boardHasMore,setBoardHasMore]=useState(false);
+    const [replyHasMore,setReplyHasMore]=useState(false);
 
     const [user,setUser]=useState(null);
     const [nickname, setNickname] = useState('');
@@ -81,19 +81,19 @@ const Mypage: React.FC = ({history, match}: any) => {
         if (match.params.name === 'like') {
             setMenu(0);
             if(likeBoardPage===1) {
-                MyLikeAPI(likePage);
+                MyLikeAPI(likeBoardPage);
             }
         }
         if (match.params.name === 'board') {
             setMenu(1);
             if(postBoardPage===1) {
-                MyBoardAPI(boardPage);
+                MyBoardAPI(postBoardPage);
             }
         }
         if (match.params.name === 'reply') {
             setMenu(2);
             if(replyBoardPage===1) {
-                MyReplyAPI(replyPage);
+                MyReplyAPI(replyBoardPage);
             }
 
         }
@@ -124,13 +124,14 @@ const Mypage: React.FC = ({history, match}: any) => {
                 }else{
                     likeBoardList=response.data.data;
                 }
-
                 setLikeList(likeBoardList);
 
-                if(response.data.total<=page*10){
+                if(response.data.last_page<=page){
                     setLikeHasMore(false);
+                }else{
+                    setLikeHasMore(true);
                 }
-                setLikePage(page);
+                // setLikePage(page);
                 dispatch(likeBoardListRequest(likeBoardList,page));
                 setLoading({...loading,like:false});
             }
@@ -168,10 +169,12 @@ const Mypage: React.FC = ({history, match}: any) => {
                 }
                 setBoardList(postBoardList);
 
-                if(response.data.total<=page*10){
+                if(response.data.last_page<=page){
                     setBoardHasMore(false);
+                }else{
+                    setBoardHasMore(true);
                 }
-                setBoardPage(page);
+                // setBoardPage(page);
                 dispatch(postBoardListRequest(postBoardList,page));
                 setLoading({...loading,board:false});
 
@@ -210,10 +213,13 @@ const Mypage: React.FC = ({history, match}: any) => {
                 
                 setReplyList(replyBoardList);
 
-                if(response.data.total<=page*5){
+                if(response.data.last_page<=page){
                     setReplyHasMore(false);
+                }else{
+                    setReplyHasMore(true);
                 }
-                setReplyPage(page);
+
+                // setReplyPage(page);
 
                 dispatch(replyBoardListRequest(replyBoardList,page));
 
@@ -433,7 +439,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                             dataLength={likeList.length}
-                            next={()=>MyLikeAPI(likePage+1)}
+                            next={()=>MyLikeAPI(likeBoardPage+1)}
                             hasMore={likeHasMore}
                             loader={
                                 <SkeletonPreviewBoard/>
@@ -447,7 +453,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                             dataLength={boardList.length}
-                            next={()=>MyBoardAPI(boardPage+1)}
+                            next={()=>MyBoardAPI(postBoardPage+1)}
                             hasMore={boardHasMore}
                             loader={
                                 <SkeletonPreviewBoard/>
@@ -461,7 +467,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                             dataLength={replyList.length}
-                            next={()=>MyReplyAPI(replyPage+1)}
+                            next={()=>MyReplyAPI(replyBoardPage+1)}
                             hasMore={replyHasMore}
                             loader={
                                 <SkeletonPreviewBoard/>
