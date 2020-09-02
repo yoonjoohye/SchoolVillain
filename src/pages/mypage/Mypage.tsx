@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React,{useCallback, useEffect, useState} from 'react';
 import PreviewBoard from "../../templates/board/PreviewBoard";
-import {useCallback, useEffect, useState} from "react";
 import {css} from "@emotion/core";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import styled from "@emotion/styled";
@@ -8,12 +7,11 @@ import {Color} from "../../../assets/style/Color.style";
 import Profile from "../../templates/mypage/Profile";
 import axios from "axios";
 import SEO from "../../templates/SEO/SEO";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import InfiniteScroll from "react-infinite-scroll-component";
-import produce from "immer";
 import Modal from "../../templates/modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
-import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../store/board";
+import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../reducers/board";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 
 const MypageSection = styled.section`

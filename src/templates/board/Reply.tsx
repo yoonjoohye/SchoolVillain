@@ -19,6 +19,7 @@ const ReplyContent = styled.p`
   padding: 0.8em 1em;
   border-radius:10px;
   margin-bottom:0.5em;
+  max-width:85%;
 `
 const ReplyBox = styled.div`
   ${MarkdownSm(Color.gray200)};

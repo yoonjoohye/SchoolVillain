@@ -45,3 +45,8 @@ export const HalfGrid=styled.div`
   grid-template-columns: 1fr 1fr; 
   grid-gap:1em;
 `;
+
+export const Grid=(left:number=50, right:number=50)=>css`
+  display:grid; 
+  grid-template-columns: ${left}% ${right}%;
+`;

@@ -14,7 +14,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import {useDispatch, useSelector} from "react-redux";
-import {boardListRequest} from "../../store/board";
+import {boardListRequest} from "../../reducers/board";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 
 const IndexSection = styled.section`
@@ -89,7 +89,6 @@ const Index: React.FC = ({history}: any) => {
                 }
                 setBoardPage(page);
 
-
                 dispatch(boardListRequest(list,page));
                 setLoading(false);
 
@@ -148,7 +147,7 @@ const Index: React.FC = ({history}: any) => {
     return (
         <>
             <SEO title="스쿨빌런 | 전국 5570개 중고등학교를 대표하는 학생 커뮤니티"
-                 description="나의 고민을 함께하스쿨빌런"
+                 description="중고등학생 커뮤니티 스쿨빌런입니다."
                  keywords="익명, 커뮤니티, 배너광고, 아이돌, 덕질, 익명고백, 학교정보, 입시정보, 고등학생, 중학생, 전학, 대나무 숲, 중고등학생을 위한 대나무 숲!, 학교축제, 인맥, 친구, 뒷담화, 학생 대표 커뮤니티
 전국 5570개 중고등학교를 대표하는 학생 커뮤니티, school villain, 학교 생활정보, 익명 커뮤니티, 시간표, 대학, 중학교, 고등학교, 고백, 10대, 진로고민, 성적고민, 연애고민, 가정고민, 청소년, 사춘기, 상담"
             />

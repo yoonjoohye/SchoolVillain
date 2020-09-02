@@ -14,6 +14,13 @@ export const GlobalStyle = () => (
       height: 100%;
     }
     
+    // &::selection {
+    //   background: ${Color.gray100}; /* WebKit/Blink Browsers */
+    // }
+    // &::-moz-selection {
+    //   background: ${Color.gray100}; /* Gecko Browsers */
+    // }
+
     body {
       width: 100%;
       font-family: 'NanumSquare', sans-serif;

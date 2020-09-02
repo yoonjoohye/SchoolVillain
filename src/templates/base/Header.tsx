@@ -8,6 +8,7 @@ import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
 import {useSelector} from "react-redux";
 import axios from "axios";
+import Notification from "../../components/notification/Notification";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -37,6 +38,7 @@ const HeaderMenu = styled.span`
 const Header = () => {
     const value = useSelector(state => state.auth.logged);
     const [user,setUser]=useState(null);
+    const [openNotification,setOpenNotification]=useState(true);
 
     useEffect(()=>{
         UserAPI();
@@ -72,10 +74,11 @@ const Header = () => {
                 <HeaderMenu>
                     {
                         user ?
-                            <div css={css`${FlexBox()}`}>
-                                <span>
-                                    알림
-                                </span>
+                            <div css={css`${FlexBox()};`}>
+                                <div onClick={()=>setOpenNotification(!openNotification)}>알림</div>
+                                {
+                                    openNotification &&  <Notification/>
+                                }
                                 <Link to="/mypage/profile"><img css={css`width:2em;`}
                                                         src={require('../../../assets/img/icon/profile.svg')}/></Link>
 
