@@ -14,6 +14,7 @@ import Apply from "../pages/banner/Apply";
 import SendEmail from "../pages/auth/SendEmail";
 import Withdrawal from "../pages/auth/Withdrawal";
 import ResetPassword from "../pages/auth/ResetPassword";
+import Notification from "../pages/notification/Notification";
 
 const Root: React.FC = () => {
     return (
@@ -33,6 +34,9 @@ const Root: React.FC = () => {
                     )}/>
                     <Route exact path="/join/:id" render={props => (
                         sessionStorage.getItem('logged') ? <Redirect to="/"/> : <Join {...props} />
+                    )}/>
+                    <Route exact path="/notification" render={props => (
+                        sessionStorage.getItem('logged') ? <Notification {...props} /> : <Redirect to="/login"/>
                     )}/>
                     <Route exact path="/mypage/:name" render={props => (
                         sessionStorage.getItem('logged') ? <Mypage {...props} /> : <Redirect to="/login"/>

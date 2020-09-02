@@ -35,7 +35,7 @@ const PreviewWrite = () => {
     const [writeModal, setWriteModal] = useState(false);
     const goWrite = () => {
         if(sessionStorage.getItem('logged')) {
-            if (screen.width > 480) {
+            if (window.screen.width > 480) {
                 setWriteModal(true);
             } else {
                 window.location.href='/write';

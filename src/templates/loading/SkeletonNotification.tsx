@@ -2,6 +2,7 @@ import {css} from "@emotion/core";
 import React from "react";
 import {SkeletonColor} from "../../../assets/style/Util";
 import {Grid} from "../../../assets/style/Layout.style";
+import {media} from "../../../assets/style/Media.style";
 
 const SkeletonNotification = () => {
     return (
@@ -9,7 +10,7 @@ const SkeletonNotification = () => {
             {
                 [1,2].map((item,index)=>{
                     return(
-                        <div key={index} css={css`padding:1.5em; ${Grid(25, 75)};`}>
+                        <div key={index} css={css`padding:1.5em; ${media.sm`padding:1.5em 0;`} ${Grid(25, 75)};`}>
                             <div>
                                 <div
                                     css={css`margin-right:0.8em; text-align:center; ${SkeletonColor()}; height:1.5em; height:3em;`}></div>

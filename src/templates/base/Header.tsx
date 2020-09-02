@@ -8,7 +8,7 @@ import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
 import {useSelector} from "react-redux";
 import axios from "axios";
-import Notification from "../../components/notification/Notification";
+import Notification from "../../pages/notification/Notification";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -22,7 +22,7 @@ const HeaderSection = styled.header`
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
   height:4em;
-  width:1000px;
+  width:80%;
   margin:auto;
   ${media.md`width:80%;`};
   ${media.sm`width:90%;`};
@@ -36,33 +36,41 @@ const HeaderMenu = styled.span`
 `
 
 const Header = () => {
-    const value = useSelector(state => state.auth.logged);
-    const [user,setUser]=useState(null);
-    const [openNotification,setOpenNotification]=useState(false);
+    // const value = useSelector(state => state.auth.logged);
+    const [user, setUser] = useState(null);
+    const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
 
-
-
-    useEffect(()=>{
+    useEffect(() => {
         UserAPI();
-        window.addEventListener("click", handleClickOutside);
+        window.addEventListener("click", (e: React.MouseEvent) => {
+            if (NotificationRef.current && !NotificationRef.current.contains(e.target)) {
+                setOpenNotification(false);
+            }
+        });
         return () => {
-            window.removeEventListener("click", handleClickOutside);
+            window.removeEventListener("click", (e: React.MouseEvent) => {
+                if (NotificationRef.current && !NotificationRef.current.contains(e.target)) {
+                    setOpenNotification(false);
+                }
+            });
         };
-    },[])
+    }, [])
 
-    const handleClickOutside = (e:React.MouseEvent) => {
-        if (NotificationRef.current && !NotificationRef.current.contains(e.target)) {
-            setOpenNotification(false);
+    const onNotification=()=>{
+        if (window.screen.width > 480) {
+            setOpenNotification(!openNotification);
+        } else {
+            window.location.href='/notification';
         }
-    };
+    }
 
     const UserAPI = useCallback(async () => {
         try {
             let response = await axios({
                 method: 'POST',
                 url: '/api/user/me',
-                cache:true
+                cache: true
             });
             if (response.status === 200) {
                 // console.log(response);
@@ -71,7 +79,7 @@ const Header = () => {
         } catch (err) {
             // console.log(err);
         }
-    },[]);
+    }, []);
 
     return (
         <HeaderSection>
@@ -82,28 +90,35 @@ const Header = () => {
                             <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
                         </HeaderLogo>
                     </Link>
-                    <input css={css`margin-left:1em; border-radius: 0.3em; padding:0.5em 1em;`} type="text" placeholder="검색어를 입력해주세요."/>
+                    {/*<input css={css`margin-left:1em; border-radius: 0.3em; padding:0.5em 1em;`} type="text" placeholder="검색어를 입력해주세요."/>*/}
                 </div>
                 <HeaderMenu>
                     {
                         user ?
-                            <div css={css`${FlexBox()}; cursor:pointer;`} ref={NotificationRef}>
-                                <div onClick={()=>setOpenNotification(!openNotification)}>알림</div>
+                            <div css={css`${FlexBox()};`} ref={NotificationRef}>
+                                <div css={css`margin-right:2em; ${media.sm`margin-right:1em;`}`}>
+                                    <img css={css`width:1.8em; cursor:pointer;`}
+                                         onClick={onNotification}
+                                         src={require('../../../assets/img/icon/notification.svg')}/>
+                                </div>
                                 {
-                                    openNotification &&  <Notification/>
+                                    openNotification && <Notification/>
                                 }
-                                <Link to="/mypage/profile"><img css={css`width:2em;`}
-                                                        src={require('../../../assets/img/icon/profile.svg')}/></Link>
+                                <Link to="/mypage/profile">
+                                    <img css={css`width:1.8em;`} src={require('../../../assets/img/icon/profile.svg')}/>
+                                </Link>
 
                             </div>
                             :
                             <>
                                 <button css={css`background:${Color.purple200}; 
                                         ${MarkdownSm(Color.white)}; width:80px; height:30px; border-radius: 0.3em; margin-right:0.5em; `}
-                                        onClick={()=>location.href='/login'}>로그인</button>
+                                        onClick={() => location.href = '/login'}>로그인
+                                </button>
                                 <button css={css`background:${Color.white}; border:1px solid ${Color.purple200};
                                         ${MarkdownSm(Color.purple200)}; width:80px; height:30px; border-radius: 0.3em;`}
-                                        onClick={()=>location.href='/join/agreement'}>회원가입</button>
+                                        onClick={() => location.href = '/join/agreement'}>회원가입
+                                </button>
                             </>
                     }
                 </HeaderMenu>
