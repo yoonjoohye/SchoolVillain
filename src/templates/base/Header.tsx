@@ -1,4 +1,4 @@
-import React,{useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 import styled from "@emotion/styled";
 import {css} from "@emotion/core";
@@ -39,10 +39,23 @@ const Header = () => {
     const value = useSelector(state => state.auth.logged);
     const [user,setUser]=useState(null);
     const [openNotification,setOpenNotification]=useState(false);
+    const NotificationRef = useRef(null);
+
+
 
     useEffect(()=>{
         UserAPI();
+        window.addEventListener("click", handleClickOutside);
+        return () => {
+            window.removeEventListener("click", handleClickOutside);
+        };
     },[])
+
+    const handleClickOutside = (e:React.MouseEvent) => {
+        if (NotificationRef.current && !NotificationRef.current.contains(e.target)) {
+            setOpenNotification(false);
+        }
+    };
 
     const UserAPI = useCallback(async () => {
         try {
@@ -74,7 +87,7 @@ const Header = () => {
                 <HeaderMenu>
                     {
                         user ?
-                            <div css={css`${FlexBox()};`}>
+                            <div css={css`${FlexBox()}; cursor:pointer;`} ref={NotificationRef}>
                                 <div onClick={()=>setOpenNotification(!openNotification)}>알림</div>
                                 {
                                     openNotification &&  <Notification/>

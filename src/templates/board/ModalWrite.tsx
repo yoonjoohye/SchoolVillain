@@ -20,6 +20,7 @@ const ModalSection = styled.section`
 `
 const ModalBox = styled.div`
   width: 500px;
+  border-radius: 0.3em;
   background-color:white;
   box-shadow:0 10px 10px rgba(0,0,0,0.18);
 `

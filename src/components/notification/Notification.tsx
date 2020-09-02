@@ -81,9 +81,13 @@ const Notification:React.FC<propsType> = () => {
                 method: 'POST',
                 url: '/api/notice/read/all'
             });
-            console.log(response.data);
-            if (response.status === 200) {
-
+            // console.log(response.data);
+            if (response.status === 201) {
+                setNotificationList(produce(draft=>{
+                    notificationList.map((item:any,index:number)=>{
+                        draft[index].read_at='date';
+                    });
+                }));
             }
         } catch (err) {
             console.log(err);
@@ -103,8 +107,6 @@ const Notification:React.FC<propsType> = () => {
                 setNotificationList(produce(draft=>{
                     draft[index]=response.data;
                 }));
-                // list[index]=response.data;
-                // dispatch(readNotification(list));
                 location.href=response.data.link;
             }
         } catch (err) {
