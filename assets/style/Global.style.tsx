@@ -77,6 +77,10 @@ export const GlobalStyle = () => (
       padding: 0;
     }
     
+    em{
+        background-color: ${Color.yellow100};
+        font-style: normal;
+    }
     a {
       text-decoration: none;
       color: ${Color.black};

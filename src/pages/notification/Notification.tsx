@@ -7,7 +7,7 @@ import {Color} from "../../../assets/style/Color.style";
 import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {css} from "@emotion/core";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import NotificationList from "../../components/notification/NotificationList";
+import NotificationList from "../../templates/notification/NotificationList";
 import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
 import SkeletonNotification from "../../templates/loading/SkeletonNotification";
 import {useHistory} from "react-router-dom";

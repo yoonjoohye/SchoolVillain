@@ -25,7 +25,7 @@ const ProfileSection = styled.div`
   height:100%;
   cursor:pointer;
   border-radius:0.3em;
-  box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   &.back{

@@ -15,8 +15,8 @@ interface sectionProp {
 const ModalSection = styled.section<sectionProp>`
   position:fixed;
   z-index:3;
-  background-color:rgba(255,255,255,0.13);
-  backdrop-filter: blur(4px);
+  background-color:rgba(255,255,255,0.72);
+  //backdrop-filter: blur(4px);
   left:0;
   top:0;
   width:100%;
@@ -36,7 +36,7 @@ const ModalBox = styled.div`
   width: 400px;
   border-radius: 0.3em;
   background-color:white;
-  box-shadow:0 0 10px rgba(0,0,0,0.18);
+  box-shadow:0 12px 28px 0 rgba(0, 0, 0,0.18), 0 2px 4px 0 rgba(0, 0, 0, 0.11), inset 0 0 0 1px rgba(255, 255, 255, 0.51);
   ${media.sm`
     width:320px;
   `}

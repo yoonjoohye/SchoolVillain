@@ -74,7 +74,7 @@ const Mypage: React.FC = ({history, match}: any) => {
         reply:true
     });
 
-    const tab = ['좋아요한 글', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
+    const tab = ['내가 좋아요한 글', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
     const [menu, setMenu] = useState(0);
 
     useEffect(() => {
@@ -323,7 +323,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             if (response.status === 201) {
                 setOpenModal(true);
                 setTitle('닉네임 변경');
-                setContents('닉네임 변경이 완료되었습니다.<br/>당신의 인싸력으로 보여주세요.');
+                setContents('닉네임 변경이 완료되었습니다.');
                 setButtonName('확인');
             }
         } catch (err) {
@@ -351,7 +351,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             if (response.status === 201) {
                 setOpenModal(true);
                 setTitle('패스워드 변경');
-                setContents('패스워드 변경이 완료되었습니다.<br/>보안에 철저한 당신, 칭찬합니다.');
+                setContents('패스워드 변경이 완료되었습니다.');
                 setButtonName('확인');
             }
         } catch (err) {

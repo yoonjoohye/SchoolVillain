@@ -22,7 +22,7 @@ const HeaderSection = styled.header`
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
   height:4em;
-  width:80%;
+  width:85%;
   margin:auto;
   ${media.md`width:80%;`};
   ${media.sm`width:90%;`};
@@ -39,7 +39,7 @@ const SearchInput = styled.input`
   background-image:url(${require('../../../assets/img/icon/search.svg')});
   background-repeat: no-repeat;
   background-position: calc(100% - 1em);
-  background-size: 8%;
+  background-size: 20px;
   margin-left:1em; 
   width:12em; 
   border-radius: 0.5em;
@@ -53,10 +53,13 @@ const SearchInput = styled.input`
   
 `
 const Header = () => {
-    const value = useSelector(state => state.auth.logged);
-    const [user, setUser] = useState(null);
+    const logged = useSelector(state => state.auth.logged);
+    const word = useSelector(state => state.search.keyword);
+
+    // const [user, setUser] = useState(null);
     const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
+    const [keyword,setKeyword]=useState(word);
 
     useEffect(() => {
         // UserAPI();
@@ -81,22 +84,31 @@ const Header = () => {
             window.location.href = '/notification';
         }
     }
-
-    const UserAPI = useCallback(async () => {
-        try {
-            let response = await axios({
-                method: 'POST',
-                url: '/api/user/me',
-                cache: true
-            });
-            if (response.status === 200) {
-                // console.log(response);
-                setUser(response.data);
-            }
-        } catch (err) {
-            console.log(err);
+    const changeKeyword=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        let {value}=e.target;
+        setKeyword(value);
+    }
+    const onSearchEnter=(e: React.KeyboardEvent)=>{
+        if (e.key === 'Enter') {
+            location.href=`/search?keyword=${keyword}`;
         }
-    }, []);
+    }
+
+    // const UserAPI = useCallback(async () => {
+    //     try {
+    //         let response = await axios({
+    //             method: 'POST',
+    //             url: '/api/user/me',
+    //             cache: true
+    //         });
+    //         if (response.status === 200) {
+    //             // console.log(response);
+    //             setUser(response.data);
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }, []);
 
     return (
         <HeaderSection>
@@ -107,18 +119,16 @@ const Header = () => {
                             <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
                         </HeaderLogo>
                     </Link>
-                    <SearchInput type="text" placeholder="스쿨빌런 검색"/>
+                    <SearchInput type="text" value={keyword} placeholder="스쿨빌런 검색" onChange={changeKeyword} onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
                 </div>
                 <HeaderMenu>
                     {
-                        user ?
+                        logged ?
                             <div css={css`${FlexBox()}`} ref={NotificationRef}>
                                 <div css={css`margin-right:1em; `}>
-                                    <div
-                                        css={css`background-color:${Color.purple100}; ${FlexBox()}; width:2.5em; height:2.5em; border-radius: 50%; cursor:pointer; `}
+                                    <div css={css` background:linear-gradient(0deg,#e7c9ff,#fbf7fd); ${FlexBox()}; width:2.5em; height:2.5em; border-radius: 50%; cursor:pointer; `}
                                         onClick={onNotification}>
-                                        <img css={css`width:1.1em;`}
-                                             src={require('../../../assets/img/icon/notification.svg')}/>
+                                        <img css={css`width:1.1em;`} src={require('../../../assets/img/icon/notification.svg')}/>
                                     </div>
                                 </div>
                                 {
@@ -126,7 +136,7 @@ const Header = () => {
                                 }
                                 <Link to="/mypage/profile">
                                     <div
-                                        css={css`background-color:${Color.purple100}; ${FlexBox()}; width:2.5em; height:2.5em; border-radius: 50%;`}>
+                                        css={css`background:linear-gradient(0deg,#e7c9ff,#fbf7fd); ${FlexBox()}; width:2.5em; height:2.5em; border-radius: 50%;`}>
                                         <img css={css`width:1em;`}
                                              src={require('../../../assets/img/icon/profile.svg')}/>
                                     </div>

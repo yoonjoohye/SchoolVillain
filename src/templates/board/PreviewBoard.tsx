@@ -7,7 +7,7 @@ import {css} from "@emotion/core";
 import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
 import {IconSm} from "../../../assets/style/Icon.style";
 import {media} from "../../../assets/style/Media.style";
-import {Tag} from "../../../assets/style/Util";
+import {Hightlight, Tag} from "../../../assets/style/Util";
 import {useState} from "react";
 import Write from "../../pages/board/Write";
 
@@ -18,11 +18,9 @@ const BoardSection = styled.section`
   margin-bottom:1.5em;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 `
-
 interface boxProps {
     alignItems?: string;
 }
-
 const BoardBox = styled.div<boxProps>`
     ${(props: boxProps) => FlexBox('', 'space-between', props.alignItems || 'center')}
   ${MarkdownBase(Color.gray200)};
@@ -87,7 +85,8 @@ interface propsType {
 const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage}) => {
     const textToTag = (str: string) => {
         let newLineRegex = /\n/g;
-        str = str.replace(newLineRegex, '<br />')
+        str = str.replace(newLineRegex, '<br />');
+
         return str;
     }
     const [openModal, setOpenModal] = useState(false);
@@ -113,7 +112,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                             <BoardSection key={index} onClick={() => goDetail(board.id)}>
                                 <BoardBox alignItems="flex-start" css={css`margin-bottom:1em;`}>
                                     <div css={css`margin-right:0.5em;`}>
-                                        <BoardTitle>{board.title}</BoardTitle>
+                                        <BoardTitle dangerouslySetInnerHTML={{__html: textToTag(board.title)}}/>
                                         <BoardContents
                                             dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
                                     </div>
