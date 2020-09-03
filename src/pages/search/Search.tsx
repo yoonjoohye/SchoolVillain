@@ -3,17 +3,16 @@ import {css} from "@emotion/core";
 import {Section} from "../../../assets/style/Layout.style";
 import axios from "axios";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
-import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownLg, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import InfiniteScroll from "react-infinite-scroll-component";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {searchBoardListRequest} from "../../reducers/search";
+import {searchBoardListRequest, searchKeyword} from "../../reducers/search";
 
 const Search=({history}:any)=>{
     const dispatch = useDispatch();
-    console.log(location.search);
-    let keyword=useSelector(state=>state.search.keyword);
+    let keyword=decodeURI(location.search.split('=')[1]);
     let list = useSelector(state => state.search.boardList);
     let page=useSelector(state=>state.search.boardPage);
 
@@ -27,7 +26,8 @@ const Search=({history}:any)=>{
         }
     }, []);
 
-    const SearchAPI=useCallback(async (page:number)=>{
+    const SearchAPI=async (page:number)=>{
+        console.log(keyword);
         setLoading(true);
         try {
             let response = await axios({
@@ -40,7 +40,7 @@ const Search=({history}:any)=>{
                 },
                 cache: true
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 if(page>1) {
                     response.data.data.map((item: any) => {
@@ -62,7 +62,7 @@ const Search=({history}:any)=>{
             setLoading(false);
             console.log(err);
         }
-    },[]);
+    }
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
@@ -70,7 +70,7 @@ const Search=({history}:any)=>{
 
     return(
         <section css={css`${Section()};`}>
-            <div>{keyword} 검색결과</div>
+            <div css={css`${MarkdownLg(Color.gray200)}; margin-bottom:1em;`}><span css={css`${MarkdownLg(Color.black,700)}`}>"{keyword}"</span> 검색결과</div>
             <InfiniteScroll
                 css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                 dataLength={boardList.length}

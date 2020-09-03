@@ -6,9 +6,9 @@ import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
-import {useSelector} from "react-redux";
-import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
 import Notification from "../../pages/notification/Notification";
+import {searchKeyword} from "../../reducers/search";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -50,19 +50,21 @@ const SearchInput = styled.input`
   &:focus{
     width:14em;
   }
-  
 `
 const Header = () => {
+    const dispatch=useDispatch();
     const logged = useSelector(state => state.auth.logged);
     const word = useSelector(state => state.search.keyword);
 
-    // const [user, setUser] = useState(null);
     const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
-    const [keyword,setKeyword]=useState(word);
+    const [keyword,setKeyword]=useState('');
 
     useEffect(() => {
         // UserAPI();
+        if(window.location.pathname==='/search') {
+            setKeyword(word);
+        }
         window.addEventListener("click", (e: React.MouseEvent) => {
             if (NotificationRef.current && !NotificationRef.current.contains(e.target)) {
                 setOpenNotification(false);
@@ -81,7 +83,10 @@ const Header = () => {
         if (window.screen.width > 480) {
             setOpenNotification(!openNotification);
         } else {
-            window.location.href = '/notification';
+            location.href='/notification';
+            // history.push({
+            //     pathname:'/notification'
+            // });
         }
     }
     const changeKeyword=(e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -91,25 +96,13 @@ const Header = () => {
     const onSearchEnter=(e: React.KeyboardEvent)=>{
         if (e.key === 'Enter') {
             location.href=`/search?keyword=${keyword}`;
+            // history.push({
+            //     pathname:'/search',
+            //     search: `?keyword=${keyword}`
+            // });
+            dispatch(searchKeyword(keyword));
         }
     }
-
-    // const UserAPI = useCallback(async () => {
-    //     try {
-    //         let response = await axios({
-    //             method: 'POST',
-    //             url: '/api/user/me',
-    //             cache: true
-    //         });
-    //         if (response.status === 200) {
-    //             // console.log(response);
-    //             setUser(response.data);
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }, []);
-
     return (
         <HeaderSection>
             <HeaderContainer>
@@ -145,14 +138,14 @@ const Header = () => {
                             </div>
                             :
                             <>
-                                <button css={css`background:${Color.purple200}; 
+                                <Link css={css`background:${Color.purple200}; 
                                         ${MarkdownSm(Color.white)}; width:80px; height:30px; border-radius: 0.3em; margin-right:0.5em; `}
-                                        onClick={() => location.href = '/login'}>로그인
-                                </button>
-                                <button css={css`background:${Color.white}; border:1px solid ${Color.purple200};
+                                        to="/login">로그인
+                                </Link>
+                                <Link css={css`background:${Color.white}; border:1px solid ${Color.purple200};
                                         ${MarkdownSm(Color.purple200)}; width:80px; height:30px; border-radius: 0.3em;`}
-                                        onClick={() => location.href = '/join/agreement'}>회원가입
-                                </button>
+                                        to="/join/agreement">회원가입
+                                </Link>
                             </>
                     }
                 </HeaderMenu>

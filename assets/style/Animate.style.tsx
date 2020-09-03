@@ -23,20 +23,20 @@ export const FadeOut=keyframes`
 
 export const Cursor=keyframes`
     0%{border-right: 2px solid transparent;}
-    50%{border-right: 2px solid ${Color.purple200};}
+    50%{border-right: 2px solid ${Color.gray200};}
     100%{border-right: 2px solid transparent;}
 `;
 
 export const TypingPc=keyframes`
     0% { width: 0; }
-    50% { width: 165px; }
-    100% { width: 165px; }
+    50% { width: 185px; }
+    100% { width: 185px; }
 `
 
 export const TypingMobile=keyframes`
     0% { width: 0; }
-    50% { width: 135px; }
-    100% { width: 135px; }
+    50% { width: 150px; }
+    100% { width: 150px; }
 `
 
 export const ColorChange=keyframes`

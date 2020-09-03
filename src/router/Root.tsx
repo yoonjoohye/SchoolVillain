@@ -51,7 +51,7 @@ const Root: React.FC = () => {
                     <Route exact path="/edit/:id" render={props => (
                         sessionStorage.getItem('logged') ? <Edit {...props} /> : <Redirect to="/login"/>
                     )}/>
-                    <Route exact path="/search" component={Search}/>
+                    <Route path="/search" component={Search}/>
                     <Route exact path="/detail/:id" component={Detail}/>
                     <Route exact path="/banner/apply" component={Apply}/>
 
