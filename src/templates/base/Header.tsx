@@ -15,10 +15,10 @@ const HeaderSection = styled.header`
   top:0;
   width:100%;
   background-color:${Color.white};
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.16);
   z-index: 3;
-
 `;
+
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
   height:4em;
@@ -35,14 +35,31 @@ const HeaderMenu = styled.span`
   min-width: fit-content;
 `
 
+const SearchInput = styled.input`
+  background-image:url(${require('../../../assets/img/icon/search.svg')});
+  background-repeat: no-repeat;
+  background-position: calc(100% - 1em);
+  background-size: 8%;
+  margin-left:1em; 
+  width:12em; 
+  border-radius: 0.5em;
+  border:0; 
+  background-color:${Color.gray100}; 
+  padding:0.7em 1em;
+  transition: width 0.5s;
+  &:focus{
+    width:14em;
+  }
+  
+`
 const Header = () => {
-    // const value = useSelector(state => state.auth.logged);
+    const value = useSelector(state => state.auth.logged);
     const [user, setUser] = useState(null);
     const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
 
     useEffect(() => {
-        UserAPI();
+        // UserAPI();
         window.addEventListener("click", (e: React.MouseEvent) => {
             if (NotificationRef.current && !NotificationRef.current.contains(e.target)) {
                 setOpenNotification(false);
@@ -57,11 +74,11 @@ const Header = () => {
         };
     }, [])
 
-    const onNotification=()=>{
+    const onNotification = () => {
         if (window.screen.width > 480) {
             setOpenNotification(!openNotification);
         } else {
-            window.location.href='/notification';
+            window.location.href = '/notification';
         }
     }
 
@@ -77,7 +94,7 @@ const Header = () => {
                 setUser(response.data);
             }
         } catch (err) {
-            // console.log(err);
+            console.log(err);
         }
     }, []);
 
@@ -90,22 +107,29 @@ const Header = () => {
                             <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
                         </HeaderLogo>
                     </Link>
-                    {/*<input css={css`margin-left:1em; border-radius: 0.3em; padding:0.5em 1em;`} type="text" placeholder="검색어를 입력해주세요."/>*/}
+                    <SearchInput type="text" placeholder="스쿨빌런 검색"/>
                 </div>
                 <HeaderMenu>
                     {
                         user ?
-                            <div css={css`${FlexBox()};`} ref={NotificationRef}>
-                                <div css={css`margin-right:2em; ${media.sm`margin-right:1em;`}`}>
-                                    <img css={css`width:1.8em; cursor:pointer;`}
-                                         onClick={onNotification}
-                                         src={require('../../../assets/img/icon/notification.svg')}/>
+                            <div css={css`${FlexBox()}`} ref={NotificationRef}>
+                                <div css={css`margin-right:1em; `}>
+                                    <div
+                                        css={css`background-color:${Color.purple100}; ${FlexBox()}; width:2.5em; height:2.5em; border-radius: 50%; cursor:pointer; `}
+                                        onClick={onNotification}>
+                                        <img css={css`width:1.1em;`}
+                                             src={require('../../../assets/img/icon/notification.svg')}/>
+                                    </div>
                                 </div>
                                 {
                                     openNotification && <Notification/>
                                 }
                                 <Link to="/mypage/profile">
-                                    <img css={css`width:1.8em;`} src={require('../../../assets/img/icon/profile.svg')}/>
+                                    <div
+                                        css={css`background-color:${Color.purple100}; ${FlexBox()}; width:2.5em; height:2.5em; border-radius: 50%;`}>
+                                        <img css={css`width:1em;`}
+                                             src={require('../../../assets/img/icon/profile.svg')}/>
+                                    </div>
                                 </Link>
 
                             </div>

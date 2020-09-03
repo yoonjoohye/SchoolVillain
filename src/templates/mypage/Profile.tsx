@@ -184,7 +184,7 @@ const Profile: React.FC<propsType> = ({
         <section>
 
             <Greeting>
-                <span css={css`color:${Color.yellow200}`}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
+                <span css={css`color:${Color.yellow200};`}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
                 환영합니다.
             </Greeting>
 

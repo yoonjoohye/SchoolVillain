@@ -195,7 +195,7 @@ const ModalWrite: React.FC<propsType> = ({
                 <ModalBody>
                     <div css={css`padding:1em; border-bottom:1px solid ${Color.gray100};`}>
                         <Input value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTitle(e)}
-                               placeholder="오늘 무슨일 있었냐?"/>
+                               placeholder="제목을 입력해주세요."/>
                     </div>
                     <div css={css`padding:1em; border-bottom:1px solid ${Color.gray100};`}>
                         <TextArea rows={6} value={contents}

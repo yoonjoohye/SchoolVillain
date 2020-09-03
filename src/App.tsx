@@ -32,8 +32,7 @@ const App: React.FC = () => {
         try {
             let response = await axios({
                 method: 'GET',
-                url: '/api/user/auth/check',
-                cache: true
+                url: '/api/user/auth/check'
             });
             if (response.status === 200) {
                 sessionStorage.setItem('logged', response.data.is_user);

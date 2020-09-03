@@ -15,10 +15,10 @@ export const GlobalStyle = () => (
     }
     
     // &::selection {
-    //   background: ${Color.gray100}; /* WebKit/Blink Browsers */
+    //   background: ${Color.yellow100}; /* WebKit/Blink Browsers */
     // }
     // &::-moz-selection {
-    //   background: ${Color.gray100}; /* Gecko Browsers */
+    //   background: ${Color.yellow100}; /* Gecko Browsers */
     // }
 
     body {

@@ -13,7 +13,7 @@ const WriteSection = styled.section`
 `
 const WriteContainer = styled.div`
   ${FlexBox('', 'flex-start', 'center')};
-  box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   color:${Color.purple200};
   padding:2em;
   cursor:text;

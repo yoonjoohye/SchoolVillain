@@ -16,7 +16,7 @@ const BoardSection = styled.section`
   padding:1.8em 5%;
   background-color:${Color.white};
   margin-bottom:1.5em;
-  box-shadow: 0 1.5px 3px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 `
 
 interface boxProps {
