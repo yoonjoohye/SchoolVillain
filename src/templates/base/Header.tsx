@@ -163,11 +163,11 @@ const Header = () => {
                             :
                             <>
                                 <Link css={css`background:${Color.purple200}; 
-                                        ${MarkdownSm(Color.white)}; width:80px; ${media.sm`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em; margin-right:0.5em; `}
+                                        ${MarkdownSm(Color.white)}; width:80px; ${media.md`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em; margin-right:0.5em; `}
                                       to="/login">로그인
                                 </Link>
                                 <Link css={css`background:${Color.white}; border:1px solid ${Color.purple200};
-                                        ${MarkdownSm(Color.purple200)}; width:80px; ${media.sm`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em;`}
+                                        ${MarkdownSm(Color.purple200)}; width:80px; ${media.md`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em;`}
                                       to="/join/agreement">회원가입
                                 </Link>
                             </>
