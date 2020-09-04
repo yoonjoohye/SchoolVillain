@@ -11,7 +11,7 @@ import {Tag} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
-  ${MarkdownLg(Color.black, 700)};
+  ${MarkdownLg(Color.black, 600)};
   word-break:break-word;
 `
 const BoardContents = styled.div`

@@ -22,9 +22,9 @@ export const FadeOut=keyframes`
 `;
 
 export const Cursor=keyframes`
-    0%{border-right: 2px solid transparent;}
-    50%{border-right: 2px solid ${Color.gray200};}
-    100%{border-right: 2px solid transparent;}
+    0%{border-left: 1px solid transparent;}
+    50%{border-left: 1px solid ${Color.gray200};}
+    100%{border-left: 1px solid transparent;}
 `;
 
 export const TypingPc=keyframes`

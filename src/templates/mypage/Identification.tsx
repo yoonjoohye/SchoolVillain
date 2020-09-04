@@ -8,6 +8,7 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {media} from "../../../assets/style/Media.style";
 import SkeletonIdentification from "../loading/SkeletonIdentification";
+import {useSelector} from "react-redux";
 
 const ProfileContainer = styled.div`
   position:relative;
@@ -53,7 +54,7 @@ const ProfileName=styled.div`
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   word-break: break-all;
-  ${MarkdownLg(Color.white, 700)};
+  ${MarkdownLg(Color.white, 500)};
 }
 `
 const ProfileBody = styled.div`
@@ -100,10 +101,11 @@ const AuthBtn = styled.button<btnProps>`
 `
 
 const Identification = ({user}: any) => {
+    let logged=useSelector(state=>state.auth.logged);
     return (
         <>
             {
-                sessionStorage.getItem('logged') ?
+                logged ?
                     user ?
                         <ProfileContainer>
                             <ProfileSection>
@@ -114,7 +116,7 @@ const Identification = ({user}: any) => {
                                     <img css={css`width:4em;`} src={require('../../../assets/img/badge/badge.svg')}/>
                                 </ProfileTitle>
                                 <ProfileBody>
-                                    <div css={css`${MarkdownLg('', 700)}; margin-bottom:0.5em;`}>스쿨빌런학교</div>
+                                    <div css={css`${MarkdownLg('', 500)}; margin-bottom:0.5em;`}>스쿨빌런학교</div>
                                     <div>학생 ID : {user.email}</div>
                                     <div>유효기간 : 고등학교 졸업식</div>
                                 </ProfileBody>
@@ -125,7 +127,7 @@ const Identification = ({user}: any) => {
                             </ProfileSection>
                             <ProfileSection className="back">
                                 <div
-                                    css={css`text-align:center; padding: 1.2em; margin-bottom:1em; ${MarkdownMd('', 700)}; border-bottom:1px solid ${Color.gray100}`}>
+                                    css={css`text-align:center; padding: 1.2em; margin-bottom:1em; ${MarkdownMd('', 500)}; border-bottom:1px solid ${Color.gray100}`}>
                                     유의사항
                                 </div>
                                 <ProfileBody>
@@ -147,7 +149,7 @@ const Identification = ({user}: any) => {
                                     </li>
                                 </ProfileBody>
                                 <ProfileFooter
-                                    css={css`${MarkdownMd('', 700)};`}>스쿨빌런학교짱
+                                    css={css`${MarkdownMd('', 500)};`}>스쿨빌런학교짱
                                 </ProfileFooter>
                             </ProfileSection>
                         </ProfileContainer>

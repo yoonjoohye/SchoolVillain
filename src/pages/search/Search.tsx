@@ -1,88 +1,51 @@
-import PreviewBoard from "../../templates/board/PreviewBoard";
 import {css} from "@emotion/core";
-import {Section} from "../../../assets/style/Layout.style";
-import axios from "axios";
-import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
-import {MarkdownLg, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {onlyPc, Section} from "../../../assets/style/Layout.style";
 import {Color} from "../../../assets/style/Color.style";
-import InfiniteScroll from "react-infinite-scroll-component";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {searchBoardListRequest, searchKeyword} from "../../reducers/search";
+import {searchKeyword} from "../../reducers/search";
+import styled from "@emotion/styled";
+import {MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
+import Result from "./Result";
 
-const Search=({history}:any)=>{
+const SearchInput = styled.input`
+  background-image:url(${require('../../../assets/img/icon/search_purple.svg')});
+  background-repeat: no-repeat;
+  background-position: calc(100%);
+  background-size: 20px;
+  width:100%; 
+  border:0; 
+  padding:0.5em 0;
+  border-bottom:1px solid ${Color.purple200};
+  ${MarkdownLg()};
+`
+const Search = () => {
     const dispatch = useDispatch();
-    let keyword=decodeURI(location.search.split('=')[1]);
-    let list = useSelector(state => state.search.boardList);
-    let page=useSelector(state=>state.search.boardPage);
-
-    const [boardList,setBoardList]=useState(list);
-    const [hasMore,setHasMore]=useState(false);
-    const [loading,setLoading]=useState(true);
+    const word = useSelector(state => state.search.keyword);
+    const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
-        if(page===1) {
-            SearchAPI(page);
+        setKeyword(word);
+        return()=>{
+            setKeyword(word);
         }
-    }, []);
+    },[word]);
 
-    const SearchAPI=async (page:number)=>{
-        console.log(keyword);
-        setLoading(true);
-        try {
-            let response = await axios({
-                method: 'GET',
-                url: '/api/board/search',
-                params:{
-                    per_page:10,
-                    page:page,
-                    keyword:keyword
-                },
-                cache: true
-            });
-            // console.log(response);
-            if (response.status === 200) {
-                if(page>1) {
-                    response.data.data.map((item: any) => {
-                        list.push(item);
-                    });
-                }else{
-                    list=response.data.data;
-                }
-                setBoardList(list);
-                if (response.data.last_page <= page) {
-                    setHasMore(false);
-                }else{
-                    setHasMore(true);
-                }
-                dispatch(searchBoardListRequest(list,page));
-                setLoading(false);
-            }
-        } catch (err) {
-            setLoading(false);
-            console.log(err);
+    const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let {value} = e.target;
+        setKeyword(value);
+    }
+    const onSearchEnter = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            dispatch(searchKeyword(keyword));
         }
     }
 
-    const goDetail = useCallback((id: number) => {
-        history.push(`/detail/${id}`);
-    }, []);
-
-    return(
+    return (
         <section css={css`${Section()};`}>
-            <div css={css`${MarkdownLg(Color.gray200)}; margin-bottom:1em;`}><span css={css`${MarkdownLg(Color.black,700)}`}>"{keyword}"</span> 검색결과</div>
-            <InfiniteScroll
-                css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                dataLength={boardList.length}
-                next={() => SearchAPI(page + 1)}
-                hasMore={hasMore}
-                loader={
-                    <SkeletonPreviewBoard/>
-                }
-                endMessage={<div
-                    css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                <PreviewBoard loading={loading} boardList={boardList} goDetail={goDetail}/>
-            </InfiniteScroll>
+            <SearchInput type="text" value={keyword} placeholder="스쿨빌런 검색" onChange={changeKeyword}
+                         onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
+            <Result/>
         </section>
     )
 }

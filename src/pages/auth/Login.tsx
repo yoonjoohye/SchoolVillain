@@ -11,6 +11,8 @@ import {css} from "@emotion/core";
 import {Link} from "react-router-dom";
 import {ErrorMsg} from "../../../assets/style/Util";
 import produce from "immer";
+import {useDispatch, useSelector} from "react-redux";
+import {authLoginFailure, authLoginRequest, authLoginSuccess} from "../../reducers/auth";
 
 const LoginSection = styled.section`
   ${FlexBox('column')};
@@ -57,6 +59,7 @@ const Input = styled.input`
 `
 
 const Login = ({history}: any) => {
+    const dispatch=useDispatch();
     const [email, setEmail] = useState('');
     const [emailCheck, setEmailCheck] = useState(false);
     const [emailErr, setEmailErr] = useState('');
@@ -65,7 +68,8 @@ const Login = ({history}: any) => {
     const [passwordCheck, setPasswordCheck] = useState(false);
     const [passwordErr, setPasswordErr] = useState('');
 
-    const [loading,setLoading]=useState(false);
+    let loading=useSelector(state=>state.auth.loading.login);
+    // const [loading,setLoading]=useState(false);
 
     const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,8}$/i;
@@ -102,7 +106,8 @@ const Login = ({history}: any) => {
 
     //API
     const goLogin = async () => {
-        setLoading(true);
+        // setLoading(true);
+        dispatch(authLoginRequest());
         try {
             let csrf = await axios({
                 method: 'GET',
@@ -118,10 +123,10 @@ const Login = ({history}: any) => {
                     }
                 });
                 if (response.status === 200) {
-                    sessionStorage.setItem('logged', 'true');
-                    window.location.href = '/';
-                    setLoading(false);
-
+                    sessionStorage.setItem('logged','true');
+                    // window.location.href = '/';
+                    // setLoading(false);
+                    dispatch(authLoginSuccess());
                 }
             }
         } catch (err) {
@@ -135,8 +140,8 @@ const Login = ({history}: any) => {
                 setPasswordCheck(false);
                 setPasswordErr('다시 입력해주세요.');
             }
-            setLoading(false);
-
+            // setLoading(false);
+            dispatch(authLoginFailure());
         }
     }
 

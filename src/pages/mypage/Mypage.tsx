@@ -45,10 +45,6 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [boardList, setBoardList] = useState(postBoardList);
     const [replyList, setReplyList] = useState(replyBoardList);
 
-    const [likePage,setLikePage]=useState(likeBoardPage);
-    const [boardPage,setBoardPage]=useState(postBoardPage);
-    const [replyPage,setReplyPage]=useState(replyBoardPage);
-
     const [likeHasMore,setLikeHasMore]=useState(false);
     const [boardHasMore,setBoardHasMore]=useState(false);
     const [replyHasMore,setReplyHasMore]=useState(false);
@@ -74,7 +70,7 @@ const Mypage: React.FC = ({history, match}: any) => {
         reply:true
     });
 
-    const tab = ['내가 좋아요한 글', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
+    const tab = ['좋아요한 글', '작성한 글', '댓글 쓴 글', '내정보'];
     const [menu, setMenu] = useState(0);
 
     useEffect(() => {

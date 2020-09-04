@@ -6,6 +6,8 @@ const AUTH_LOGOUT_REQUEST = 'auth/LOGOUT_REQUEST' as const;
 const AUTH_LOGOUT_FAILURE = 'auth/LOGOUT_FAILURE' as const;
 const AUTH_LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS' as const;
 
+export const GET_LOGGED = 'auth/GET_LOGGED' as const;
+
 export const authLoginRequest = () => ({
     type: AUTH_LOGIN_REQUEST
 });
@@ -26,12 +28,20 @@ export const authLogoutSuccess = () => ({
     type: AUTH_LOGOUT_SUCCESS
 });
 
+export const getLogged = (logged: boolean | null) => ({
+    type: GET_LOGGED,
+    payload: {
+        logged: logged
+    }
+});
+
+
 interface stateType {
     loading: {
         login: boolean,
         logout: boolean
     },
-    logged: string | null
+    logged: boolean | null
 }
 
 const initialState: stateType = {
@@ -39,21 +49,42 @@ const initialState: stateType = {
         login: false,
         logout: false,
     },
-    logged: sessionStorage.getItem('logged')
+    logged: Boolean(sessionStorage.getItem('logged'))
 }
 
-const handleAuth = (state:stateType = initialState, action: any) => {
-    switch(action.type){
+const handleAuth = (state: stateType = initialState, action: any) => {
+    switch (action.type) {
         case AUTH_LOGIN_REQUEST:
-            return{
+            return {
                 ...state,
                 loading: {
                     ...state.loading,
                     login: true
                 }
             }
-
-        default: // need this for default case
+        case AUTH_LOGIN_FAILURE:
+            return{
+                ...state,
+                loading: {
+                    ...state.loading,
+                    login: false
+                }
+            }
+        case AUTH_LOGIN_SUCCESS:
+            return{
+                ...state,
+                loading: {
+                    ...state.loading,
+                    login: false
+                },
+                logged:true
+            }
+        case GET_LOGGED:
+            return{
+                ...state,
+                logged:action.payload.logged
+            }
+        default:
             return state
     }
 }

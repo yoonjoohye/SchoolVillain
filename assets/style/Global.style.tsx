@@ -35,6 +35,9 @@ export const GlobalStyle = () => (
       font-size: 16px;
       outline:none;
       ${media.sm`font-size: 13px;`};
+      &::placeholder{
+        color:${Color.gray150};
+       }
     }
     
     textarea {
@@ -42,6 +45,9 @@ export const GlobalStyle = () => (
       font-size: 16px;
       outline:none;
       ${media.sm`font-size: 13px;`};
+      &::placeholder{
+        color:${Color.gray150};
+       }
     }
    
     input {
@@ -49,6 +55,9 @@ export const GlobalStyle = () => (
       font-size: 16px;
       outline:none;
        ${media.sm`font-size: 13px;`};
+       &::placeholder{
+        color:${Color.gray150};
+       }
     }
     input[type="password"]{
        font-family: Arial, sans-serif;
@@ -56,9 +65,6 @@ export const GlobalStyle = () => (
        &::placeholder{
         letter-spacing: 0;
        }
-    }
-    select{
-      outline:none;
     }
     button{
       border:0;

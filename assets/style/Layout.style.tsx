@@ -18,13 +18,13 @@ export const Section=()=>css`
 `
 
 export const onlyPc=()=>css`
-  display:initial;
+  display:inherit;
   ${media.sm`display:none;`}
 `
 
 export const onlyMobile=()=>css`
   display:none;
-  ${media.sm`display:initial;`}
+  ${media.sm`display:inherit;`}
 `
 
 export const Position=(position:string)=>css`

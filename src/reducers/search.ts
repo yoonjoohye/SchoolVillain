@@ -27,11 +27,10 @@ interface stateType{
 const initialState:stateType = {
     boardPage:1,
     boardList:[],
-    keyword: decodeURI(location.search.split('=')[1])
+    keyword: location.search.includes('=') ? decodeURI(location.search.split('=')[1]):''
 }
 
 type searchType = ReturnType<typeof SEARCH_BOARD_LIST_REQUEST>;
-
 
 const handleSearch=(state:stateType=initialState, action:searchType)=> {
     switch(action.type){

@@ -150,7 +150,7 @@ const Notification: React.FC<propsType> = () => {
                     </NotiSection>
                     :
                     <section css={css`${Section()}; padding-bottom:4em;`}>
-                        <div css={css`padding:1.5em 0; ${FlexBox('', 'space-between', '')}`}>
+                        <div css={css`margin-bottom:1.5em; ${FlexBox('', 'space-between', '')}`}>
                             <div css={css` ${MarkdownMd('', 600)}`}>빌런 알림</div>
                             <div css={css`text-align:right;`}>
                                 <button

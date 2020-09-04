@@ -16,6 +16,7 @@ const BoardSection = styled.section`
   padding:1.8em 5%;
   background-color:${Color.white};
   margin-bottom:1.5em;
+  border-radius: 0.3em;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 `
 interface boxProps {
@@ -26,7 +27,7 @@ const BoardBox = styled.div<boxProps>`
   ${MarkdownBase(Color.gray200)};
 `
 const BoardTitle = styled.div`
-  ${MarkdownMd(Color.black, 700)};
+  ${MarkdownMd(Color.black, 600)};
   margin-bottom:0.5em;
     overflow: hidden;
     text-overflow: ellipsis;
