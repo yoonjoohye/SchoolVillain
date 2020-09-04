@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Root from './router/Root';
 import {GlobalStyle} from '../assets/style/Global.style';
 import Store from './store/store';
@@ -21,7 +21,6 @@ const App: React.FC = () => {
     //         sessionStorage.removeItem('logged');
     //     }
     // }
-
     return (
         <Store>
             <GlobalStyle/>

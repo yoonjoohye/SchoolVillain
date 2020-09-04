@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {notificationRequest, readNotification} from "../../reducers/notification";
+import {notificationRequest, readNotification, readNotificationCount} from "../../reducers/notification";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
@@ -34,8 +34,11 @@ interface propsType {
 const Notification: React.FC<propsType> = () => {
     let history = useHistory();
     const dispatch = useDispatch();
+
     let list = useSelector(state => state.notification.list);
     let page = useSelector(state => state.notification.page);
+    let count=useSelector(state=>state.notification.count);
+
     const [notificationList, setNotificationList] = useState(list);
     const [hasMore, setHasMore] = useState(false);
 
@@ -92,6 +95,7 @@ const Notification: React.FC<propsType> = () => {
                         draft[index].read_at = 'date';
                     });
                 }));
+                dispatch(readNotificationCount(0));
             }
         } catch (err) {
             console.log(err);
@@ -112,6 +116,7 @@ const Notification: React.FC<propsType> = () => {
                     draft[index] = response.data;
                 }));
                 location.href = response.data.link;
+                dispatch(readNotificationCount(count-1));
             }
         } catch (err) {
             console.log(err);
