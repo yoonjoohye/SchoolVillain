@@ -17,10 +17,13 @@ const AuthCheckAPI=()=>{
 function* getLogged$() {
     try {
         const logged = yield call(AuthCheckAPI);
-        // console.log('sdf');
+        // console.log(logged);
         yield put(getLogged(logged.data.is_user));
+        sessionStorage.setItem('logged', logged.data.is_user);
     } catch (err) {
         console.log(err);
         yield put(getLogged(null));
+        sessionStorage.removeItem('logged');
+
     }
 }

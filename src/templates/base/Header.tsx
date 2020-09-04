@@ -9,6 +9,7 @@ import {Color} from "../../../assets/style/Color.style";
 import {useDispatch, useSelector} from "react-redux";
 import Notification from "../../pages/notification/Notification";
 import {searchKeyword} from "../../reducers/search";
+import axios from "axios";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -58,7 +59,7 @@ const SearchInput = styled.input`
   }
 `
 const HeaderIcon = styled.div`
- background:linear-gradient(0deg,#e7c9ff,#fbf7fd); 
+ //background:linear-gradient(0deg,#e7c9ff,#fbf7fd); 
  ${FlexBox()};
  width:3em; 
  height:3em; 
@@ -72,10 +73,12 @@ const Header = () => {
     const dispatch = useDispatch();
     const logged = useSelector(state => state.auth.logged);
     const word = useSelector(state => state.search.keyword);
+    const count=useSelector(state=>state.notification.count);
 
     const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
     const [keyword, setKeyword] = useState('');
+    // const [notificationCount,setNotificationCount]=useState(0);
 
     useEffect(() => {
         setKeyword(word);
@@ -128,7 +131,7 @@ const Header = () => {
                         !logged &&
                         <div css={css`margin-left:0.5em; ${onlyMobile()}; `}>
                             <HeaderIcon onClick={goSearch}>
-                                <img css={css`width:1.2em;`}
+                                <img css={css`width:1.5em;`}
                                      src={require('../../../assets/img/icon/search_purple.svg')}/>
                             </HeaderIcon>
                         </div>
@@ -140,13 +143,24 @@ const Header = () => {
                             <>
                                 <div css={css`margin-right:0.5em; ${onlyMobile()}; `}>
                                     <HeaderIcon onClick={goSearch}>
-                                        <img css={css`width:1.2em;`} src={require('../../../assets/img/icon/search_purple.svg')}/>
+                                        <img css={css`width:1.5em;`} src={require('../../../assets/img/icon/search_purple.svg')}/>
                                     </HeaderIcon>
                                 </div>
                                 <div css={css`margin-right:1em; ${media.md`margin-right:0.5em;`} `}
                                      ref={NotificationRef}>
                                     <HeaderIcon onClick={goNotification}>
-                                        <img css={css`width:1.2em;`}
+                                        {
+                                            count > 0 &&
+                                            <span css={css`position: absolute;
+                                                margin-top: -1.5em;
+                                                margin-right: -1em;
+                                                border-radius: 5em;
+                                                width: 0.5em;
+                                                height: 0.5em;
+                                                background-color: ${Color.purple200};`}>
+                                            </span>
+                                        }
+                                        <img css={css`width:1.5em;`}
                                              src={require('../../../assets/img/icon/notification.svg')}/>
                                     </HeaderIcon>
                                 </div>
@@ -155,7 +169,7 @@ const Header = () => {
                                 }
                                 <Link to="/mypage/profile">
                                     <HeaderIcon>
-                                        <img css={css`width:1.1em;`}
+                                        <img css={css`width:1.4em;`}
                                              src={require('../../../assets/img/icon/profile.svg')}/>
                                     </HeaderIcon>
                                 </Link>

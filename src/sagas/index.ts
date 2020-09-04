@@ -2,6 +2,7 @@ import {all, fork} from 'redux-saga/effects'
 import authSaga from './auth';
 import axios from "axios";
 import {cacheAdapterEnhancer} from "axios-extensions";
+import notificationSaga from "./notification";
 
 axios.defaults.withCredentials=true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -34,6 +35,7 @@ export default function* rootSaga() {
             '%c다 함께 깨끗한 인터넷 문화를 만들어요.',
             'color:#9067ff; font-size:15px;'
         ),
-        fork(authSaga)
+        fork(authSaga),
+        fork(notificationSaga)
     ])
 }
