@@ -18,13 +18,13 @@ export const Section=()=>css`
 `
 
 export const onlyPc=()=>css`
-  display:initial;
+  display:inherit;
   ${media.sm`display:none;`}
 `
 
 export const onlyMobile=()=>css`
   display:none;
-  ${media.sm`display:initial;`}
+  ${media.sm`display:inherit;`}
 `
 
 export const Position=(position:string)=>css`
@@ -44,4 +44,9 @@ export const HalfGrid=styled.div`
   display:grid; 
   grid-template-columns: 1fr 1fr; 
   grid-gap:1em;
+`;
+
+export const Grid=(left:number=50, right:number=50)=>css`
+  display:grid; 
+  grid-template-columns: ${left}% ${right}%;
 `;

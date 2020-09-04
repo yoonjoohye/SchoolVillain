@@ -6,11 +6,13 @@ import {media} from "../../../assets/style/Media.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import axios from "axios";
-import SEO from "../SEO/SEO";
+import SEO from "../../templates/SEO/SEO";
 import {css} from "@emotion/core";
 import {Link} from "react-router-dom";
 import {ErrorMsg} from "../../../assets/style/Util";
 import produce from "immer";
+import {useDispatch, useSelector} from "react-redux";
+import {authLoginFailure, authLoginRequest, authLoginSuccess} from "../../reducers/auth";
 
 const LoginSection = styled.section`
   ${FlexBox('column')};
@@ -18,6 +20,7 @@ const LoginSection = styled.section`
 `
 const LoginContainer = styled.article`
   width:500px;
+  ${media.md`width:400px;`}
   ${media.sm`width:90%;`}
 `
 const LoginTitle = styled.div`
@@ -57,6 +60,7 @@ const Input = styled.input`
 `
 
 const Login = ({history}: any) => {
+    const dispatch=useDispatch();
     const [email, setEmail] = useState('');
     const [emailCheck, setEmailCheck] = useState(false);
     const [emailErr, setEmailErr] = useState('');
@@ -65,7 +69,8 @@ const Login = ({history}: any) => {
     const [passwordCheck, setPasswordCheck] = useState(false);
     const [passwordErr, setPasswordErr] = useState('');
 
-    const [loading,setLoading]=useState(false);
+    let loading=useSelector(state=>state.auth.loading.login);
+    // const [loading,setLoading]=useState(false);
 
     const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,8}$/i;
@@ -102,7 +107,7 @@ const Login = ({history}: any) => {
 
     //API
     const goLogin = async () => {
-        setLoading(true);
+        dispatch(authLoginRequest());
         try {
             let csrf = await axios({
                 method: 'GET',
@@ -111,17 +116,16 @@ const Login = ({history}: any) => {
             if (csrf.status === 204) {
                 let response = await axios({
                     method: 'POST',
-                    url: '/login',
+                    url: '/api/user/login',
                     data: {
                         email: email,
                         password: password
                     }
                 });
                 if (response.status === 200) {
-                    sessionStorage.setItem('logged', 'true');
+                    sessionStorage.setItem('logged','true');
                     window.location.href = '/';
-                    setLoading(false);
-
+                    dispatch(authLoginSuccess());
                 }
             }
         } catch (err) {
@@ -135,8 +139,7 @@ const Login = ({history}: any) => {
                 setPasswordCheck(false);
                 setPasswordErr('다시 입력해주세요.');
             }
-            setLoading(false);
-
+            dispatch(authLoginFailure());
         }
     }
 

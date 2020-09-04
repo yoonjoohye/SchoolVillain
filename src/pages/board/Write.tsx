@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import SEO from "../SEO/SEO";
+import SEO from "../../templates/SEO/SEO";
 import produce from "immer";
-import ModalWrite from "../../constants/board/ModalWrite";
-import PageWrite from "../../constants/board/PageWrite";
+import ModalWrite from "../../templates/board/ModalWrite";
+import PageWrite from "../../templates/board/PageWrite";
 import axios from "axios";
 
 interface propsType {
@@ -121,7 +121,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
             }
         } catch (err) {
             if (err.response.status === 401) {
-                alert('로그인이 필요합니다.');
+                window.location.href='/login';
             } else {
                 // console.error(err.response);
             }

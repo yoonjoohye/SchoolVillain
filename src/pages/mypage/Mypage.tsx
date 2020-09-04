@@ -1,26 +1,25 @@
-import * as React from 'react';
-import PreviewBoard from "../../constants/board/PreviewBoard";
-import {useCallback, useEffect, useState} from "react";
+import React,{useCallback, useEffect, useState} from 'react';
+import PreviewBoard from "../../templates/board/PreviewBoard";
 import {css} from "@emotion/core";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
-import Profile from "../../constants/mypage/Profile";
+import Profile from "../../templates/mypage/Profile";
 import axios from "axios";
-import SEO from "../SEO/SEO";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import SEO from "../../templates/SEO/SEO";
+import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import InfiniteScroll from "react-infinite-scroll-component";
-import produce from "immer";
-import Modal from "../../components/modal/Modal";
+import Modal from "../../templates/modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
-import {likeBoardListRequest, postBoardListRequest} from "../../store/board";
+import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../reducers/board";
+import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 
 const MypageSection = styled.section`
   ${Section()}; 
 `
 const MypageTab = styled.nav`
   ${FlexBox('row', 'space-between', 'center')};
-  margin-bottom:1em;
+  margin-bottom:2em;
   border-bottom:1px solid ${Color.gray100};
   ${MarkdownBase('',500)};
 `
@@ -31,7 +30,7 @@ const Tab = styled.li`
   text-align:center;
 `
 const MypageContents = styled.div`
-  padding:1em 0;
+  
 `
 const Mypage: React.FC = ({history, match}: any) => {
     const dispatch = useDispatch();
@@ -46,13 +45,9 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [boardList, setBoardList] = useState(postBoardList);
     const [replyList, setReplyList] = useState(replyBoardList);
 
-    const [likePage,setLikePage]=useState(likeBoardPage);
-    const [boardPage,setBoardPage]=useState(postBoardPage);
-    const [replyPage,setReplyPage]=useState(replyBoardPage);
-
-    const [likeHasMore,setLikeHasMore]=useState(true);
-    const [boardHasMore,setBoardHasMore]=useState(true);
-    const [replyHasMore,setReplyHasMore]=useState(true);
+    const [likeHasMore,setLikeHasMore]=useState(false);
+    const [boardHasMore,setBoardHasMore]=useState(false);
+    const [replyHasMore,setReplyHasMore]=useState(false);
 
     const [user,setUser]=useState(null);
     const [nickname, setNickname] = useState('');
@@ -70,31 +65,31 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [newPasswordConfirmCheck, setNewPasswordConfirmCheck] = useState(false);
 
     const [loading,setLoading]=useState({
-        like:false,
-        board:false,
-        reply:false
+        like:true,
+        board:true,
+        reply:true
     });
 
-    const tab = ['좋아요한 글', '내가 쓴 글', '내가 쓴 댓글', '내정보'];
+    const tab = ['좋아요한 글', '작성한 글', '댓글 쓴 글', '내정보'];
     const [menu, setMenu] = useState(0);
 
     useEffect(() => {
         if (match.params.name === 'like') {
             setMenu(0);
             if(likeBoardPage===1) {
-                MyLikeAPI(likePage);
+                MyLikeAPI(likeBoardPage);
             }
         }
         if (match.params.name === 'board') {
             setMenu(1);
             if(postBoardPage===1) {
-                MyBoardAPI(boardPage);
+                MyBoardAPI(postBoardPage);
             }
         }
         if (match.params.name === 'reply') {
             setMenu(2);
             if(replyBoardPage===1) {
-                MyReplyAPI(replyPage);
+                MyReplyAPI(replyBoardPage);
             }
 
         }
@@ -125,13 +120,14 @@ const Mypage: React.FC = ({history, match}: any) => {
                 }else{
                     likeBoardList=response.data.data;
                 }
-
                 setLikeList(likeBoardList);
 
-                if(response.data.total<=page*10){
+                if(response.data.last_page<=page){
                     setLikeHasMore(false);
+                }else{
+                    setLikeHasMore(true);
                 }
-                setLikePage(page);
+                // setLikePage(page);
                 dispatch(likeBoardListRequest(likeBoardList,page));
                 setLoading({...loading,like:false});
             }
@@ -169,10 +165,12 @@ const Mypage: React.FC = ({history, match}: any) => {
                 }
                 setBoardList(postBoardList);
 
-                if(response.data.total<=page*10){
+                if(response.data.last_page<=page){
                     setBoardHasMore(false);
+                }else{
+                    setBoardHasMore(true);
                 }
-                setBoardPage(page);
+                // setBoardPage(page);
                 dispatch(postBoardListRequest(postBoardList,page));
                 setLoading({...loading,board:false});
 
@@ -211,12 +209,15 @@ const Mypage: React.FC = ({history, match}: any) => {
                 
                 setReplyList(replyBoardList);
 
-                if(response.data.total<=page*5){
+                if(response.data.last_page<=page){
                     setReplyHasMore(false);
+                }else{
+                    setReplyHasMore(true);
                 }
-                setReplyPage(page);
 
-                dispatch(postBoardListRequest(replyBoardList,page));
+                // setReplyPage(page);
+
+                dispatch(replyBoardListRequest(replyBoardList,page));
 
                 setLoading({...loading,reply:false});
             }
@@ -306,7 +307,6 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [buttonName,setButtonName]=useState('');
 
     const editNickname = async () => {
-        console.log(nickname);
         try {
             let response = await axios({
                 method: 'POST',
@@ -319,7 +319,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             if (response.status === 201) {
                 setOpenModal(true);
                 setTitle('닉네임 변경');
-                setContents('닉네임 변경이 완료되었습니다.<br/>당신의 인싸력으로 보여주세요.');
+                setContents('닉네임 변경이 완료되었습니다.');
                 setButtonName('확인');
             }
         } catch (err) {
@@ -347,7 +347,7 @@ const Mypage: React.FC = ({history, match}: any) => {
             if (response.status === 201) {
                 setOpenModal(true);
                 setTitle('패스워드 변경');
-                setContents('패스워드 변경이 완료되었습니다.<br/>보안에 철저한 당신, 칭찬합니다.');
+                setContents('패스워드 변경이 완료되었습니다.');
                 setButtonName('확인');
             }
         } catch (err) {
@@ -435,12 +435,10 @@ const Mypage: React.FC = ({history, match}: any) => {
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                             dataLength={likeList.length}
-                            next={()=>MyLikeAPI(likePage+1)}
+                            next={()=>MyLikeAPI(likeBoardPage+1)}
                             hasMore={likeHasMore}
                             loader={
-                                <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                                </div>
+                                <SkeletonPreviewBoard/>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                             <PreviewBoard loading={loading.like} boardList={likeList} goDetail={goDetail}/>
@@ -451,12 +449,10 @@ const Mypage: React.FC = ({history, match}: any) => {
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                             dataLength={boardList.length}
-                            next={()=>MyBoardAPI(boardPage+1)}
+                            next={()=>MyBoardAPI(postBoardPage+1)}
                             hasMore={boardHasMore}
                             loader={
-                                <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                                </div>
+                                <SkeletonPreviewBoard/>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                             <PreviewBoard loading={loading.board} boardList={boardList} goDetail={goDetail}/>
@@ -467,12 +463,10 @@ const Mypage: React.FC = ({history, match}: any) => {
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                             dataLength={replyList.length}
-                            next={()=>MyReplyAPI(replyPage+1)}
+                            next={()=>MyReplyAPI(replyBoardPage+1)}
                             hasMore={replyHasMore}
                             loader={
-                                <div css={css`text-align: center; padding:5em;`}>
-                                    <img css={css`width:3em;`} src={require('../../../assets/img/icon/spinner.gif')}/>
-                                </div>
+                                <SkeletonPreviewBoard/>
                             }
                             endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
                             <PreviewBoard loading={loading.reply} boardList={replyList} mypage={true} goDetail={goDetail}/>

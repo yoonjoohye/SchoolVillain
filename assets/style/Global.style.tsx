@@ -14,6 +14,13 @@ export const GlobalStyle = () => (
       height: 100%;
     }
     
+    // &::selection {
+    //   background: ${Color.yellow100}; /* WebKit/Blink Browsers */
+    // }
+    // &::-moz-selection {
+    //   background: ${Color.yellow100}; /* Gecko Browsers */
+    // }
+
     body {
       width: 100%;
       font-family: 'NanumSquare', sans-serif;
@@ -28,6 +35,9 @@ export const GlobalStyle = () => (
       font-size: 16px;
       outline:none;
       ${media.sm`font-size: 13px;`};
+      &::placeholder{
+        color:${Color.gray150};
+       }
     }
     
     textarea {
@@ -35,6 +45,9 @@ export const GlobalStyle = () => (
       font-size: 16px;
       outline:none;
       ${media.sm`font-size: 13px;`};
+      &::placeholder{
+        color:${Color.gray150};
+       }
     }
    
     input {
@@ -42,6 +55,9 @@ export const GlobalStyle = () => (
       font-size: 16px;
       outline:none;
        ${media.sm`font-size: 13px;`};
+       &::placeholder{
+        color:${Color.gray150};
+       }
     }
     input[type="password"]{
        font-family: Arial, sans-serif;
@@ -49,9 +65,6 @@ export const GlobalStyle = () => (
        &::placeholder{
         letter-spacing: 0;
        }
-    }
-    select{
-      outline:none;
     }
     button{
       border:0;
@@ -70,6 +83,10 @@ export const GlobalStyle = () => (
       padding: 0;
     }
     
+    em{
+        background-color: ${Color.yellow100};
+        font-style: normal;
+    }
     a {
       text-decoration: none;
       color: ${Color.black};
