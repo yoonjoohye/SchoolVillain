@@ -1,27 +1,26 @@
-import * as React from 'react';
-import SEO from '../SEO/SEO';
-import {useCallback, useEffect, useState} from 'react';
+import React,{useCallback, useEffect, useState} from 'react';
+import SEO from '../../templates/SEO/SEO';
 import styled from '@emotion/styled';
-import MainBanner from '../../constants/banner/MainBanner';
-import PreviewBoard from '../../constants/board/PreviewBoard';
-import PreviewWrite from '../../constants/board/PreviewWrite';
+import MainBanner from '../../templates/banner/MainBanner';
+import PreviewBoard from '../../templates/board/PreviewBoard';
+import PreviewWrite from '../../templates/board/PreviewWrite';
 import axios from 'axios';
-import SideBanner from "../../constants/banner/SideBanner";
-import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
+import SideBanner from "../../templates/banner/SideBanner";
+import {Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
-import Identification from "../../constants/mypage/Identification";
+import Identification from "../../templates/mypage/Identification";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
-import produce from "immer";
 import {useDispatch, useSelector} from "react-redux";
-import {boardListRequest} from "../../store/board";
+import {boardListRequest} from "../../reducers/board";
+import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 
 const IndexSection = styled.section`
   ${Section};
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 33% 67%;
   ${media.md`
      grid-template-columns: 100%;
   `};
@@ -41,19 +40,21 @@ const Nav = styled.nav`
 const Index: React.FC = ({history}: any) => {
 
     const dispatch = useDispatch();
+
     let list = useSelector(state => state.board.boardList);
     let page=useSelector(state=>state.board.boardPage);
+
     const [boardList, setBoardList] = useState(list);
+
     const [user, setUser] = useState(null);
     const [mainBanner, setMainBanner] = useState(null);
     const [sideBanner, setSideBanner] = useState([]);
-    const [boardPage, setBoardPage] = useState(page);
-    const [hasMore, setHasMore] = useState(true);
-    const [loading,setLoading]=useState(false);
+    const [hasMore, setHasMore] = useState(false);
+    const [loading,setLoading]=useState(true);
 
     useEffect(() => {
         if(page===1) {
-            BoardAPI(boardPage);
+            BoardAPI(page);
         }
         UserAPI();
         BannerAPI();
@@ -82,11 +83,12 @@ const Index: React.FC = ({history}: any) => {
                 }
 
                 setBoardList(list);
-                if (response.data.total <= page * 10) {
+                if (response.data.last_page <= page) {
                     setHasMore(false);
-                }
-                setBoardPage(page);
+                }else{
+                    setHasMore(true);
 
+                }
 
                 dispatch(boardListRequest(list,page));
                 setLoading(false);
@@ -146,7 +148,7 @@ const Index: React.FC = ({history}: any) => {
     return (
         <>
             <SEO title="스쿨빌런 | 전국 5570개 중고등학교를 대표하는 학생 커뮤니티"
-                 description="나의 고민을 함께하스쿨빌런"
+                 description="중고등학생 커뮤니티 스쿨빌런입니다."
                  keywords="익명, 커뮤니티, 배너광고, 아이돌, 덕질, 익명고백, 학교정보, 입시정보, 고등학생, 중학생, 전학, 대나무 숲, 중고등학생을 위한 대나무 숲!, 학교축제, 인맥, 친구, 뒷담화, 학생 대표 커뮤니티
 전국 5570개 중고등학교를 대표하는 학생 커뮤니티, school villain, 학교 생활정보, 익명 커뮤니티, 시간표, 대학, 중학교, 고등학교, 고백, 10대, 진로고민, 성적고민, 연애고민, 가정고민, 청소년, 사춘기, 상담"
             />
@@ -162,12 +164,10 @@ const Index: React.FC = ({history}: any) => {
                     <InfiniteScroll
                         css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                         dataLength={boardList.length}
-                        next={() => BoardAPI(boardPage + 1)}
+                        next={() => BoardAPI(page + 1)}
                         hasMore={hasMore}
                         loader={
-                            <figure css={css`text-align: center; padding:3em;`}>
-                                <img css={css`width:5em;`} src={require('../../../assets/img/icon/spinner.gif')} alt="스쿨빌런-로딩스피너"/>
-                            </figure>
+                            <SkeletonPreviewBoard/>
                         }
                         endMessage={<div
                             css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>

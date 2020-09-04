@@ -9,7 +9,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.tsx', '.ts', '.jsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     entry: {
         'vendor': ['react', 'react-dom', 'react-router-dom'],
