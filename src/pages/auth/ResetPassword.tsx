@@ -18,6 +18,7 @@ const LoginSection = styled.section`
 `
 const LoginContainer = styled.article`
   width:500px;
+  ${media.md`width:400px;`}
   ${media.sm`width:90%;`}
 `
 const LoginTitle = styled.div`

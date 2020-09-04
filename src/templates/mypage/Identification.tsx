@@ -158,7 +158,6 @@ const Identification = ({user}: any) => {
                     :
                     <section css={css`padding:1.5em 1em;
                                       box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
-                                      margin-bottom:2em;
                                       text-align:center;
                                       ${MarkdownBase('')}`}>
                         <div css={css`margin-bottom:1em;`}>아직도 <span css={css`font-weight:700;`}>스쿨빌런 가입</span> 안했나요?</div>

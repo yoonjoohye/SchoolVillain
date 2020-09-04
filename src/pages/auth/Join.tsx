@@ -23,7 +23,7 @@ const JoinSection = styled.section`
 const JoinContainer = styled.article`
   min-width:500px;
   max-width:1000px;
-  ${media.md`min-width:500px; max-width:80%;`}
+  ${media.md`min-width:400px; max-width:80%;`}
   ${media.sm`min-width:90%; max-width:90%;`}
 `
 

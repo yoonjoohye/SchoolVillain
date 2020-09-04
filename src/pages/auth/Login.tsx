@@ -20,6 +20,7 @@ const LoginSection = styled.section`
 `
 const LoginContainer = styled.article`
   width:500px;
+  ${media.md`width:400px;`}
   ${media.sm`width:90%;`}
 `
 const LoginTitle = styled.div`
@@ -106,7 +107,6 @@ const Login = ({history}: any) => {
 
     //API
     const goLogin = async () => {
-        // setLoading(true);
         dispatch(authLoginRequest());
         try {
             let csrf = await axios({
@@ -124,8 +124,7 @@ const Login = ({history}: any) => {
                 });
                 if (response.status === 200) {
                     sessionStorage.setItem('logged','true');
-                    // window.location.href = '/';
-                    // setLoading(false);
+                    window.location.href = '/';
                     dispatch(authLoginSuccess());
                 }
             }
@@ -140,7 +139,6 @@ const Login = ({history}: any) => {
                 setPasswordCheck(false);
                 setPasswordErr('다시 입력해주세요.');
             }
-            // setLoading(false);
             dispatch(authLoginFailure());
         }
     }
