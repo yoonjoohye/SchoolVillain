@@ -43,7 +43,7 @@ const SearchInput = styled.input`
   width:13em; 
   border-radius: 0.5em;
   border:1px solid ${Color.gray100};
-  padding:0.8em 1em;
+  padding:0.5em 1em;
   transition: width 0.5s;
   ${onlyPc()};
   ${media.md`
