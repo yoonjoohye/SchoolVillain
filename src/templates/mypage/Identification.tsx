@@ -3,10 +3,8 @@ import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {Link} from "react-router-dom";
 import {css} from "@emotion/core";
-import SkeletonProfile from "../loading/SkeletonIdentification";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
-import {media} from "../../../assets/style/Media.style";
 import SkeletonIdentification from "../loading/SkeletonIdentification";
 import {useSelector} from "react-redux";
 
@@ -30,7 +28,7 @@ const ProfileSection = styled.div`
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   &.back{
-    ${FlexBox('column','space-around','')};
+    ${FlexBox('column', 'space-around', '')};
     transform: rotateY(180deg);
     background-color:${Color.white};
   }
@@ -47,7 +45,7 @@ const ProfileTitle = styled.div`
   ${FlexBox('row', 'space-between', 'center')};
 `
 
-const ProfileName=styled.div`
+const ProfileName = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -63,13 +61,13 @@ const ProfileBody = styled.div`
   height:7.5em;
 `
 
-const ProfileFooter=styled.div`
+const ProfileFooter = styled.div`
   padding: 1.2em;
   text-align:center;
 `
 
 interface btnProps {
-    isFull:boolean;
+    isFull: boolean;
 }
 
 
@@ -78,9 +76,7 @@ const AuthBtn = styled.button<btnProps>`
   padding:1em;
   border-radius: 0.3em;
   text-align:center;
-  border:1px solid ${Color.purpl200};
-
-   ${(props: btnProps) => props.isFull?
+   ${(props: btnProps) => props.isFull ?
     css`
     background-color:${Color.purple200};
     color:${Color.white};
@@ -88,8 +84,9 @@ const AuthBtn = styled.button<btnProps>`
       background-color:${Color.purple300};
     }
     margin-bottom:1em;
-    `:
+    ` :
     css`
+    border:1px solid ${Color.purpl200};
     background-color:${Color.white};
     color:${Color.purple200};
      &:hover{
@@ -101,7 +98,7 @@ const AuthBtn = styled.button<btnProps>`
 `
 
 const Identification = ({user}: any) => {
-    let logged=useSelector(state=>state.auth.logged);
+    let logged = useSelector(state => state.auth.logged);
     return (
         <>
             {
@@ -156,22 +153,31 @@ const Identification = ({user}: any) => {
                         :
                         <SkeletonIdentification/>
                     :
-                    <section css={css`padding:1.5em 1em;
-                                      box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
-                                      text-align:center;
-                                      ${MarkdownBase('')}`}>
-                        <div css={css`margin-bottom:1em;`}>아직도 <span css={css`font-weight:700;`}>스쿨빌런 가입</span> 안했나요?</div>
-                        <Link to="/login">
-                            <AuthBtn isFull={true}>
-                                로그인
-                            </AuthBtn>
-                        </Link>
+                    <>
                         <Link to="/join/agreement">
-                            <AuthBtn isFull={false}>
-                                회원가입
-                            </AuthBtn>
+                            <section css={css`padding:1em 0;
+                                          background:linear-gradient(70deg, #06005d, #6700a7);
+                                          margin-bottom:1em;
+                                          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                                          text-align:center;
+                                          border-radius: 0.3em;
+                                          ${MarkdownMd(Color.white)}`}>
+
+                                <span css={css`font-weight:700;`}>스쿨빌런 가입</span> 아직인가요?
+                            </section>
                         </Link>
-                    </section>
+                        <Link to="/login">
+                            <section css={css`padding:1em 0;
+                                          background:linear-gradient(70deg,#ffc407,#ff138b);
+                                          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                                          text-align:center;
+                                          border-radius: 0.3em;
+                                          ${MarkdownMd(Color.white)}`}>
+
+                                <span css={css`font-weight:700;`}>스쿨빌런 로그인</span> 하러가기
+                            </section>
+                        </Link>
+                    </>
             }
         </>
     )

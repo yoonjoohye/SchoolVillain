@@ -5,7 +5,6 @@ import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import Write from "../../pages/board/Write";
 import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
-import produce from "immer";
 import {media} from "../../../assets/style/Media.style";
 import {MarkdownMd} from "../../../assets/style/Markdown.style";
 
@@ -19,10 +18,11 @@ const WriteSection = styled.section`
 const WriteContainer = styled.div`
   // ${FlexBox('', 'flex-start', 'center')};
   cursor:text; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   padding:1em; 
   border-radius: 0.5em; 
   background-color: white;
-  border: 1px solid ${Color.gray100};
+  //border: 1px solid ${Color.gray100};
   color: ${Color.gray150};
 `
 
@@ -63,11 +63,7 @@ const PreviewWrite = () => {
                     <div css={css`${MarkdownMd(Color.purple200, 500)}`}>오늘 무슨 일이 있으셨나요?</div>
                 </div>
                     <WriteContainer>
-                        {/*<div css={css`${FlexBox('', 'space-between', '')};`}>*/}
-
-                        <div>
                             <WriteTxt>무슨 일이 있었는지 자세하게 알려주세요.</WriteTxt>
-                        </div>
                         {/*<div css={css`margin-left:1em;`}>*/}
                         {/*    <button css={css`width:3em; height:3em; padding:0.8em; border-radius: 5em; background-color:${Color.purple200}; ${FlexBox()};`}><img*/}
                         {/*        css={css`width:100%; height:100%;`}*/}

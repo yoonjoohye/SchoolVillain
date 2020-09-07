@@ -6,7 +6,6 @@ import axios from "axios";
 export default function* authSaga() {
     yield all([
         getLogged$()
-        // takeEvery(GET_LOGGED,getLogged$)
     ])
 }
 
@@ -17,7 +16,6 @@ const AuthCheckAPI=()=>{
 function* getLogged$() {
     try {
         const logged = yield call(AuthCheckAPI);
-        // console.log(logged);
         yield put(getLogged(logged.data.is_user));
         sessionStorage.setItem('logged', logged.data.is_user);
     } catch (err) {

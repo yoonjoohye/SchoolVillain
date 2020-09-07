@@ -18,6 +18,7 @@ const BannerImg = styled.img`
   position: relative;
   vertical-align: middle;
   width:100%;
+  border-radius: 0.3em;
 `
 const BannerTag = styled.div`
   padding:0.5em;

@@ -40,14 +40,14 @@ const SearchInput = styled.input`
   background-size: 1em;
   margin-left:1em; 
   width:13em; 
-  border-radius: 0.5em;
+  border-radius: 0.3em;
   border:none;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  padding:0.5em 1em;
+  padding:0.6em 1em;
   transition: width 0.5s;
   ${onlyPc()};
   ${media.md`
-      width:7em; 
+      width:10em; 
       background-position: calc(100% - 0.8em);
       padding:0.5em 0.8em;
       margin-left:0.5em;
@@ -55,7 +55,7 @@ const SearchInput = styled.input`
   `}
   &:focus{
     width:15em;
-    ${media.md`width:8em;`}
+    ${media.md`width:11em;`}
   }
 `
 const HeaderIcon = styled.figure`
@@ -127,7 +127,7 @@ const Header = () => {
                                  onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
                     {
                         !logged &&
-                        <div css={css`margin-left:0.5em; ${onlyMobile()}; `}>
+                        <div css={css`${onlyMobile()};`}>
                             <HeaderIcon onClick={goSearch}>
                                 <img css={css`width:1.5em;`}
                                      src={require('../../../assets/img/icon/search_purple.svg')}/>
@@ -175,14 +175,14 @@ const Header = () => {
                             </>
                             :
                             <>
-                                <Link css={css`background:${Color.purple200}; 
-                                        ${MarkdownSm(Color.white)}; width:80px; ${media.md`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em; margin-right:0.5em; `}
-                                      to="/login">로그인
-                                </Link>
-                                <Link css={css`background:${Color.white}; border:1px solid ${Color.purple200};
-                                        ${MarkdownSm(Color.purple200)}; width:80px; ${media.md`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em;`}
+                                <Link css={css`${MarkdownSm(Color.purple200)}; width:80px; ${media.md`width:60px;`};`}
                                       to="/join/agreement">회원가입
                                 </Link>
+                                <Link css={css`background:${Color.purple200}; 
+                                        ${MarkdownSm(Color.white)}; width:80px; ${media.md`width:60px;`}; border:1px solid ${Color.purple200}; padding:0.7em 0; border-radius: 0.3em; `}
+                                      to="/login">로그인
+                                </Link>
+
                             </>
                     }
                 </HeaderMenu>

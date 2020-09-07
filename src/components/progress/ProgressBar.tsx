@@ -39,7 +39,7 @@ const ProgressBar: React.FC<propsType> = ({step}) => {
     return (
             <Progress>
                 <Status step={step-1}/>
-                <div css={css`${MarkdownBase(Color.purple200)}; text-align:center;`}>{(step-1) * 20}%</div>
+                <div css={css`${MarkdownSm(Color.purple200)}; text-align:center;`}>{(step-1) * 20}%</div>
             </Progress>
     )
 }

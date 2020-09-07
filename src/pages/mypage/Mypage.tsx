@@ -13,6 +13,7 @@ import Modal from "../../templates/modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../reducers/board";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
+import {authLogoutFailure, authLogoutRequest, authLogoutSuccess} from "../../reducers/auth";
 
 const MypageSection = styled.section`
   ${Section()}; 
@@ -362,6 +363,7 @@ const Mypage: React.FC = ({history, match}: any) => {
     }
 
     const goLogout = async () => {
+        dispatch(authLogoutRequest());
         try {
             let response = await axios({
                 method: 'POST',
@@ -369,11 +371,13 @@ const Mypage: React.FC = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 204) {
-                location.href = '/';
                 sessionStorage.removeItem('logged');
+                window.location.href = '/';
+                dispatch(authLogoutSuccess());
             }
         } catch (err) {
             console.log(err);
+            dispatch(authLogoutFailure());
         }
     }
     const goWithdrawal = async () => {
