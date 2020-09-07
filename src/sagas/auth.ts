@@ -24,6 +24,5 @@ function* getLogged$() {
         console.log(err);
         yield put(getLogged(null));
         sessionStorage.removeItem('logged');
-
     }
 }

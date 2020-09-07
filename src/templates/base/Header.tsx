@@ -9,7 +9,6 @@ import {Color} from "../../../assets/style/Color.style";
 import {useDispatch, useSelector} from "react-redux";
 import Notification from "../../pages/notification/Notification";
 import {searchKeyword} from "../../reducers/search";
-import axios from "axios";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -58,15 +57,13 @@ const SearchInput = styled.input`
     ${media.md`width:8em;`}
   }
 `
-const HeaderIcon = styled.div`
+const HeaderIcon = styled.figure`
  //background:linear-gradient(0deg,#e7c9ff,#fbf7fd); 
- ${FlexBox()};
+ ${FlexBox('row','center','center')};
  width:3em; 
  height:3em; 
- border-radius: 50%; 
  cursor:pointer;
  ${media.md`width:2.5em; height:2.5em; `}
-
 `
 const Header = () => {
     let history = useHistory();
@@ -148,20 +145,21 @@ const Header = () => {
                                 </div>
                                 <div css={css`margin-right:1em; ${media.md`margin-right:0.5em;`} `}
                                      ref={NotificationRef}>
-                                    <HeaderIcon onClick={goNotification}>
-                                        {
-                                            count > 0 &&
-                                            <span css={css`position: absolute;
-                                                margin-top: -1.5em;
-                                                margin-right: -1em;
-                                                border-radius: 5em;
+                                    {
+                                        count > 0 &&
+                                        <figcaption css={css`position: absolute;
+                                                margin-left: 1.8em;
+                                                margin-top: 0.3em;
+                                                border-radius: 50%;
                                                 width: 0.5em;
                                                 height: 0.5em;
                                                 background-color: ${Color.purple200};`}>
-                                            </span>
-                                        }
+                                        </figcaption>
+                                    }
+                                    <HeaderIcon onClick={goNotification}>
                                         <img css={css`width:1.5em;`}
                                              src={require('../../../assets/img/icon/notification.svg')}/>
+
                                     </HeaderIcon>
                                 </div>
                                 {

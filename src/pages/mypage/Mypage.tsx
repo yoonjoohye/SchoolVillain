@@ -404,8 +404,6 @@ const Mypage: React.FC = ({history, match}: any) => {
         location.reload();
     }
 
-
-
     return (
         <>
             <SEO title="마이페이지 | 스쿨빌런"
