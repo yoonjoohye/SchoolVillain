@@ -59,8 +59,10 @@ const Input = styled.input`
     margin-bottom:10px;
 `
 
-const Login = ({history}: any) => {
+const Login = () => {
     const dispatch=useDispatch();
+    let loading=useSelector(state=>state.auth.loading.login);
+
     const [email, setEmail] = useState('');
     const [emailCheck, setEmailCheck] = useState(false);
     const [emailErr, setEmailErr] = useState('');
@@ -69,8 +71,6 @@ const Login = ({history}: any) => {
     const [passwordCheck, setPasswordCheck] = useState(false);
     const [passwordErr, setPasswordErr] = useState('');
 
-    let loading=useSelector(state=>state.auth.loading.login);
-    // const [loading,setLoading]=useState(false);
 
     const changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         let emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,8}$/i;

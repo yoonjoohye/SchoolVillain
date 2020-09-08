@@ -9,7 +9,6 @@ import {Color} from "../../../assets/style/Color.style";
 import {useDispatch, useSelector} from "react-redux";
 import Notification from "../../pages/notification/Notification";
 import {searchKeyword} from "../../reducers/search";
-import axios from "axios";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -22,7 +21,8 @@ const HeaderSection = styled.header`
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
   height:4em;
-  width:90%;
+  width:95%;
+  ${media.sm`width:90%`};
   margin:auto;
 `
 const HeaderLogo = styled.div`
@@ -36,18 +36,20 @@ const HeaderMenu = styled.div`
 `
 const SearchInput = styled.input`
   background-image:url(${require('../../../assets/img/icon/search.svg')});
+  background-color:${Color.gray100};
   background-repeat: no-repeat;
   background-position: calc(100% - 1em);
   background-size: 1em;
   margin-left:1em; 
   width:13em; 
-  border-radius: 0.5em;
-  border:1px solid ${Color.gray100};
-  padding:0.8em 1em;
+  border-radius: 0.3em;
+  border:none;
+  //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  padding:0.6em 1em;
   transition: width 0.5s;
   ${onlyPc()};
   ${media.md`
-      width:7em; 
+      width:10em; 
       background-position: calc(100% - 0.8em);
       padding:0.5em 0.8em;
       margin-left:0.5em;
@@ -55,18 +57,16 @@ const SearchInput = styled.input`
   `}
   &:focus{
     width:15em;
-    ${media.md`width:8em;`}
+    ${media.md`width:11em;`}
   }
 `
-const HeaderIcon = styled.div`
+const HeaderIcon = styled.figure`
  //background:linear-gradient(0deg,#e7c9ff,#fbf7fd); 
- ${FlexBox()};
+ ${FlexBox('row','center','center')};
  width:3em; 
  height:3em; 
- border-radius: 50%; 
  cursor:pointer;
  ${media.md`width:2.5em; height:2.5em; `}
-
 `
 const Header = () => {
     let history = useHistory();
@@ -129,7 +129,7 @@ const Header = () => {
                                  onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
                     {
                         !logged &&
-                        <div css={css`margin-left:0.5em; ${onlyMobile()}; `}>
+                        <div css={css`${onlyMobile()};`}>
                             <HeaderIcon onClick={goSearch}>
                                 <img css={css`width:1.5em;`}
                                      src={require('../../../assets/img/icon/search_purple.svg')}/>
@@ -148,20 +148,21 @@ const Header = () => {
                                 </div>
                                 <div css={css`margin-right:1em; ${media.md`margin-right:0.5em;`} `}
                                      ref={NotificationRef}>
-                                    <HeaderIcon onClick={goNotification}>
-                                        {
-                                            count > 0 &&
-                                            <span css={css`position: absolute;
-                                                margin-top: -1.5em;
-                                                margin-right: -1em;
-                                                border-radius: 5em;
+                                    {
+                                        count > 0 &&
+                                        <figcaption css={css`position: absolute;
+                                                margin-left: 1.8em;
+                                                margin-top: 0.3em;
+                                                border-radius: 50%;
                                                 width: 0.5em;
                                                 height: 0.5em;
                                                 background-color: ${Color.purple200};`}>
-                                            </span>
-                                        }
+                                        </figcaption>
+                                    }
+                                    <HeaderIcon onClick={goNotification}>
                                         <img css={css`width:1.5em;`}
                                              src={require('../../../assets/img/icon/notification.svg')}/>
+
                                     </HeaderIcon>
                                 </div>
                                 {
@@ -176,14 +177,14 @@ const Header = () => {
                             </>
                             :
                             <>
-                                <Link css={css`background:${Color.purple200}; 
-                                        ${MarkdownSm(Color.white)}; width:80px; ${media.md`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em; margin-right:0.5em; `}
-                                      to="/login">로그인
-                                </Link>
-                                <Link css={css`background:${Color.white}; border:1px solid ${Color.purple200};
-                                        ${MarkdownSm(Color.purple200)}; width:80px; ${media.md`width:60px;`}; padding:0.8em 0.3em; border-radius: 0.3em;`}
+                                <Link css={css`${MarkdownSm(Color.purple200)}; width:80px; ${media.md`width:60px;`};`}
                                       to="/join/agreement">회원가입
                                 </Link>
+                                <Link css={css`background:${Color.purple200}; 
+                                        ${MarkdownSm(Color.white)}; width:80px; ${media.md`width:60px;`}; border:1px solid ${Color.purple200}; padding:0.7em 0; border-radius: 0.3em; `}
+                                      to="/login">로그인
+                                </Link>
+
                             </>
                     }
                 </HeaderMenu>

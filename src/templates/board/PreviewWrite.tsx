@@ -2,27 +2,30 @@ import {css} from "@emotion/core";
 import React, {useEffect, useState} from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
-import {FlexBox} from "../../../assets/style/Layout.style";
+import {FlexBox, onlyPc} from "../../../assets/style/Layout.style";
 import Write from "../../pages/board/Write";
 import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
-import produce from "immer";
 import {media} from "../../../assets/style/Media.style";
-import {MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownMd, MarkdownSm, MarkdownXl} from "../../../assets/style/Markdown.style";
 
 const WriteSection = styled.section`
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   padding:2em;
   border-radius: 0.3em;
-  border-top: 10px solid ${Color.purple200};
+  border:1px solid ${Color.gray100};
   ${media.sm`padding:1.8em 5%;`}
+  //&:hover{
+  //  background-color:#f5f5f5;
+  //}
 `
 const WriteContainer = styled.div`
   // ${FlexBox('', 'flex-start', 'center')};
   cursor:text; 
+  //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   padding:1em; 
   border-radius: 0.5em; 
-  background-color: white;
-  border: 1px solid ${Color.gray100};
+  background-color: ${Color.gray100};
+  //border: 1px solid ${Color.gray100};
   color: ${Color.gray150};
 `
 
@@ -57,17 +60,17 @@ const PreviewWrite = () => {
                 writeModal && <Write isOpen={isOpen}/>
             }
             <WriteSection onClick={goWrite}>
-
                 <div css={css`${FlexBox('', 'flex-start', 'center')}; margin-bottom:1em;`}>
-                    <img css={css`width:2em; height:2em; margin-right: 0.8em;`} src={require('../../../assets/img/icon/edit.svg')}/>
-                    <div css={css`${MarkdownMd(Color.purple200, 500)}`}>오늘 무슨 일이 있으셨나요?</div>
+                    {/*<img css={css`width:2em; height:2em; margin-right: 0.8em;`} src={require('../../../assets/img/icon/edit.svg')}/>*/}
+                    <span css={css`font-size:24px; margin-right:0.5em;`}>✏️</span>
+                    <div>
+                    <div css={css`${MarkdownSm(Color.gray200)}; ${onlyPc()};`}>게시글 작성</div>
+
+                    <div css={css`${MarkdownMd('', 600)};`}>오늘, 무슨 일이 있으셨나요?</div>
+                    </div>
                 </div>
                     <WriteContainer>
-                        {/*<div css={css`${FlexBox('', 'space-between', '')};`}>*/}
-
-                        <div>
-                            <WriteTxt>무슨 일이 있었는지 자세하게 알려주세요.</WriteTxt>
-                        </div>
+                            <WriteTxt>어떤 일인지 자세하게 알려주세요.</WriteTxt>
                         {/*<div css={css`margin-left:1em;`}>*/}
                         {/*    <button css={css`width:3em; height:3em; padding:0.8em; border-radius: 5em; background-color:${Color.purple200}; ${FlexBox()};`}><img*/}
                         {/*        css={css`width:100%; height:100%;`}*/}

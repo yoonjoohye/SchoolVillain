@@ -35,11 +35,6 @@ const Select = styled.select`
   }
 
 `
-const Option = styled.option`
-  
-  
-`
-
 interface propsType {
     goPrev: any;
     goNext: any;
@@ -58,16 +53,16 @@ const School: React.FC<propsType> = ({goPrev, goNext, school, grade, selectSchoo
             <JoinTitle>School & Grade</JoinTitle>
             <SelectBox>
                 <Select value={school} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectSchool(e)}>
-                    <Option value="" selected disabled>학교를 선택해주세요.</Option>
-                    <Option value="1">중학교</Option>
-                    <Option value="2">고등학교</Option>
+                    <option value="" selected disabled>학교를 선택해주세요.</option>
+                    <option value="1">중학교</option>
+                    <option value="2">고등학교</option>
                 </Select>
 
                 <Select value={grade} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectGrade(e)}>
-                    <Option value="" selected disabled>학년을 선택해주세요.</Option>
-                    <Option value="1">1학년</Option>
-                    <Option value="2">2학년</Option>
-                    <Option value="3">3학년</Option>
+                    <option value="" selected disabled>학년을 선택해주세요.</option>
+                    <option value="1">1학년</option>
+                    <option value="2">2학년</option>
+                    <option value="3">3학년</option>
                 </Select>
             </SelectBox>
             <ErrorMsg visible={err.length > 0}>{err}</ErrorMsg>
