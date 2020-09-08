@@ -12,8 +12,11 @@ const WriteSection = styled.section`
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   padding:2em;
   border-radius: 0.3em;
-  border-top: 10px solid ${Color.purple200};
+  border-top: 10px solid ${Color.purple300};
   ${media.sm`padding:1.8em 5%;`}
+  &:hover{
+    background-color:#f5f5f5;
+  }
 `
 const WriteContainer = styled.div`
   // ${FlexBox('', 'flex-start', 'center')};
@@ -21,7 +24,7 @@ const WriteContainer = styled.div`
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   padding:1em; 
   border-radius: 0.5em; 
-  background-color: white;
+  //background-color: white;
   //border: 1px solid ${Color.gray100};
   color: ${Color.gray150};
 `
@@ -60,7 +63,7 @@ const PreviewWrite = () => {
 
                 <div css={css`${FlexBox('', 'flex-start', 'center')}; margin-bottom:1em;`}>
                     <img css={css`width:2em; height:2em; margin-right: 0.8em;`} src={require('../../../assets/img/icon/edit.svg')}/>
-                    <div css={css`${MarkdownMd(Color.purple200, 500)}`}>오늘 무슨 일이 있으셨나요?</div>
+                    <div css={css`${MarkdownMd(Color.purple300, 500)}`}>오늘 무슨 일이 있으셨나요?</div>
                 </div>
                     <WriteContainer>
                             <WriteTxt>무슨 일이 있었는지 자세하게 알려주세요.</WriteTxt>

@@ -20,7 +20,7 @@ import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 const IndexSection = styled.section`
   ${Section};
   display: grid;
-  grid-template-columns: 30% 65%;
+  grid-template-columns: 33% 65%;
   ${media.md`
      grid-template-columns: 100%;
   `};

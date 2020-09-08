@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import axios from "axios";
+import {media} from "../../../assets/style/Media.style";
 
 const AgreementSection = styled.section`
   ${Section()};
@@ -19,6 +20,7 @@ const AgreementLabel = styled.label`
 const AgreementTitle = styled.div`
   ${MarkdownMd()};
   margin-left:1em;
+  ${media.sm`margin-left:0.3em;`}
 `
 const CheckBox = styled.input`
   display: none;
@@ -48,6 +50,7 @@ const FakeCheckBox = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50%;
+  ${media.sm`width:25px; height:25px;`}
 `
 
 interface buttonProps {
@@ -98,7 +101,7 @@ const Withdrawal = () => {
     return (
         <AgreementSection>
             <AgreementContainer>
-                <div css={css`margin-top:6em; ${MarkdownLg(Color.purple200, 700)}`}>회원탈퇴</div>
+                <div css={css`${MarkdownLg(Color.purple200, 700)}`}>회원탈퇴</div>
             </AgreementContainer>
 
             <AgreementContainer

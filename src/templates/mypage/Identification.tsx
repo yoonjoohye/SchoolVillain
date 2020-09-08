@@ -7,6 +7,7 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import SkeletonIdentification from "../loading/SkeletonIdentification";
 import {useSelector} from "react-redux";
+import {Blink} from "../../../assets/style/Animate.style";
 
 const ProfileContainer = styled.div`
   position:relative;
@@ -38,7 +39,7 @@ const ProfileTitle = styled.div`
   border-radius: 0.3em 0.3em 0 0;
   background-image: url(${require('../../../assets/img/bg/identification.png')});
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   padding: 0 1em;
   margin-bottom:1em;
   height:35%;
@@ -155,27 +156,29 @@ const Identification = ({user}: any) => {
                     :
                     <>
                         <Link to="/join/agreement">
-                            <section css={css`padding:1em 0;
-                                          background:linear-gradient(70deg, #06005d, #6700a7);
+                            <div css={css`padding:1em 0;
+                                          background:linear-gradient(70deg, #6700a7, #090088);
                                           margin-bottom:1em;
                                           box-shadow: 0 1px 2px rgba(0,0,0,0.2);
                                           text-align:center;
                                           border-radius: 0.3em;
-                                          ${MarkdownMd(Color.white)}`}>
+                                          ${MarkdownMd(Color.white)};
+                                          ${FlexBox()}`}>
 
                                 <span css={css`font-weight:700;`}>스쿨빌런 가입</span> 아직인가요?
-                            </section>
+                                <img css={css`width:1.2em; margin-left:0.5em; animation: 1s infinite ${Blink} `} src={require('../../../assets/img/icon/arrow-left_white.svg')}/>
+                            </div>
                         </Link>
                         <Link to="/login">
-                            <section css={css`padding:1em 0;
-                                          background:linear-gradient(70deg,#ffc407,#ff138b);
+                            <div css={css`padding:1em 0;
+                                          background:linear-gradient(70deg,#ff138b,#ffc407);
                                           box-shadow: 0 1px 2px rgba(0,0,0,0.2);
                                           text-align:center;
                                           border-radius: 0.3em;
                                           ${MarkdownMd(Color.white)}`}>
 
                                 <span css={css`font-weight:700;`}>스쿨빌런 로그인</span> 하러가기
-                            </section>
+                            </div>
                         </Link>
                     </>
             }

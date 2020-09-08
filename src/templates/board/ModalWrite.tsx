@@ -27,9 +27,9 @@ const ModalBox = styled.div`
 `
 const ModalHeader = styled.div`
   position:relative;
-  border-bottom:1px solid ${Color.gray100};
+  //border-bottom:1px solid ${Color.gray100};
   padding: 0.8em 1em;
-   ${MarkdownMd(Color.black, 500)};
+   ${MarkdownMd(Color.black, 600)};
    ${FlexBox()};
 `
 const ModalFooter = styled.div`
