@@ -35,7 +35,7 @@ const SideBanner: React.FC<propsType> = ({banner}) => {
                             </Link>
                     )
                 }):
-                <div css={css`width:100%; height:5em; ${SkeletonColor()};`}></div>
+                <div css={css`margin-top:1em; width:100%; height:5em; ${SkeletonColor()};`}></div>
             }
         </section>
     )
