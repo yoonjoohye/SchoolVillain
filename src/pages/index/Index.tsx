@@ -58,6 +58,10 @@ const Index: React.FC = ({history}: any) => {
         }
         UserAPI();
         BannerAPI();
+        return()=>{
+            UserAPI();
+            BannerAPI();
+        }
     }, []);
 
     const BoardAPI = useCallback(async (page: number) => {
