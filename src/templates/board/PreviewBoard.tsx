@@ -17,6 +17,7 @@ const BoardSection = styled.section`
   background-color:${Color.white};
   margin-bottom:1.5em;
   border-radius: 0.3em;
+  border:1px solid ${Color.gray100};
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 `
 interface boxProps {
@@ -150,13 +151,13 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                         <div>{board.create_time_ago}</div>
                                     </div>
                                     <div css={css`${FlexBox()};`}>
-                                        <div css={css`margin-right:1em; ${FlexBox()};`}>
+                                        <div css={css`background-color:${Color.gray100}; border-radius:5em; padding:0.3em 0.8em; margin-right:1em; ${FlexBox()};`}>
                                             <IconSm css={css`margin-right:0.3em;`}
                                                     src={require('../../../assets/img/icon/like.svg')}/>
                                             <div>{board.board_like_count}</div>
                                         </div>
-                                        <div css={css`${FlexBox()};`}>
-                                            <IconSm css={css`margin-right:0.3em;`}
+                                        <div css={css`background-color:${Color.gray100}; border-radius:5em; padding:0.3em 0.8em; ${FlexBox()};`}>
+                                            <IconSm css={css`margin-right:0.3em; `}
                                                     src={require('../../../assets/img/icon/comment.svg')}/>
                                             <div>{board.comment_count}</div>
                                         </div>

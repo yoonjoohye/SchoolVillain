@@ -11,30 +11,16 @@ import Modal from "../modal/Modal";
 import Identification from "./Identification";
 
 const Greeting = styled.div`
-    ${MarkdownMd('', 500)};
-    //padding: 1em 0;
-    //text-align: center;
-    margin-bottom:2em;
+    ${MarkdownBase(Color.purple200, 500)};
+    padding:0.5em 0;
+    //box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    text-align: center;
+    border-radius: 0.3em;
+    background:${Color.purple100};
 `
 const ProfileTitle = styled.div`
   ${MarkdownMd('', 600)};
   margin-bottom:1em;
-`
-const ImgBox = styled.div`
-  margin-bottom:2em;
-  ${FlexBox()};
-
-`
-const FakeFileInput = styled.label`
-  display:block;
-  ${FlexBox()};
-  width: 450px;
-  height: 200px;
-  cursor:pointer;
-  border-radius: 1em;
-  ${MarkdownLg(Color.gray200, 600)};
-  //background-color: ${Color.gray100};
-  border:2px dashed ${Color.gray200};
 `
 
 const Input = styled.input`
@@ -49,7 +35,7 @@ const Input = styled.input`
 
 const ProfileBox = styled.div`
   padding:3em 0;
-  border-top: 1px solid ${Color.gray100};
+  //border-top: 1px solid ${Color.gray100};
   ${media.sm`padding:2em 0`}
 `
 
@@ -184,8 +170,8 @@ const Profile: React.FC<propsType> = ({
         <section>
 
             <Greeting>
-                <span css={css`color:${Color.yellow200};`}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
-                환영합니다.
+                <span css={css`position:relative; vertical-align:middle; font-size:24px; margin-right:0.5em;` }>👋</span>
+                <span css={css`${MarkdownBase(Color.purple300,600)}`}>{email}</span> 님, 반갑습니다.
             </Greeting>
 
             <ProfileBox css={css`${FlexBox()}`}>
@@ -237,7 +223,7 @@ const Profile: React.FC<propsType> = ({
                 </div>
             </ProfileBox>
 
-            <ProfileBox css={css` text-align: right;`}>
+            <ProfileBox css={css` text-align: right; border-top:1px solid ${Color.gray100};`}>
                 <GrayButton onClick={goWithdrawal}>회원탈퇴</GrayButton>
                 <GrayButton onClick={goLogout}>로그아웃</GrayButton>
             </ProfileBox>

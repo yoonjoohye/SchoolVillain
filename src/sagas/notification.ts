@@ -4,7 +4,7 @@ import {readNotificationCount} from "../reducers/notification";
 
 export default function* notificationSaga() {
     yield all([
-        getCount$()
+        getNotificationCount$()
     ])
 }
 
@@ -12,7 +12,7 @@ const NotificationCountAPI=()=>{
     return axios.get('/api/notice/badge');
 }
 
-function* getCount$() {
+function* getNotificationCount$() {
     try {
         const count = yield call(NotificationCountAPI);
         // console.log(count);

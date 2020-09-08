@@ -72,7 +72,7 @@ const Result:React.FC=()=>{
 
     return(
         <section css={css`${media.lg`${Section()}`};${media.sm`margin:0; width:auto; margin-top:1em;`}`}>
-            <div css={css`${MarkdownLg(Color.gray200)}; margin-bottom:1em;`}><span css={css`${MarkdownLg(Color.black,600)}`}>"{keyword}"</span> 검색결과</div>
+            <div css={css`${MarkdownLg(Color.gray200)}; margin-bottom:1em;`}><span css={css`${MarkdownLg(Color.black,600)}`}>'{keyword}'</span> 검색결과</div>
             <InfiniteScroll
                 css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                 dataLength={boardList.length}

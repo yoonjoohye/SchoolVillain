@@ -15,6 +15,7 @@ const BannerImg = styled.img`
   margin-bottom:1em;
   display:block;
   cursor:pointer;
+  border-radius: 0.3em;
 `
 
 const SideBanner: React.FC<propsType> = ({banner}) => {

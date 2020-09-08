@@ -35,7 +35,6 @@ export const getLogged = (logged: boolean | null) => ({
     }
 });
 
-
 interface stateType {
     loading: {
         login: boolean,
@@ -78,6 +77,31 @@ const handleAuth = (state: stateType = initialState, action: any) => {
                     login: false
                 },
                 logged:true
+            }
+        case AUTH_LOGOUT_REQUEST:
+            return {
+                ...state,
+                loading: {
+                    ...state.loading,
+                    logout: true
+                }
+            }
+        case AUTH_LOGOUT_FAILURE:
+            return{
+                ...state,
+                loading: {
+                    ...state.loading,
+                    logout: false
+                }
+            }
+        case AUTH_LOGOUT_SUCCESS:
+            return{
+                ...state,
+                loading: {
+                    ...state.loading,
+                    logout: false
+                },
+                logged:null
             }
         case GET_LOGGED:
             return{

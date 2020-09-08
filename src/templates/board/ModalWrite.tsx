@@ -27,9 +27,9 @@ const ModalBox = styled.div`
 `
 const ModalHeader = styled.div`
   position:relative;
-  border-bottom:1px solid ${Color.gray100};
+  //border-bottom:1px solid ${Color.gray100};
   padding: 0.8em 1em;
-   ${MarkdownMd(Color.black, 500)};
+   ${MarkdownMd(Color.black, 600)};
    ${FlexBox()};
 `
 const ModalFooter = styled.div`
@@ -81,20 +81,25 @@ const Input = styled.input`
 const FileInput = styled.input`
   display:none;
 `
-const FakeFileInput = styled.label`
+
+interface IFaKeFileInput {
+    previewImgCount:number;
+}
+const FakeFileInput = styled.label<IFaKeFileInput>`
   display:inline-block;
   width:100%;
   height:150px;
   ${FlexBox('column')};  
   ${MarkdownSm(Color.gray200)};
+  border-radius: 0.3em;
   background-color:${Color.gray100};
   cursor:pointer;
+  &::after{
+      margin-top:1em;
+      ${(props:IFaKeFileInput)=>css`content:'${props.previewImgCount}/6'`};
+  }
   &:hover{
     background-color:#e1e1e1;
-    &::after{
-      content:'이미지는 최대 6개';
-      margin-top:1em;
-    }
   }
 `
 const PreviewImg = styled.div`
@@ -219,7 +224,7 @@ const ModalWrite: React.FC<propsType> = ({
                                                 <img css={css`width:50%;`} src={require('../../../assets/img/icon/close.svg')} alt="스쿨빌런 닫기 이미지"/>
                                             </DelButton>
                                             <PreviewImg>
-                                                <img css={css`width: 100%; height: 100%;`}
+                                                <img css={css`width: 100%; height: 100%; border-radius: 0.3em;`}
                                                      src={preview} alt="스쿨빌런 게시판 이미지"/>
                                             </PreviewImg>
                                         </figure>
@@ -228,7 +233,7 @@ const ModalWrite: React.FC<propsType> = ({
                             }
                             {
                                 previewList.length < 6 &&
-                                <FakeFileInput htmlFor="img"><IconBase src={require('../../../assets/img/icon/gallery.svg')} alt="스쿨빌런 사진 이미지"/></FakeFileInput>
+                                <FakeFileInput htmlFor="img" previewImgCount={previewList.length}><IconBase src={require('../../../assets/img/icon/gallery.svg')} alt="스쿨빌런 사진 이미지"/></FakeFileInput>
                             }
                         </Preview>
                     </div>
