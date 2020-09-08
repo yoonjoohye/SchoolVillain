@@ -11,13 +11,12 @@ import Modal from "../modal/Modal";
 import Identification from "./Identification";
 
 const Greeting = styled.div`
-    ${MarkdownMd(Color.white, 500)};
-    padding:1em 0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    ${MarkdownBase(Color.purple200, 500)};
+    padding:0.5em 0;
+    //box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     text-align: center;
     border-radius: 0.3em;
-    background:linear-gradient(70deg, #6700a7, #090088);
-    margin-bottom:2em;
+    background:${Color.purple100};
 `
 const ProfileTitle = styled.div`
   ${MarkdownMd('', 600)};
@@ -171,8 +170,8 @@ const Profile: React.FC<propsType> = ({
         <section>
 
             <Greeting>
-                <span css={css``}>{email}</span> 님,<br css={css`${onlyMobile()}`}/> 스쿨빌런에 오신 것을
-                환영합니다.
+                <span css={css`position:relative; vertical-align:middle; font-size:24px; margin-right:0.5em;` }>👋</span>
+                <span css={css`${MarkdownBase(Color.purple300,600)}`}>{email}</span> 님, 반갑습니다.
             </Greeting>
 
             <ProfileBox css={css`${FlexBox()}`}>

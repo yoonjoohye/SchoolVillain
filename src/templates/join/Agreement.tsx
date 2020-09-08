@@ -5,6 +5,7 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import JoinButton from "../../components/button/JoinButton";
 import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
+import {media} from "../../../assets/style/Media.style";
 
 const JoinTitle = styled.div`
   ${MarkdownBase(Color.purple200, 600)};
@@ -37,6 +38,7 @@ const FakeCheckBox = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50%;
+  ${media.sm`width:25px; height:25px;`}
 `
 const AgreementList = styled.div`
   display: flex;

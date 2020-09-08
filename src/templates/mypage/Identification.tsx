@@ -165,8 +165,8 @@ const Identification = ({user}: any) => {
                                           ${MarkdownMd(Color.white)};
                                           ${FlexBox()}`}>
 
-                                <span css={css`font-weight:700;`}>스쿨빌런 가입</span> 아직인가요?
-                                <img css={css`width:1.2em; margin-left:0.5em; animation: 1s infinite ${Blink} `} src={require('../../../assets/img/icon/arrow-left_white.svg')}/>
+                                <span css={css`font-weight:700; margin-right:0.3em;`}>스쿨빌런 가입</span> 아직인가요?
+                                <img css={css`width:1.2em; margin-left:0.8em; animation: 1s infinite ${Blink} `} src={require('../../../assets/img/icon/arrow-left_white.svg')}/>
                             </div>
                         </Link>
                         <Link to="/login">

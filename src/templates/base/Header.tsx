@@ -36,6 +36,7 @@ const HeaderMenu = styled.div`
 `
 const SearchInput = styled.input`
   background-image:url(${require('../../../assets/img/icon/search.svg')});
+  background-color:${Color.gray100};
   background-repeat: no-repeat;
   background-position: calc(100% - 1em);
   background-size: 1em;
@@ -43,7 +44,7 @@ const SearchInput = styled.input`
   width:13em; 
   border-radius: 0.3em;
   border:none;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   padding:0.6em 1em;
   transition: width 0.5s;
   ${onlyPc()};
