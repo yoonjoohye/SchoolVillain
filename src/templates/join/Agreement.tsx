@@ -63,7 +63,7 @@ const ErrorMsg=styled.div<ErrorMsgProps>`
 `
 
 interface propsType {
-    goNext: any;
+    goNext: ()=>void;
     age: boolean;
     agree: boolean;
     checkedAgreement: any;
