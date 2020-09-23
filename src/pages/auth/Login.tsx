@@ -85,7 +85,7 @@ const Login = () => {
         }
     }
     const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~;:^$()<>'"+=_@!%*#?&])[A-Za-z\d~;:^$()<>'"+=_@!%*#?&]{8,16}$/i;
         setPassword(e.target.value);
 
         if (!(PasswordRegex.test(e.target.value))) {
