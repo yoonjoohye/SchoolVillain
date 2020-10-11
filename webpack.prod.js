@@ -12,6 +12,7 @@ module.exports = merge(common, {
                 include: /\.(js)$/,
                 terserOptions: {
                     compress: {
+                        unused: true,
                         drop_console: true, // 콘솔 로그를 제거한다
                     }
                 }

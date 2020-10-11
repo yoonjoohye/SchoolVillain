@@ -4,6 +4,7 @@ import {media} from "./Media.style";
 export const IconSm = styled.img`
   width:15px;
   height:15px;
+  ${media.sm`width:12px; height:12xp;`}
 `
 export const IconBase = styled.img`
   position: relative;

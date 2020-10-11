@@ -113,7 +113,7 @@ const Join: React.FC = ({match, history}: any) => {
     const changePassword = (e:React.ChangeEvent<HTMLInputElement>) => {
         let {value}=e.target
 
-        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/i;
+        let PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~;:^$()<>'"+=_@!%*#?&])[A-Za-z\d~;:^$()<>'"+=_@!%*#?&]{8,16}$/i;
         setPassword(value);
 
         if (!(PasswordRegex.test(value))) {
