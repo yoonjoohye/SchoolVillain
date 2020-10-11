@@ -64,7 +64,7 @@ const PreviewWrite = () => {
                     {/*<img css={css`width:2em; height:2em; margin-right: 0.8em;`} src={require('../../../assets/img/icon/edit.svg')}/>*/}
                     <span css={css`font-size:24px; margin-right:0.5em;`}>✏️</span>
                     <div>
-                    <div css={css`${MarkdownSm(Color.gray200)}; ${onlyPc()};`}>게시글 작성</div>
+                    <div css={css`${MarkdownSm(Color.gray200)}; ${onlyPc()};`}>게시글 작성하기</div>
 
                     <div css={css`${MarkdownMd('', 600)};`}>오늘, 무슨 일이 있으셨나요?</div>
                     </div>
