@@ -182,27 +182,27 @@ const PageWrite: React.FC<propsType> = ({
                         }
                     </Preview>
                 </div>
-                <div css={css`padding:1em 0;`}>
-                    <div css={css`margin-bottom:1em;`}>
-                        <Input type="text" value={tag}
-                               onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTag(e)}
-                               placeholder="#해시태그를 입력해주세요."
-                               onKeyPress={(e: React.KeyboardEvent) => onEnter(e)}/>
-                    </div>
-                    <div>
-                        {
-                            tagList &&
-                            tagList.map((item:any, index:number) => {
-                                return (
-                                    <Tag key={index}>
-                                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>
-                                        <span onClick={() => deleteTag(index)}>X</span>
-                                    </Tag>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
+                {/*<div css={css`padding:1em 0;`}>*/}
+                {/*    <div css={css`margin-bottom:1em;`}>*/}
+                {/*        <Input type="text" value={tag}*/}
+                {/*               onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTag(e)}*/}
+                {/*               placeholder="#해시태그를 입력해주세요."*/}
+                {/*               onKeyPress={(e: React.KeyboardEvent) => onEnter(e)}/>*/}
+                {/*    </div>*/}
+                {/*    <div>*/}
+                {/*        {*/}
+                {/*            tagList &&*/}
+                {/*            tagList.map((item:any, index:number) => {*/}
+                {/*                return (*/}
+                {/*                    <Tag key={index}>*/}
+                {/*                        <span css={css`margin-right:0.5em;`}># {item.tag || item}</span>*/}
+                {/*                        <span onClick={() => deleteTag(index)}>X</span>*/}
+                {/*                    </Tag>*/}
+                {/*                )*/}
+                {/*            })*/}
+                {/*        }*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>
                     {
                         loading ?

@@ -10,7 +10,7 @@ export const FlexBox = (flexDirection:string='row', justifyContent: string = 'ce
 `;
 
 export const Section=()=>css` 
-  width:1000px;
+  width:1440px;
   margin:6em auto 0 auto;
   min-height:100vh;
   ${media.md`width:80%;`};
