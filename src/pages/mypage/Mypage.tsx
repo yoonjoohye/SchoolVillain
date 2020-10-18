@@ -107,7 +107,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                 method: 'GET',
                 url: '/api/mypage/like',
                 params: {
-                    per_page: 10,
+                    per_page: 12,
                     page: page
                 },
                 cache:true
@@ -150,7 +150,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                 method: 'GET',
                 url: '/api/mypage/board',
                 params: {
-                    per_page: 10,
+                    per_page: 12,
                     page: page
                 },
                 cache:true
@@ -193,7 +193,7 @@ const Mypage: React.FC = ({history, match}: any) => {
                 method: 'GET',
                 url: '/api/mypage/comment',
                 params: {
-                    per_page: 5,
+                    per_page: 8,
                     page: page
                 },
                 cache:true

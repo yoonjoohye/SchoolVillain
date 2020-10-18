@@ -12,19 +12,20 @@ import {useState} from "react";
 import Write from "../../pages/board/Write";
 
 const BoardSection = styled.article`
-    cursor:pointer;
-    background-color:#f4f4f4;
-    ${FlexBox('column', 'space-between', 'flex-start')};
+   cursor:pointer;
+   background-color:#f4f4f4;
+   ${FlexBox('column', 'space-between', 'flex-start')};
+   height:280px;
 `
 const BoardTitle = styled.div`
-${MarkdownMd(Color.black, 500)};
-margin-bottom:10px;
-overflow: hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 1;
--webkit-box-orient: vertical;
-word-break: break-word;
+    ${MarkdownMd(Color.black, 500)};
+    margin-bottom:10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
 `
 
 interface IProps {
@@ -37,7 +38,7 @@ const BoardContents = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: ${(props: IProps) => props.line};
+  -webkit-line-clamp:${(props:IProps)=>props.line};
   -webkit-box-orient: vertical;
   word-break: break-word;
 `
@@ -107,18 +108,17 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                 <div css={css`width: 100%;`}>
                                     <>
                                         <div
-                                            css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('', 300)}; padding:5px 10px; margin-left:20px; margin-top:20px; background-color:white;`}>연애상담
+                                            css={css`display:inline-table; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('', 300)}; padding:5px 10px; margin-left:20px; margin-top:20px; background-color:white;`}>연애상담
                                         </div>
                                         {
                                             board.thumbnail &&
-                                            <Img src={`${board.thumbnail}?s=250x100&t=crop&q=60`}/>
+                                            <Img src={`${board.thumbnail}?s=180x50&t=crop&q=60`}/>
                                         }
                                     </>
 
                                     <div css={css`padding:20px;`}>
                                         <BoardTitle dangerouslySetInnerHTML={{__html: textToTag(board.title)}}/>
-                                        <BoardContents line={board.thumbnail ? 2 : 3}
-                                                       dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
+                                        <BoardContents line={board.thumbnail ? 2:3} dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
                                     </div>
                                 </div>
 
