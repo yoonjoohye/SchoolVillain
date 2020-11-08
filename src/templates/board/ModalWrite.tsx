@@ -10,7 +10,7 @@ import {IconBase, IconSm} from "../../../assets/style/Icon.style";
 const ModalSection = styled.section`
   position: fixed;
   z-index:3;
-  background-color:rgba(255,255,255,0.72);
+  background-color:rgba(0,0,0,0.7);
   //background-color:rgba(255,255,255,0.13);
   //backdrop-filter: blur(4px);
   left:0;

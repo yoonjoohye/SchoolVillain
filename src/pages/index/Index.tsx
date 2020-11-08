@@ -155,29 +155,36 @@ const Index: React.FC = ({history}: any) => {
                  keywords="익명, 커뮤니티, 배너광고, 아이돌, 덕질, 익명고백, 학교정보, 입시정보, 고등학생, 중학생, 전학, 대나무 숲, 중고등학생을 위한 대나무 숲!, 학교축제, 인맥, 친구, 뒷담화, 학생 대표 커뮤니티
 전국 5570개 중고등학교를 대표하는 학생 커뮤니티, school villain, 학교 생활정보, 익명 커뮤니티, 시간표, 대학, 중학교, 고등학교, 고백, 10대, 진로고민, 성적고민, 연애고민, 가정고민, 청소년, 사춘기, 상담"
             />
-            <div css={css`${FlexBox('','center','flex-end')}; background-color: #dddddd; width:100%; height: 300px;`}>
+            <div css={css`${FlexBox('', 'center', 'flex-end')}; background-color: #EEEFF6; width:100%; height: 300px;`}>
                 <PreviewWrite/>
             </div>
             <IndexSection>
                 <IndexContent>
                     <Nav>
+                        <div css={css`margin-bottom:20px;`}>
+                            <div css={css`${MarkdownLg('', 300)}`}>
+                                <img src={require('../../../assets/img/icon/school.svg')}/>스쿨빌런 학교
+                            </div>
+                        </div>
                         {
                             user ?
                                 <>
-                                    <div css={css`margin-bottom:20px;`}>
-                                        <div css={css`${MarkdownLg('', 300)}`}>스빌 학생증</div>
-                                    </div>
                                     <Identification user={user}/>
-                                    <div css={css`margin-top:40px; padding:20px; box-sizing:border-box; width:100%; height: 139px; background-color: #f4f4f4;`}>
-                                        <div onClick={()=>{location.href='/mypage/board'}} css={css`${FlexBox('','space-between','center')}; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;`}>
+                                    <div
+                                        css={css`margin-top:40px; padding:20px; box-sizing:border-box; width:100%; height: 139px; background-color: #f4f4f4;`}>
+                                        <div onClick={() => {
+                                            location.href = '/mypage/board'
+                                        }}
+                                             css={css`${FlexBox('', 'space-between', 'center')}; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;`}>
                                             <div>게시글 수</div>
                                             <div>12 ></div>
                                         </div>
-                                        <div css={css`${FlexBox('','space-between','center')}; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;`}>
+                                        <div
+                                            css={css`${FlexBox('', 'space-between', 'center')}; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;`}>
                                             <div>좋아 수</div>
                                             <div>12 ></div>
                                         </div>
-                                        <div css={css`${FlexBox('','space-between','center')};`}>
+                                        <div css={css`${FlexBox('', 'space-between', 'center')};`}>
                                             <div>게시글 수</div>
                                             <div>12 ></div>
                                         </div>
@@ -204,9 +211,11 @@ const Index: React.FC = ({history}: any) => {
 
                     <main css={css` width:100%;`}>
                         <div css={css`${FlexBox('', 'space-between', 'center')}; margin-bottom:20px;`}>
-                            <div css={css`${MarkdownLg('', 300)}`}>전체보기</div>
+                            <div css={css`${MarkdownLg('', 300)}`}>
+                                <img src={require('../../../assets/img/icon/chats.svg')}/>커뮤니티
+                            </div>
                             <div>
-                                <span css={css`${MarkdownBase('', 500)}`}>연애상담</span>
+                                <span css={css`${MarkdownBase('', 500)}`}>전체보기</span>
                             </div>
                         </div>
                         <InfiniteScroll

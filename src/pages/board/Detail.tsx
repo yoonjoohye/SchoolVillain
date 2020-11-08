@@ -11,6 +11,7 @@ import Edit from "./Edit";
 
 const DetailSection = styled.section`
   ${Section()};
+  width:760px;
   margin-top:6em;
 `
 const Detail: React.FC = ({match}: any) => {

@@ -44,6 +44,7 @@ const BoardContents = styled.div`
 `
 const Img = styled.img`
    width: 100%;
+   filter: brightness(70%);
 `
 const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
@@ -98,7 +99,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
     }
 
     return (
-        <div css={css`margin-bottom:40px; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; grid-gap:40px;`}>
+        <div css={css`margin-bottom:40px; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; grid-gap:40px; @media(max-width:480px){grid-template-columns: 1fr; grid-gap:20px;}`}>
             {
                 loading ||
                 boardList.length > 0 && boardList ?
@@ -108,7 +109,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                 <div css={css`width: 100%;`}>
                                     <>
                                         <div
-                                            css={css`display:inline-table; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('', 300)}; padding:5px 10px; margin-left:20px; margin-top:20px; background-color:white;`}>연애상담
+                                            css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('#C1C1C1', 300)};margin:20px 0 0 20px; z-index: 2;`}>연애상담
                                         </div>
                                         {
                                             board.thumbnail &&

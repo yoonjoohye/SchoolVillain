@@ -14,7 +14,7 @@ export const Section=()=>css`
   margin:6em auto 0 auto;
   min-height:100vh;
   ${media.md`width:80%;`};
-  ${media.sm`width:90%;`};
+  ${media.sm`width:100%;`};
 `
 
 export const onlyPc=()=>css`
