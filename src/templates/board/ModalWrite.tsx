@@ -3,7 +3,7 @@ import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
 import React, {useEffect} from "react";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Tag} from "../../../assets/style/Util";
 import {IconBase, IconSm} from "../../../assets/style/Icon.style";
 
@@ -33,8 +33,8 @@ const ModalHeader = styled.div`
    ${FlexBox()};
 `
 const ModalFooter = styled.div`
-  padding:1em;
-  border-top:1px solid ${Color.gray100};
+  //padding:1em;
+  //border-top:1px solid ${Color.gray100};
 `
 const ModalBody = styled.div`
   overflow: auto;
@@ -50,7 +50,7 @@ const Button = styled.button`
   ${MarkdownMd(Color.white)};
   width:100%;
   height: 45px;
-  border-radius: 0.3em;
+  //border-radius: 0.3em;
   margin-top:30px;
   ${(props: buttonProps) => props.enabled ?
     `pointer-events:initial;
@@ -75,7 +75,7 @@ const TextArea = styled.textarea`
 const Input = styled.input`
   width:100%;
   border:0;
-  ${MarkdownBase()};
+  ${MarkdownLg()};
   outline:none;
 `
 const FileInput = styled.input`
@@ -131,16 +131,16 @@ const DelButton = styled.button`
 `
 const CloseButton = styled.button`
   position:absolute; 
-  right:1em; 
+  right:-3em; 
   width:30px;
   height:30px;
   ${FlexBox()};
-  background: ${Color.gray100};
+  //background: ${Color.gray100};
   border-radius: 50%;
   padding:0.6em;
-  &:hover{
-    background:#e1e1e1;
-  }
+  //&:hover{
+  //  background:#e1e1e1;
+  //}
 `
 
 interface propsType {
@@ -193,12 +193,12 @@ const ModalWrite: React.FC<propsType> = ({
         <ModalSection>
             <ModalBox>
                 <ModalHeader>
-                    <p>게시물 {name}</p>
+                    {/*<p>게시물 {name}</p>*/}
                     <CloseButton onClick={() => {isOpen(false); document.body.style.overflow='initial';}}><img css={css`width:100%;`}
                                                                     src={require('../../../assets/img/icon/close.svg')} alt="스쿨빌런 닫기 이미지"/></CloseButton>
                 </ModalHeader>
                 <ModalBody>
-                    <div css={css`padding:1em; border-bottom:1px solid ${Color.gray100};`}>
+                    <div css={css`padding:1em;`}>
                         <Input value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTitle(e)}
                                placeholder="제목을 입력해주세요."/>
                     </div>

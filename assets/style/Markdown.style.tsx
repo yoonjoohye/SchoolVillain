@@ -10,12 +10,26 @@ export const MarkdownXl = (color: string = Color.black, weight: number = 400) =>
       ${media.sm`font-size: 28px;`}
 `;
 export const MarkdownLg = (color: string = Color.black, weight: number = 400) => css`
-      font-size: 24px;
+      font-size: 28px;
+      font-weight: ${weight};
+      color: ${color};
+      ${media.sm`font-size: 22px;`}
+`;
+
+export const MarkdownLgx = (color: string = Color.black, weight: number = 400) => css`
+      font-size: 22px;
+      font-weight: ${weight};
+      color: ${color};
+      ${media.sm`font-size: 20px;`}
+`;
+
+export const MarkdownMd = (color: string = Color.black, weight: number = 400) => css`
+      font-size: 20px;
       font-weight: ${weight};
       color: ${color};
       ${media.sm`font-size: 18px;`}
 `;
-export const MarkdownMd = (color: string = Color.black, weight: number = 400) => css`
+export const MarkdownMdx = (color: string = Color.black, weight: number = 400) => css`
       font-size: 18px;
       font-weight: ${weight};
       color: ${color};
@@ -23,6 +37,12 @@ export const MarkdownMd = (color: string = Color.black, weight: number = 400) =>
 `;
 export const MarkdownBase = (color: string = Color.black, weight: number = 400) => css`
       font-size: 16px;
+      font-weight: ${weight};
+      color: ${color};
+      ${media.sm`font-size: 14px;`}
+`;
+export const MarkdownBody = (color: string = Color.black, weight: number = 400) => css`
+      font-size: 14px;
       font-weight: ${weight};
       color: ${color};
       ${media.sm`font-size: 13px;`}

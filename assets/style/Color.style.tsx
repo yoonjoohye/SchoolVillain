@@ -4,7 +4,7 @@ interface ColorType {
 }
 
 export const Color:ColorType={
-    black:'#000',
+    black:'#242424',
     white:'#fff',
     red:'#f70000',
 

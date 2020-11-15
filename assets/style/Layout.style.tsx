@@ -11,10 +11,23 @@ export const FlexBox = (flexDirection:string='row', justifyContent: string = 'ce
 
 export const Section=()=>css` 
   width:1440px;
-  margin:6em auto 0 auto;
+  margin:auto;
+  min-height:100vh;
+  ${media.lg`width:95%`};
+  ${media.md`width:90%;`};
+  ${media.sm`width:100%;`};
+`
+
+export const DetailSection=()=>css` 
+  width:760px;
+  margin:auto;
   min-height:100vh;
   ${media.md`width:80%;`};
-  ${media.sm`width:100%;`};
+  ${media.sm`width:90%;`};
+`
+export const NotificationSection=()=>css`
+  margin:auto;
+  ${media.sm`width:90%;`};
 `
 
 export const onlyPc=()=>css`

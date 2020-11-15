@@ -24,7 +24,7 @@ const WriteContainer = styled.div`
   cursor:text; 
   //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   width:750px;
-  padding:1em; 
+  ${media.md`width:90%;`};
   border-radius: 0.5em; 
   background-color: ${Color.white};
   //border: 1px solid ${Color.gray100};
@@ -64,11 +64,11 @@ const PreviewWrite = () => {
             {
                 writeModal && <Write isOpen={isOpen}/>
             }
-            <WriteSection onClick={goWrite}>
-                    <WriteContainer>
-                            <WriteTxt>어떤 일인지 자세하게 알려주세요.</WriteTxt>
-                    </WriteContainer>
-            </WriteSection>
+            <WriteContainer onClick={goWrite}>
+                <div css={css`padding:1em;`}>
+                <WriteTxt>어떤 일인지 자세하게 알려주세요.</WriteTxt>
+                </div>
+            </WriteContainer>
 
         </>
     )

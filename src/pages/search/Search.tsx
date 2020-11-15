@@ -9,7 +9,7 @@ import {MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import Result from "./Result";
 
 const SearchInput = styled.input`
-  background-image:url(${require('../../../assets/img/icon/search_purple.svg')});
+  background-image:url(${require('../../../assets/img/icon/search.svg')});
   background-repeat: no-repeat;
   background-position: calc(100%);
   background-size: 20px;

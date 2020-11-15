@@ -18,13 +18,16 @@ import Notification from "../pages/notification/Notification";
 import Search from "../pages/search/Search";
 import Result from "../pages/search/Result";
 import {useSelector} from "react-redux";
+import Myboard from "../pages/myboard/Myboard";
 
-const Root: React.FC = () => {
+const Root = (props) => {
+    console.log(props.param);
     let logged = useSelector(state => state.auth.logged);
     return (
         <BrowserRouter>
             <ScrollToTop/>
-            <Header/>
+
+                <Header/>
             <Switch>
                 <Route exact path="/" component={Index}/>
                 <Route exact path="/login" render={props => (
@@ -42,8 +45,11 @@ const Root: React.FC = () => {
                 <Route exact path="/notification" render={props => (
                     logged ? <Notification {...props} /> : <Redirect to="/login"/>
                 )}/>
-                <Route exact path="/mypage/:name" render={props => (
+                <Route exact path="/mypage" render={props => (
                     logged ? <Mypage {...props} /> : <Redirect to="/login"/>
+                )}/>
+                <Route exact path="/myboard/:name" render={props => (
+                    logged ? <Myboard {...props} /> : <Redirect to="/login"/>
                 )}/>
                 <Route exact path="/withdrawal" render={props => (
                     logged ? <Withdrawal {...props} /> : <Redirect to="/login"/>

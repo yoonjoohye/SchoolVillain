@@ -2,13 +2,14 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import styled from "@emotion/styled";
 import {css} from "@emotion/core";
-import {MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {FlexBox, onlyMobile, onlyPc} from "../../../assets/style/Layout.style";
 import {media} from "../../../assets/style/Media.style";
 import {Color} from "../../../assets/style/Color.style";
 import {useDispatch, useSelector} from "react-redux";
 import Notification from "../../pages/notification/Notification";
 import {searchKeyword} from "../../reducers/search";
+import {IconMd} from "../../../assets/style/Icon.style";
 
 const HeaderSection = styled.header`
   position: fixed;
@@ -62,7 +63,7 @@ const SearchInput = styled.input`
 `
 const HeaderIcon = styled.figure`
  //background:linear-gradient(0deg,#e7c9ff,#fbf7fd); 
- ${FlexBox('row','center','center')};
+ ${FlexBox('row', 'center', 'center')};
  width:3em; 
  height:3em; 
  cursor:pointer;
@@ -73,7 +74,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const logged = useSelector(state => state.auth.logged);
     const word = useSelector(state => state.search.keyword);
-    const count=useSelector(state=>state.notification.count);
+    const count = useSelector(state => state.notification.count);
 
     const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
@@ -119,34 +120,21 @@ const Header = () => {
     return (
         <HeaderSection>
             <HeaderContainer>
-                <div css={css`${FlexBox()}`}>
-                    <Link to="/">
-                        <HeaderLogo>
-                            <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
-                        </HeaderLogo>
-                    </Link>
-                    <SearchInput type="text" value={keyword} placeholder="스쿨빌런 검색" onChange={changeKeyword}
-                                 onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
-                    {
-                        !logged &&
-                        <div css={css`${onlyMobile()};`}>
-                            <HeaderIcon onClick={goSearch}>
-                                <img css={css`width:1.5em;`}
-                                     src={require('../../../assets/img/icon/search_purple.svg')}/>
-                            </HeaderIcon>
-                        </div>
-                    }
-                </div>
+                <Link to="/">
+                    <HeaderLogo>
+                        <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
+                    </HeaderLogo>
+                </Link>
                 <HeaderMenu>
                     {
                         logged ?
                             <>
-                                <div css={css`margin-right:0.5em; ${onlyMobile()}; `}>
-                                    <HeaderIcon onClick={goSearch}>
-                                        <img css={css`width:1.5em;`} src={require('../../../assets/img/icon/search_purple.svg')}/>
-                                    </HeaderIcon>
-                                </div>
-                                <div css={css`margin-right:1em; ${media.md`margin-right:0.5em;`} `}
+                                <IconMd css={css`margin-right:20px; ${onlyPc()}`}
+                                        src={require('../../../assets/img/icon/search.svg')}/>
+                                <Link to="/search" css={css`margin-right:20px; ${onlyMobile()}`}>
+                                    <IconMd src={require('../../../assets/img/icon/search.svg')}/>
+                                </Link>
+                                <div css={css`margin-right:20px; `}
                                      ref={NotificationRef}>
                                     {
                                         count > 0 &&
@@ -159,29 +147,25 @@ const Header = () => {
                                                 background-color: ${Color.purple200};`}>
                                         </figcaption>
                                     }
-                                    <HeaderIcon onClick={goNotification}>
-                                        <img css={css`width:1.5em;`}
-                                             src={require('../../../assets/img/icon/notification.svg')}/>
+                                    <IconMd onClick={goNotification} src={require('../../../assets/img/icon/noti.svg')}/>
 
-                                    </HeaderIcon>
                                 </div>
                                 {
                                     openNotification && <Notification/>
                                 }
-                                <Link to="/mypage/profile">
-                                    <HeaderIcon>
-                                        <img css={css`width:1.4em;`}
-                                             src={require('../../../assets/img/icon/profile.svg')}/>
-                                    </HeaderIcon>
+                                <Link to="/mypage">
+                                    <IconMd
+                                        src={require('../../../assets/img/icon/mypage.svg')}/>
                                 </Link>
                             </>
                             :
                             <>
-                                <Link css={css`${MarkdownSm(Color.purple200)}; width:80px; ${media.md`width:60px;`};`}
-                                      to="/join/agreement">회원가입
+                                <IconMd css={css`margin-right:20px; ${onlyPc()}`}
+                                        src={require('../../../assets/img/icon/search.svg')}/>
+                                <Link to="/search" css={css`margin-right:20px; ${onlyMobile()}`}>
+                                    <IconMd src={require('../../../assets/img/icon/search.svg')}/>
                                 </Link>
-                                <Link css={css`background:${Color.purple200}; 
-                                        ${MarkdownSm(Color.white)}; width:80px; ${media.md`width:60px;`}; border:1px solid ${Color.purple200}; padding:0.7em 0; border-radius: 0.3em; `}
+                                <Link css={css` ${MarkdownBase('#242424')};`}
                                       to="/login">로그인
                                 </Link>
 

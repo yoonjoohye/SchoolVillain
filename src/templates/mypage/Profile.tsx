@@ -39,11 +39,12 @@ const ProfileBox = styled.div`
   ${media.sm`padding:2em 0`}
 `
 
-const NicknameBox=styled.div`
+const NicknameBox = styled.div`
   display:grid; 
   grid-template-columns: 90% 10%; 
   ${media.md`grid-template-columns: 80% 20%;`}
 `
+
 interface buttonProps {
     enabled: boolean;
 }
@@ -105,7 +106,7 @@ const GrayButton = styled.button`
 `
 
 interface propsType {
-    user:any;
+    user: any;
 
     nickname: string;
     nicknameErr: string;
@@ -136,7 +137,7 @@ interface propsType {
 }
 
 const Profile: React.FC<propsType> = ({
-                                            user,
+                                          user,
                                           nickname,
                                           nicknameErr,
                                           nicknameCheck,
@@ -167,43 +168,43 @@ const Profile: React.FC<propsType> = ({
 
 
     return (
-        <section>
+        <>
+            <div css={css`border-bottom:1px solid #dfdfdf; ${FlexBox('', 'space-between', 'center')}`}>
+                <ProfileTitle>내 프로필</ProfileTitle>
+                <EditButton enabled={nicknameCheck} onClick={editNickname}>저장</EditButton>
+            </div>
+            <div css={css`${FlexBox()}`}>
+                <ProfileBox>
+                    <img src={require('../../../assets/img/profile.svg')}/>
+                </ProfileBox>
 
-            <Greeting>
-                <span css={css`position:relative; vertical-align:middle; font-size:24px; margin-right:0.5em;` }>👋</span>
-                <span css={css`${MarkdownBase(Color.purple300,600)}`}>{email}</span> 님, 반갑습니다.
-            </Greeting>
-
-            <ProfileBox css={css`${FlexBox()}`}>
-                <div css={css`width:350px;`}>
-                    <Identification user={user}/>
-                </div>
-            </ProfileBox>
-
+                <ProfileBox>
+                    닉네임
+                    <NicknameBox>
+                        <div css={css`margin-right:1em;`}>
+                            <Input type="text" value={nickname}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNickname(e)}
+                                   placeholder="닉네임을 입력해주세요"/>
+                            <ErrorMsg visible={nicknameErr.length > 0}>{nicknameErr}</ErrorMsg>
+                        </div>
+                    </NicknameBox>
+                    이메일
+                    <NicknameBox>
+                        <div css={css`margin-right:1em;`}>{email}</div>
+                    </NicknameBox>
+                </ProfileBox>
+            </div>
             <ProfileBox>
-                <ProfileTitle>빌런 닉네임</ProfileTitle>
-                <NicknameBox>
-                    <div css={css`margin-right:1em;`}>
-                        <Input type="text" value={nickname}
-                               onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNickname(e)}
-                               placeholder="닉네임을 입력해주세요"/>
-                        <ErrorMsg visible={nicknameErr.length > 0}>{nicknameErr}</ErrorMsg>
-                    </div>
-                    <EditButton enabled={nicknameCheck} onClick={editNickname}>변경</EditButton>
-                </NicknameBox>
-            </ProfileBox>
-
-            <ProfileBox>
-                <ProfileTitle>빌런 패스워드</ProfileTitle>
+                <ProfileTitle>비밀번호 변경</ProfileTitle>
                 <div css={css`margin-bottom:1em;`}>
-                    <Label>현재 패스워드</Label>
+                    <Label>현재 비밀번호</Label>
                     <Input type="password" value={currentPassword}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeCurrentPassword(e)}
                            placeholder="현재 비밀번호를 입력해주세요"/>
                     <ErrorMsg visible={currentPasswordErr.length > 0}>{currentPasswordErr}</ErrorMsg>
                 </div>
                 <div css={css`margin-bottom:1em;`}>
-                    <Label>새로운 패스워드</Label>
+                    <Label>새로운 비밀번호</Label>
                     <Input type="password" value={newPassword}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNewPassword(e)}
                            placeholder="새로운 비밀번호를 입력해주세요"/>
@@ -211,7 +212,7 @@ const Profile: React.FC<propsType> = ({
 
                 </div>
                 <div>
-                    <Label>새로운 패스워드 확인</Label>
+                    <Label>비밀번호 확인</Label>
                     <Input type="password" value={newPasswordConfirm}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNewPasswordConfirm(e)}
                            placeholder="새로운 비밀번호를 입력해주세요"/>
@@ -228,7 +229,7 @@ const Profile: React.FC<propsType> = ({
                 <GrayButton onClick={goLogout}>로그아웃</GrayButton>
             </ProfileBox>
 
-        </section>
+        </>
     )
 }
 export default Profile;

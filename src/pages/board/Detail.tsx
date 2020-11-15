@@ -2,17 +2,20 @@ import React, {useCallback, useEffect, useState} from 'react';
 import SEO from "../../templates/SEO/SEO";
 import {jsx, css} from '@emotion/core';
 import styled from "@emotion/styled";
-import {Section} from "../../../assets/style/Layout.style";
+import {DetailSection} from "../../../assets/style/Layout.style";
 import Reply from "../../templates/board/Reply";
 import axios from "axios";
 import Board from "../../templates/board/Board";
 import produce from "immer";
 import Edit from "./Edit";
+import {media} from "../../../assets/style/Media.style";
 
-const DetailSection = styled.section`
-  ${Section()};
-  width:760px;
-  margin-top:6em;
+const Section = styled.section`
+  ${DetailSection()};
+  padding-top:calc(4em + 80px);
+  ${media.sm`
+    padding-top:calc(4em + 20px);
+  `}
 `
 const Detail: React.FC = ({match}: any) => {
     const [board, setBoard]: any = useState(null);
@@ -454,7 +457,7 @@ const Detail: React.FC = ({match}: any) => {
                  description="스쿨빌런 게시물 상세 페이지입니다."
                  keywords="스쿨빌런 게시물 상세 페이지"
             />
-            <DetailSection>
+            <Section>
                 <Board board={board}
                        likeBoard={likeBoard} boardLikeId={boardLikeId}
                        deleteBoard={deleteBoard} editBoard={editBoard}/>
@@ -471,7 +474,7 @@ const Detail: React.FC = ({match}: any) => {
                     openModal &&
                     <Edit isOpen={isOpen} boardId={match.params.id}/>
                 }
-            </DetailSection>
+            </Section>
         </>
     )
 }

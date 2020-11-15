@@ -2,18 +2,27 @@ import * as React from "react";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import {FlexBox} from "../../../assets/style/Layout.style";
-import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownBody, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {css} from "@emotion/core";
 import SkeletonPreviewBoard from "../loading/SkeletonPreviewBoard";
-import {IconSm} from "../../../assets/style/Icon.style";
+import {IconMd, IconSm} from "../../../assets/style/Icon.style";
 import {media} from "../../../assets/style/Media.style";
 import {Hightlight, Tag} from "../../../assets/style/Util";
 import {useState} from "react";
 import Write from "../../pages/board/Write";
 
+const BoardWrapper = styled.div`
+ margin-bottom:40px;
+ display:grid; 
+ grid-template-columns:1fr 1fr 1fr 1fr; 
+ grid-gap:40px; 
+  ${media.lg`grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap:20px`};
+ ${media.sm`grid-template-columns: 1fr; grid-gap:20px`};
+`
 const BoardSection = styled.article`
    cursor:pointer;
-   background-color:#f4f4f4;
+   background: #FFFFFF;
+    box-shadow: 0 0 4px rgba(152, 149, 149, 0.25);
    ${FlexBox('column', 'space-between', 'flex-start')};
    height:280px;
 `
@@ -33,12 +42,12 @@ interface IProps {
 }
 
 const BoardContents = styled.div`
-  ${MarkdownSm(Color.black, 300)};
+  ${MarkdownBody(Color.black, 400)};
   line-height: 1.8;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp:${(props:IProps)=>props.line};
+  -webkit-line-clamp:${(props: IProps) => props.line};
   -webkit-box-orient: vertical;
   word-break: break-word;
 `
@@ -98,8 +107,9 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
         setOpenModal(open);
     }
 
+    console.log(boardList);
     return (
-        <div css={css`margin-bottom:40px; display:grid; grid-template-columns:1fr 1fr 1fr 1fr; grid-gap:40px; @media(max-width:480px){grid-template-columns: 1fr; grid-gap:20px;}`}>
+        <BoardWrapper>
             {
                 loading ||
                 boardList.length > 0 && boardList ?
@@ -109,7 +119,8 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                 <div css={css`width: 100%;`}>
                                     <>
                                         <div
-                                            css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('#C1C1C1', 300)};margin:20px 0 0 20px; z-index: 2;`}>연애상담
+                                            css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('#C1C1C1', 300)};margin:20px 0 0 20px; z-index: 2;`}>
+                                            {board.type==='doodle' ? '담벼락' : '연애상담'}
                                         </div>
                                         {
                                             board.thumbnail &&
@@ -119,21 +130,22 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
 
                                     <div css={css`padding:20px;`}>
                                         <BoardTitle dangerouslySetInnerHTML={{__html: textToTag(board.title)}}/>
-                                        <BoardContents line={board.thumbnail ? 2:3} dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
+                                        <BoardContents line={board.thumbnail ? 2 : 3}
+                                                       dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}/>
                                     </div>
                                 </div>
 
                                 <div
-                                    css={css`width: 100%; box-sizing: border-box; border-top:1px solid #eee; padding:20px; ${FlexBox('row', 'space-between', 'center')}; ${MarkdownSm('', 300)}`}>
+                                    css={css`width: 100%; box-sizing: border-box; border-top: 1px dashed #DFDFDF; padding:20px; ${FlexBox('row', 'space-between', 'center')}; ${MarkdownSm('', 300)}`}>
                                     <div>{board.user.name || '익명'}</div>
                                     <div css={css`${FlexBox()};`}>
                                         <div css={css`margin-right:1em; ${FlexBox()};`}>
-                                            <IconSm css={css`margin-right:0.3em;`}
+                                            <IconMd css={css`margin-right:0.3em;`}
                                                     src={require('../../../assets/img/icon/like.svg')}/>
                                             <div>{board.board_like_count}</div>
                                         </div>
                                         <div css={css`${FlexBox()};`}>
-                                            <IconSm css={css`margin-right:0.3em; `}
+                                            <IconMd css={css`margin-right:0.3em; `}
                                                     src={require('../../../assets/img/icon/comment.svg')}/>
                                             <div>{board.comment_count}</div>
                                         </div>
@@ -145,18 +157,17 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                         css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
 
                                         {
-                                            board.comment.map((reply: any, index: number) => {
-                                                return (
-                                                    <div key={index} css={css`margin-top:0.5em;`}>
-                                                        <ReplyName>
-                                                            {reply.user.name ? reply.user.name : '익명'} <span
-                                                            css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
-                                                        </ReplyName>
-                                                        <ReplyContent
-                                                            dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
-                                                    </div>
-                                                )
-                                            })
+                                            board.comment.map((reply: any, index: number) => (
+                                                index === 1 &&
+                                                <div key={index} css={css`margin-top:0.5em;`}>
+                                                    <ReplyName>
+                                                        {reply.user.name ? reply.user.name : '익명'} <span
+                                                        css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                                    </ReplyName>
+                                                    <ReplyContent
+                                                        dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
+                                                </div>
+                                            ))
                                         }
                                     </div>
                                 }
@@ -164,9 +175,9 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                         )
                     })
                     :
-                    <div css={css`height:50vh; ${FlexBox('column')}; ${MarkdownBase(Color.gray200)}`}>
+                    <div css={css`height:50vh; ${FlexBox('column')}; ${MarkdownBase('#A9A9A9',400)}`}>
                         <div>해당 게시글이 존재하지 않아요.</div>
-                        <div css={css`margin-bottom:1em;`}>글을 작성하여, <span css={css`font-weight:700;`}>당신의 인싸력</span>을
+                        <div css={css`margin-bottom:1em;`}>글을 작성하여, <span css={css`color:#951DE4`}>당신의 인싸력</span>을
                             보여주세요.
                         </div>
                         <Button onClick={goWrite}>인싸글 도전하기</Button>
@@ -175,7 +186,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
             {
                 openModal && <Write isOpen={isOpen}/>
             }
-        </div>
+        </BoardWrapper>
     )
 }
 export default PreviewBoard;
