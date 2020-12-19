@@ -6,8 +6,9 @@ import {FlexBox, onlyPc} from "../../../assets/style/Layout.style";
 import Write from "../../pages/board/Write";
 import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
 import {media} from "../../../assets/style/Media.style";
-import {MarkdownMd, MarkdownSm, MarkdownXl} from "../../../assets/style/Markdown.style";
+import {MarkdownBody, MarkdownMd, MarkdownSm, MarkdownXl} from "../../../assets/style/Markdown.style";
 import {useDispatch, useSelector} from "react-redux";
+import {IconLg, IconMd} from "../../../assets/style/Icon.style";
 
 const WriteSection = styled.section`
   //box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -20,18 +21,15 @@ const WriteSection = styled.section`
   //}
 `
 const WriteContainer = styled.div`
-  // ${FlexBox('', 'flex-start', 'center')};
   cursor:text; 
-  //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   width:750px;
   ${media.md`width:90%;`};
-  border-radius: 0.5em; 
+  border-radius: 50px; 
   background-color: ${Color.white};
-  //border: 1px solid ${Color.gray100};
-  color: ${Color.gray150};
 `
 
 const WriteTxt = styled.span`
+  ${MarkdownBody('#A9A9A9',400)};
   overflow: hidden; 
   border-left: 1px solid ${Color.gray200};
   white-space: nowrap;
@@ -43,7 +41,7 @@ const WriteTxt = styled.span`
 const PreviewWrite = () => {
     const [writeModal, setWriteModal] = useState(false);
 
-    let logged=useSelector(state=>state.auth.logged);
+    let logged = useSelector(state => state.auth.logged);
 
     const goWrite = () => {
         if (logged) {
@@ -65,8 +63,9 @@ const PreviewWrite = () => {
                 writeModal && <Write isOpen={isOpen}/>
             }
             <WriteContainer onClick={goWrite}>
-                <div css={css`padding:1em;`}>
-                <WriteTxt>어떤 일인지 자세하게 알려주세요.</WriteTxt>
+                <div css={css`padding:10px;`}>
+                    <IconLg src={require('../../../assets/img/icon/pencil.svg')}/>
+                    <WriteTxt>오늘, 무슨 일이 있으셨나요?</WriteTxt>
                 </div>
             </WriteContainer>
 

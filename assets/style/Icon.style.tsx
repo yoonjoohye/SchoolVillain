@@ -21,3 +21,8 @@ export const IconMd = styled.img`
   width:1.5em;
   height:1.5em;
 `
+export const IconLg = styled.img`
+  vertical-align: middle;
+  width:2.5em;
+  height:2.5em;
+`

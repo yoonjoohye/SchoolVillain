@@ -19,6 +19,6 @@ export const Color:ColorType={
     gray200:'#727272',
 
     purple100:'#f1e6f9',
-    purple200:'#bd67ff',
+    purple200:'#951DE4',
     purple300:'#a657e0'
 }

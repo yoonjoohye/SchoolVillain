@@ -10,9 +10,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import NotificationList from "../../templates/notification/NotificationList";
 import {FlexBox, NotificationSection, onlyPc, Section} from "../../../assets/style/Layout.style";
 import SkeletonNotification from "../../templates/loading/SkeletonNotification";
-import {useHistory} from "react-router-dom";
 import produce from "immer";
-import {media} from "../../../assets/style/Media.style";
 import SEO from "../../templates/SEO/SEO";
 
 const NotiSection = styled.section`
@@ -32,8 +30,7 @@ interface propsType {
     history?: History;
 }
 
-const Notification: React.FC<propsType> = () => {
-    let history = useHistory();
+const Notification: React.FC<propsType> = ({history}) => {
     const dispatch = useDispatch();
 
     let list = useSelector(state => state.notification.list);

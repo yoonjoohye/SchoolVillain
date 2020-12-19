@@ -7,6 +7,8 @@ const AUTH_LOGOUT_FAILURE = 'auth/LOGOUT_FAILURE' as const;
 const AUTH_LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS' as const;
 
 export const GET_LOGGED = 'auth/GET_LOGGED' as const;
+export const REFRESH_TOKEN = 'auth/REFRESH_TOKEN' as const;
+
 
 export const authLoginRequest = () => ({
     type: AUTH_LOGIN_REQUEST
@@ -26,6 +28,14 @@ export const authLogoutFailure = () => ({
 });
 export const authLogoutSuccess = () => ({
     type: AUTH_LOGOUT_SUCCESS
+});
+
+export const refreshToken=(expired:number, token:string)=>({
+    type:REFRESH_TOKEN,
+    payload:{
+        expired:expired,
+        token:token
+    }
 });
 
 export const getLogged = (logged: boolean | null) => ({
@@ -107,6 +117,12 @@ const handleAuth = (state: stateType = initialState, action: any) => {
             return{
                 ...state,
                 logged:action.payload.logged
+            }
+        case REFRESH_TOKEN:
+            return{
+                ...state,
+                expired:action.payload.expired,
+                token:action.payload.token
             }
         default:
             return state

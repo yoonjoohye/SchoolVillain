@@ -16,9 +16,7 @@ import Withdrawal from "../pages/auth/Withdrawal";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Notification from "../pages/notification/Notification";
 import Search from "../pages/search/Search";
-import Result from "../pages/search/Result";
 import {useSelector} from "react-redux";
-import Myboard from "../pages/myboard/Myboard";
 
 const Root = (props) => {
     console.log(props.param);
@@ -45,11 +43,8 @@ const Root = (props) => {
                 <Route exact path="/notification" render={props => (
                     logged ? <Notification {...props} /> : <Redirect to="/login"/>
                 )}/>
-                <Route exact path="/mypage" render={props => (
+                <Route exact path="/mypage/:name" render={props => (
                     logged ? <Mypage {...props} /> : <Redirect to="/login"/>
-                )}/>
-                <Route exact path="/myboard/:name" render={props => (
-                    logged ? <Myboard {...props} /> : <Redirect to="/login"/>
                 )}/>
                 <Route exact path="/withdrawal" render={props => (
                     logged ? <Withdrawal {...props} /> : <Redirect to="/login"/>
@@ -61,7 +56,6 @@ const Root = (props) => {
                     logged ? <Edit {...props} /> : <Redirect to="/login"/>
                 )}/>
                 <Route path="/search" component={Search}/>
-                <Route path="/result" component={Result}/>
                 <Route exact path="/detail/:id" component={Detail}/>
                 <Route exact path="/banner/apply" component={Apply}/>
 

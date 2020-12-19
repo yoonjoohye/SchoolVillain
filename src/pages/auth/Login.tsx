@@ -109,25 +109,22 @@ const Login = () => {
     const goLogin = async () => {
         dispatch(authLoginRequest());
         try {
-            let csrf = await axios({
-                method: 'GET',
-                url: '/sanctum/csrf-cookie'
-            });
-            if (csrf.status === 204) {
-                let response = await axios({
-                    method: 'POST',
-                    url: '/api/user/login',
-                    data: {
-                        email: email,
-                        password: password
-                    }
-                });
-                if (response.status === 200) {
-                    sessionStorage.setItem('logged','true');
-                    window.location.href = '/';
-                    dispatch(authLoginSuccess());
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/login',
+                data: {
+                    email: email,
+                    password: password
                 }
+            });
+            console.log(response);
+            if (response.status === 200) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+                // sessionStorage.setItem('logged','true');
+                // window.location.href = '/';
+                dispatch(authLoginSuccess());
             }
+
         } catch (err) {
             if (err.response.status === 422) {
                 setEmailCheck(false);

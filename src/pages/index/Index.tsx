@@ -55,16 +55,30 @@ const Index: React.FC = ({history}: any) => {
     const [hasMore, setHasMore] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const [openDropdown, setOpenDropdown]=useState(false);
+    const [openDropdown, setOpenDropdown] = useState(false);
 
     useEffect(() => {
         if (page === 1) {
             BoardAPI(page);
         }
         UserAPI();
-        BannerAPI();
+        // BannerAPI();
     }, []);
 
+    const CountAPI = async () => {
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/mypage/abstractInfo'
+            });
+            console.log(response.data);
+            if (response.status === 200) {
+
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const BoardAPI = useCallback(async (page: number) => {
         setLoading(true);
         try {
@@ -74,10 +88,11 @@ const Index: React.FC = ({history}: any) => {
                 params: {
                     per_page: 12,
                     page: page,
+                    first_id:0,
                     cache: true
                 }
             });
-            // console.log(response.data);
+            console.log(response.data);
             if (response.status === 200) {
                 if (page > 1) {
                     response.data.data.map((item: any) => {
@@ -119,31 +134,31 @@ const Index: React.FC = ({history}: any) => {
         }
     }, []);
 
-    const BannerAPI = useCallback(async () => {
-        try {
-            let response = await axios({
-                method: 'GET',
-                url: '/api/banner',
-                cache: true
-            });
-            // console.log(response);
-            if (response.status === 200) {
-                setMainBanner(
-                    response.data.data.filter((data: any) =>
-                        data.location === 'main'
-                    )[0]
-                );
-                setSideBanner(
-                    response.data.data.filter((data: any) =>
-                        data.location.includes('side')
-                    )
-                );
-
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }, []);
+    // const BannerAPI = useCallback(async () => {
+    //     try {
+    //         let response = await axios({
+    //             method: 'GET',
+    //             url: '/api/banner',
+    //             cache: true
+    //         });
+    //         // console.log(response);
+    //         if (response.status === 200) {
+    //             setMainBanner(
+    //                 response.data.data.filter((data: any) =>
+    //                     data.location === 'main'
+    //                 )[0]
+    //             );
+    //             setSideBanner(
+    //                 response.data.data.filter((data: any) =>
+    //                     data.location.includes('side')
+    //                 )
+    //             );
+    //
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }, []);
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
@@ -176,17 +191,17 @@ const Index: React.FC = ({history}: any) => {
                                     <div
                                         css={css`margin-top:40px; padding:20px; box-sizing:border-box; width:100%; height: 139px; background: #FFFFFF;
 box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
-                                        <Link to="/myboard/write"
+                                        <Link to="/mypage/write"
                                               css={css`${FlexBox('', 'space-between', 'center')}; border-bottom:1px solid #DFDFDF; padding-bottom:10px; margin-bottom:10px;`}>
                                             <div>작성한 글</div>
                                             <div>12 ></div>
                                         </Link>
-                                        <Link to="/myboard/like"
+                                        <Link to="/mypage/like"
                                               css={css`${FlexBox('', 'space-between', 'center')}; border-bottom:1px solid #DFDFDF; padding-bottom:10px; margin-bottom:10px;`}>
                                             <div>좋아요한 글</div>
                                             <div>12 ></div>
                                         </Link>
-                                        <Link to="/myboard/reply" css={css`${FlexBox('', 'space-between', 'center')};`}>
+                                        <Link to="/mypage/reply" css={css`${FlexBox('', 'space-between', 'center')};`}>
                                             <div>댓글쓴 글</div>
                                             <div>12 ></div>
                                         </Link>
@@ -218,17 +233,22 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                 <IconMd css={css`margin-right:10px`}
                                         src={require('../../../assets/img/icon/chats.svg')}/>커뮤니티
                             </div>
-                            <div css={css`${MarkdownMd('', 400)}`} onClick={()=>setOpenDropdown(!openDropdown)}>
-                                전체보기<IconMdx css={css`margin-left:10px`} src={require('../../../assets/img/icon/dropdown.svg')}/>
+                            <div css={css`${MarkdownMd('', 400)}; cursor:pointer;`} onClick={() => setOpenDropdown(!openDropdown)}>
+                                전체보기<IconMdx css={css`margin-left:10px`}
+                                             src={require('../../../assets/img/icon/dropdown.svg')}/>
+
+                                {
+                                    openDropdown &&
+                                    // <div css={css`position:absolute;`}>
+                                    <div css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
+                                        <div css={css`margin-bottom:10px; cursor: pointer;`}>전체보기</div>
+                                        <div css={css`margin-bottom:10px; cursor: pointer;`}>담벼락</div>
+                                        <div css={css`cursor: pointer;`}>연애상담</div>
+                                    </div>
+                                    // </div>
+                                }
                             </div>
-                            {
-                                openDropdown &&
-                                <div css={css`position:absolute; background-color:${Color.white}; padding:20px 40px;`}>
-                                    <div css={css`margin-bottom:10px; cursor: pointer;`}>전체보기</div>
-                                    <div css={css`margin-bottom:10px; cursor: pointer;`}>담벼락</div>
-                                    <div css={css`margin-bottom:10px; cursor: pointer;`}>연애상담</div>
-                                </div>
-                            }
+
                         </div>
                         <InfiniteScroll
                             css={css` &.infinite-scroll-component{overflow:revert!important;}`}

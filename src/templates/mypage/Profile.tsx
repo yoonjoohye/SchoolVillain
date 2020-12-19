@@ -3,24 +3,23 @@ import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
 import axios from "axios";
 import styled from "@emotion/styled";
-import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm, MarkdownXl} from "../../../assets/style/Markdown.style";
+import {
+    MarkdownBase,
+    MarkdownLg,
+    MarkdownMd,
+    MarkdownMdx,
+    MarkdownSm,
+    MarkdownXl
+} from "../../../assets/style/Markdown.style";
 import {FlexBox, onlyMobile} from "../../../assets/style/Layout.style";
 import {ErrorMsg} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 import Modal from "../modal/Modal";
 import Identification from "./Identification";
 
-const Greeting = styled.div`
-    ${MarkdownBase(Color.purple200, 500)};
-    padding:0.5em 0;
-    //box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    text-align: center;
-    border-radius: 0.3em;
-    background:${Color.purple100};
-`
 const ProfileTitle = styled.div`
   ${MarkdownMd('', 600)};
-  margin-bottom:1em;
+  margin-bottom:30px;
 `
 
 const Input = styled.input`
@@ -32,17 +31,29 @@ const Input = styled.input`
     height:45px;
     padding-left: 1em;
 `
+const Title=styled.div`
+  ${MarkdownMdx('#c1c1c1')};
+    margin-right:20px;
+    width:50px;
 
+`
 const ProfileBox = styled.div`
-  padding:3em 0;
-  //border-top: 1px solid ${Color.gray100};
-  ${media.sm`padding:2em 0`}
+  ${FlexBox('','','center')}; 
+  margin-bottom:40px;
+  ${media.sm`
+    ${FlexBox('column','ceneter','center')};
+  `}
+`
+const Avartar=styled.div`
+  margin-right:40px;
+  box-shadow: 0 0 4px rgba(152, 149, 149, 0.25);
+  border-radius: 5px;
+  padding:30px 50px;
 `
 
-const NicknameBox = styled.div`
-  display:grid; 
-  grid-template-columns: 90% 10%; 
-  ${media.md`grid-template-columns: 80% 20%;`}
+const ProfileSection=styled.div`
+  ${FlexBox('','','center')};
+  margin-bottom:30px;
 `
 
 interface buttonProps {
@@ -50,9 +61,8 @@ interface buttonProps {
 }
 
 const Button = styled.button`
-  padding:0 2em;
+  padding:10px 40px;
   ${MarkdownMd(Color.white)};
-  height: 45px;
   border-radius: 0.3em;
   margin-top:30px;
   ${(props: buttonProps) => props.enabled ?
@@ -60,7 +70,8 @@ const Button = styled.button`
      background-color:${Color.purple200};
     ` :
     css`pointer-events:none;
-     background-color:${Color.purple100};
+     background-color:#DFDFDF;
+     color:#A9A9A9;
     `
 }
   &:hover{
@@ -69,8 +80,7 @@ const Button = styled.button`
 `
 
 const EditButton = styled.button`
-  padding:0 1em;
-  height:45px;
+  padding:10px 40px;
   ${MarkdownBase(Color.white)};
   border-radius: 0.3em;
   ${media.sm`margin-left:0;`}
@@ -80,7 +90,8 @@ const EditButton = styled.button`
      background-color:${Color.purple200};
     ` :
     css`pointer-events:none;
-     background-color:${Color.purple100};
+     background-color:#DFDFDF;
+     color:#A9A9A9;
     `
 }
   &:hover{
@@ -91,7 +102,7 @@ const EditButton = styled.button`
 const Label = styled.label`
   display:block;
   ${MarkdownBase(Color.gray200, 500)};
-  margin-bottom:0.5em;
+  margin-bottom:10px;
   
 `
 const GrayButton = styled.button`
@@ -169,41 +180,58 @@ const Profile: React.FC<propsType> = ({
 
     return (
         <>
-            <div css={css`border-bottom:1px solid #dfdfdf; ${FlexBox('', 'space-between', 'center')}`}>
-                <ProfileTitle>내 프로필</ProfileTitle>
-                <EditButton enabled={nicknameCheck} onClick={editNickname}>저장</EditButton>
-            </div>
-            <div css={css`${FlexBox()}`}>
-                <ProfileBox>
-                    <img src={require('../../../assets/img/profile.svg')}/>
-                </ProfileBox>
-
-                <ProfileBox>
-                    닉네임
-                    <NicknameBox>
-                        <div css={css`margin-right:1em;`}>
-                            <Input type="text" value={nickname}
-                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNickname(e)}
-                                   placeholder="닉네임을 입력해주세요"/>
-                            <ErrorMsg visible={nicknameErr.length > 0}>{nicknameErr}</ErrorMsg>
-                        </div>
-                    </NicknameBox>
-                    이메일
-                    <NicknameBox>
-                        <div css={css`margin-right:1em;`}>{email}</div>
-                    </NicknameBox>
-                </ProfileBox>
-            </div>
+            {/*<div css={css`border-bottom:1px solid #dfdfdf; ${FlexBox('', 'space-between', 'center')}`}>*/}
+            {/*    <ProfileTitle>내 프로필</ProfileTitle>*/}
+            {/*    <EditButton enabled={nicknameCheck} onClick={editNickname}>저장</EditButton>*/}
+            {/*</div>*/}
             <ProfileBox>
+                <Avartar>
+                    <img src={require('../../../assets/img/profile.svg')}/>
+                </Avartar>
+
+                <div>
+                    <ProfileSection>
+                        <Title>닉네임</Title>
+                        <>
+                            <div css={css`margin-right:1em;`}>
+                                <Input type="text" value={nickname}
+                                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNickname(e)}
+                                       placeholder="닉네임을 입력해주세요"/>
+                                {/*<ErrorMsg visible={nicknameErr.length > 0}>{nicknameErr}</ErrorMsg>*/}
+                            </div>
+                        </>
+                        <EditButton enabled={nicknameCheck} onClick={editNickname}>저장</EditButton>
+                    </ProfileSection>
+                    <ProfileSection>
+                        <Title>이메일</Title>
+                        <>
+                            <div css={css`margin-right:1em;`}>{email}</div>
+                        </>
+                    </ProfileSection>
+                    <ProfileSection>
+                        <Title>소속</Title>
+                        <>
+                            <div css={css`margin-right:1em;`}>고등학교</div>
+                        </>
+                    </ProfileSection>
+                    <ProfileSection>
+                        <Title>학년</Title>
+                        <>
+                            <div css={css`margin-right:1em;`}>3</div>
+                        </>
+                    </ProfileSection>
+                </div>
+            </ProfileBox>
+            <div>
                 <ProfileTitle>비밀번호 변경</ProfileTitle>
-                <div css={css`margin-bottom:1em;`}>
+                <div css={css`margin-bottom:20px;`}>
                     <Label>현재 비밀번호</Label>
                     <Input type="password" value={currentPassword}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeCurrentPassword(e)}
                            placeholder="현재 비밀번호를 입력해주세요"/>
                     <ErrorMsg visible={currentPasswordErr.length > 0}>{currentPasswordErr}</ErrorMsg>
                 </div>
-                <div css={css`margin-bottom:1em;`}>
+                <div css={css`margin-bottom:20px;`}>
                     <Label>새로운 비밀번호</Label>
                     <Input type="password" value={newPassword}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeNewPassword(e)}
@@ -222,12 +250,12 @@ const Profile: React.FC<propsType> = ({
                     <Button enabled={currentPasswordCheck && newPasswordCheck && newPasswordConfirmCheck}
                             onClick={editPassword}>패스워드 변경</Button>
                 </div>
-            </ProfileBox>
+            </div>
 
-            <ProfileBox css={css` text-align: right; border-top:1px solid ${Color.gray100};`}>
+            <div css={css` margin-top:40px; padding-top:40px; text-align: right; border-top:1px solid ${Color.gray100};`}>
                 <GrayButton onClick={goWithdrawal}>회원탈퇴</GrayButton>
                 <GrayButton onClick={goLogout}>로그아웃</GrayButton>
-            </ProfileBox>
+            </div>
 
         </>
     )

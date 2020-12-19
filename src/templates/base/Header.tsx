@@ -35,31 +35,41 @@ const HeaderMenu = styled.div`
   text-align:center;
   min-width: fit-content;
 `
+
+interface searchProps {
+    keyword: string;
+}
+
 const SearchInput = styled.input`
   background-image:url(${require('../../../assets/img/icon/search.svg')});
-  background-color:${Color.gray100};
   background-repeat: no-repeat;
-  background-position: calc(100% - 1em);
-  background-size: 1em;
-  margin-left:1em; 
-  width:13em; 
-  border-radius: 0.3em;
+  background-position: 0;
+  background-size: 1.5em;
+  margin-right:20px;
+  width:1.5em; 
   border:none;
-  //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  padding:0.6em 1em;
   transition: width 0.5s;
-  ${onlyPc()};
-  ${media.md`
-      width:10em; 
-      background-position: calc(100% - 0.8em);
-      padding:0.5em 0.8em;
-      margin-left:0.5em;
-      margin-right:0.5em;
-  `}
+  ${
+    (props: searchProps) => props.keyword.length > 0 && css`
+    width:300px;
+    border-bottom: 1px solid #666666;
+    padding:0.5em calc(1.5em + 10px);
+    &::placeholder{
+      opacity: 1;
+    }
+  `}; 
   &:focus{
-    width:15em;
-    ${media.md`width:11em;`}
+    width:300px;
+    border-bottom: 1px solid #666666;
+    padding:0.5em calc(1.5em + 10px);
+    &::placeholder{
+      opacity: 1;
+    }
   }
+  &::placeholder{
+    opacity: 0;
+  }  
+  
 `
 const HeaderIcon = styled.figure`
  //background:linear-gradient(0deg,#e7c9ff,#fbf7fd); 
@@ -69,8 +79,7 @@ const HeaderIcon = styled.figure`
  cursor:pointer;
  ${media.md`width:2.5em; height:2.5em; `}
 `
-const Header = () => {
-    let history = useHistory();
+const Header = ({history}: any) => {
     const dispatch = useDispatch();
     const logged = useSelector(state => state.auth.logged);
     const word = useSelector(state => state.search.keyword);
@@ -79,6 +88,7 @@ const Header = () => {
     const [openNotification, setOpenNotification] = useState(false);
     const NotificationRef = useRef(null);
     const [keyword, setKeyword] = useState('');
+    const searchRef = useRef(null);
     // const [notificationCount,setNotificationCount]=useState(0);
 
     useEffect(() => {
@@ -113,10 +123,15 @@ const Header = () => {
     }
     const onSearchEnter = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            location.href = `/result?keyword=${keyword}`;
+            window.location.href = `/search?keyword=${keyword}`;
             dispatch(searchKeyword(keyword));
         }
     }
+
+    // const focusSearch = () => {
+    //     searchRef.current.onfocus = true;
+    //     console.log(searchRef);
+    // }
     return (
         <HeaderSection>
             <HeaderContainer>
@@ -125,15 +140,14 @@ const Header = () => {
                         <img css={css`height:100%;`} src={require('../../../assets/img/icon/logo.svg')}/>
                     </HeaderLogo>
                 </Link>
-                <HeaderMenu>
+                <HeaderMenu css={css`${onlyPc()}`}>
                     {
                         logged ?
                             <>
-                                <IconMd css={css`margin-right:20px; ${onlyPc()}`}
-                                        src={require('../../../assets/img/icon/search.svg')}/>
-                                <Link to="/search" css={css`margin-right:20px; ${onlyMobile()}`}>
-                                    <IconMd src={require('../../../assets/img/icon/search.svg')}/>
-                                </Link>
+                                <SearchInput type="text" placeholder="무엇을 찾고 계신가요?" value={keyword} keyword={keyword}
+                                             ref={searchRef}
+                                             onChange={changeKeyword}
+                                             onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
                                 <div css={css`margin-right:20px; `}
                                      ref={NotificationRef}>
                                     {
@@ -147,28 +161,49 @@ const Header = () => {
                                                 background-color: ${Color.purple200};`}>
                                         </figcaption>
                                     }
-                                    <IconMd onClick={goNotification} src={require('../../../assets/img/icon/noti.svg')}/>
-
+                                    <IconMd onClick={goNotification}
+                                            src={require('../../../assets/img/icon/noti.svg')}/>
+                                    {
+                                        openNotification && <Notification/>
+                                    }
                                 </div>
-                                {
-                                    openNotification && <Notification/>
-                                }
-                                <Link to="/mypage">
+
+                                <Link to="/mypage/profile">
                                     <IconMd
                                         src={require('../../../assets/img/icon/mypage.svg')}/>
                                 </Link>
                             </>
                             :
                             <>
-                                <IconMd css={css`margin-right:20px; ${onlyPc()}`}
-                                        src={require('../../../assets/img/icon/search.svg')}/>
-                                <Link to="/search" css={css`margin-right:20px; ${onlyMobile()}`}>
-                                    <IconMd src={require('../../../assets/img/icon/search.svg')}/>
-                                </Link>
+                                <SearchInput type="text" placeholder="무엇을 찾고 계신가요?" value={keyword} keyword={keyword}
+                                             ref={searchRef}
+                                             onChange={changeKeyword}
+                                             onKeyPress={(e: React.KeyboardEvent) => onSearchEnter(e)}/>
+
                                 <Link css={css` ${MarkdownBase('#242424')};`}
                                       to="/login">로그인
                                 </Link>
 
+                            </>
+                    }
+                </HeaderMenu>
+
+                <HeaderMenu css={css`${onlyMobile()}`}>
+                    {
+                        logged ?
+                            <>
+                                <IconMd src={require('../../../assets/img/icon/hamburger.svg')}/>
+                            </>
+                            :
+                            <>
+                            <div css={css`margin-right:20px; `}>
+                                <Link to="/search">
+                                    <IconMd src={require('../../../assets/img/icon/search.svg')}/>
+                                </Link>
+                            </div>
+                                <Link to="/login">
+                                    로그인
+                                </Link>
                             </>
                     }
                 </HeaderMenu>
