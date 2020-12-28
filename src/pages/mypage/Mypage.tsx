@@ -534,10 +534,9 @@ const Mypage = ({history, match}: any) => {
                                 }
                                 endMessage={< div
                                     css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                                < PreviewBoard
+                                <PreviewBoard
                                     loading={loading.reply}
                                     boardList={replyList}
-                                    mypage={true}
                                     goDetail={goDetail}
                                 />
                             </InfiniteScroll>

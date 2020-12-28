@@ -13,6 +13,7 @@ import {ErrorMsg} from "../../../assets/style/Util";
 import produce from "immer";
 import {useDispatch, useSelector} from "react-redux";
 import {authLoginFailure, authLoginRequest, authLoginSuccess} from "../../reducers/auth";
+import {setCookie} from "../../utils/cookie";
 
 const LoginSection = styled.section`
   ${FlexBox('column')};
@@ -118,11 +119,13 @@ const Login = () => {
                 }
             });
             console.log(response);
+
             if (response.status === 200) {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+                setCookie('user_token', response.data.access_token,{maxAge:`${response.data.expires_in}`});
+                dispatch(authLoginSuccess());
                 // sessionStorage.setItem('logged','true');
                 // window.location.href = '/';
-                dispatch(authLoginSuccess());
             }
 
         } catch (err) {

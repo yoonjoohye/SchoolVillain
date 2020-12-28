@@ -4,6 +4,7 @@ import axios from "axios";
 import {cacheAdapterEnhancer} from "axios-extensions";
 import notificationSaga from './notification';
 import * as https from 'https';
+import {getCookie} from "../utils/cookie";
 
 const agent = new https.Agent({
     rejectUnauthorized: false
@@ -13,8 +14,9 @@ axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Cache-Control'] = 'no-cache';
-axios.defaults.headers.common['referer']=location.host;
 axios.defaults.httpsAgent=agent;
+axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('user_token')}`;
+
 
 let url = 'https://dev-api.villain.school';
 

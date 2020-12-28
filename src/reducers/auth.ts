@@ -1,3 +1,5 @@
+import {getCookie} from "../utils/cookie";
+
 const AUTH_LOGIN_REQUEST = 'auth/LOGIN_REQUEST' as const;
 const AUTH_LOGIN_FAILURE = 'auth/LOGIN_FAILURE' as const;
 const AUTH_LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS' as const;
@@ -38,7 +40,7 @@ export const refreshToken=(expired:number, token:string)=>({
     }
 });
 
-export const getLogged = (logged: boolean | null) => ({
+export const getLogged = (logged: string | null) => ({
     type: GET_LOGGED,
     payload: {
         logged: logged
@@ -50,7 +52,7 @@ interface stateType {
         login: boolean,
         logout: boolean
     },
-    logged: boolean | null
+    logged: string | null
 }
 
 const initialState: stateType = {
@@ -58,7 +60,7 @@ const initialState: stateType = {
         login: false,
         logout: false,
     },
-    logged: Boolean(sessionStorage.getItem('logged'))
+    logged: getCookie('user_token') || null
 }
 
 const handleAuth = (state: stateType = initialState, action: any) => {

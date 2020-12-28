@@ -160,26 +160,26 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                                 </div>
                                             </div>
                                         </div>
-                                        {
-                                            mypage &&
-                                            <div
-                                                css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>
+                                        {/*{*/}
+                                        {/*    mypage &&*/}
+                                        {/*    <div*/}
+                                        {/*        css={css`margin-top:1em; padding-top: 1em; border-top: 1px solid ${Color.gray100};`}>*/}
 
-                                                {
-                                                    board.comment.map((reply: any, index: number) => (
-                                                        index === 1 &&
-                                                        <div key={index} css={css`margin-top:0.5em;`}>
-                                                            <ReplyName>
-                                                                {reply.user.name ? reply.user.name : '익명'} <span
-                                                                css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
-                                                            </ReplyName>
-                                                            <ReplyContent
-                                                                dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
-                                        }
+                                        {/*        {*/}
+                                        {/*            board.comment.map((reply: any, index: number) => (*/}
+                                        {/*                index === 1 &&*/}
+                                        {/*                <div key={index} css={css`margin-top:0.5em;`}>*/}
+                                        {/*                    <ReplyName>*/}
+                                        {/*                        {reply.user.name ? reply.user.name : '익명'} <span*/}
+                                        {/*                        css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>*/}
+                                        {/*                    </ReplyName>*/}
+                                        {/*                    <ReplyContent*/}
+                                        {/*                        dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>*/}
+                                        {/*                </div>*/}
+                                        {/*            ))*/}
+                                        {/*        }*/}
+                                        {/*    </div>*/}
+                                        {/*}*/}
                                     </BoardSection>
                                 )
                             })

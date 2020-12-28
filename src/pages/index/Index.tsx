@@ -46,6 +46,7 @@ const Index: React.FC = ({history}: any) => {
 
     const dispatch = useDispatch();
 
+    let token = useSelector(state => state.auth.logged);
     let list = useSelector(state => state.board.boardList);
     let page = useSelector(state => state.board.boardPage);
 
@@ -88,7 +89,7 @@ const Index: React.FC = ({history}: any) => {
                 params: {
                     per_page: 12,
                     page: page,
-                    first_id:0,
+                    first_id: 0,
                     cache: true
                 }
             });
@@ -233,14 +234,16 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                 <IconMd css={css`margin-right:10px`}
                                         src={require('../../../assets/img/icon/chats.svg')}/>커뮤니티
                             </div>
-                            <div css={css`${MarkdownMd('', 400)}; cursor:pointer;`} onClick={() => setOpenDropdown(!openDropdown)}>
+                            <div css={css`${MarkdownMd('', 400)}; cursor:pointer;`}
+                                 onClick={() => setOpenDropdown(!openDropdown)}>
                                 전체보기<IconMdx css={css`margin-left:10px`}
                                              src={require('../../../assets/img/icon/dropdown.svg')}/>
 
                                 {
                                     openDropdown &&
                                     // <div css={css`position:absolute;`}>
-                                    <div css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
+                                    <div
+                                        css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
                                         <div css={css`margin-bottom:10px; cursor: pointer;`}>전체보기</div>
                                         <div css={css`margin-bottom:10px; cursor: pointer;`}>담벼락</div>
                                         <div css={css`cursor: pointer;`}>연애상담</div>

@@ -1,9 +1,10 @@
 import {all, put, call, fork, takeEvery} from 'redux-saga/effects'
 
-// import {GET_LOGGED, getLogged} from "../reducers/auth";
-import {REFRESH_TOKEN, refreshToken} from "../reducers/auth";
+import {GET_LOGGED, getLogged} from "../reducers/auth";
+// import {REFRESH_TOKEN, refreshToken} from "../reducers/auth";
 
 import axios from "axios";
+import {removeCookie, setCookie, getCookie} from "../utils/cookie";
 
 export default function* authSaga() {
     yield all([
@@ -15,19 +16,24 @@ export default function* authSaga() {
 //     return axios.get('/api/user/auth/check');
 // }
 
-const refreshTokenAPI=()=>{
+const refreshTokenAPI = () => {
     return axios.post('/api/user/refresh');
 }
 
 function* getLogged$() {
-    try {
-        // const logged = yield call(AuthCheckAPI);
-        // yield put(getLogged(logged.data.is_user));
-        // sessionStorage.setItem('logged', logged.data.is_user);
-        const res = yield call(refreshTokenAPI);
-        yield put(refreshToken(res.data.expired_in, res.data.access_token));
-    } catch (err) {
-        console.log(err);
-        yield put(refreshToken(0,''));
-    }
+    // try {
+    //     // const logged = yield call(AuthCheckAPI);
+    //     // yield put(getLogged(logged.data.is_user));
+    //     const res = yield call(refreshTokenAPI);
+    //     console.log(res);
+    //     if(res.status===200) {
+    //         yield put(getLogged(res.data.access_token));
+    //         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
+    //         setCookie('user_token', res.data.access_token, {maxAge: `${res.data.expires_in}`});
+    //     }
+    // } catch (err) {
+    //     console.log(err);
+    //     removeCookie('user_token');
+    //     yield put(getLogged(null));
+    // }
 }
