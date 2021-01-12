@@ -15,6 +15,7 @@ import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from 
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 import {authLogoutFailure, authLogoutRequest, authLogoutSuccess} from "../../reducers/auth";
 import {removeCookie} from "../../utils/cookie";
+import {media} from "../../../assets/style/Media.style";
 
 const MypageSection = styled.section`
   ${DetailSection()}; 
@@ -26,12 +27,24 @@ const MypageTab = styled.nav`
   ${FlexBox('row', 'space-between', 'center')};
   ${MarkdownMdx('#242424', 400)};
   margin-bottom:20px;
+  ${media.sm`
+      ${FlexBox('column', '', 'center')};
+  `}
 `
-const MainTab=styled.div`
+const MainTab = styled.div`
   ${FlexBox('row', '', 'center')};
+  ${media.sm`
+      width:100%;
+      ${FlexBox('row', '', 'flex-start')};
+      margin-bottom:30px;
+  `}
 `
-const SubTab=styled.div`
+const SubTab = styled.div`
   ${FlexBox('row', '', 'center')};
+  ${media.sm`
+      width:100%;
+      ${FlexBox('row', 'space-between', 'flex-start')};
+  `}
 `
 const Tab = styled.li`
   margin-right:1em;
@@ -84,17 +97,17 @@ const Mypage = ({history, match}: any) => {
     const [mainMenu, setMainMenu] = useState(0);
     const [subMenu, setSubMenu] = useState(0);
 
-    const selectMenu = (main: number, sub:number=0) => {
-        if (main===1 && sub === 0) {
+    const selectMenu = (main: number, sub: number = 0) => {
+        if (main === 1 && sub === 0) {
             history.push('/mypage/write');
         }
-        if (main===1 && sub === 1) {
+        if (main === 1 && sub === 1) {
             history.push('/mypage/like');
         }
-        if (main===1 && sub === 2) {
+        if (main === 1 && sub === 2) {
             history.push('/mypage/reply');
         }
-        if (main===0) {
+        if (main === 0) {
             history.push('/mypage/profile');
         }
     }
@@ -105,7 +118,7 @@ const Mypage = ({history, match}: any) => {
                 method: 'POST',
                 url: '/api/user/me'
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 setUser(response.data);
                 setNickname(response.data.name || '익명');
@@ -402,10 +415,10 @@ const Mypage = ({history, match}: any) => {
                 url: '/api/user/logout'
             });
             // console.log(response);
-            if (response.status === 204) {
+            if (response.status === 200) {
+                window.location.href = '/';
                 removeCookie('user_token');
                 dispatch(authLogoutSuccess());
-                window.location.href = '/';
             }
         } catch (err) {
             console.log(err);
@@ -413,12 +426,12 @@ const Mypage = ({history, match}: any) => {
         }
     }
     const goWithdrawal = async () => {
-        location.href = '/withdrawal';
+        window.location.href = '/withdrawal';
     }
 
     const confirmModal = () => {
         setOpenModal(false);
-        location.reload();
+        window.location.reload();
     }
 
     return (
@@ -453,7 +466,7 @@ const Mypage = ({history, match}: any) => {
                             subTab.map((item: string, index: number) => {
                                 return (
                                     <Tab key={index}
-                                         css={css`${subMenu === index ? css`${MarkdownMdx('',500)}` : css`${MarkdownMdx('#c1c1c1',500)}`}`}
+                                         css={css`${subMenu === index ? css`${MarkdownMdx('', 500)}` : css`${MarkdownMdx('#c1c1c1', 500)}`}`}
                                          onClick={() => selectMenu(1, index)}>
                                         {item}
                                     </Tab>

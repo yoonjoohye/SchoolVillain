@@ -30,6 +30,9 @@ const Input = styled.input`
     outline:none;
     height:45px;
     padding-left: 1em;
+    ${media.sm`
+        height:35px;
+    `}
 `
 const Title=styled.div`
   ${MarkdownMdx('#c1c1c1')};
@@ -49,6 +52,7 @@ const Avartar=styled.div`
   box-shadow: 0 0 4px rgba(152, 149, 149, 0.25);
   border-radius: 5px;
   padding:30px 50px;
+  ${media.sm`margin:30px 0;`}
 `
 
 const ProfileSection=styled.div`
@@ -80,10 +84,15 @@ const Button = styled.button`
 `
 
 const EditButton = styled.button`
-  padding:10px 40px;
+  height: 45px;
+  width: 100px;
   ${MarkdownBase(Color.white)};
   border-radius: 0.3em;
-  ${media.sm`margin-left:0;`}
+  ${media.sm`
+    margin-left:0;
+    height:35px;
+    width:75px;
+  `}
 
   ${(props: buttonProps) => props.enabled ?
     css`pointer-events:initial;
@@ -177,7 +186,6 @@ const Profile: React.FC<propsType> = ({
                                           goWithdrawal
                                       }) => {
 
-
     return (
         <>
             {/*<div css={css`border-bottom:1px solid #dfdfdf; ${FlexBox('', 'space-between', 'center')}`}>*/}
@@ -211,13 +219,13 @@ const Profile: React.FC<propsType> = ({
                     <ProfileSection>
                         <Title>소속</Title>
                         <>
-                            <div css={css`margin-right:1em;`}>고등학교</div>
+                            <div css={css`margin-right:1em;`}>{user && user.school_type===2 ? '고등학교' : '중학교'}</div>
                         </>
                     </ProfileSection>
                     <ProfileSection>
                         <Title>학년</Title>
                         <>
-                            <div css={css`margin-right:1em;`}>3</div>
+                            <div css={css`margin-right:1em;`}>{user && user.grade}</div>
                         </>
                     </ProfileSection>
                 </div>
@@ -252,7 +260,7 @@ const Profile: React.FC<propsType> = ({
                 </div>
             </div>
 
-            <div css={css` margin-top:40px; padding-top:40px; text-align: right; border-top:1px solid ${Color.gray100};`}>
+            <div css={css` margin-top:40px; padding:40px 0; text-align: right; border-top:1px solid ${Color.gray100};`}>
                 <GrayButton onClick={goWithdrawal}>회원탈퇴</GrayButton>
                 <GrayButton onClick={goLogout}>로그아웃</GrayButton>
             </div>

@@ -17,7 +17,7 @@ export const Color:ColorType={
     gray50:'#eeeeee',
     gray100:'#DFDFDF',
     gray150:'#aaaaaa',
-    gray200:'#727272',
+    gray200:'#A9A9A9',
 
     purple100:'#f1e6f9',
     purple200:'#951DE4',

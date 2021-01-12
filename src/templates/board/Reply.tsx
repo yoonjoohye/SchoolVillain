@@ -169,7 +169,7 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
 
                                 {
                                     reply.children && reply.children.length > 0 &&
-                                    <div css={css`padding-left:5%;`}>
+                                    <div css={css`padding-left:5%; border-left: 1px dashed ${Color.gray100};`}>
                                         {
                                             reply.children.map((reReply: any, reReplyIndex: number) => {
                                                 return (
