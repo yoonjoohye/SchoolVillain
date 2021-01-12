@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import JoinInput from "../../components/input/JoinInput";
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
@@ -122,7 +122,9 @@ const Login = () => {
 
             if (response.status === 200) {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
-                setCookie('user_token', response.data.access_token,{maxAge:`${response.data.expires_in}`});
+                let date=new Date();
+                date.setSeconds(date.getSeconds()+response.data.expires_in);
+                setCookie('user_token', response.data.access_token,{expires: date});
                 dispatch(authLoginSuccess());
                 // sessionStorage.setItem('logged','true');
                 // window.location.href = '/';

@@ -114,7 +114,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
         setOpenModal(open);
     }
 
-    console.log(boardList);
+    // console.log(boardList);
     return (
         <>
             {

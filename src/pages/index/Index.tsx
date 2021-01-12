@@ -55,7 +55,11 @@ const Index: React.FC = ({history}: any) => {
     const [user, setUser] = useState(null);
     const [hasMore, setHasMore] = useState(false);
     const [loading, setLoading] = useState(true);
-
+    const [count, setCount] = useState({
+        board: 0,
+        reply: 0,
+        like: 0,
+    });
     const [openDropdown, setOpenDropdown] = useState(false);
 
     useEffect(() => {
@@ -63,6 +67,7 @@ const Index: React.FC = ({history}: any) => {
             BoardAPI(page);
         }
         UserAPI();
+        CountAPI();
         // BannerAPI();
     }, []);
 
@@ -72,9 +77,13 @@ const Index: React.FC = ({history}: any) => {
                 method: 'GET',
                 url: '/api/mypage/abstractInfo'
             });
-            console.log(response.data);
+            // console.log(response.data);
             if (response.status === 200) {
-
+                setCount({
+                    board: response.data.board_count,
+                    reply: response.data.comment_count,
+                    like: response.data.like_count
+                });
             }
         } catch (err) {
             console.log(err);
@@ -93,7 +102,7 @@ const Index: React.FC = ({history}: any) => {
                     cache: true
                 }
             });
-            console.log(response.data);
+            // console.log(response.data);
             if (response.status === 200) {
                 if (page > 1) {
                     response.data.data.map((item: any) => {
@@ -126,7 +135,7 @@ const Index: React.FC = ({history}: any) => {
                 url: '/api/user/me',
                 cache: true
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 setUser(response.data);
             }
@@ -135,31 +144,34 @@ const Index: React.FC = ({history}: any) => {
         }
     }, []);
 
-    // const BannerAPI = useCallback(async () => {
-    //     try {
-    //         let response = await axios({
-    //             method: 'GET',
-    //             url: '/api/banner',
-    //             cache: true
-    //         });
-    //         // console.log(response);
-    //         if (response.status === 200) {
-    //             setMainBanner(
-    //                 response.data.data.filter((data: any) =>
-    //                     data.location === 'main'
-    //                 )[0]
-    //             );
-    //             setSideBanner(
-    //                 response.data.data.filter((data: any) =>
-    //                     data.location.includes('side')
-    //                 )
-    //             );
-    //
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }, []);
+    const [color, setColor] = useState({
+        doodle: '',
+        counseling: '',
+        all: Color.purple300
+    });
+    const filterBoard = (type?: string) => {
+        console.log(type);
+        setBoardList(boardList.filter((item: any) => type ? item.type === type : true));
+        if (type === 'doodle') {
+            setColor({
+                doodle: Color.purple300,
+                counseling:'',
+                all:''
+            });
+        } else if (type === 'counseling') {
+            setColor({
+                doodle: '',
+                counseling:Color.purple300,
+                all:''
+            });
+        } else {
+            setColor({
+                doodle: '',
+                counseling:'',
+                all:Color.purple300
+            });
+        }
+    }
 
     const goDetail = useCallback((id: number) => {
         history.push(`/detail/${id}`);
@@ -195,16 +207,16 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                         <Link to="/mypage/write"
                                               css={css`${FlexBox('', 'space-between', 'center')}; border-bottom:1px solid #DFDFDF; padding-bottom:10px; margin-bottom:10px;`}>
                                             <div>작성한 글</div>
-                                            <div>12 ></div>
+                                            <div>{count.board} ></div>
                                         </Link>
                                         <Link to="/mypage/like"
                                               css={css`${FlexBox('', 'space-between', 'center')}; border-bottom:1px solid #DFDFDF; padding-bottom:10px; margin-bottom:10px;`}>
                                             <div>좋아요한 글</div>
-                                            <div>12 ></div>
+                                            <div>{count.like} ></div>
                                         </Link>
                                         <Link to="/mypage/reply" css={css`${FlexBox('', 'space-between', 'center')};`}>
                                             <div>댓글쓴 글</div>
-                                            <div>12 ></div>
+                                            <div>{count.reply} ></div>
                                         </Link>
                                     </div>
                                 </>
@@ -244,9 +256,15 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                     // <div css={css`position:absolute;`}>
                                     <div
                                         css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
-                                        <div css={css`margin-bottom:10px; cursor: pointer;`}>전체보기</div>
-                                        <div css={css`margin-bottom:10px; cursor: pointer;`}>담벼락</div>
-                                        <div css={css`cursor: pointer;`}>연애상담</div>
+                                        <div css={css`margin-bottom:10px; cursor: pointer; color:${color.all}`}
+                                             onClick={()=>filterBoard()}>전체보기
+                                        </div>
+                                        <div css={css`margin-bottom:10px; cursor: pointer; color:${color.doodle}`}
+                                             onClick={() => filterBoard('doodle')}>담벼락
+                                        </div>
+                                        <div css={css`cursor: pointer; color:${color.counseling}`}
+                                             onClick={() => filterBoard('counseling')}>연애상담
+                                        </div>
                                     </div>
                                     // </div>
                                 }

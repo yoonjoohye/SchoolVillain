@@ -51,6 +51,7 @@ const Button = styled.button`
   width:100%;
   height: 45px;
   //border-radius: 0.3em;
+  border-radius: 0 0 0.3em 0.3em;
   margin-top:30px;
   ${(props: buttonProps) => props.enabled ?
     `pointer-events:initial;

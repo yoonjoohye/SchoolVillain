@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../reducers/board";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 import {authLogoutFailure, authLogoutRequest, authLogoutSuccess} from "../../reducers/auth";
+import {removeCookie} from "../../utils/cookie";
 
 const MypageSection = styled.section`
   ${DetailSection()}; 
@@ -157,7 +158,7 @@ const Mypage = ({history, match}: any) => {
                 },
                 cache: true
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 if (page > 1) {
                     response.data.data.map((item: any) => {
@@ -200,7 +201,7 @@ const Mypage = ({history, match}: any) => {
                 },
                 cache: true
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 if (page > 1) {
                     response.data.data.map((item: any) => {
@@ -243,7 +244,7 @@ const Mypage = ({history, match}: any) => {
                 },
                 cache: true
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 if (page > 1) {
                     response.data.data.map((item: any) => {
@@ -402,9 +403,9 @@ const Mypage = ({history, match}: any) => {
             });
             // console.log(response);
             if (response.status === 204) {
-                sessionStorage.removeItem('logged');
-                window.location.href = '/';
+                removeCookie('user_token');
                 dispatch(authLogoutSuccess());
+                window.location.href = '/';
             }
         } catch (err) {
             console.log(err);
