@@ -3,13 +3,13 @@ import {FlexBox, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
 import React from "react";
-import {MarkdownBase, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownMdx, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {Tag} from "../../../assets/style/Util";
-import {IconBase} from "../../../assets/style/Icon.style";
+import {IconBase, IconLg} from "../../../assets/style/Icon.style";
 
 const WriteSection = styled.section`
-  margin-top:6em;
   ${Section()};
+  padding-top:6em;
 `
 const WriteContainer = styled.div`
   width:100%;
@@ -41,7 +41,7 @@ const Button = styled.button`
 const TextArea = styled.textarea`
    width:100%;
   border:0;
-  ${MarkdownBase()};
+   ${MarkdownMdx()};
   resize: none;
   outline:none;
 `
@@ -49,7 +49,7 @@ const TextArea = styled.textarea`
 const Input = styled.input`
   width:100%;
   border:0;
-  ${MarkdownBase()};
+  ${MarkdownLg()};
   outline:none;
 `
 const FileInput = styled.input`
@@ -103,7 +103,24 @@ const DelButton=styled.button`
   }
 `
 
+const Select = styled.select`
+    border: 0;
+    width: 190px;
+    background-image: url(${require('../../../assets/img/icon/dropdown.svg')});
+    background-repeat: no-repeat;
+    background-position-x: calc(100%);
+    background-size: 20px 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    ${MarkdownMd('#3D3D3D')};
+    &::-ms-expand{ display:none /* 화살표 없애기 for IE10, 11*/ }
+`
+
 interface propsType {
+    type:string;
+    selectType:any;
+
     title: string;
     changeTitle: any;
 
@@ -126,6 +143,8 @@ interface propsType {
 }
 
 const PageWrite: React.FC<propsType> = ({
+                                            type,
+                                            selectType,
                                             title,
                                             changeTitle,
                                             contents,
@@ -145,16 +164,23 @@ const PageWrite: React.FC<propsType> = ({
     return (
         <WriteSection>
             <WriteContainer>
-                <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                <div css={css`padding:20px 10px; border-bottom: 1px dashed ${Color.gray100};`}>
+                    <Select value={type} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => selectType(e)}>
+                        <option value="none">주제를 선택해주세요</option>
+                        <option value="doodle">담벼락</option>
+                        <option value="love">연애상담</option>
+                    </Select>
+                </div>
+                <div css={css`padding:20px 10px;`}>
                     <Input value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTitle(e)}
                            placeholder="제목을 입력해주세요."/>
                 </div>
-                <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                <div css={css`padding:0 10px 20px 10px; border-bottom:1px dashed ${Color.gray100};`}>
                     <TextArea rows={10} value={contents}
                               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => changeContents(e)}
                               placeholder="내용을 입력해주세요."></TextArea>
                 </div>
-                <div css={css`padding:1em 0; border-bottom:1px solid ${Color.gray100};`}>
+                <div css={css`padding:20px 10px;`}>
                     <Preview>
                         <FileInput type="file" id="img"
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => loadImg(e)}
@@ -178,7 +204,7 @@ const PageWrite: React.FC<propsType> = ({
                         }
                         {
                             previewList.length < 6 &&
-                            <FakeFileInput htmlFor="img" previewImgCount={previewList.length}><IconBase src={require('../../../assets/img/icon/gallery.svg')} alt="스쿨빌런 이미지등록 이미지"/></FakeFileInput>
+                            <FakeFileInput htmlFor="img" previewImgCount={previewList.length}><IconLg src={require('../../../assets/img/icon/gallery.svg')} alt="스쿨빌런 이미지등록 이미지"/></FakeFileInput>
                         }
                     </Preview>
                 </div>
@@ -203,7 +229,7 @@ const PageWrite: React.FC<propsType> = ({
                 {/*        }*/}
                 {/*    </div>*/}
                 {/*</div>*/}
-                <Button enabled={title.length > 0 && contents.length > 0} onClick={upload}>
+                <Button enabled={type!=='none' && title.length > 0 && contents.length > 0} onClick={upload}>
                     {
                         loading ?
                             <img css={css`height:2em; width:2em;`}

@@ -55,6 +55,14 @@ const Index: React.FC = ({history}: any) => {
     const [user, setUser] = useState(null);
     const [hasMore, setHasMore] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const [color, setColor] = useState({
+        doodle: '',
+        love: '',
+        all: Color.purple300
+    });
+
+    const [type, setType] = useState('');
     const [count, setCount] = useState({
         board: 0,
         reply: 0,
@@ -66,6 +74,9 @@ const Index: React.FC = ({history}: any) => {
         if (page === 1) {
             BoardAPI(page);
         }
+    }, [type]);
+
+    useEffect(() => {
         UserAPI();
         CountAPI();
         // BannerAPI();
@@ -89,7 +100,7 @@ const Index: React.FC = ({history}: any) => {
             console.log(err);
         }
     }
-    const BoardAPI = useCallback(async (page: number) => {
+    const BoardAPI = async (page: number) => {
         setLoading(true);
         try {
             let response = await axios({
@@ -112,21 +123,27 @@ const Index: React.FC = ({history}: any) => {
                     list = response.data.data;
                 }
 
+                console.log(type);
+
+                if (type.length > 0) {
+                    list = list.filter((item: any) => item.type === type);
+                }
+
                 setBoardList(list);
+
 
                 if (response.data.last_page <= page) {
                     setHasMore(false);
                 } else {
                     setHasMore(true);
                 }
-
                 dispatch(boardListRequest(list, page));
                 setLoading(false);
             }
         } catch (err) {
             setLoading(false);
         }
-    }, []);
+    };
 
     const UserAPI = useCallback(async () => {
         try {
@@ -144,31 +161,26 @@ const Index: React.FC = ({history}: any) => {
         }
     }, []);
 
-    const [color, setColor] = useState({
-        doodle: '',
-        counseling: '',
-        all: Color.purple300
-    });
-    const filterBoard = (type?: string) => {
-        console.log(type);
-        setBoardList(boardList.filter((item: any) => type ? item.type === type : true));
+    const filterBoard = (type: string) => {
+        setType(type);
+        page = 1;
         if (type === 'doodle') {
             setColor({
                 doodle: Color.purple300,
-                counseling:'',
-                all:''
+                love: '',
+                all: ''
             });
-        } else if (type === 'counseling') {
+        } else if (type === 'love') {
             setColor({
                 doodle: '',
-                counseling:Color.purple300,
-                all:''
+                love: Color.purple300,
+                all: ''
             });
         } else {
             setColor({
                 doodle: '',
-                counseling:'',
-                all:Color.purple300
+                love: '',
+                all: Color.purple300
             });
         }
     }
@@ -248,8 +260,9 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                             </div>
                             <div css={css`${MarkdownMd('', 400)}; cursor:pointer;`}
                                  onClick={() => setOpenDropdown(!openDropdown)}>
-                                전체보기<IconMdx css={css`margin-left:10px`}
-                                             src={require('../../../assets/img/icon/dropdown.svg')}/>
+                                {(type === 'doodle') ? <>담벼락</> : (type === 'love') ? <>연애상담</> : <>전체보기</>}
+                                <IconMdx css={css`margin-left:10px`}
+                                         src={require('../../../assets/img/icon/dropdown.svg')}/>
 
                                 {
                                     openDropdown &&
@@ -257,13 +270,13 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                     <div
                                         css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
                                         <div css={css`margin-bottom:10px; cursor: pointer; color:${color.all}`}
-                                             onClick={()=>filterBoard()}>전체보기
+                                             onClick={() => filterBoard('')}>전체보기
                                         </div>
                                         <div css={css`margin-bottom:10px; cursor: pointer; color:${color.doodle}`}
                                              onClick={() => filterBoard('doodle')}>담벼락
                                         </div>
-                                        <div css={css`cursor: pointer; color:${color.counseling}`}
-                                             onClick={() => filterBoard('counseling')}>연애상담
+                                        <div css={css`cursor: pointer; color:${color.love}`}
+                                             onClick={() => filterBoard('love')}>연애상담
                                         </div>
                                     </div>
                                     // </div>

@@ -11,6 +11,7 @@ interface propsType {
 
 const Write: React.FC<propsType> = ({isOpen}) => {
     const [title, setTitle] = useState('');
+    const [type, setType]=useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
     const [tagList, setTagList] = useState([]);
@@ -18,6 +19,10 @@ const Write: React.FC<propsType> = ({isOpen}) => {
     const [previewList, setPreviewList] = useState([]);
 
     const[loading,setLoading]=useState(false);
+
+    const selectType=(e: React.ChangeEvent<HTMLSelectElement>) => {
+        setType(e.target.value);
+    }
 
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -99,6 +104,7 @@ const Write: React.FC<propsType> = ({isOpen}) => {
 
             formData.append('title', title);
             formData.append('contents', contents);
+            formData.append('type', type);
             imgList.map((img: File, index: number) => {
                 formData.append('images[]', imgList[index]);
             });
@@ -141,6 +147,9 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                                 title={title}
                                 changeTitle={changeTitle}
 
+                                type={type}
+                                selectType={selectType}
+
                                 contents={contents}
                                 changeContents={changeContents}
 
@@ -158,6 +167,9 @@ const Write: React.FC<propsType> = ({isOpen}) => {
                     :
                     <PageWrite title={title}
                                changeTitle={changeTitle}
+
+                               type={type}
+                               selectType={selectType}
 
                                contents={contents}
                                changeContents={changeContents}

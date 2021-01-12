@@ -13,7 +13,7 @@ export const MarkdownLg = (color: string = Color.black, weight: number = 400) =>
       font-size: 28px;
       font-weight: ${weight};
       color: ${color};
-      ${media.sm`font-size: 24px;`}
+      ${media.sm`font-size: 22px;`}
 `;
 
 export const Display2 = (color: string = Color.black, weight: number = 500) => css`

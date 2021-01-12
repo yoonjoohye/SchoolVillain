@@ -86,6 +86,8 @@ const Header = ({history}: any) => {
     const count = useSelector(state => state.notification.count);
 
     const [openNotification, setOpenNotification] = useState(false);
+    const [showCategory, setShowCategory]=useState(false);
+
     const NotificationRef = useRef(null);
     const [keyword, setKeyword] = useState('');
     const searchRef = useRef(null);
@@ -192,7 +194,15 @@ const Header = ({history}: any) => {
                     {
                         logged ?
                             <>
-                                <IconMd src={require('../../../assets/img/icon/hamburger.svg')}/>
+                                <IconMd src={require('../../../assets/img/icon/hamburger.svg')} onClick={()=>setShowCategory(true)}/>
+                                {
+                                    showCategory &&
+                                    <div css={css`position:absolute; right:5%; top:4.5em; border-radius: 5px; background-color:${Color.white}`}>
+                                        <IconMd css={css`padding:1em;`} src={require('../../../assets/img/icon/search.svg')} onClick={()=>window.location.href='/search'}/>
+                                        <IconMd css={css`padding:1em;`} src={require('../../../assets/img/icon/noti.svg')} onClick={()=>window.location.href='/notification'}/>
+                                        <IconMd css={css`padding:1em;`} src={require('../../../assets/img/icon/mypage.svg')} onClick={()=>window.location.href='/mypage/profile'}/>
+                                    </div>
+                                }
                             </>
                             :
                             <>
