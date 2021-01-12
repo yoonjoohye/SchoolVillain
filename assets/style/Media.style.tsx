@@ -5,7 +5,7 @@ interface sizeType{
 }
 
 const size:sizeType = {
-    lg: 1920,
+    lg: 1440,
     md: 1024,
     sm: 480
 };

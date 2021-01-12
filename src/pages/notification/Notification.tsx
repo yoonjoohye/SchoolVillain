@@ -4,22 +4,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {notificationRequest, readNotification, readNotificationCount} from "../../reducers/notification";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
-import {MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {MarkdownLg, MarkdownLgx, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
 import {css} from "@emotion/core";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NotificationList from "../../templates/notification/NotificationList";
-import {FlexBox, onlyPc, Section} from "../../../assets/style/Layout.style";
+import {FlexBox, NotificationSection, onlyPc, Section} from "../../../assets/style/Layout.style";
 import SkeletonNotification from "../../templates/loading/SkeletonNotification";
-import {useHistory} from "react-router-dom";
 import produce from "immer";
-import {media} from "../../../assets/style/Media.style";
 import SEO from "../../templates/SEO/SEO";
 
 const NotiSection = styled.section`
   position:fixed;
   overflow: hidden;
   top:4em;
-  width: 350px;
+  padding:20px;
+  width: 400px;
   right:1%;
   background-color:${Color.white};
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -31,13 +30,12 @@ interface propsType {
     history?: History;
 }
 
-const Notification: React.FC<propsType> = () => {
-    let history = useHistory();
+const Notification: React.FC<propsType> = ({history}) => {
     const dispatch = useDispatch();
 
     let list = useSelector(state => state.notification.list);
     let page = useSelector(state => state.notification.page);
-    let count=useSelector(state=>state.notification.count);
+    let count = useSelector(state => state.notification.count);
 
     const [notificationList, setNotificationList] = useState(list);
     const [hasMore, setHasMore] = useState(false);
@@ -116,7 +114,7 @@ const Notification: React.FC<propsType> = () => {
                     draft[index] = response.data;
                 }));
                 location.href = response.data.link;
-                dispatch(readNotificationCount(count-1));
+                dispatch(readNotificationCount(count - 1));
             }
         } catch (err) {
             console.log(err);
@@ -130,14 +128,14 @@ const Notification: React.FC<propsType> = () => {
             {
                 window.screen.width > 480 ?
                     <NotiSection>
-                        <div css={css`padding:1.5em; ${FlexBox('', 'space-between', '')}`}>
-                            <div css={css` ${MarkdownMd('', 600)}`}>빌런 알림</div>
+                        <div css={css` ${FlexBox('', 'space-between', '')}`}>
+                            <div css={css` ${MarkdownLgx('', 500)}`}>알람</div>
                             <div css={css`text-align:right;`}>
-                                <button
-                                    css={css`padding:0.3em 0.5em; border-radius:0.3em; background-color:${Color.gray100}; ${MarkdownSm(Color.gray200)} &:hover{background-color:#e1e1e1;}`}
-                                    onClick={readAll}>모두 확인
+                                <button onClick={readAll}>
+                                    <img src={require('../../../assets/img/icon/cancel.svg')}/>
                                 </button>
                             </div>
+
                         </div>
                         <div id="notification" css={css`max-height:80vh; overflow:auto`}>
                             <InfiniteScroll
@@ -152,15 +150,15 @@ const Notification: React.FC<propsType> = () => {
                                 <NotificationList notificationList={notificationList} readOne={readOne}/>
                             </InfiniteScroll>
                         </div>
+
                     </NotiSection>
                     :
-                    <section css={css`${Section()}; padding-bottom:4em;`}>
+                    <section css={css`${NotificationSection()}; padding-top:6em; padding-bottom:4em;`}>
                         <div css={css`margin-bottom:1.5em; ${FlexBox('', 'space-between', '')}`}>
-                            <div css={css` ${MarkdownMd('', 600)}`}>빌런 알림</div>
+                            <div css={css`${MarkdownLgx('', 500)}`}>알람</div>
                             <div css={css`text-align:right;`}>
-                                <button
-                                    css={css`padding:0.3em 0.5em; border-radius:0.3em; background-color:${Color.gray100}; ${MarkdownSm(Color.gray200)} &:hover{background-color:#e1e1e1;}`}
-                                    onClick={readAll}>모두 확인
+                                <button onClick={readAll}>
+                                    <img src={require('../../../assets/img/icon/cancel.svg')}/>
                                 </button>
                             </div>
                         </div>

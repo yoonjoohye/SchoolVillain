@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import JoinInput from "../../components/input/JoinInput";
 import styled from "@emotion/styled";
 import {FlexBox, Section} from "../../../assets/style/Layout.style";
@@ -13,6 +13,7 @@ import {ErrorMsg} from "../../../assets/style/Util";
 import produce from "immer";
 import {useDispatch, useSelector} from "react-redux";
 import {authLoginFailure, authLoginRequest, authLoginSuccess} from "../../reducers/auth";
+import {setCookie} from "../../utils/cookie";
 
 const LoginSection = styled.section`
   ${FlexBox('column')};
@@ -109,25 +110,26 @@ const Login = () => {
     const goLogin = async () => {
         dispatch(authLoginRequest());
         try {
-            let csrf = await axios({
-                method: 'GET',
-                url: '/sanctum/csrf-cookie'
-            });
-            if (csrf.status === 204) {
-                let response = await axios({
-                    method: 'POST',
-                    url: '/api/user/login',
-                    data: {
-                        email: email,
-                        password: password
-                    }
-                });
-                if (response.status === 200) {
-                    sessionStorage.setItem('logged','true');
-                    window.location.href = '/';
-                    dispatch(authLoginSuccess());
+            let response = await axios({
+                method: 'POST',
+                url: '/api/user/login',
+                data: {
+                    email: email,
+                    password: password
                 }
+            });
+            console.log(response);
+
+            if (response.status === 200) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+                let date=new Date();
+                date.setSeconds(date.getSeconds()+response.data.expires_in);
+                setCookie('user_token', response.data.access_token,{expires: date});
+                dispatch(authLoginSuccess());
+                // sessionStorage.setItem('logged','true');
+                // window.location.href = '/';
             }
+
         } catch (err) {
             if (err.response.status === 422) {
                 setEmailCheck(false);

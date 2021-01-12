@@ -1,3 +1,5 @@
+import {getCookie} from "../utils/cookie";
+
 const AUTH_LOGIN_REQUEST = 'auth/LOGIN_REQUEST' as const;
 const AUTH_LOGIN_FAILURE = 'auth/LOGIN_FAILURE' as const;
 const AUTH_LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS' as const;
@@ -7,6 +9,8 @@ const AUTH_LOGOUT_FAILURE = 'auth/LOGOUT_FAILURE' as const;
 const AUTH_LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS' as const;
 
 export const GET_LOGGED = 'auth/GET_LOGGED' as const;
+export const REFRESH_TOKEN = 'auth/REFRESH_TOKEN' as const;
+
 
 export const authLoginRequest = () => ({
     type: AUTH_LOGIN_REQUEST
@@ -28,7 +32,15 @@ export const authLogoutSuccess = () => ({
     type: AUTH_LOGOUT_SUCCESS
 });
 
-export const getLogged = (logged: boolean | null) => ({
+export const refreshToken=(expired:number, token:string)=>({
+    type:REFRESH_TOKEN,
+    payload:{
+        expired:expired,
+        token:token
+    }
+});
+
+export const getLogged = (logged: string | null) => ({
     type: GET_LOGGED,
     payload: {
         logged: logged
@@ -40,7 +52,7 @@ interface stateType {
         login: boolean,
         logout: boolean
     },
-    logged: boolean | null
+    logged: string | null
 }
 
 const initialState: stateType = {
@@ -48,7 +60,7 @@ const initialState: stateType = {
         login: false,
         logout: false,
     },
-    logged: Boolean(sessionStorage.getItem('logged'))
+    logged: getCookie('user_token') || null
 }
 
 const handleAuth = (state: stateType = initialState, action: any) => {
@@ -107,6 +119,12 @@ const handleAuth = (state: stateType = initialState, action: any) => {
             return{
                 ...state,
                 logged:action.payload.logged
+            }
+        case REFRESH_TOKEN:
+            return{
+                ...state,
+                expired:action.payload.expired,
+                token:action.payload.token
             }
         default:
             return state
