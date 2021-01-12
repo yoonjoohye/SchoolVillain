@@ -26,7 +26,7 @@ const BoardContents = styled.div`
   word-break:break-word;
   margin-bottom:1em;
   line-height:1.7em;
-  min-height: 5em;
+  min-height: 10em;
 }
 `
 const SpeechBubble = styled.div`
