@@ -1,8 +1,8 @@
 # docker stack deploy -c stack-app.yml app --with-registry-auth --prune
 version: "3.7"
 services:
-  nginx:
-    image: cda56497-kr1-registry.container.cloud.toast.com/villain-front-develop:0.4
+  site:
+    image: cda56497-kr1-registry.container.cloud.toast.com/villain-front-develop:5
     healthcheck:
       test: wget --quiet --tries=1 --spider http://localhost:80 || exit 1
       interval: 3s
