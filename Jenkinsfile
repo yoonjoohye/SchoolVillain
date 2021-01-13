@@ -63,7 +63,7 @@ node('swarm') {
             slackSend (
               channel: "#jenkins",
               color: "#FF0000",
-              message: "젠장... => Job *${env.JOB_NAME}*. [${env.BUILD_NUMBER}] - ${env.BUILD_URL}"
+              message: "프론트 배포가 뭔가 이상함...젠장... => Job *${env.JOB_NAME}*. [${env.BUILD_NUMBER}] - ${env.BUILD_URL}"
             )
             throw e
         } finally {
