@@ -128,7 +128,7 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                         <div css={css`width: 100%;`}>
                                             <>
                                                 <div
-                                                    css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm(Color.white, 300)};margin:20px 0 0 20px; z-index: 2;`}>
+                                                    css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm(Color.gray250, 300)};margin:20px 0 0 20px; z-index: 2;`}>
                                                     {board.type === 'doodle' ? '담벼락' : '연애상담'}
                                                 </div>
                                                 {
