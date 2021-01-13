@@ -137,7 +137,7 @@ const Notification: React.FC<propsType> = ({history}) => {
                             </div>
 
                         </div>
-                        <div id="notification" css={css`max-height:80vh; overflow:auto`}>
+                        <div id="notification" css={css`max-height:50vh; overflow:auto`}>
                             <InfiniteScroll
                                 css={css` &.infinite-scroll-component{overflow:revert!important;}`}
                                 dataLength={notificationList.length}

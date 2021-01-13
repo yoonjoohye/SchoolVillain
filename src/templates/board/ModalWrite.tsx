@@ -77,7 +77,7 @@ const TextArea = styled.textarea`
 const Input = styled.input`
   width:100%;
   border:0;
-  ${MarkdownLg()};
+  ${MarkdownLg('',500)};
   outline:none;
 `
 const FileInput = styled.input`

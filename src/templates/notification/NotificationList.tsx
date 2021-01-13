@@ -14,7 +14,8 @@ const NotiList = styled.li`
   align-items: center;
   ${MarkdownSm()}
   ${media.sm`padding:1.5em 0;`}
-  border-bottom:1px dashed #dfdfdf; 
+  border-bottom:1px dashed ${Color.gray100}; 
+  
   &:nth-last-child(1){
     border:none;
   }

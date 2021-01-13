@@ -147,22 +147,22 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                                         src={require('../../../assets/img/icon/like.svg')} alt="스쿨빌런 좋아요 이미지"/>
 
                             }
-                            <span css={css`color:${Color.gray200}`}>
+                            <span css={css`color:${Color.gray300}`}>
                                 {board.board_like_count}
                             </span>
                         </div>
                         <div>
                             <IconMd css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/comment.svg')}
                                     alt="스쿨빌런 댓글 이미지"/>
-                            <span css={css`color:${Color.gray200}`}>{board.comment_count}</span>
+                            <span css={css`color:${Color.gray300}`}>{board.comment_count}</span>
                         </div>
                     </div>
                     {
                         board.is_mine &&
                         <div>
-                            <span css={css`${MarkdownBody('#666666', 400)}; margin-right:1em;`}
+                            <span css={css`${MarkdownBody(Color.gray300, 400)}; margin-right:1em;`}
                                   onClick={() => deleteBoard(board.id)}>삭제하기</span>
-                            <span css={css`${MarkdownBody('#666666', 400)};`} onClick={() => editBoard()}>수정하기</span>
+                            <span css={css`${MarkdownBody(Color.gray300, 400)};`} onClick={() => editBoard()}>수정하기</span>
                         </div>
                     }
                 </div>
