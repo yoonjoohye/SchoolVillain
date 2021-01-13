@@ -47,7 +47,7 @@ node('swarm') {
             stage("Deploy to Swarm") {
                 docker.withRegistry('https://cda56497-kr1-registry.container.cloud.toast.com', 'toast-docker-registry') {
                     sh """
-                        yq w -i docker/swarm/${env.BUILD_ENV}.yaml services.backend.image cda56497-kr1-registry.container.cloud.toast.com/villain-front-${env.BUILD_ENV}:${env.BUILD_NUMBER}
+                        yq w -i docker/swarm/${env.BUILD_ENV}.yaml services.site.image cda56497-kr1-registry.container.cloud.toast.com/villain-front-${env.BUILD_ENV}:${env.BUILD_NUMBER}
                         docker stack deploy -c docker/swarm/${env.BUILD_ENV}.yaml ${env.BUILD_ENV}-react --with-registry-auth
                     """
                 }
