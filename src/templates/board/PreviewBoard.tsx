@@ -60,7 +60,7 @@ const BoardContents = styled.div`
 `
 const Img = styled.img`
    width: 100%;
-   filter: brightness(70%);
+   filter: brightness(45%);
 `
 const ReplyName = styled.div`
   ${MarkdownSm('', 500)};
