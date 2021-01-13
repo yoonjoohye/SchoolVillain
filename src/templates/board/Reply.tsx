@@ -8,30 +8,28 @@ import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
 
 const ReplyName = styled.div`
-  ${MarkdownSm('', 500)};
-  margin-bottom:0.5em;
+  ${MarkdownBase('#242424', 400)};
 `
 const ReplyContent = styled.p`
   word-break:break-all;
   display:inline-block;
-  ${MarkdownBase()};
-  background-color:${Color.gray100};
-  padding: 0.8em 1em;
+  ${MarkdownSm('#242424', 400)};
+  margin-top: 10px;
+  background-color:#DFDFDF;
+  padding: 15px 20px;
   border-radius:10px;
-  margin-bottom:0.5em;
   max-width:85%;
 `
 const ReplyBox = styled.div`
   ${MarkdownSm(Color.gray200)};
 `
 const ReplyFormBox = styled.div`
-  padding:2em 0;
-  border-top:1px solid ${Color.gray100};
+  margin-bottom:30px;
 `
 const ReplyForm = styled.div`
   ${FlexBox('', 'space-between', 'center')};
     border:1px solid ${Color.gray100};
-    padding: 1.5em;
+    padding: 20px;
 `
 const ReplyBtn = styled.button`
   ${MarkdownBase(Color.purple200)};
@@ -42,7 +40,7 @@ const MoreReply = styled.div`
   margin-top:10px;
 `
 
-const LikeBadge=styled.span`
+const LikeBadge = styled.span`
     position: absolute; 
     background: white;
     margin-bottom: 0.8em;
@@ -56,22 +54,25 @@ const LikeBadge=styled.span`
         padding:0.15em 0.7em;
     `}
 `
-const LikeIcon=styled.img`
+const LikeIcon = styled.img`
     width:1em; 
     height:1em; 
     margin-right: 0.5em;
 `
-interface btnProps{
-    click:boolean;
+
+interface btnProps {
+    click: boolean;
 }
-const LikeButton=styled.span<btnProps>`
+
+const LikeButton = styled.span<btnProps>`
   cursor:pointer; 
   margin-right:0.5em;
-  ${(props:btnProps)=>props.click?
-    css`color:${Color.purple200}`:css`color:${Color.gray200}`
+  ${(props: btnProps) => props.click ?
+    css`color:${Color.purple200}` : css`color:${Color.gray200}`
 }
   
 `
+
 interface propsType {
     replyList: any;
     replyTotal: number;
@@ -130,67 +131,91 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                         return (
                             <div css={css`margin-bottom:1em;`} key={replyIndex}>
                                 <ReplyName>
-                                    {reply.user.name ? reply.user.name : '익명'} <span
-                                    css={css`${MarkdownSm(Color.gray200)}`}>{reply.create_time_ago}</span>
+                                    {reply.user.name ? reply.user.name : '익명'}
+                                    {
+                                        reply.is_mine &&
+                                        <span css={css`margin-left:5px; ${MarkdownBase('#A9A9A9', 400)}`}>나</span>
+                                    }
                                 </ReplyName>
-                                <div css={css`position:relative`}>
-                                    <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
-                                    {
-                                        reply.comment_like_count > 0 &&
-                                        <LikeBadge>
-                                            <div css={css`${FlexBox()};`}>
-                                                <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                                <div>{reply.comment_like_count}</div>
-                                            </div>
-                                        </LikeBadge>
-                                    }
+                                <div css={css`${FlexBox('', 'space-between', 'center')}`}>
+                                    <div css={css`${MarkdownSm('#A9A9A9', 400)}`}>{reply.create_time_ago}</div>
+
+                                    <ReplyBox>
+                                        <LikeButton
+                                            click={replyLikeId[replyIndex] && replyLikeId[replyIndex].reply !== null ? true : false}
+                                            onClick={() => likeReply(reply.id, replyIndex, null)}>좋아요 {reply.comment_like_count}</LikeButton>
+                                        <span css={css`cursor:pointer; margin-right:0.5em;`}
+                                              onClick={() => goReReply(replyIndex)}>답글달기</span>
+                                        {
+                                            reply.is_mine ?
+                                                <span css={css`cursor:pointer;`}
+                                                      onClick={() => deleteReply(reply.id, replyIndex, null)}>삭제하기</span> : null
+                                        }
+                                    </ReplyBox>
                                 </div>
-                                <ReplyBox>
-                                <LikeButton click={replyLikeId[replyIndex] && replyLikeId[replyIndex].reply!==null?true:false} onClick={() => likeReply(reply.id, replyIndex, null)}>좋아요</LikeButton>
-                                    <span css={css`cursor:pointer; margin-right:0.5em;`}
-                                          onClick={() => goReReply(replyIndex)}>답글달기</span>
-                                    {
-                                        reply.is_mine ?
-                                            <span css={css`cursor:pointer;`}
-                                                  onClick={() => deleteReply(reply.id, replyIndex, null)}>삭제하기</span> : null
-                                    }
-                                </ReplyBox>
+                                <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reply.contents)}}/>
+
+                                {/*<div css={css`position:relative`}>*/}
+                                {/*    {*/}
+                                {/*        reply.comment_like_count > 0 &&*/}
+                                {/*        <LikeBadge>*/}
+                                {/*            <div css={css`${FlexBox()};`}>*/}
+                                {/*                <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>*/}
+                                {/*                <div>{reply.comment_like_count}</div>*/}
+                                {/*            </div>*/}
+                                {/*        </LikeBadge>*/}
+                                {/*    }*/}
+                                {/*</div>*/}
 
                                 {
                                     reply.children && reply.children.length > 0 &&
-                                    <div css={css`padding-left:5%;`}>
+                                    <div css={css`padding-left:5%; border-left: 1px dashed ${Color.gray100};`}>
                                         {
                                             reply.children.map((reReply: any, reReplyIndex: number) => {
                                                 return (
                                                     <div css={css`margin-top:0.8em;`} key={reReplyIndex}>
                                                         <ReplyName>
-                                                            {reReply.user.name ? reReply.user.name : '익명'} <span
-                                                            css={css`${MarkdownSm(Color.gray200)}`}>{reReply.create_time_ago}</span>
-                                                        </ReplyName>
-                                                        <div css={css`position:relative`}>
-                                                            <ReplyContent dangerouslySetInnerHTML={{__html: textToTag(reReply.contents)}}/>
+                                                            {reReply.user.name ? reReply.user.name : '익명'}
                                                             {
-                                                                reReply.comment_like_count > 0 &&
-                                                                <LikeBadge>
-                                                                    <div css={css`${FlexBox()};`}>
-                                                                        <LikeIcon src={require('../../../assets/img/icon/like_purple.svg')}/>
-                                                                        <div>{reReply.comment_like_count}</div>
-                                                                    </div>
-                                                                </LikeBadge>
+                                                                reReply.is_mine &&
+                                                                <span
+                                                                    css={css`margin-left:5px; ${MarkdownBase('#A9A9A9', 400)}`}>나</span>
                                                             }
+                                                        </ReplyName>
+
+                                                        <div css={css`${FlexBox('', 'space-between', 'center')}`}>
+                                                            <div
+                                                                css={css`${MarkdownSm('#A9A9A9', 400)}`}>{reReply.create_time_ago}</div>
+
+                                                            <ReplyBox>
+                                                                <LikeButton
+                                                                    click={replyLikeId[replyIndex] && replyLikeId[replyIndex].reReply[reReplyIndex] !== null ? true : false}
+                                                                    onClick={() => likeReply(reReply.id, replyIndex, reReplyIndex)}>좋아요 {reReply.comment_like_count}</LikeButton>
+                                                                <span css={css`cursor:pointer; margin-right:0.5em;`}
+                                                                      onClick={() => goReReply(replyIndex)}>답글달기</span>
+                                                                {
+                                                                    reReply.is_mine ?
+                                                                        <span css={css`cursor:pointer;`}
+                                                                              onClick={() => deleteReply(reReply.id, replyIndex, reReplyIndex)}>삭제하기</span> : null
+                                                                }
+                                                            </ReplyBox>
                                                         </div>
 
-                                                        <ReplyBox>
-                                                            <LikeButton click={replyLikeId[replyIndex] && replyLikeId[replyIndex].reReply[reReplyIndex]!==null?true:false}
-                                                                  onClick={() => likeReply(reReply.id, replyIndex, reReplyIndex)}>좋아요</LikeButton>
-                                                            <span css={css`cursor:pointer; margin-right:0.5em;`}
-                                                                  onClick={() => goReReply(replyIndex)}>답글달기</span>
-                                                            {
-                                                                reReply.is_mine ?
-                                                                    <span css={css`cursor:pointer;`}
-                                                                          onClick={() => deleteReply(reReply.id, replyIndex, reReplyIndex)}>삭제하기</span> : null
-                                                            }
-                                                        </ReplyBox>
+
+                                                        <ReplyContent
+                                                            dangerouslySetInnerHTML={{__html: textToTag(reReply.contents)}}/>
+                                                        {/*<div css={css`position:relative`}>*/}
+                                                        {/*    {*/}
+                                                        {/*        reReply.comment_like_count > 0 &&*/}
+                                                        {/*        <LikeBadge>*/}
+                                                        {/*            <div css={css`${FlexBox()};`}>*/}
+                                                        {/*                <LikeIcon*/}
+                                                        {/*                    src={require('../../../assets/img/icon/like_purple.svg')}/>*/}
+                                                        {/*                <div>{reReply.comment_like_count}</div>*/}
+                                                        {/*            </div>*/}
+                                                        {/*        </LikeBadge>*/}
+                                                        {/*    }*/}
+                                                        {/*</div>*/}
                                                     </div>
                                                 )
                                             })
@@ -221,7 +246,8 @@ const Reply: React.FC<propsType> = ({replyList, replyTotal, likeReply, replyLike
                         )
                     })
                     :
-                    <div css={css`color:${Color.gray200}; ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
+                    <div
+                        css={css`color:${Color.gray200}; ${FlexBox('column', 'center', 'center')}; width:100%; height:300px;`}>
                         <p>존재하는 댓글이 없어요.</p>
                         <p>댓글을 남겨 첫번째 빌런이 되어주세요.</p>
                     </div>

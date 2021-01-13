@@ -3,15 +3,22 @@ import styled from "@emotion/styled";
 import {FlexBox} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {Color} from "../../../assets/style/Color.style";
-import {IconSm} from "../../../assets/style/Icon.style";
-import {MarkdownBase, MarkdownLg, MarkdownMd, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {IconMd, IconSm} from "../../../assets/style/Icon.style";
+import {
+    MarkdownBase,
+    MarkdownBody,
+    MarkdownLg,
+    MarkdownMd,
+    MarkdownSm,
+    MarkdownXl
+} from "../../../assets/style/Markdown.style";
 import produce from "immer";
 import SkeletonBoard from "../loading/SkeletonBoard";
 import {Tag} from "../../../assets/style/Util";
 import {media} from "../../../assets/style/Media.style";
 
 const BoardTitle = styled.div`
-  ${MarkdownLg(Color.black, 600)};
+  ${MarkdownLg(Color.black, 500)};
   word-break:break-word;
 `
 const BoardContents = styled.div`
@@ -19,7 +26,7 @@ const BoardContents = styled.div`
   word-break:break-word;
   margin-bottom:1em;
   line-height:1.7em;
-  min-height: 5em;
+  min-height: 10em;
 }
 `
 const SpeechBubble = styled.div`
@@ -77,43 +84,32 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
     return (
         board ?
             <>
-                <div css={css`margin-bottom:1em;`}>
+                <div css={css`margin-bottom:40px`}>
                     <BoardTitle>{board.title}</BoardTitle>
                 </div>
+                <div>{board.user.name ? board.user.name : '익명'}</div>
+
                 <BoardBox justifyContent="space-between" alignItems="flex-end"
-                          css={css`margin-bottom:1em; padding-bottom:1em; border-bottom:1px solid ${Color.gray100}; ${MarkdownBase(Color.gray200)};`}>
-                    <div>
-                        <div>{board.user.name ? board.user.name : '익명'}</div>
-                        <div css={css`${FlexBox('', 'flex-start', 'flex-start')};`}>
-                            <div>{board.create_time_ago}</div>
+                          css={css`margin-bottom:1em; padding-bottom:20px; border-bottom:1px dashed #DFDFDF;`}>
+                    <div css={css`${MarkdownBody('#A9A9A9', 400)}`}>{board.create_time_ago}</div>
 
-                            <div css={css`padding:0 0.5em;`}>|</div>
-
-                            <div css={css`${FlexBox('', 'center', 'center')};`}>
-                                <IconSm css={css`margin-right:0.3em;`}
-                                        src={require('../../../assets/img/icon/view.svg')} alt="스쿨빌런 조회수 이미지"/>
-                                <div>{board.board_view_log_count}</div>
-                            </div>
-                        </div>
+                    <div css={css`${MarkdownBody('#A9A9A9', 400)} ${FlexBox('', 'center', 'center')};`}>
+                        조회 {board.board_view_log_count}
                     </div>
-                    <>
-                        {
-                            board.is_mine ?
-                                <div css={css`position:relative;`}>
-                                    <div><IconSm css={css`margin:0; cursor: pointer;`}
-                                                 src={require('../../../assets/img/icon/more.svg')} alt="스쿨빌런 더보기 이미지" onClick={() => {
-                                        setOpenModifyBox(!openModifyBox)
-                                    }}/></div>
-                                    {openModifyBox &&
-                                    <SpeechBubble>
-                                        <SpeechBubbleContent
-                                            onClick={() => deleteBoard(board.id)}>삭제하기</SpeechBubbleContent>
-                                        <SpeechBubbleContent onClick={() => editBoard()}>수정하기</SpeechBubbleContent>
-                                    </SpeechBubble>
-                                    }
-                                </div> : null
-                        }
-                    </>
+                    {/*<>*/}
+                    {/*    {*/}
+                    {/*        board.is_mine ?*/}
+                    {/*            <div css={css`position:relative;`}>*/}
+                    {/*                <div><IconMd css={css`margin:0; cursor: pointer;`}*/}
+                    {/*                             src={require('../../../assets/img/icon/more.svg')} alt="스쿨빌런 더보기 이미지" onClick={() => {*/}
+                    {/*                    setOpenModifyBox(!openModifyBox)*/}
+                    {/*                }}/></div>*/}
+                    {/*                {openModifyBox &&*/}
+                    {/*               */}
+                    {/*                }*/}
+                    {/*            </div> : null*/}
+                    {/*    }*/}
+                    {/*</>*/}
                 </BoardBox>
                 <BoardContents dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}></BoardContents>
                 <div css={css`margin-bottom:2em; text-align:center;`}>
@@ -122,40 +118,56 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                             board.board_image.map((item: any) => {
                                 return (
                                     <figure key={item.id}>
-                                        <img css={css`max-width: 60%; ${media.sm`max-width:90%;`}`} src={`${item.path}?q=60`} alt={`스쿨빌런 ${board.title} 이미지`}/>
+                                        <img css={css`max-width: 60%; ${media.sm`max-width:90%;`}`}
+                                             src={`${item.path}?q=60`} alt={`스쿨빌런 ${board.title} 이미지`}/>
                                     </figure>
                                 )
                             }) : null
                     }
                 </div>
-                <BoardBox css={css`margin-bottom:2em`}>
-                    {
-                        board.hash_tags ?
-                            board.hash_tags.map((tag: any) => {
-                                return (
-                                    <Tag key={tag.id}># {tag.tag}</Tag>
-                                )
-                            }) : null
-                    }
-                </BoardBox>
-                <div css={css`${FlexBox('','flex-start','')}; margin-bottom:2em;`}>
-                    <div css={css`${FlexBox()}; margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
-                        {boardLikeId > 0 ?
-                            <IconSm css={css`margin-right:0.3em;`}
-                                    src={require('../../../assets/img/icon/like_purple.svg')} alt="스쿨빌런 좋아요 이미지"/>
-                            :
-                            <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/like.svg')} alt="스쿨빌런 좋아요 이미지"/>
+                {/*<BoardBox css={css`margin-bottom:2em`}>*/}
+                {/*    {*/}
+                {/*        board.hash_tags ?*/}
+                {/*            board.hash_tags.map((tag: any) => {*/}
+                {/*                return (*/}
+                {/*                    <Tag key={tag.id}># {tag.tag}</Tag>*/}
+                {/*                )*/}
+                {/*            }) : null*/}
+                {/*    }*/}
+                {/*</BoardBox>*/}
 
-                        }
-                        <div css={css`color:${Color.gray200}`}>
-                            {board.board_like_count}
+                <div css={css`${FlexBox('', 'space-between', 'center')}; padding:20px 0; border-top:1px dashed #DFDFDF;`}>
+                    <div css={css`${FlexBox()};`}>
+                        <div css={css`margin-right:1em; cursor:pointer;`} onClick={() => likeBoard(board.id)}>
+                            {boardLikeId > 0 ?
+                                <IconMd css={css`margin-right:0.3em;`}
+                                        src={require('../../../assets/img/icon/like_purple.svg')} alt="스쿨빌런 좋아요 이미지"/>
+                                :
+                                <IconMd css={css`margin-right:0.3em;`}
+                                        src={require('../../../assets/img/icon/like.svg')} alt="스쿨빌런 좋아요 이미지"/>
+
+                            }
+                            <span css={css`color:${Color.gray300}`}>
+                                {board.board_like_count}
+                            </span>
+                        </div>
+                        <div>
+                            <IconMd css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/comment.svg')}
+                                    alt="스쿨빌런 댓글 이미지"/>
+                            <span css={css`color:${Color.gray300}`}>{board.comment_count}</span>
                         </div>
                     </div>
-                    <div css={css`${FlexBox()};`}>
-                        <IconSm css={css`margin-right:0.3em;`} src={require('../../../assets/img/icon/comment.svg')} alt="스쿨빌런 댓글 이미지"/>
-                        <div css={css`color:${Color.gray200}`}>{board.comment_count}</div>
-                    </div>
+                    {
+                        board.is_mine &&
+                        <div>
+                            <span css={css`${MarkdownBody(Color.gray300, 400)}; margin-right:1em;`}
+                                  onClick={() => deleteBoard(board.id)}>삭제하기</span>
+                            <span css={css`${MarkdownBody(Color.gray300, 400)};`} onClick={() => editBoard()}>수정하기</span>
+                        </div>
+                    }
                 </div>
+
+
             </>
             :
             <>

@@ -6,30 +6,30 @@ import {FlexBox, onlyPc} from "../../../assets/style/Layout.style";
 import Write from "../../pages/board/Write";
 import {Cursor, TypingMobile, TypingPc} from "../../../assets/style/Animate.style";
 import {media} from "../../../assets/style/Media.style";
-import {MarkdownMd, MarkdownSm, MarkdownXl} from "../../../assets/style/Markdown.style";
+import {MarkdownBody, MarkdownMd, MarkdownSm, MarkdownXl} from "../../../assets/style/Markdown.style";
+import {useDispatch, useSelector} from "react-redux";
+import {IconLg, IconMd} from "../../../assets/style/Icon.style";
 
 const WriteSection = styled.section`
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  //box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   padding:2em;
-  border-radius: 0.3em;
-  border:1px solid ${Color.gray100};
+  //border-radius: 0.3em;
+  //border:1px solid ${Color.gray100};
   ${media.sm`padding:1.8em 5%;`}
   //&:hover{
   //  background-color:#f5f5f5;
   //}
 `
 const WriteContainer = styled.div`
-  // ${FlexBox('', 'flex-start', 'center')};
   cursor:text; 
-  //box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  padding:1em; 
-  border-radius: 0.5em; 
-  background-color: ${Color.gray100};
-  //border: 1px solid ${Color.gray100};
-  color: ${Color.gray150};
+  width:750px;
+  ${media.md`width:90%;`};
+  border-radius: 50px; 
+  background-color: ${Color.white};
 `
 
 const WriteTxt = styled.span`
+  ${MarkdownBody('#A9A9A9',400)};
   overflow: hidden; 
   border-left: 1px solid ${Color.gray200};
   white-space: nowrap;
@@ -40,8 +40,11 @@ const WriteTxt = styled.span`
 `
 const PreviewWrite = () => {
     const [writeModal, setWriteModal] = useState(false);
+
+    let logged = useSelector(state => state.auth.logged);
+
     const goWrite = () => {
-        if (sessionStorage.getItem('logged')) {
+        if (logged) {
             if (window.screen.width > 480) {
                 setWriteModal(true);
             } else {
@@ -59,28 +62,12 @@ const PreviewWrite = () => {
             {
                 writeModal && <Write isOpen={isOpen}/>
             }
-            <WriteSection onClick={goWrite}>
-                <div css={css`${FlexBox('', 'flex-start', 'center')}; margin-bottom:1em;`}>
-                    {/*<img css={css`width:2em; height:2em; margin-right: 0.8em;`} src={require('../../../assets/img/icon/edit.svg')}/>*/}
-                    <span css={css`font-size:24px; margin-right:0.5em;`}>✏️</span>
-                    <div>
-                    <div css={css`${MarkdownSm(Color.gray200)}; ${onlyPc()};`}>게시글 작성하기</div>
-
-                    <div css={css`${MarkdownMd('', 600)};`}>오늘, 무슨 일이 있으셨나요?</div>
-                    </div>
+            <WriteContainer onClick={goWrite} css={onlyPc()}>
+                <div css={css`padding:10px;`}>
+                    <IconLg src={require('../../../assets/img/icon/pencil.svg')}/>
+                    <WriteTxt>오늘, 무슨 일이 있으셨나요?</WriteTxt>
                 </div>
-                    <WriteContainer>
-                            <WriteTxt>어떤 일인지 자세하게 알려주세요.</WriteTxt>
-                        {/*<div css={css`margin-left:1em;`}>*/}
-                        {/*    <button css={css`width:3em; height:3em; padding:0.8em; border-radius: 5em; background-color:${Color.purple200}; ${FlexBox()};`}><img*/}
-                        {/*        css={css`width:100%; height:100%;`}*/}
-                        {/*        src={require('../../../assets/img/icon/edit_white.svg')}/></button>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-
-                    </WriteContainer>
-
-            </WriteSection>
+            </WriteContainer>
 
         </>
     )

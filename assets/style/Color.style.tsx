@@ -4,7 +4,7 @@ interface ColorType {
 }
 
 export const Color:ColorType={
-    black:'#000',
+    black:'#242424',
     white:'#fff',
     red:'#f70000',
 
@@ -14,11 +14,13 @@ export const Color:ColorType={
     yellow200:'#ffa000',
 
 
-    gray100:'#eeeeee',
+    gray50:'#eeeeee',
+    gray100:'#DFDFDF',
     gray150:'#aaaaaa',
-    gray200:'#727272',
+    gray200:'#A9A9A9',
+    gray300:'#666666',
 
     purple100:'#f1e6f9',
-    purple200:'#bd67ff',
-    purple300:'#a657e0'
+    purple200:'#951DE4',
+    purple300:'#5C16B6'
 }

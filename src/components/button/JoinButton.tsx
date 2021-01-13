@@ -27,7 +27,6 @@ const Button = styled.button`
     ` :
     css`
         background-color:${Color.purple200};
-        color:${Color.white};
         &:hover{
           background-color: ${Color.purple300};
         }
@@ -35,9 +34,11 @@ const Button = styled.button`
         ${props.enabled ?
             css`pointer-events:initial;
                 background-color:${Color.purple200};
+                color:${Color.white};
             ` :
             css`pointer-events:none;
-                background-color:${Color.purple100};
+                background-color:#DFDFDF;
+                color:#A9A9A9;
             `
         }
     `

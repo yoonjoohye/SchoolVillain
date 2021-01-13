@@ -2,23 +2,32 @@ import {all, fork} from 'redux-saga/effects'
 import authSaga from './auth';
 import axios from "axios";
 import {cacheAdapterEnhancer} from "axios-extensions";
-import notificationSaga from "./notification";
+import notificationSaga from './notification';
+import * as https from 'https';
+import {getCookie} from "../utils/cookie";
 
-axios.defaults.withCredentials=true;
+const agent = new https.Agent({
+    rejectUnauthorized: false
+});
+
+axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Cache-Control'] = 'no-cache';
-let url = 'https://dev.villain.school';
+axios.defaults.httpsAgent=agent;
+axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('user_token')}`;
+
+
+let url = 'https://dev-api.villain.school';
 
 if (process.env.BUILD_ENV == 'production') {
     url = 'https://api.villain.school';
 }
-
 if (process.env.BUILD_ENV == 'development') {
-    url = 'https://dev.villain.school';
+    url = 'https://dev-api.villain.school';
 }
-axios.defaults.baseURL=url;
-axios.defaults.adapter=cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false, cacheFlag: 'useCache'});
+axios.defaults.baseURL = url;
+axios.defaults.adapter = cacheAdapterEnhancer(axios.defaults.adapter, {enabledByDefault: false, cacheFlag: 'useCache'});
 
 export default function* rootSaga() {
     yield all([

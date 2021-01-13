@@ -1,56 +1,61 @@
-import React,{useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PreviewBoard from "../../templates/board/PreviewBoard";
 import {css} from "@emotion/core";
-import {FlexBox, Section} from "../../../assets/style/Layout.style";
+import {DetailSection, FlexBox, Section} from "../../../assets/style/Layout.style";
 import styled from "@emotion/styled";
 import {Color} from "../../../assets/style/Color.style";
 import Profile from "../../templates/mypage/Profile";
 import axios from "axios";
 import SEO from "../../templates/SEO/SEO";
-import {MarkdownBase, MarkdownSm} from "../../../assets/style/Markdown.style";
+import {Display2, MarkdownBase, MarkdownLgx, MarkdownMdx, MarkdownSm} from "../../../assets/style/Markdown.style";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Modal from "../../templates/modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {likeBoardListRequest, postBoardListRequest, replyBoardListRequest} from "../../reducers/board";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
 import {authLogoutFailure, authLogoutRequest, authLogoutSuccess} from "../../reducers/auth";
+import {removeCookie} from "../../utils/cookie";
+import {media} from "../../../assets/style/Media.style";
 
 const MypageSection = styled.section`
-  ${Section()}; 
+  ${DetailSection()}; 
+   padding-top:6em;
 `
 const MypageTab = styled.nav`
+  border-bottom: 1px dashed #DFDFDF;
+  padding:10px;
   ${FlexBox('row', 'space-between', 'center')};
-  margin-bottom:2em;
-  border-bottom:1px solid ${Color.gray100};
-  ${MarkdownBase('',500)};
+  ${MarkdownMdx('#242424', 400)};
+  margin-bottom:20px;
+  ${media.sm`
+      ${FlexBox('column', '', 'center')};
+  `}
+`
+const MainTab = styled.div`
+  ${FlexBox('row', '', 'center')};
+  ${media.sm`
+      width:100%;
+      ${FlexBox('row', '', 'flex-start')};
+  `}
+`
+const SubTab = styled.div`
+  ${FlexBox('row', '', 'center')};
+  ${media.sm`
+      width:100%;
+      margin-top:30px;
+      ${FlexBox('row', '', 'flex-start')};
+  `}
 `
 const Tab = styled.li`
-  width:25%;
+  margin-right:1em;
   cursor:pointer;
-  padding:1em 0;
   text-align:center;
 `
-const MypageContents = styled.div`
-  
-`
-const Mypage: React.FC = ({history, match}: any) => {
+
+const Mypage = ({history, match}: any) => {
     const dispatch = useDispatch();
-    let likeBoardList=useSelector(state=>state.board.likeBoardList);
-    let likeBoardPage=useSelector(state=>state.board.likeBoardPage);
-    let postBoardList=useSelector(state=>state.board.postBoardList);
-    let postBoardPage=useSelector(state=>state.board.postBoardPage);
-    let replyBoardList=useSelector(state=>state.board.replyBoardList);
-    let replyBoardPage=useSelector(state=>state.board.replyBoardPage);
 
-    const [likeList, setLikeList] = useState(likeBoardList);
-    const [boardList, setBoardList] = useState(postBoardList);
-    const [replyList, setReplyList] = useState(replyBoardList);
-
-    const [likeHasMore,setLikeHasMore]=useState(false);
-    const [boardHasMore,setBoardHasMore]=useState(false);
-    const [replyHasMore,setReplyHasMore]=useState(false);
-
-    const [user,setUser]=useState(null);
+    const [user, setUser] = useState(null);
     const [nickname, setNickname] = useState('');
     const [nicknameErr, setNicknameErr] = useState('');
     const [nicknameCheck, setNicknameCheck] = useState(false);
@@ -65,179 +70,55 @@ const Mypage: React.FC = ({history, match}: any) => {
     const [newPasswordConfirmErr, setNewPasswordConfirmErr] = useState('');
     const [newPasswordConfirmCheck, setNewPasswordConfirmCheck] = useState(false);
 
-    const [loading,setLoading]=useState({
-        like:true,
-        board:true,
-        reply:true
+    let likeBoardList = useSelector(state => state.board.likeBoardList);
+    let likeBoardPage = useSelector(state => state.board.likeBoardPage);
+    let postBoardList = useSelector(state => state.board.postBoardList);
+    let postBoardPage = useSelector(state => state.board.postBoardPage);
+    let replyBoardList = useSelector(state => state.board.replyBoardList);
+    let replyBoardPage = useSelector(state => state.board.replyBoardPage);
+
+    const [likeList, setLikeList] = useState(likeBoardList);
+    const [boardList, setBoardList] = useState(postBoardList);
+    const [replyList, setReplyList] = useState(replyBoardList);
+
+    const [likeHasMore, setLikeHasMore] = useState(false);
+    const [boardHasMore, setBoardHasMore] = useState(false);
+    const [replyHasMore, setReplyHasMore] = useState(false);
+
+    const [loading, setLoading] = useState({
+        like: true,
+        board: true,
+        reply: true
     });
 
-    const tab = ['좋아요한 글', '작성한 글', '댓글 쓴 글', '내정보'];
-    const [menu, setMenu] = useState(0);
+    const mainTab = ['내 프로필', '내 활동'];
+    const subTab = ['작성한 글', '좋아요한 글', '댓글 쓴 글'];
 
-    useEffect(() => {
-        if (match.params.name === 'like') {
-            setMenu(0);
-            if(likeBoardPage===1) {
-                MyLikeAPI(likeBoardPage);
-            }
+    const [mainMenu, setMainMenu] = useState(0);
+    const [subMenu, setSubMenu] = useState(0);
+
+    const selectMenu = (main: number, sub: number = 0) => {
+        if (main === 1 && sub === 0) {
+            history.push('/mypage/write');
         }
-        if (match.params.name === 'board') {
-            setMenu(1);
-            if(postBoardPage===1) {
-                MyBoardAPI(postBoardPage);
-            }
+        if (main === 1 && sub === 1) {
+            history.push('/mypage/like');
         }
-        if (match.params.name === 'reply') {
-            setMenu(2);
-            if(replyBoardPage===1) {
-                MyReplyAPI(replyBoardPage);
-            }
-
+        if (main === 1 && sub === 2) {
+            history.push('/mypage/reply');
         }
-        if (match.params.name === 'profile') {
-            setMenu(3);
-            MyProfileAPI();
+        if (main === 0) {
+            history.push('/mypage/profile');
         }
-    }, [match.params]);
+    }
 
-    const MyLikeAPI = useCallback(async (page:number) => {
-        setLoading({...loading,like:true});
-        try {
-            let response = await axios({
-                method: 'GET',
-                url: '/api/mypage/like',
-                params: {
-                    per_page: 10,
-                    page: page
-                },
-                cache:true
-            });
-            // console.log(response);
-            if (response.status === 200) {
-                if(page>1) {
-                    response.data.data.map((item: any) => {
-                        likeBoardList.push(item);
-                    });
-                }else{
-                    likeBoardList=response.data.data;
-                }
-                setLikeList(likeBoardList);
-
-                if(response.data.last_page<=page){
-                    setLikeHasMore(false);
-                }else{
-                    setLikeHasMore(true);
-                }
-                // setLikePage(page);
-                dispatch(likeBoardListRequest(likeBoardList,page));
-                setLoading({...loading,like:false});
-            }
-        } catch (err) {
-            if (err.response.status === 422) {
-                console.log(err);
-            } else {
-                console.log(err);
-            }
-            setLoading({...loading,like:false});
-
-        }
-    },[]);
-    const MyBoardAPI = useCallback(async (page:number) => {
-        setLoading({...loading,board:true});
-
-        try {
-            let response = await axios({
-                method: 'GET',
-                url: '/api/mypage/board',
-                params: {
-                    per_page: 10,
-                    page: page
-                },
-                cache:true
-            });
-            // console.log(response);
-            if (response.status === 200) {
-                if(page>1) {
-                    response.data.data.map((item: any) => {
-                        postBoardList.push(item);
-                    });
-                }else{
-                    postBoardList=response.data.data;
-                }
-                setBoardList(postBoardList);
-
-                if(response.data.last_page<=page){
-                    setBoardHasMore(false);
-                }else{
-                    setBoardHasMore(true);
-                }
-                // setBoardPage(page);
-                dispatch(postBoardListRequest(postBoardList,page));
-                setLoading({...loading,board:false});
-
-            }
-        } catch (err) {
-            if (err.response.status === 422) {
-                console.log(err);
-            } else {
-                console.log(err);
-            }
-            setLoading({...loading,board:false});
-        }
-    },[]);
-    const MyReplyAPI = useCallback(async (page:number) => {
-        setLoading({...loading,reply:true});
-
-        try {
-            let response = await axios({
-                method: 'GET',
-                url: '/api/mypage/comment',
-                params: {
-                    per_page: 5,
-                    page: page
-                },
-                cache:true
-            });
-            // console.log(response);
-            if (response.status === 200) {
-                if(page>1) {
-                    response.data.data.map((item: any) => {
-                        replyBoardList.push(item);
-                    });
-                }else{
-                    replyBoardList=response.data.data;
-                }
-                
-                setReplyList(replyBoardList);
-
-                if(response.data.last_page<=page){
-                    setReplyHasMore(false);
-                }else{
-                    setReplyHasMore(true);
-                }
-
-                // setReplyPage(page);
-
-                dispatch(replyBoardListRequest(replyBoardList,page));
-
-                setLoading({...loading,reply:false});
-            }
-        } catch (err) {
-            if (err.response.status === 422) {
-                console.log(err);
-            } else {
-                console.log(err);
-            }
-            setLoading({...loading,reply:false});
-        }
-    },[])
     const MyProfileAPI = async () => {
         try {
             let response = await axios({
                 method: 'POST',
                 url: '/api/user/me'
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 setUser(response.data);
                 setNickname(response.data.name || '익명');
@@ -249,6 +130,170 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }
 
+    useEffect(() => {
+        if (match.params.name === 'write') {
+            setMainMenu(1);
+            setSubMenu(0);
+            if (postBoardPage === 1) {
+                MyBoardAPI(postBoardPage);
+            }
+        }
+        if (match.params.name === 'like') {
+            setMainMenu(1);
+            setSubMenu(1);
+            if (likeBoardPage === 1) {
+                MyLikeAPI(likeBoardPage);
+            }
+        }
+        if (match.params.name === 'reply') {
+            setMainMenu(1);
+            setSubMenu(2);
+            if (replyBoardPage === 1) {
+                MyReplyAPI(replyBoardPage);
+            }
+        }
+        if (match.params.name === 'profile') {
+            setMainMenu(0);
+            MyProfileAPI();
+
+        }
+    }, [match.params]);
+
+    const MyLikeAPI = useCallback(async (page: number) => {
+        setLoading({...loading, like: true});
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/mypage/like',
+                params: {
+                    per_page: 12,
+                    page: page
+                },
+                cache: true
+            });
+            console.log(response);
+            if (response.status === 200) {
+                if (page > 1) {
+                    response.data.data.map((item: any) => {
+                        likeBoardList.push(item);
+                    });
+                } else {
+                    likeBoardList = response.data.data;
+                }
+                setLikeList(likeBoardList);
+
+                if (response.data.last_page <= page) {
+                    setLikeHasMore(false);
+                } else {
+                    setLikeHasMore(true);
+                }
+                // setLikePage(page);
+                dispatch(likeBoardListRequest(likeBoardList, page));
+                setLoading({...loading, like: false});
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                console.log(err);
+            } else {
+                console.log(err);
+            }
+            setLoading({...loading, like: false});
+
+        }
+    }, []);
+    const MyBoardAPI = useCallback(async (page: number) => {
+        setLoading({...loading, board: true});
+
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/mypage/board',
+                params: {
+                    per_page: 12,
+                    page: page
+                },
+                cache: true
+            });
+            console.log(response);
+            if (response.status === 200) {
+                if (page > 1) {
+                    response.data.data.map((item: any) => {
+                        postBoardList.push(item);
+                    });
+                } else {
+                    postBoardList = response.data.data;
+                }
+                setBoardList(postBoardList);
+
+                if (response.data.last_page <= page) {
+                    setBoardHasMore(false);
+                } else {
+                    setBoardHasMore(true);
+                }
+                // setBoardPage(page);
+                dispatch(postBoardListRequest(postBoardList, page));
+                setLoading({...loading, board: false});
+
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                console.log(err);
+            } else {
+                console.log(err);
+            }
+            setLoading({...loading, board: false});
+        }
+    }, []);
+    const MyReplyAPI = useCallback(async (page: number) => {
+        setLoading({...loading, reply: true});
+
+        try {
+            let response = await axios({
+                method: 'GET',
+                url: '/api/mypage/comment',
+                params: {
+                    per_page: 8,
+                    page: page
+                },
+                cache: true
+            });
+            console.log(response);
+            if (response.status === 200) {
+                if (page > 1) {
+                    response.data.data.map((item: any) => {
+                        replyBoardList.push(item);
+                    });
+                } else {
+                    replyBoardList = response.data.data;
+                }
+
+                setReplyList(replyBoardList);
+
+                if (response.data.last_page <= page) {
+                    setReplyHasMore(false);
+                } else {
+                    setReplyHasMore(true);
+                }
+
+                // setReplyPage(page);
+
+                dispatch(replyBoardListRequest(replyBoardList, page));
+
+                setLoading({...loading, reply: false});
+            }
+        } catch (err) {
+            if (err.response.status === 422) {
+                console.log(err);
+            } else {
+                console.log(err);
+            }
+            setLoading({...loading, reply: false});
+        }
+    }, [])
+
+    const goDetail = (id: number) => {
+        history.push(`/detail/${id}`);
+    }
     const changeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
         let {value} = e.target;
         setNickname(value);
@@ -303,9 +348,9 @@ const Mypage: React.FC = ({history, match}: any) => {
     }
 
     const [openModal, setOpenModal] = useState(false);
-    const [title, setTitle]=useState('');
-    const[contents,setContents]=useState('');
-    const [buttonName,setButtonName]=useState('');
+    const [title, setTitle] = useState('');
+    const [contents, setContents] = useState('');
+    const [buttonName, setButtonName] = useState('');
 
     const editNickname = async () => {
         try {
@@ -334,7 +379,7 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }
 
-    const editPassword =async () => {
+    const editPassword = async () => {
         try {
             let response = await axios({
                 method: 'POST',
@@ -370,9 +415,9 @@ const Mypage: React.FC = ({history, match}: any) => {
                 url: '/api/user/logout'
             });
             // console.log(response);
-            if (response.status === 204) {
-                sessionStorage.removeItem('logged');
+            if (response.status === 200) {
                 window.location.href = '/';
+                removeCookie('user_token');
                 dispatch(authLogoutSuccess());
             }
         } catch (err) {
@@ -381,31 +426,12 @@ const Mypage: React.FC = ({history, match}: any) => {
         }
     }
     const goWithdrawal = async () => {
-        location.href='/withdrawal';
-    }
-
-    const selectMenu = (idx: number) => {
-        if (idx === 0) {
-            history.push('/mypage/like');
-        }
-        if (idx === 1) {
-            history.push('/mypage/board');
-        }
-        if (idx === 2) {
-            history.push('/mypage/reply');
-        }
-        if (idx === 3) {
-            history.push('/mypage/profile');
-        }
-    }
-
-    const goDetail = (id: number) => {
-        history.push(`/detail/${id}`);
+        window.location.href = '/withdrawal';
     }
 
     const confirmModal = () => {
         setOpenModal(false);
-        location.reload();
+        window.location.reload();
     }
 
     return (
@@ -421,74 +447,120 @@ const Mypage: React.FC = ({history, match}: any) => {
 
             <MypageSection>
                 <MypageTab>
+                    <MainTab>
+                        {
+                            mainTab.map((item: string, index: number) => {
+                                return (
+                                    <Tab key={index}
+                                         css={css`${mainMenu === index ? css`${Display2()}` : css`${Display2('#c1c1c1')}`}`}
+                                         onClick={() => selectMenu(index)}>
+                                        {item}
+                                    </Tab>
+                                )
+                            })
+                        }
+                    </MainTab>
                     {
-                        tab.map((item: string, index: number) => {
-                            return (
-                                <Tab key={index}
-                                     css={css`${menu === index ? css`border-bottom:3px solid ${Color.purple200};` : css`border-bottom:0;`}`}
-                                     onClick={() => selectMenu(index)}>{item}</Tab>
-                            )
-                        })
+                        mainMenu === 1 &&
+                        <SubTab>
+                            {
+                                subTab.map((item: string, index: number) => {
+                                    return (
+                                        <Tab key={index}
+                                             css={css`${subMenu === index ? css`${MarkdownMdx('', 500)}` : css`${MarkdownMdx('#c1c1c1', 500)}`}`}
+                                             onClick={() => selectMenu(1, index)}>
+                                            {item}
+                                        </Tab>
+                                    )
+                                })
+                            }
+                        </SubTab>
                     }
                 </MypageTab>
-                <MypageContents>
-                    {
-                        menu === 0 &&
-                        <InfiniteScroll
-                            css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                            dataLength={likeList.length}
-                            next={()=>MyLikeAPI(likeBoardPage+1)}
-                            hasMore={likeHasMore}
-                            loader={
-                                <SkeletonPreviewBoard/>
-                            }
-                            endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                            <PreviewBoard loading={loading.like} boardList={likeList} goDetail={goDetail}/>
-                        </InfiniteScroll>
-                    }
-                    {
-                        menu === 1 &&
-                        <InfiniteScroll
-                            css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                            dataLength={boardList.length}
-                            next={()=>MyBoardAPI(postBoardPage+1)}
-                            hasMore={boardHasMore}
-                            loader={
-                                <SkeletonPreviewBoard/>
-                            }
-                            endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                            <PreviewBoard loading={loading.board} boardList={boardList} goDetail={goDetail}/>
-                        </InfiniteScroll>
-                    }
-                    {
-                        menu === 2 &&
-                        <InfiniteScroll
-                            css={css` &.infinite-scroll-component{overflow:revert!important;}`}
-                            dataLength={replyList.length}
-                            next={()=>MyReplyAPI(replyBoardPage+1)}
-                            hasMore={replyHasMore}
-                            loader={
-                                <SkeletonPreviewBoard/>
-                            }
-                            endMessage={<div css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
-                            <PreviewBoard loading={loading.reply} boardList={replyList} mypage={true} goDetail={goDetail}/>
-                        </InfiniteScroll>
-                    }
-                    {
-                        menu === 3 &&
-                        <Profile user={user} nickname={nickname} nicknameErr={nicknameErr} nicknameCheck={nicknameCheck} changeNickname={changeNickname}
-                                 email={email}
-                                 currentPassword={currentPassword} currentPasswordErr={currentPasswordErr} currentPasswordCheck={currentPasswordCheck} changeCurrentPassword={changeCurrentPassword}
-                                 newPassword={newPassword} newPasswordErr={newPasswordErr} newPasswordCheck={newPasswordCheck} changeNewPassword={changeNewPassword}
-                                 newPasswordConfirm={newPasswordConfirm} newPasswordConfirmErr={newPasswordConfirmErr} newPasswordConfirmCheck={newPasswordConfirmCheck} changeNewPasswordConfirm={changeNewPasswordConfirm}
+                {
+                    mainMenu === 0 &&
+                    <Profile user={user} nickname={nickname} nicknameErr={nicknameErr} nicknameCheck={nicknameCheck}
+                             changeNickname={changeNickname}
+                             email={email}
+                             currentPassword={currentPassword} currentPasswordErr={currentPasswordErr}
+                             currentPasswordCheck={currentPasswordCheck} changeCurrentPassword={changeCurrentPassword}
+                             newPassword={newPassword} newPasswordErr={newPasswordErr}
+                             newPasswordCheck={newPasswordCheck} changeNewPassword={changeNewPassword}
+                             newPasswordConfirm={newPasswordConfirm} newPasswordConfirmErr={newPasswordConfirmErr}
+                             newPasswordConfirmCheck={newPasswordConfirmCheck}
+                             changeNewPasswordConfirm={changeNewPasswordConfirm}
 
-                                 editNickname={editNickname}
-                                 editPassword={editPassword}
-                                 goLogout={goLogout}
-                                 goWithdrawal={goWithdrawal}
-                        />
-                    }
-                </MypageContents>
+                             editNickname={editNickname}
+                             editPassword={editPassword}
+                             goLogout={goLogout}
+                             goWithdrawal={goWithdrawal}
+                    />
+
+                }
+                {
+                    mainMenu === 1 &&
+                    <>
+                        {
+                            subMenu === 0 &&
+                            <InfiniteScroll
+                                css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                                dataLength={boardList.length}
+                                next={() => MyBoardAPI(postBoardPage + 1)}
+                                hasMore={boardHasMore}
+                                loader={
+                                    <SkeletonPreviewBoard/>
+                                }
+                                endMessage={< div
+                                    css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                                <PreviewBoard
+                                    loading={loading.board}
+                                    boardList={boardList}
+                                    goDetail={goDetail}
+                                />
+                            </InfiniteScroll>
+                        }
+                        {
+                            subMenu === 1 &&
+                            <InfiniteScroll
+                                css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                                dataLength={likeList.length}
+                                next={() => MyLikeAPI(likeBoardPage + 1)}
+                                hasMore={likeHasMore}
+                                loader={
+                                    <SkeletonPreviewBoard/>
+                                }
+                                endMessage={<div
+                                    css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                                <PreviewBoard
+                                    loading={loading.like}
+                                    boardList={likeList}
+                                    goDetail={goDetail}
+                                />
+                            </InfiniteScroll>
+                        }
+                        {
+                            subMenu === 2 &&
+                            <InfiniteScroll
+                                css={css` &.infinite-scroll-component{overflow:revert!important;}`}
+                                dataLength={replyList.length}
+                                next={() => MyReplyAPI(replyBoardPage + 1)}
+                                hasMore={replyHasMore}
+                                loader={
+                                    <SkeletonPreviewBoard/>
+                                }
+                                endMessage={< div
+                                    css={css`text-align: center; padding:5em; ${MarkdownSm(Color.gray200)}`}>●</div>}>
+                                <PreviewBoard
+                                    loading={loading.reply}
+                                    boardList={replyList}
+                                    goDetail={goDetail}
+                                />
+                            </InfiniteScroll>
+                        }
+                    </>
+                }
+
+
             </MypageSection>
         </>
     )

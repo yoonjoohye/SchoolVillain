@@ -1,38 +1,42 @@
 import styled from "@emotion/styled";
-import {MarkdownBase, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
+import {MarkdownBase, MarkdownBody, MarkdownLg, MarkdownMd} from "../../../assets/style/Markdown.style";
 import {Color} from "../../../assets/style/Color.style";
 import React, {useState} from "react";
-import {FlexBox, Section} from "../../../assets/style/Layout.style";
+import {DetailSection, FlexBox, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import axios from "axios";
 import {media} from "../../../assets/style/Media.style";
 
 const AgreementSection = styled.section`
-  ${Section()};
+  ${DetailSection()};
+  padding-top:calc(4em + 80px);
+  ${media.sm`
+    padding-top:calc(4em + 20px);
+  `}
 `
 const AgreementContainer = styled.div`
-  padding:2em 0;
+  padding:30px 0;
 `
 const AgreementLabel = styled.label`
   cursor: pointer;
   ${FlexBox('', '', 'center')};
 `
 const AgreementTitle = styled.div`
-  ${MarkdownMd()};
+  ${MarkdownMd('#3d3d3d')};
   margin-left:1em;
-  ${media.sm`margin-left:0.3em;`}
 `
 const CheckBox = styled.input`
   display: none;
 `
 const AgreementList = styled.li`
-  margin-bottom:3em;
+  margin-bottom:2.5em;
+  ${MarkdownBody('#666666')};
   &:nth-last-of-type(1){
     margin-bottom:0;
   }
   &::before{
-    color:${Color.purple200};
-    content: '✔';
+    color:#666666;
+    content: '•';
     margin-right:1em;
   }
 `
@@ -101,11 +105,11 @@ const Withdrawal = () => {
     return (
         <AgreementSection>
             <AgreementContainer>
-                <div css={css`${MarkdownLg(Color.purple200, 700)}`}>회원탈퇴</div>
+                <div css={css`${MarkdownLg(Color.black, 500)}; text-align: center;`}>회원탈퇴</div>
             </AgreementContainer>
 
             <AgreementContainer
-                css={css`border-top:1px solid ${Color.gray100}; border-bottom:1px solid ${Color.gray100};`}>
+                css={css`border-bottom:1px dashed ${Color.gray100};`}>
                 <AgreementList>해당 계정은 탈퇴할 경우 복구가 불가능합니다.</AgreementList>
                 <AgreementList>회원정보는 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.</AgreementList>
                 <AgreementList>작성한 게시글 및 댓글은 자동으로 삭제되지 않으니, 반드시 탈퇴 전 비공개 또는 삭제하시기 바랍니다.</AgreementList>

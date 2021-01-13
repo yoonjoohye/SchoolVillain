@@ -13,6 +13,7 @@ interface propsType {
 
 const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
     const [id, setId] = useState(boardId || match.params.id);
+    const [type, setType]=useState('none');
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
@@ -42,6 +43,7 @@ const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
             // console.log(response);
             if (response.status === 200) {
                 setId(response.data.id);
+                setType(response.data.type);
                 setTitle(response.data.title);
                 setContents(response.data.contents);
                 setImgList(response.data.board_image)
@@ -60,6 +62,9 @@ const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
         }
     }, []);
 
+    const selectType=(e: React.ChangeEvent<HTMLSelectElement>) => {
+        setType(e.target.value);
+    }
 
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -152,6 +157,7 @@ const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
             formData.append('id', id);
             formData.append('title', title);
             formData.append('contents', contents);
+            formData.append('type', type);
             imgList.map((img: File, index: number) => {
                 formData.append('images[]', imgList[index]);
             });
@@ -205,6 +211,9 @@ const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
                 window.screen.width > 480 ?
                     <ModalWrite isOpen={isOpen}
                                 name="수정"
+                                type={type}
+                                selectType={selectType}
+
                                 title={title}
                                 changeTitle={changeTitle}
 
@@ -225,7 +234,8 @@ const Edit: React.FC<propsType> = ({isOpen, match, boardId}) => {
                     :
                     <PageWrite title={title}
                                changeTitle={changeTitle}
-
+                               type={type}
+                               selectType={selectType}
                                contents={contents}
                                changeContents={changeContents}
 

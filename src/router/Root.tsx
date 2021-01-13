@@ -16,15 +16,16 @@ import Withdrawal from "../pages/auth/Withdrawal";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Notification from "../pages/notification/Notification";
 import Search from "../pages/search/Search";
-import Result from "../pages/search/Result";
 import {useSelector} from "react-redux";
 
-const Root: React.FC = () => {
+const Root = (props) => {
+    console.log(props.param);
     let logged = useSelector(state => state.auth.logged);
     return (
         <BrowserRouter>
             <ScrollToTop/>
-            <Header/>
+
+                <Header/>
             <Switch>
                 <Route exact path="/" component={Index}/>
                 <Route exact path="/login" render={props => (
@@ -55,7 +56,6 @@ const Root: React.FC = () => {
                     logged ? <Edit {...props} /> : <Redirect to="/login"/>
                 )}/>
                 <Route path="/search" component={Search}/>
-                <Route path="/result" component={Result}/>
                 <Route exact path="/detail/:id" component={Detail}/>
                 <Route exact path="/banner/apply" component={Apply}/>
 
