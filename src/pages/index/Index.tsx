@@ -200,7 +200,7 @@ const Index: React.FC = ({history}: any) => {
                 css={css`background-color: #EEEFF6; width:100%; height: 300px;  ${media.sm`height:200px`}; ${FlexBox('column', 'center', 'center')}; padding-top:4em; `}>
                 <PreviewWrite />
             </div>
-            <div css={css`${onlyMobile()}; background-color:${Color.purple200}; border-radius: 50%; padding:1em; position: fixed; bottom:10%; right:5%;`} onClick={()=>window.location.href='/write'}>
+            <div css={css`${onlyMobile()}; z-index:3; background-color:${Color.purple200}; border-radius: 50%; padding:1em; position: fixed; bottom:10%; right:5%;`} onClick={()=>window.location.href='/write'}>
                 <IconLg src={require('../../../assets/img/icon/pencil_white.svg')}/>
             </div>
             <IndexSection>
