@@ -17,7 +17,7 @@ const HeaderSection = styled.header`
   width:100%;
   background-color:${Color.white};
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.16);
-  z-index: 3;
+  z-index: 4;
 `;
 const HeaderContainer = styled.section`
   ${FlexBox('', 'space-between', 'center')};
@@ -194,7 +194,7 @@ const Header = ({history}: any) => {
                     {
                         logged ?
                             <>
-                                <IconMd src={require('../../../assets/img/icon/hamburger.svg')} onClick={()=>setShowCategory(true)}/>
+                                <IconMd src={require('../../../assets/img/icon/hamburger.svg')} onClick={()=>setShowCategory(!showCategory)}/>
                                 {
                                     showCategory &&
                                     <div css={css`position:absolute; right:5%; top:4.5em; border-radius: 5px; background-color:${Color.white}`}>

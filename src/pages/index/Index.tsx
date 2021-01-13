@@ -271,7 +271,7 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                     openDropdown &&
                                     // <div css={css`position:absolute;`}>
                                     <div
-                                        css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; ${media.sm`right: 5%;`}; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
+                                        css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; z-index:3; ${media.sm`right: 5%;`}; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
                                         <div css={css`margin-bottom:10px; cursor: pointer; color:${color.all}`}
                                              onClick={() => filterBoard('')}>전체보기
                                         </div>
