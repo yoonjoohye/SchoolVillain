@@ -44,7 +44,7 @@ const Detail: React.FC = ({match}: any) => {
                     id: match.params.id
                 }
             });
-            // console.log(response);
+            console.log(response);
             if (response.status === 200) {
                 setBoard(response.data);
                 if (response.data.my_like_id) {

@@ -10,8 +10,8 @@ interface propsType {
 }
 
 const Write: React.FC<propsType> = ({isOpen}) => {
+    const [type, setType]=useState('none');
     const [title, setTitle] = useState('');
-    const [type, setType]=useState('');
     const [contents, setContents] = useState('');
     const [tag, setTag] = useState('');
     const [tagList, setTagList] = useState([]);

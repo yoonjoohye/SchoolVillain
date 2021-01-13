@@ -52,7 +52,7 @@ const Avartar=styled.div`
   box-shadow: 0 0 4px rgba(152, 149, 149, 0.25);
   border-radius: 5px;
   padding:30px 50px;
-  ${media.sm`margin:30px 0;`}
+  ${media.sm`margin:0 0 30px 0;`}
 `
 
 const ProfileSection=styled.div`

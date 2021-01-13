@@ -62,7 +62,7 @@ const PreviewWrite = () => {
             {
                 writeModal && <Write isOpen={isOpen}/>
             }
-            <WriteContainer onClick={goWrite}>
+            <WriteContainer onClick={goWrite} css={onlyPc()}>
                 <div css={css`padding:10px;`}>
                     <IconLg src={require('../../../assets/img/icon/pencil.svg')}/>
                     <WriteTxt>오늘, 무슨 일이 있으셨나요?</WriteTxt>

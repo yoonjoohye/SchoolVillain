@@ -6,7 +6,7 @@ import PreviewBoard from '../../templates/board/PreviewBoard';
 import PreviewWrite from '../../templates/board/PreviewWrite';
 import axios from 'axios';
 import SideBanner from "../../templates/banner/SideBanner";
-import {FlexBox, Section} from "../../../assets/style/Layout.style";
+import {FlexBox, onlyMobile, onlyPc, Section} from "../../../assets/style/Layout.style";
 import {css} from "@emotion/core";
 import {media} from "../../../assets/style/Media.style";
 import Identification from "../../templates/mypage/Identification";
@@ -16,7 +16,7 @@ import {Color} from "../../../assets/style/Color.style";
 import {useDispatch, useSelector} from "react-redux";
 import {boardListRequest} from "../../reducers/board";
 import SkeletonPreviewBoard from "../../templates/loading/SkeletonPreviewBoard";
-import {IconBase, IconMd, IconMdx} from "../../../assets/style/Icon.style";
+import {IconBase, IconLg, IconMd, IconMdx} from "../../../assets/style/Icon.style";
 import {Link} from "react-router-dom";
 
 const IndexSection = styled.section`
@@ -198,7 +198,10 @@ const Index: React.FC = ({history}: any) => {
             />
             <div
                 css={css`background-color: #EEEFF6; width:100%; height: 300px;  ${media.sm`height:200px`}; ${FlexBox('column', 'center', 'center')}; padding-top:4em; `}>
-                <PreviewWrite/>
+                <PreviewWrite />
+            </div>
+            <div css={css`${onlyMobile()}; background-color:${Color.purple200}; border-radius: 50%; padding:1em; position: fixed; bottom:10%; right:5%;`} onClick={()=>window.location.href='/write'}>
+                <IconLg src={require('../../../assets/img/icon/pencil_white.svg')}/>
             </div>
             <IndexSection>
                 <IndexContent>
@@ -268,7 +271,7 @@ box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25);`}>
                                     openDropdown &&
                                     // <div css={css`position:absolute;`}>
                                     <div
-                                        css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
+                                        css={css`${MarkdownBase('#A9A9A9', 400)}; position:absolute; ${media.sm`right: 5%;`}; box-shadow: 0px 0px 4px rgba(152, 149, 149, 0.25); margin-top:10px; background-color:${Color.white}; padding:20px 30px;`}>
                                         <div css={css`margin-bottom:10px; cursor: pointer; color:${color.all}`}
                                              onClick={() => filterBoard('')}>전체보기
                                         </div>

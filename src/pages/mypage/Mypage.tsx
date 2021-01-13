@@ -36,14 +36,14 @@ const MainTab = styled.div`
   ${media.sm`
       width:100%;
       ${FlexBox('row', '', 'flex-start')};
-      margin-bottom:30px;
   `}
 `
 const SubTab = styled.div`
   ${FlexBox('row', '', 'center')};
   ${media.sm`
       width:100%;
-      ${FlexBox('row', 'space-between', 'flex-start')};
+      margin-top:30px;
+      ${FlexBox('row', '', 'flex-start')};
   `}
 `
 const Tab = styled.li`
@@ -460,20 +460,22 @@ const Mypage = ({history, match}: any) => {
                             })
                         }
                     </MainTab>
-                    <SubTab>
-                        {
-                            mainMenu === 1 &&
-                            subTab.map((item: string, index: number) => {
-                                return (
-                                    <Tab key={index}
-                                         css={css`${subMenu === index ? css`${MarkdownMdx('', 500)}` : css`${MarkdownMdx('#c1c1c1', 500)}`}`}
-                                         onClick={() => selectMenu(1, index)}>
-                                        {item}
-                                    </Tab>
-                                )
-                            })
-                        }
-                    </SubTab>
+                    {
+                        mainMenu === 1 &&
+                        <SubTab>
+                            {
+                                subTab.map((item: string, index: number) => {
+                                    return (
+                                        <Tab key={index}
+                                             css={css`${subMenu === index ? css`${MarkdownMdx('', 500)}` : css`${MarkdownMdx('#c1c1c1', 500)}`}`}
+                                             onClick={() => selectMenu(1, index)}>
+                                            {item}
+                                        </Tab>
+                                    )
+                                })
+                            }
+                        </SubTab>
+                    }
                 </MypageTab>
                 {
                     mainMenu === 0 &&
