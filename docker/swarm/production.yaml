@@ -1,0 +1,52 @@
+# docker stack deploy -c stack-app.yml app --with-registry-auth --prune
+version: "3.7"
+
+services:
+  backend:
+    image: cda56497-kr1-registry.container.cloud.toast.com/villain-backend-production:0.1
+    healthcheck:
+      test: wget --quiet --tries=1 --spider http://localhost:80 || exit 1
+      interval: 3s
+      timeout: 1s
+      retries: 3
+      start_period: 5s
+    stop_grace_period: 30s
+    networks:
+      - production
+      - proxy-main
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+      mode: replicated
+      replicas: 1
+      update_config:
+        failure_action: rollback
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.production-laravel.rule=Host(`api.villain.school`)"
+        - "traefik.http.routers.production-laravel.tls=true"
+        - "traefik.http.routers.production-laravel.tls.certresolver=prod"
+        - "traefik.http.routers.production-laravel.tls.domains[0].main=*.villain.school"
+        - "traefik.http.routers.production-laravel.entrypoints=websecure,web"
+        - "traefik.http.services.production-laravel.loadbalancer.server.port=80"
+        - "traefik.http.services.production-laravel.loadbalancer.passhostheader=true"
+        - "traefik.http.services.production-laravel.loadbalancer.healthcheck.path=/"
+        - "traefik.http.services.production-laravel.loadbalancer.healthcheck.scheme=http"
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024MB
+
+networks:
+  production:
+    external: true
+
+  proxy-main:
+    external: true
