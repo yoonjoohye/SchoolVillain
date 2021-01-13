@@ -128,12 +128,12 @@ const PreviewBoard: React.FC<propsType> = ({loading, boardList, goDetail, mypage
                                         <div css={css`width: 100%;`}>
                                             <>
                                                 <div
-                                                    css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm('#C1C1C1', 300)};margin:20px 0 0 20px; z-index: 2;`}>
+                                                    css={css`display:inline-block; position:${board.thumbnail && 'absolute'}; ${MarkdownSm(Color.white, 300)};margin:20px 0 0 20px; z-index: 2;`}>
                                                     {board.type === 'doodle' ? '담벼락' : '연애상담'}
                                                 </div>
                                                 {
                                                     board.thumbnail &&
-                                                    <Img src={`${board.thumbnail}?s=180x70&t=crop&q=60`}/>
+                                                    <Img src={window.screen.width > 480 ? `${board.thumbnail}?s=180x70&t=crop&q=60`: `${board.thumbnail}?s=300x90&t=crop&q=60`}  />
                                                 }
                                             </>
 

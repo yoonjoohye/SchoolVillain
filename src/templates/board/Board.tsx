@@ -21,12 +21,17 @@ const BoardTitle = styled.div`
   ${MarkdownLg(Color.black, 500)};
   word-break:break-word;
 `
-const BoardContents = styled.div`
+interface ContentsProps{
+    isImage:boolean;
+}
+const BoardContents = styled.div<ContentsProps>`
   ${MarkdownBase(Color.black, 400)};
   word-break:break-word;
   margin-bottom:1em;
   line-height:1.7em;
-  min-height: 10em;
+  ${(props:ContentsProps)=>props.isImage || css`
+      min-height: 12em;
+  `}
 }
 `
 const SpeechBubble = styled.div`
@@ -111,7 +116,7 @@ const Board: React.FC<propsType> = ({board, likeBoard, boardLikeId, editBoard, d
                     {/*    }*/}
                     {/*</>*/}
                 </BoardBox>
-                <BoardContents dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}></BoardContents>
+                <BoardContents isImage={board.board_image.length>0 && true} dangerouslySetInnerHTML={{__html: textToTag(board.contents)}}></BoardContents>
                 <div css={css`margin-bottom:2em; text-align:center;`}>
                     {
                         board.board_image ?
